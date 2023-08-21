@@ -5,10 +5,6 @@ import { useLogoutMutation } from "../../utils/hooks";
 import { buttonsTitles } from "../../utils/texts";
 import Icon from "./Icons";
 
-export const slugToIcon = {
-  ["profilis"]: "person"
-};
-
 const ProfilesDropdown = () => {
   const user = useAppSelector((state) => state.user?.userData);
   const [showSelect, setShowSelect] = useState(false);
@@ -48,15 +44,6 @@ const StyledLogoutIcon = styled(Icon)`
   font-size: 2rem;
 `;
 
-const TabIconContainer = styled.div`
-  margin: 0px 11px 0px 5px;
-`;
-
-const TabIcon = styled(Icon)`
-  color: #9aa4b2;
-  font-size: 1.7rem;
-`;
-
 const BottomRow = styled.div`
   display: flex;
   align-items: center;
@@ -83,10 +70,6 @@ const DropdownIcon = styled(Icon)`
   font-size: 1.2rem;
 `;
 
-const SelectedIcon = styled(Icon)`
-  color: ${({ theme }) => theme.colors.primary};
-`;
-
 const Select = styled.div`
   cursor: pointer;
   min-width: 100%;
@@ -111,12 +94,6 @@ const Email = styled.div`
   color: #4b5565;
 `;
 
-const Profiles = styled.div`
-  font-size: 1.2rem;
-  color: #4b5565;
-  margin-bottom: 16px;
-`;
-
 const ProfilesContainer = styled.div`
   z-index: 3;
   position: absolute;
@@ -128,30 +105,6 @@ const ProfilesContainer = styled.div`
   border: 1px solid #cdd5df;
   border-radius: 4px;
   width: 262px;
-`;
-
-const ProfileContainer = styled.div<{ selected: boolean }>`
-  padding: 9px 12px;
-  border-radius: 2px;
-  border: 1px solid
-    ${({ theme, selected }) => (selected ? theme.colors.primary : "none")};
-  display: flex;
-  justify-content: space-between;
-  :hover {
-    background-color: #f8fafc;
-    cursor: pointer;
-  }
-`;
-
-const Tab = styled.div<{ selected: boolean }>`
-  padding: 9px 0px;
-  border-radius: 2px;
-  display: flex;
-  background-color: ${({ selected }) => (selected ? " #f8fafc" : "inherit")};
-  :hover {
-    background-color: #f8fafc;
-    cursor: pointer;
-  }
 `;
 
 export default ProfilesDropdown;

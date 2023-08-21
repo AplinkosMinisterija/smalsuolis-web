@@ -100,16 +100,3 @@ const Time = styled.div`
 const Name = styled.div`
   font-size: 1.7rem;
 `;
-
-const ActiveHuntContainer = styled.div<{
-  isActive?: boolean;
-}>`
-  display: ${({ isActive }) => (isActive ? "block" : "none")};
-  width: 100%;
-  padding: 12px 0;
-  border-radius: 0 0 8px 8px;
-  font-size: 12px;
-  text-align: center;
-  background-color: #004650;
-  color: #fff;
-`;

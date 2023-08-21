@@ -36,11 +36,7 @@ const PasswordCheckListContainer = ({
     setContainsUL(/[A-Z]/g.test(password));
     setContainsLL(/[a-z]/g.test(password));
     setContainsN(/[\d]/g.test(password));
-    setContainsSC(
-      /[\!@#\$%\^\&\*\(\)\[\]\'\";:\.\\\-\_?\/\<\>\,\{\}`\~\|\+\=]/g.test(
-        password
-      )
-    );
+    setContainsSC(/[!@#$%^&*()[\]'";:\\.\-?/<>,{}~|+=]/g.test(password));
     setContains8C(password.length >= 8);
     setPasswordMatch(password !== "" && password === repeatPassword);
   }, [password, repeatPassword]);
@@ -60,7 +56,8 @@ const PasswordCheckListContainer = ({
     containsN,
     containsSC,
     contains8C,
-    passwordMatch
+    passwordMatch,
+    setAllValid
   ]);
 
   return (
