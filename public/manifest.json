@@ -1,0 +1,25 @@
+{
+  "short_name": "Pavežėjai",
+  "name": "Pavežėjai",
+  "icons": [
+    {
+      "src": "b-icon.png",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "b-icon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "b-icon.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0A196F",
+  "background_color": "#0A196F"
+}
