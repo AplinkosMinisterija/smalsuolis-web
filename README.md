@@ -1,6 +1,10 @@
-# smalsuolis
+# Smalsuolis WEB
 
-This repository contains the source code and documentation for the smalsuolis, developed by the Aplinkos
+[![License](https://img.shields.io/github/license/AplinkosMinisterija/smalsuolis-web)](https://github.com/AplinkosMinisterija/smalsuolis-web/blob/main/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/AplinkosMinisterija/smalsuolis-web)](https://github.com/AplinkosMinisterija/smalsuolis-web/issues)
+[![GitHub stars](https://img.shields.io/github/stars/AplinkosMinisterija/smalsuolis-web)](https://github.com/AplinkosMinisterija/smalsuolis-web/stargazers)
+
+This repository contains the source code and documentation for the Smalsuolis WEB, developed by the Aplinkos
 Ministerija.
 
 ## Table of Contents
@@ -15,30 +19,35 @@ Ministerija.
 
 ## About the Project
 
-The smalsuolis is a comprehensive software application designed to streamline and enhance the efficiency of ambulance operations. This project aims to facilitate ambulance drivers in managing their daily tasks, including trip details, patient information, and navigation assistance.
+The Smalsuolis WEB is designed to provide information and functionalities related to public events happening in Lithuania.
+
+This is a client application that utilizes
+the [Smalsuolis API](https://github.com/AplinkosMinisterija/smalsuolis-api).
 
 ## Getting Started
 
-To get started with the smalsuolis, follow the instructions below.
+To get started with the Smalsuolis WEB, follow the instructions below.
 
 ### Installation
 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/AplinkosMinisterija/ambulance-drivers-web.git
+   git clone https://github.com/AplinkosMinisterija/smalsuolis-web.git
    ```
 
 2. Install the required dependencies:
 
    ```bash
-   cd ambulance-drivers-web
+   cd smalsuolis-web
    yarn install
    ```
 
 ### Usage
 
-1. Start the WEB server:
+1. Set up the required environment variables. Copy the `.env.example` file to `.env` and provide the necessary values for the variables.
+
+2. Start the WEB server:
 
    ```bash
    yarn start
