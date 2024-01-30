@@ -18,5 +18,5 @@ jobs:
       runs-on: biip-workflows
       build-args: |
         NODE_ENV=production
-        VITE_SENTRY_ENV=staging
-        VITE_SENTRY_DSN=https://868f3858116e484e838dc4f966bbd5f8@sentry.biip.lt/48
+        REACT_APP_SENTRY_ENV=staging
+        REACT_APP_SENTRY_DSN=https://868f3858116e484e838dc4f966bbd5f8@sentry.biip.lt/48
