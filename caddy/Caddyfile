@@ -1,7 +1,7 @@
 :80 {
-  root * /srv
-  encode gzip
+	root * /srv
+	encode gzip
 
-  try_files {path} {file} /index.html
-  file_server
+	try_files {path} {file} /index.html
+	file_server
 }

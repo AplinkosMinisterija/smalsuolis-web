@@ -1,0 +1,22 @@
+name: Deploy to Production
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  deploy-production:
+    name: Deploy production
+    uses: AplinkosMinisterija/reusable-workflows/.github/workflows/biip-deploy.yml@main
+    secrets: inherit
+    permissions:
+      contents: read
+      packages: write
+    with:
+      environment: Production
+      docker-image: ghcr.io/AplinkosMinisterija/smalsuolis-web
+      runs-on: biip-workflows
+      build-args: |
+        NODE_ENV=production
+        VITE_SENTRY_ENV=production
+        VITE_SENTRY_DSN=https://868f3858116e484e838dc4f966bbd5f8@sentry.biip.lt/48

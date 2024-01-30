@@ -1,0 +1,22 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy-staging:
+    name: Deploy staging
+    uses: AplinkosMinisterija/reusable-workflows/.github/workflows/biip-deploy.yml@main
+    secrets: inherit
+    permissions:
+      contents: read
+      packages: write
+    with:
+      environment: Staging
+      docker-image: ghcr.io/AplinkosMinisterija/smalsuolis-web
+      runs-on: biip-workflows
+      build-args: |
+        NODE_ENV=production
+        VITE_SENTRY_ENV=staging
+        VITE_SENTRY_DSN=https://868f3858116e484e838dc4f966bbd5f8@sentry.biip.lt/48
