@@ -30,7 +30,7 @@ FROM caddy:2.6-alpine
 COPY ./caddy/Caddyfile /etc/caddy/Caddyfile
 
 # Copy built files from the build stage
-COPY --from=build /app/dist /srv
+COPY --from=build /app/build /srv
 
 # Expose port
 EXPOSE 80
