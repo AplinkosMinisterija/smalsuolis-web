@@ -1,0 +1,21 @@
+name: Deploy to Development
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-development:
+    name: Deploy development
+    uses: AplinkosMinisterija/reusable-workflows/.github/workflows/biip-deploy.yml@main
+    secrets: inherit
+    permissions:
+      contents: read
+      packages: write
+    with:
+      environment: Development
+      docker-image: ghcr.io/AplinkosMinisterija/smalsuolis-web
+      runs-on: biip-workflows
+      build-args: |
+        NODE_ENV=development
+        REACT_APP_SENTRY_ENV=development
+        REACT_APP_SENTRY_DSN=https://868f3858116e484e838dc4f966bbd5f8@sentry.biip.lt/48

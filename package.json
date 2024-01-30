@@ -1,6 +1,6 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "smalsuolis-web",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.12.4",
@@ -63,15 +63,10 @@
     "start-win": "set PORT=8080 && react-scripts start",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:sarif": "set SARIF_ESLINT_EMBED=true && yarn run lint --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif",
-    "build": "react-scripts build",
+    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "eject": "react-scripts eject",
+    "prepare": "husky install"
   },
   "browserslist": {
     "production": [
@@ -86,12 +81,29 @@
     ]
   },
   "devDependencies": {
+    "@aplinkosministerija/biip-prettier-config": "^1.1.0",
+    "@aplinkosministerija/eslint-config-biip-react": "^1.0.0",
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
     "@types/lodash": "^4.14.192",
     "@types/react-datepicker": "^4.10.0",
-    "@types/styled-components": "^5.1.26"
+    "@types/styled-components": "^5.1.26",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "husky": "^9.0.7",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.2.4"
   },
   "engines": {
     "node": ">=20.0.0 <21.0.0"
+  },
+  "prettier": "@aplinkosministerija/biip-prettier-config",
+  "eslintConfig": {
+    "extends": "@aplinkosministerija/eslint-config-biip-react"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint"
+    ],
+    "*.{md,html,css}": "prettier --write"
   }
 }
