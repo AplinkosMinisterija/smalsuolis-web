@@ -1,7 +1,7 @@
-import { isEmpty } from "lodash";
-import { useRef } from "react";
-import styled from "styled-components";
-import Icon from "../../other/Icons";
+import { isEmpty } from 'lodash';
+import { useRef } from 'react';
+import styled from 'styled-components';
+import Icon from '../../other/Icons';
 export interface MultiTextFieldProps {
   values: any[];
   error?: string;
@@ -26,9 +26,9 @@ const MultiTextField = ({
   getOptionLabel,
   onRemove,
   handleKeyDown,
-  placeholder = "",
+  placeholder = '',
   input,
-  disabled
+  disabled,
 }: MultiTextFieldProps) => {
   const inputRef = useRef<any>(null);
 
@@ -42,7 +42,7 @@ const MultiTextField = ({
     <InputContainer
       className="inputContainer"
       hasBorder={true}
-      backgroundColor={backgroundColor || "#ffffff"}
+      backgroundColor={backgroundColor || '#ffffff'}
       readOnly={false}
       error={!!error}
       disabled={disabled || false}
@@ -69,7 +69,7 @@ const MultiTextField = ({
           <Input
             aria-label={name}
             ref={inputRef}
-            placeholder={isEmpty(values) ? placeholder : ""}
+            placeholder={isEmpty(values) ? placeholder : ''}
             disabled={disabled}
             value={input}
             name={name}
@@ -107,9 +107,8 @@ const InputContainer = styled.div<{
   overflow: hidden;
   background-color: ${({ backgroundColor }) => backgroundColor};
   align-items: center;
-  border: 1px solid
-    ${({ theme, error }) => (error ? theme.colors.error : theme.colors.border)};
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  border: 1px solid ${({ theme, error }) => (error ? theme.colors.error : theme.colors.border)};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   opacity: ${({ disabled }) => (disabled ? 0.48 : 1)};
   :focus-within {
     border-color: ${({ theme }) => theme.colors.primary};
@@ -135,18 +134,18 @@ const Input = styled.input`
   font-size: 1.6rem;
   color: ${({ theme }) => theme.colors.label};
   ::-webkit-input-placeholder {
-    color: ${({ theme }) => theme.colors.label + "8F"};
+    color: ${({ theme }) => theme.colors.label + '8F'};
   }
   ::-moz-placeholder {
-    color: ${({ theme }) => theme.colors.label + "8F"};
+    color: ${({ theme }) => theme.colors.label + '8F'};
   }
   ::placeholder {
-    color: ${({ theme }) => theme.colors.label + "8F"};
+    color: ${({ theme }) => theme.colors.label + '8F'};
   }
   :focus {
     outline: none;
   }
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   width: 100%;
 `;
 
@@ -178,7 +177,7 @@ const SimpleCard = styled.label<{ disabled: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   padding: 3px 3px 3px 6px;
   margin: 2px;
 `;

@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Tag = ({
   text,
-  color = "#9cd323",
+  color = '#9cd323',
   icon,
-  onClick
+  onClick,
 }: {
   text: string;
   color?: string;

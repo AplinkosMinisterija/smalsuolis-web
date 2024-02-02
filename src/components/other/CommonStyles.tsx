@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { device } from "../../styles";
+import styled from 'styled-components';
+import { device } from '../../styles';
 
 export const Row = styled.div<{ columns?: number }>`
   display: grid;

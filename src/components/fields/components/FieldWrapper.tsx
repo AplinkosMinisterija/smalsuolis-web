@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { ErrorMessage } from "../../other/ErrorMessage";
+import styled from 'styled-components';
+import { ErrorMessage } from '../../other/ErrorMessage';
 export interface FieldWrapperProps {
   error?: string;
   showError?: boolean;
@@ -19,13 +19,13 @@ const FieldWrapper = ({
   showError = true,
   label,
   className,
-  padding = "0",
+  padding = '0',
   onClick,
   handleBlur,
   subLabel,
   bottomLabel,
   secondLabel,
-  children
+  children,
 }: FieldWrapperProps) => {
   return (
     <Container

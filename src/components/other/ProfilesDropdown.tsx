@@ -1,9 +1,9 @@
-import { useState } from "react";
-import styled from "styled-components";
-import { useAppSelector } from "../../state/hooks";
-import { useLogoutMutation } from "../../utils/hooks";
-import { buttonsTitles } from "../../utils/texts";
-import Icon from "./Icons";
+import { useState } from 'react';
+import styled from 'styled-components';
+import { useAppSelector } from '../../state/hooks';
+import { useLogoutMutation } from '../../utils/hooks';
+import { buttonsTitles } from '../../utils/texts';
+import Icon from './Icons';
 
 const ProfilesDropdown = () => {
   const user = useAppSelector((state) => state.user?.userData);

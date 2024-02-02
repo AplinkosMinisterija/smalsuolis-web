@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Loader from "./Loader";
+import styled from 'styled-components';
+import Loader from './Loader';
 
 const LoaderComponent = () => (
   <LoaderContainer>

@@ -1,8 +1,8 @@
-import { useState } from "react";
-import styled from "styled-components";
-import Icon from "../other/Icons";
-import FieldWrapper from "./components/FieldWrapper";
-import TextFieldInput from "./components/TextFieldInput";
+import { useState } from 'react';
+import styled from 'styled-components';
+import Icon from '../other/Icons';
+import FieldWrapper from './components/FieldWrapper';
+import TextFieldInput from './components/TextFieldInput';
 export interface TextFieldProps {
   value?: string | number;
   name?: string;
@@ -33,7 +33,7 @@ const PasswordField = ({
   placeholder,
   disabled,
   height,
-  onInputClick
+  onInputClick,
 }: TextFieldProps) => {
   const [show, setShow] = useState(false);
 
@@ -48,12 +48,12 @@ const PasswordField = ({
     >
       <TextFieldInput
         value={value}
-        type={show ? "text" : "password"}
+        type={show ? 'text' : 'password'}
         name={name}
         error={error}
         rightIcon={
           <IconContainer onClick={() => setShow(!show)}>
-            <StyledIcon name={show ? "visibleOn" : "visibleOff"} />
+            <StyledIcon name={show ? 'visibleOn' : 'visibleOff'} />
           </IconContainer>
         }
         onChange={onChange}

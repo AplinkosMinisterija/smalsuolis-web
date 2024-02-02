@@ -1,6 +1,6 @@
-import Div100vh from "react-div-100vh";
-import styled from "styled-components";
-import NavBar from "../other/NavBar";
+import Div100vh from 'react-div-100vh';
+import styled from 'styled-components';
+import NavBar from '../other/NavBar';
 
 export interface DefaultLayoutProps {
   children?: React.ReactNode;
@@ -8,11 +8,7 @@ export interface DefaultLayoutProps {
   onScroll?: any;
 }
 
-const DefaultLayout = ({
-  children,
-  maxWidth = "100%",
-  onScroll
-}: DefaultLayoutProps) => {
+const DefaultLayout = ({ children, maxWidth = '100%', onScroll }: DefaultLayoutProps) => {
   return (
     <Div100vh>
       <Container>

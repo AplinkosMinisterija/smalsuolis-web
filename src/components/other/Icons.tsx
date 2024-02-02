@@ -3,15 +3,15 @@ import {
   AiFillPlusCircle,
   AiOutlineEye,
   AiOutlineLeft,
-  AiOutlineRight
-} from "react-icons/ai";
-import { BiMinusCircle } from "react-icons/bi";
-import { FaTrash } from "react-icons/fa";
-import { FiClock } from "react-icons/fi";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import { IoIosArrowDown, IoMdCalendar } from "react-icons/io";
-import { IoCloseOutline } from "react-icons/io5";
+  AiOutlineRight,
+} from 'react-icons/ai';
+import { BiMinusCircle } from 'react-icons/bi';
+import { FaTrash } from 'react-icons/fa';
+import { FiClock } from 'react-icons/fi';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
+import { IoIosArrowDown, IoMdCalendar } from 'react-icons/io';
+import { IoCloseOutline } from 'react-icons/io5';
 import {
   MdArrowBack,
   MdArrowBackIos,
@@ -27,10 +27,10 @@ import {
   MdOutlineVisibility,
   MdOutlineVisibilityOff,
   MdTune,
-  MdUnfoldMore
-} from "react-icons/md";
-import { RiArrowDownSLine, RiMap2Fill } from "react-icons/ri";
-import { TiThMenu } from "react-icons/ti";
+  MdUnfoldMore,
+} from 'react-icons/md';
+import { RiArrowDownSLine, RiMap2Fill } from 'react-icons/ri';
+import { TiThMenu } from 'react-icons/ti';
 export interface IconProps {
   name: string;
   className?: string;
@@ -42,69 +42,69 @@ export interface IconProps {
 
 const Icon = ({ name, className, color }: IconProps) => {
   switch (name) {
-    case "filter":
+    case 'filter':
       return <MdTune className={className} />;
-    case "delete":
+    case 'delete':
       return <BiMinusCircle className={className} />;
-    case "calendar":
+    case 'calendar':
       return <IoMdCalendar className={className} />;
-    case "arrowDown":
+    case 'arrowDown':
       return <RiArrowDownSLine className={className} />;
-    case "arrowUp":
+    case 'arrowUp':
       return <AiFillCaretUp className={className} />;
-    case "close":
+    case 'close':
       return <IoCloseOutline className={className} />;
-    case "map":
+    case 'map':
       return <RiMap2Fill className={className} />;
-    case "back":
+    case 'back':
       return <MdArrowBack className={className} />;
-    case "backMobile":
+    case 'backMobile':
       return <MdArrowBack className={className} />;
-    case "dropdownArrow":
+    case 'dropdownArrow':
       return <MdKeyboardArrowDown className={className} />;
-    case "add":
+    case 'add':
       return <AiFillPlusCircle className={className} />;
-    case "more":
+    case 'more':
       return <MdMoreVert className={className} />;
-    case "menu":
+    case 'menu':
       return <TiThMenu className={className} />;
-    case "time":
+    case 'time':
       return <FiClock className={className} />;
-    case "down":
+    case 'down':
       return <IoIosArrowDown className={className} />;
-    case "attachment":
+    case 'attachment':
       return <MdAttachFile className={className} />;
-    case "active":
+    case 'active':
       return <MdDone className={className} />;
-    case "burger":
+    case 'burger':
       return <GiHamburgerMenu className={className} />;
-    case "forward":
+    case 'forward':
       return <MdArrowForwardIos className={className} />;
-    case "backward":
+    case 'backward':
       return <MdArrowBackIos className={className} />;
-    case "visibleOn":
+    case 'visibleOn':
       return <MdOutlineVisibility className={className} />;
-    case "visibleOff":
+    case 'visibleOff':
       return <MdOutlineVisibilityOff className={className} />;
-    case "returnArrow":
+    case 'returnArrow':
       return <HiOutlineArrowNarrowLeft className={className} />;
-    case "person":
+    case 'person':
       return <MdOutlinePerson className={className} />;
-    case "showMore":
+    case 'showMore':
       return <MdUnfoldMore className={className} />;
-    case "remove":
+    case 'remove':
       return <FaTrash className={className} />;
-    case "leftArrow":
+    case 'leftArrow':
       return <AiOutlineLeft className={className} />;
-    case "rightArrow":
+    case 'rightArrow':
       return <AiOutlineRight className={className} />;
-    case "deleteItem":
+    case 'deleteItem':
       return <MdOutlineDelete className={className} />;
-    case "eye":
+    case 'eye':
       return <AiOutlineEye className={className} />;
-    case "fullscreen":
+    case 'fullscreen':
       return <MdOutlineFullscreen className={className} />;
-    case "exitFullScreen":
+    case 'exitFullScreen':
       return <MdOutlineFullscreenExit className={className} />;
 
     default:

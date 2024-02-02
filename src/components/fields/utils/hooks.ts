@@ -1,8 +1,8 @@
-import { isEmpty } from "lodash";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useInfiniteQuery } from "react-query";
-import { intersectionObserverConfig } from "../../../utils/configs";
-import { getFilteredOptions } from "./functions";
+import { isEmpty } from 'lodash';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useInfiniteQuery } from 'react-query';
+import { intersectionObserverConfig } from '../../../utils/configs';
+import { getFilteredOptions } from './functions';
 
 export const useAsyncSelectData = ({
   loadOptions,
@@ -10,9 +10,9 @@ export const useAsyncSelectData = ({
   onChange,
   dependantId,
   name,
-  optionsKey
+  optionsKey,
 }: any) => {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const [showSelect, setShowSelect] = useState(false);
   const observerRef = useRef(null);
 
@@ -22,22 +22,25 @@ export const useAsyncSelectData = ({
     if (data?.[optionsKey]) {
       return {
         data: data?.[optionsKey],
-        page: data.page < data.totalPages ? data.page + 1 : undefined
+        page: data.page < data.totalPages ? data.page + 1 : undefined,
       };
     }
 
     return {
       data,
-      page: undefined
+      page: undefined,
     };
   };
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } =
-    useInfiniteQuery([name, input], ({ pageParam }) => fetchData(pageParam), {
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } = useInfiniteQuery(
+    [name, input],
+    ({ pageParam }) => fetchData(pageParam),
+    {
       getNextPageParam: (lastPage) => lastPage.page,
       enabled: showSelect,
-      cacheTime: 60000
-    });
+      cacheTime: 60000,
+    },
+  );
 
   useEffect(() => {
     const currentObserver = observerRef.current;
@@ -61,13 +64,13 @@ export const useAsyncSelectData = ({
   const handleBlur = (event: any) => {
     if (!event.currentTarget.contains(event.relatedTarget)) {
       setShowSelect(false);
-      setInput("");
+      setInput('');
     }
   };
 
   const handleClick = (option: any) => {
     setShowSelect(false);
-    setInput("");
+    setInput('');
     onChange(option);
   };
 
@@ -96,7 +99,7 @@ export const useAsyncSelectData = ({
     showSelect,
     handleBlur,
     observerRef,
-    handleClick
+    handleClick,
   };
 };
 
@@ -107,7 +110,7 @@ export const useSelectData = ({
   getOptionLabel,
   refreshOptions,
   dependantId,
-  value
+  value,
 }: any) => {
   const [input, setInputValue] = useState<any>(null);
   const [showSelect, setShowSelect] = useState(false);
@@ -115,14 +118,12 @@ export const useSelectData = ({
   const [loading, setLoading] = useState(false);
 
   const canClearValue =
-    !disabled &&
-    dependantId &&
-    !options?.some((option: any) => option?.id === value?.id);
+    !disabled && dependantId && !options?.some((option: any) => option?.id === value?.id);
 
   const handleBlur = (event: any) => {
     if (!event.currentTarget.contains(event.relatedTarget)) {
       setShowSelect(false);
-      setInputValue("");
+      setInputValue('');
     }
   };
 
@@ -139,7 +140,7 @@ export const useSelectData = ({
   }, [showSelect, handleSetOptions, options]);
 
   useEffect(() => {
-    if (typeof dependantId === "undefined") return;
+    if (typeof dependantId === 'undefined') return;
     handleSetOptions();
   }, [dependantId, handleSetOptions]);
 
@@ -153,7 +154,7 @@ export const useSelectData = ({
 
   const handleClick = (option: any) => {
     setShowSelect(false);
-    setInputValue("");
+    setInputValue('');
     onChange(option);
   };
 
@@ -177,6 +178,6 @@ export const useSelectData = ({
     handleBlur,
     handleClick,
     handleOnChange,
-    loading
+    loading,
   };
 };

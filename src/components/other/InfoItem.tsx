@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { Size } from "../../utils/constants";
-import Icon from "./Icons";
+import styled from 'styled-components';
+import { Size } from '../../utils/constants';
+import Icon from './Icons';
 
 interface InfoItemProps {
   icon: string;
@@ -11,7 +11,7 @@ interface InfoItemProps {
 const InfoItem = ({ icon, value }: InfoItemProps) => (
   <IconTextWrapper>
     <StyledIcon name={icon} />
-    <StyledText>{value || "Nenurodyta"}</StyledText>
+    <StyledText>{value || 'Nenurodyta'}</StyledText>
   </IconTextWrapper>
 );
 

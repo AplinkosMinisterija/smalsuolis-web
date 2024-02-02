@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import { useResizeDetector } from "react-resize-detector";
-import styled from "styled-components";
-import FieldWrapper from "./components/FieldWrapper";
+import { useEffect } from 'react';
+import { useResizeDetector } from 'react-resize-detector';
+import styled from 'styled-components';
+import FieldWrapper from './components/FieldWrapper';
 
 export interface TextFieldProps {
   value?: string | number;
@@ -34,15 +34,15 @@ const TextAreaField = (props: TextFieldProps) => {
     rows = 5,
     placeholder,
     padding,
-    disabled = false
+    disabled = false,
   } = props;
 
   const { width, ref } = useResizeDetector();
 
   useEffect(() => {
     if (rows * 20 < ref.current.scrollHeight) {
-      ref.current.style.height = "auto";
-      ref.current.style.height = ref.current.scrollHeight + "px";
+      ref.current.style.height = 'auto';
+      ref.current.style.height = ref.current.scrollHeight + 'px';
     }
   }, [ref, value, width, rows]);
 
@@ -64,7 +64,7 @@ const TextAreaField = (props: TextFieldProps) => {
           rows={rows}
           value={value}
           name={name}
-          onChange={(e) => onChange && onChange(e.target.value || "")}
+          onChange={(e) => onChange && onChange(e.target.value || '')}
         />
       </InputContainer>
     </FieldWrapper>
@@ -72,8 +72,7 @@ const TextAreaField = (props: TextFieldProps) => {
 };
 
 const InputContainer = styled.div<{ error: boolean; disabled: boolean }>`
-  border: 1px solid
-    ${({ theme, error }) => (error ? theme.colors.error : theme.colors.border)};
+  border: 1px solid ${({ theme, error }) => (error ? theme.colors.error : theme.colors.border)};
   display: flex;
   height: auto;
   overflow: hidden;
@@ -82,8 +81,7 @@ const InputContainer = styled.div<{ error: boolean; disabled: boolean }>`
   box-sizing: border-box;
   background-color: white;
   opacity: ${({ disabled }) => (disabled ? 0.48 : 1)};
-  border: 1px solid
-    ${({ theme, error }) => (error ? theme.colors.error : theme.colors.border)};
+  border: 1px solid ${({ theme, error }) => (error ? theme.colors.error : theme.colors.border)};
   border-radius: 4px;
   :focus-within {
     border-color: ${({ theme }) => theme.colors.primary};
@@ -99,7 +97,7 @@ const StyledTextArea = styled.textarea`
   overflow-y: hidden;
   resize: none;
   color: ${({ theme }) => theme.colors.label};
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "text")};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'text')};
   background-color: transparent;
   :focus {
     outline: none;

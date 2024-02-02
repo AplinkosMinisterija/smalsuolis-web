@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { useAppSelector } from "../../state/hooks";
-import { slugs } from "../../utils/routes";
-import ProfilesDropdown from "./ProfilesDropdown";
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { useAppSelector } from '../../state/hooks';
+import { slugs } from '../../utils/routes';
+import ProfilesDropdown from './ProfilesDropdown';
 
 const NavBar = () => {
   const navigate = useNavigate();

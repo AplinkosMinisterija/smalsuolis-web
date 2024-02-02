@@ -1,10 +1,10 @@
-import styled from "styled-components";
-import Icon from "../other/Icons";
-import FieldWrapper from "./components/FieldWrapper";
-import OptionsContainer from "./components/OptionsContainer";
-import TextFieldInput from "./components/TextFieldInput";
-import { useSelectData } from "./utils/hooks";
-import { inputLabels } from "../../utils/texts";
+import styled from 'styled-components';
+import Icon from '../other/Icons';
+import FieldWrapper from './components/FieldWrapper';
+import OptionsContainer from './components/OptionsContainer';
+import TextFieldInput from './components/TextFieldInput';
+import { useSelectData } from './utils/hooks';
+import { inputLabels } from '../../utils/texts';
 
 export interface SelectFieldProps {
   id?: string;
@@ -36,7 +36,7 @@ const SelectField = ({
   placeholder = inputLabels.chooseOption,
   getOptionLabel,
   onChange,
-  disabled
+  disabled,
 }: SelectFieldProps) => {
   const {
     suggestions,
@@ -45,7 +45,7 @@ const SelectField = ({
     showSelect,
     handleBlur,
     handleClick,
-    handleOnChange
+    handleOnChange,
   } = useSelectData({ options, disabled, onChange, getOptionLabel });
 
   return (
@@ -63,7 +63,7 @@ const SelectField = ({
         name={name}
         error={error}
         leftIcon={left}
-        rightIcon={<StyledIcon name={"dropdownArrow"} />}
+        rightIcon={<StyledIcon name={'dropdownArrow'} />}
         onChange={handleOnChange}
         disabled={disabled}
         placeholder={(value && getOptionLabel(value)) || placeholder}

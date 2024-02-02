@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { slugs } from "../../utils/routes";
-import { buttonsTitles } from "../../utils/texts";
-import Icon from "./Icons";
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { slugs } from '../../utils/routes';
+import { buttonsTitles } from '../../utils/texts';
+import Icon from './Icons';
 
 const ReturnToLogin = () => {
   const navigate = useNavigate();

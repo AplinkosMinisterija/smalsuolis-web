@@ -1,12 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-const DisableText = ({
-  text,
-  description
-}: {
-  text: string;
-  description?: string;
-}) => (
+const DisableText = ({ text, description }: { text: string; description?: string }) => (
   <NotFoundContainer>
     <ImageContainer>
       <Image src="/route.svg" />

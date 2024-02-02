@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect } from "react";
-import styled from "styled-components";
-import { device } from "../../styles";
+import React, { useCallback, useEffect } from 'react';
+import styled from 'styled-components';
+import { device } from '../../styles';
 interface ModalProps {
   visible: boolean;
   onClose?: () => void;
@@ -10,16 +10,16 @@ interface ModalProps {
 const Modal = ({ visible, children, onClose }: ModalProps) => {
   const handleCloseOnEscape = useCallback(
     (event: any) => {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         onClose && onClose();
       }
     },
-    [onClose]
+    [onClose],
   );
 
   useEffect(() => {
-    window.addEventListener("keydown", handleCloseOnEscape);
-    return () => window.removeEventListener("keydown", handleCloseOnEscape);
+    window.addEventListener('keydown', handleCloseOnEscape);
+    return () => window.removeEventListener('keydown', handleCloseOnEscape);
   }, [visible, handleCloseOnEscape]);
 
   if (!visible) {
