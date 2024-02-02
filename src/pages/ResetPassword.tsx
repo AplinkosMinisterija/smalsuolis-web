@@ -1,23 +1,18 @@
-import { useFormik } from "formik";
-import { useState } from "react";
-import { useNavigate } from "react-router";
-import styled from "styled-components";
-import Button from "../components/buttons/Button";
-import PasswordField from "../components/fields/PasswordField";
-import TextField from "../components/fields/TextField";
-import LoginLayout from "../components/layouts/LoginLayout";
-import { LoginTitle } from "../components/other/CommonStyles";
-import LoaderComponent from "../components/other/LoaderComponent";
-import PasswordCheckListContainer from "../components/other/PasswordCheckListContainer";
-import ReturnToLogin from "../components/other/ReturnToLogin";
-import { useSetPassword, useVerifyUser } from "../utils/hooks";
-import { slugs } from "../utils/routes";
-import {
-  buttonsTitles,
-  descriptions,
-  inputLabels,
-  titles
-} from "../utils/texts";
+import { useFormik } from 'formik';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import styled from 'styled-components';
+import Button from '../components/buttons/Button';
+import PasswordField from '../components/fields/PasswordField';
+import TextField from '../components/fields/TextField';
+import LoginLayout from '../components/layouts/LoginLayout';
+import { LoginTitle } from '../components/other/CommonStyles';
+import LoaderComponent from '../components/other/LoaderComponent';
+import PasswordCheckListContainer from '../components/other/PasswordCheckListContainer';
+import ReturnToLogin from '../components/other/ReturnToLogin';
+import { useSetPassword, useVerifyUser } from '../utils/hooks';
+import { slugs } from '../utils/routes';
+import { buttonsTitles, descriptions, inputLabels, titles } from '../utils/texts';
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -26,20 +21,20 @@ const ResetPassword = () => {
   const {
     mutateAsync: setPasswordMutation,
     isSuccess,
-    isLoading: isSubmitLoading
+    isLoading: isSubmitLoading,
   } = useSetPassword();
 
   const { values, setFieldValue, handleSubmit, setErrors } = useFormik({
     initialValues: {
-      password: "",
-      repeatPassword: ""
+      password: '',
+      repeatPassword: '',
     },
     validateOnChange: false,
     onSubmit: (values: { password: string }) => {
       if (!allValid) return;
 
       setPasswordMutation({ password: values.password });
-    }
+    },
   });
 
   if (isLoading) {
@@ -59,22 +54,18 @@ const ResetPassword = () => {
         <PasswordContainer noValidate onSubmit={handleSubmit}>
           <LoginTitle>{titles.newPassword}</LoginTitle>
           <Description>{descriptions.resetPassword}</Description>
-          <TextField
-            value={data?.user?.email}
-            disabled={true}
-            label={inputLabels.email}
-          />
+          <TextField value={data?.user?.email} disabled={true} label={inputLabels.email} />
 
           <PasswordField
             value={password}
             name="password"
-            onChange={(value) => handleType("password", value)}
+            onChange={(value) => handleType('password', value)}
             label={inputLabels.password}
           />
           <PasswordField
             value={repeatPassword}
             name="repeatPassword"
-            onChange={(value) => handleType("repeatPassword", value)}
+            onChange={(value) => handleType('repeatPassword', value)}
             label={inputLabels.password}
           />
 
@@ -83,11 +74,7 @@ const ResetPassword = () => {
             password={password}
             repeatPassword={repeatPassword}
           />
-          <Button
-            loading={isSubmitLoading}
-            disabled={isSubmitLoading || !allValid}
-            type="submit"
-          >
+          <Button loading={isSubmitLoading} disabled={isSubmitLoading || !allValid} type="submit">
             {buttonsTitles.createPassword}
           </Button>
 
@@ -97,9 +84,7 @@ const ResetPassword = () => {
         <SuccessContainer>
           <LoginTitle>{titles.passwordChanged}</LoginTitle>
           <Description>{descriptions.passwordChanged}</Description>
-          <Button onClick={() => navigate(slugs.login)}>
-            {buttonsTitles.login}
-          </Button>
+          <Button onClick={() => navigate(slugs.login)}>{buttonsTitles.login}</Button>
         </SuccessContainer>
       )}
     </LoginLayout>
