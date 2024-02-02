@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import { buttonsTitles } from "../../utils/texts";
-import Icon from "../other/Icons";
-import Button, { ButtonColors } from "./Button";
+import styled from 'styled-components';
+import { ButtonColors } from '../../utils/constants';
+import { buttonsTitles } from '../../utils/texts';
+import Icon from '../other/Icons';
+import Button from './Button';
 
 const BackButton = () => {
   return (
     <StyledButton
-      onClick={() => {}}
       leftIcon={<StyledBackIcon name="back" />}
       variant={ButtonColors.TRANSPARENT}
       type="button"

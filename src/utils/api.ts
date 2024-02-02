@@ -1,8 +1,8 @@
-import Axios, { AxiosInstance, AxiosResponse } from "axios";
+import Axios, { AxiosInstance, AxiosResponse } from 'axios';
 
-import Cookies from "universal-cookie";
-import { Resources } from "./constants";
-import { Event } from "./types";
+import Cookies from 'universal-cookie';
+import { Resources } from './constants';
+import { Event } from './types';
 const cookies = new Cookies();
 
 interface GetAll {
@@ -50,10 +50,10 @@ interface Create {
   id?: string;
 }
 
-const token = cookies.get("token");
+const token = cookies.get('token');
 class Api {
   private AuthApiAxios: AxiosInstance;
-  private readonly proxy: string = "/proxy";
+  private readonly proxy: string = '/proxy';
 
   constructor() {
     this.AuthApiAxios = Axios.create();
@@ -61,7 +61,7 @@ class Api {
     this.AuthApiAxios.interceptors.request.use(
       (config) => {
         if (token) {
-          config.headers!.Authorization = "Bearer " + token;
+          config.headers.Authorization = 'Bearer ' + token;
         }
 
         config.url = this.proxy + config.url;
@@ -70,7 +70,7 @@ class Api {
       },
       (error) => {
         Promise.reject(error);
-      }
+      },
     );
   }
 
@@ -81,37 +81,33 @@ class Api {
 
   get = async ({ resource, id, populate }: GetAll) => {
     const config = {
-      params: { ...(!!populate && { populate }) }
+      params: { ...(!!populate && { populate }) },
     };
 
     return this.errorWrapper(() =>
-      this.AuthApiAxios.get(`/${resource}${id ? `/${id}` : ""}`, config)
+      this.AuthApiAxios.get(`/${resource}${id ? `/${id}` : ''}`, config),
     );
   };
 
   getOne = async ({ resource, id, populate }: GetOne) => {
     const config = {
-      params: { ...(!!populate && { populate }) }
+      params: { ...(!!populate && { populate }) },
     };
 
     return this.errorWrapper(() =>
-      this.AuthApiAxios.get(`/${resource}${id ? `/${id}` : ""}`, config)
+      this.AuthApiAxios.get(`/${resource}${id ? `/${id}` : ''}`, config),
     );
   };
 
   patch = async ({ resource, id, params }: UpdateOne) => {
     return this.errorWrapper(() =>
-      this.AuthApiAxios.patch(`/${resource}/${id ? `/${id}` : ""}`, params)
+      this.AuthApiAxios.patch(`/${resource}/${id ? `/${id}` : ''}`, params),
     );
   };
 
   post = async ({ resource, id, params, config = {} }: Create) => {
     return this.errorWrapper(() =>
-      this.AuthApiAxios.post(
-        `/${resource}${id ? `/${id}` : ""}`,
-        params,
-        config
-      )
+      this.AuthApiAxios.post(`/${resource}${id ? `/${id}` : ''}`, params, config),
     );
   };
 
@@ -126,21 +122,21 @@ class Api {
   refreshToken = async () => {
     return this.post({
       resource: Resources.REFRESH_TOKEN,
-      params: { token: cookies.get("refreshToken") }
+      params: { token: cookies.get('refreshToken') },
     });
   };
 
   login = async (params: { password: string; email: string }) => {
     return this.post({
       resource: Resources.LOGIN,
-      params
+      params,
     });
   };
 
   remindPassword = async (params: { email: string }) => {
     return this.post({
       resource: Resources.REMIND_PASSWORD,
-      params
+      params,
     });
   };
 
@@ -153,38 +149,30 @@ class Api {
   }> => {
     return this.post({
       resource: Resources.VERIFY_USER,
-      params
+      params,
     });
   };
 
-  setPassword = async (params: {
-    h: string;
-    s: string;
-    password: string;
-  }): Promise<any> => {
+  setPassword = async (params: { h: string; s: string; password: string }): Promise<any> => {
     return this.post({
       resource: Resources.SET_PASSWORD,
-      params
+      params,
     });
   };
 
-  getEvents = async ({
-    page
-  }: {
-    page: number;
-  }): Promise<GetAllResponse<Event>> => {
+  getEvents = async ({ page }: { page: number }): Promise<GetAllResponse<Event>> => {
     return this.get({
       resource: Resources.events,
-      populate: ["geom"],
-      page
+      populate: ['geom'],
+      page,
     });
   };
 
   getEvent = async ({ id }: { id: string }): Promise<Event> => {
     return this.getOne({
       resource: Resources.events,
-      populate: ["geom"],
-      id
+      populate: ['geom'],
+      id,
     });
   };
 }
