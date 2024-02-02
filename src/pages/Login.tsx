@@ -1,24 +1,23 @@
-import { useFormik } from "formik";
-import { useRef } from "react";
-//@ts-ignore
-import ReCAPTCHA from "react-google-recaptcha";
-import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import Button from "../components/buttons/Button";
-import CheckBox from "../components/buttons/Checkbox";
-import PasswordField from "../components/fields/PasswordField";
-import TextField from "../components/fields/TextField";
-import LoginLayout from "../components/layouts/LoginLayout";
-import { LoginTitle } from "../components/other/CommonStyles";
-import api from "../utils/api";
-import { getErrorMessage } from "../utils/functions";
-import { useCheckAuthMutation } from "../utils/hooks";
-import { handleUpdateTokens } from "../utils/loginFunctions";
-import { slugs } from "../utils/routes";
-import { buttonsTitles, inputLabels, titles } from "../utils/texts";
-import { ReactQueryError } from "../utils/types";
-import { loginSchema } from "../utils/validations";
+import { useFormik } from 'formik';
+import { useRef } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import Button from '../components/buttons/Button';
+import CheckBox from '../components/buttons/Checkbox';
+import PasswordField from '../components/fields/PasswordField';
+import TextField from '../components/fields/TextField';
+import LoginLayout from '../components/layouts/LoginLayout';
+import { LoginTitle } from '../components/other/CommonStyles';
+import api from '../utils/api';
+import { getErrorMessage } from '../utils/functions';
+import { useCheckAuthMutation } from '../utils/hooks';
+import { handleUpdateTokens } from '../utils/loginFunctions';
+import { slugs } from '../utils/routes';
+import { buttonsTitles, inputLabels, titles } from '../utils/texts';
+import { ReactQueryError } from '../utils/types';
+import { loginSchema } from '../utils/validations';
 
 interface LoginProps {
   email: string;
@@ -36,7 +35,7 @@ const Login = () => {
       password,
       refresh,
       email: email.toLocaleLowerCase(),
-      captchaToken
+      captchaToken,
     };
 
     return await api.login(params);
@@ -47,32 +46,27 @@ const Login = () => {
     return setErrors({ email: text });
   };
 
-  const loginMutation = useMutation(
-    (params: LoginProps) => handleLogin(params),
-    {
-      onError: handleError,
-      onSuccess: (data) => {
-        handleUpdateTokens(data);
-      },
-      retry: false
-    }
-  );
+  const loginMutation = useMutation((params: LoginProps) => handleLogin(params), {
+    onError: handleError,
+    onSuccess: (data) => {
+      handleUpdateTokens(data);
+    },
+    retry: false,
+  });
 
   const { isLoading: checkAuthLoading } = useCheckAuthMutation();
 
-  const loading = [loginMutation.isLoading, checkAuthLoading].some(
-    (loading) => loading
-  );
+  const loading = [loginMutation.isLoading, checkAuthLoading].some((loading) => loading);
 
   const { values, errors, setFieldValue, handleSubmit, setErrors } = useFormik({
     initialValues: {
-      email: "",
-      password: "",
-      refresh: false
+      email: '',
+      password: '',
+      refresh: false,
     },
     validateOnChange: false,
     validationSchema: loginSchema,
-    onSubmit: (values) => loginMutation.mutateAsync(values)
+    onSubmit: (values) => loginMutation.mutateAsync(values),
   });
 
   const handleType = (field: string, value: string | boolean) => {
@@ -89,24 +83,22 @@ const Login = () => {
           type="email"
           name="email"
           error={errors.email}
-          onChange={(value) => handleType("email", value)}
+          onChange={(value) => handleType('email', value)}
           label={inputLabels.email}
         />
         <PasswordField
           value={values.password}
           name="password"
           error={errors.password}
-          onChange={(value) => handleType("password", value)}
+          onChange={(value) => handleType('password', value)}
           label={inputLabels.password}
           secondLabel={
-            <Url onClick={() => navigate(slugs.forgotPassword)}>
-              {titles.forgotPassword}
-            </Url>
+            <Url onClick={() => navigate(slugs.forgotPassword)}>{titles.forgotPassword}</Url>
           }
         />
         <Row>
           <StyledSingleCheckbox
-            onChange={(value) => handleType("refresh", value!)}
+            onChange={(value) => handleType('refresh', value)}
             value={values.refresh}
             label={inputLabels.rememberMe}
           />

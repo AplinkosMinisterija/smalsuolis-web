@@ -1,14 +1,14 @@
-import { isEqual } from "lodash";
-import { useEffect, useState } from "react";
-import { useMutation, useQuery } from "react-query";
-import { useSearchParams } from "react-router-dom";
-import Cookies from "universal-cookie";
-import { useAppDispatch } from "../state/hooks";
-import { actions as userAction, UserReducerProps } from "../state/user/reducer";
-import api from "./api";
-import { ServerErrorCodes } from "./constants";
-import { handleAlert, handleGetCurrentLocation } from "./functions";
-import { clearCookies, emptyUser } from "./loginFunctions";
+import { isEqual } from 'lodash';
+import { useEffect, useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
+import { useSearchParams } from 'react-router-dom';
+import Cookies from 'universal-cookie';
+import { useAppDispatch } from '../state/hooks';
+import { actions as userAction, UserReducerProps } from '../state/user/reducer';
+import api from './api';
+import { ServerErrorCodes } from './constants';
+import { handleAlert, handleGetCurrentLocation } from './functions';
+import { clearCookies, emptyUser } from './loginFunctions';
 
 const cookies = new Cookies();
 
@@ -25,7 +25,7 @@ export const useCurrentLocation = () => {
 
 export const useCheckAuthMutation = () => {
   const dispatch = useAppDispatch();
-  const token = cookies.get("token");
+  const token = cookies.get('token');
 
   const { isLoading } = useQuery([token], () => api.checkAuth(), {
     onError: ({ response }: any) => {
@@ -44,7 +44,7 @@ export const useCheckAuthMutation = () => {
       }
     },
     retry: false,
-    enabled: !!token
+    enabled: !!token,
   });
 
   return { isLoading };
@@ -60,7 +60,7 @@ export const useLogoutMutation = () => {
     onSuccess: () => {
       clearCookies();
       dispatch(userAction.setUser(emptyUser));
-    }
+    },
   });
 
   return { mutateAsync };
@@ -75,14 +75,11 @@ export const useVerifyUser = () => {
     // navigate(slugs.login);
   }
 
-  const { data, mutateAsync, isLoading } = useMutation(
-    () => api.verifyUser({ h, s }),
-    {
-      onError: () => {
-        // navigate(slugs.login);
-      }
-    }
-  );
+  const { data, mutateAsync, isLoading } = useMutation(() => api.verifyUser({ h, s }), {
+    onError: () => {
+      // navigate(slugs.login);
+    },
+  });
 
   useEffect(() => {
     mutateAsync();
@@ -102,8 +99,8 @@ export const useSetPassword = () => {
     {
       onError: () => {
         handleAlert();
-      }
-    }
+      },
+    },
   );
 
   return { isSuccess: data?.success, mutateAsync, isLoading };

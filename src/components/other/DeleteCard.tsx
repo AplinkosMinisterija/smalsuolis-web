@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useRef } from "react";
-import styled from "styled-components";
-import { device } from "../../styles";
-import Button, { ButtonColors } from "../buttons/Button";
-import Icon from "./Icons";
-import Modal from "./Modal";
+import React, { useCallback, useEffect, useRef } from 'react';
+import styled from 'styled-components';
+import { device } from '../../styles';
+import { ButtonColors } from '../../utils/constants';
+import Button from '../buttons/Button';
+import Icon from './Icons';
+import Modal from './Modal';
 export interface DeleteCardProps {
   title: string;
   description: string;
@@ -22,9 +23,9 @@ const DeleteCard = ({
   onSetClose,
   handleDelete,
   deleteInProgress,
-  declineLabel = "Ne",
-  agreeLabel = "Taip",
-  visible = false
+  declineLabel = 'Ne',
+  agreeLabel = 'Taip',
+  visible = false,
 }: DeleteCardProps) => {
   const cardRef = useRef<any>(null);
 
@@ -34,13 +35,13 @@ const DeleteCard = ({
         onSetClose(false);
       }
     },
-    [onSetClose]
+    [onSetClose],
   );
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside, true);
+    document.addEventListener('click', handleClickOutside, true);
     return () => {
-      document.removeEventListener("click", handleClickOutside, true);
+      document.removeEventListener('click', handleClickOutside, true);
     };
   }, [handleClickOutside]);
 

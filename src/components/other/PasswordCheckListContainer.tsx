@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import Icon from "./Icons";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import Icon from './Icons';
 interface PasswordCheckListContainerProps {
   password: string;
   repeatPassword: string;
@@ -10,7 +10,7 @@ interface PasswordCheckListContainerProps {
 const PasswordCheckListContainer = ({
   password,
   repeatPassword,
-  setAllValid
+  setAllValid,
 }: PasswordCheckListContainerProps) => {
   const [containsUL, setContainsUL] = useState(false);
   const [containsLL, setContainsLL] = useState(false);
@@ -21,15 +21,15 @@ const PasswordCheckListContainer = ({
 
   const checkList = [
     [
-      { label: "1 Didžioji raidė", value: containsUL },
-      { label: "1 mažoji raidė", value: containsLL },
-      { label: "Bent 1 skaičius", value: containsN }
+      { label: '1 Didžioji raidė', value: containsUL },
+      { label: '1 mažoji raidė', value: containsLL },
+      { label: 'Bent 1 skaičius', value: containsN },
     ],
     [
-      { label: "Bent 1 specialus simbolis", value: containsSC },
-      { label: "Min 8 simbolių", value: contains8C },
-      { label: "Slaptažodžiai sutampa", value: passwordMatch }
-    ]
+      { label: 'Bent 1 specialus simbolis', value: containsSC },
+      { label: 'Min 8 simbolių', value: contains8C },
+      { label: 'Slaptažodžiai sutampa', value: passwordMatch },
+    ],
   ];
 
   useEffect(() => {
@@ -38,27 +38,12 @@ const PasswordCheckListContainer = ({
     setContainsN(/[\d]/g.test(password));
     setContainsSC(/[!@#$%^&*()[\]'";:\\.\-?/<>,{}~|+=]/g.test(password));
     setContains8C(password.length >= 8);
-    setPasswordMatch(password !== "" && password === repeatPassword);
+    setPasswordMatch(password !== '' && password === repeatPassword);
   }, [password, repeatPassword]);
 
   useEffect(() => {
-    setAllValid(
-      containsUL &&
-        containsLL &&
-        containsN &&
-        containsSC &&
-        contains8C &&
-        passwordMatch
-    );
-  }, [
-    containsUL,
-    containsLL,
-    containsN,
-    containsSC,
-    contains8C,
-    passwordMatch,
-    setAllValid
-  ]);
+    setAllValid(containsUL && containsLL && containsN && containsSC && contains8C && passwordMatch);
+  }, [containsUL, containsLL, containsN, containsSC, contains8C, passwordMatch, setAllValid]);
 
   return (
     <Container>
@@ -95,21 +80,19 @@ const InnerContainer = styled.div`
 `;
 
 const StyledIcon = styled(Icon)<{ checked: boolean }>`
-  background-color: ${({ theme, checked }) =>
-    checked ? theme.colors.success : "white"};
+  background-color: ${({ theme, checked }) => (checked ? theme.colors.success : 'white')};
 
   width: 18px;
   height: 18px;
   border-radius: 50%;
 
-  color: ${({ theme, checked }) => (checked ? "white" : theme.colors.disable)};
-  border: ${({ checked }) => (checked ? "none" : "1px solid #cdd5df")};
+  color: ${({ theme, checked }) => (checked ? 'white' : theme.colors.disable)};
+  border: ${({ checked }) => (checked ? 'none' : '1px solid #cdd5df')};
 `;
 
 const Text = styled.div<{ checked: boolean }>`
   font-size: 1.4rem;
-  color: ${({ theme, checked }) =>
-    checked ? theme.colors.success : theme.colors.disable};
+  color: ${({ theme, checked }) => (checked ? theme.colors.success : theme.colors.disable)};
 `;
 
 export default PasswordCheckListContainer;

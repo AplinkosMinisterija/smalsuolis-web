@@ -1,26 +1,17 @@
-import { format } from "date-fns";
-import styled from "styled-components";
-import { monthShorthands } from "../../utils/texts";
-import { Event } from "../../utils/types";
-import Icon from "./Icons";
+import { format } from 'date-fns';
+import styled from 'styled-components';
+import { monthShorthands } from '../../utils/texts';
+import { Event } from '../../utils/types';
+import Icon from './Icons';
 
-const EventCard = ({
-  event,
-  onClick
-}: {
-  event: Event;
-  onClick: () => void;
-}) => {
+const EventCard = ({ event, onClick }: { event: Event; onClick?: () => void }) => {
   const { startAt, endAt, isFullDay, name } = event;
 
-  const formattedDay = format(new Date(startAt), "dd");
+  const formattedDay = format(new Date(startAt), 'dd');
   const formattedMonth = monthShorthands[new Date(startAt).getMonth()];
   const formattedTime = !isFullDay
-    ? `${format(new Date(startAt), "HH:mm")} - ${format(
-        new Date(endAt!),
-        "HH:mm"
-      )}`
-    : "Visą dieną";
+    ? `${format(new Date(startAt), 'HH:mm')} - ${endAt ? format(new Date(endAt), 'HH:mm') : '-'}`
+    : 'Visą dieną';
 
   return (
     <Container onClick={onClick}>
@@ -51,7 +42,7 @@ const Container = styled.div`
 
 const TimeIcon = styled(Icon)``;
 
-const InnerContainer = styled.div<{}>`
+const InnerContainer = styled.div`
   display: flex;
   box-sizing: border-box;
   padding: 12px;

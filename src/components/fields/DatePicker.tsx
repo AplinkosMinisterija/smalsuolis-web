@@ -1,15 +1,15 @@
-import { useMediaQuery } from "@material-ui/core";
-import { format } from "date-fns";
-import lt from "date-fns/locale/lt";
-import React, { useEffect, useState } from "react";
-import DatePicker, { registerLocale } from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import styled from "styled-components";
-import { device } from "../../styles";
-import Icons from "../other/Icons";
-import TextField from "./TextField";
+import { useMediaQuery } from '@material-ui/core';
+import { format } from 'date-fns';
+import lt from 'date-fns/locale/lt';
+import React, { useEffect, useState } from 'react';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import styled from 'styled-components';
+import { device } from '../../styles';
+import Icons from '../other/Icons';
+import TextField from './TextField';
 
-registerLocale("lt", lt);
+registerLocale('lt', lt);
 
 export interface DatepickerProps {
   startDate?: Date;
@@ -38,12 +38,12 @@ const Datepicker = ({
   name,
   maxDate,
   minDate,
-  bottom = false
+  bottom = false,
 }: DatepickerProps) => {
   const daterRegex = /^\d{4}-\d{2}-\d{2}$/;
   const isMobile = useMediaQuery(device.mobileL);
   const [open, setOpen] = useState(false);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
   const handleBlur = (event: any) => {
     if (!event.currentTarget.contains(event.relatedTarget)) {
       setOpen(false);
@@ -53,7 +53,7 @@ const Datepicker = ({
   const handleBlurInput = (event: any) => {
     if (!event.currentTarget.contains(event.relatedTarget)) {
       if (!validDate(inputValue)) {
-        setInputValue("");
+        setInputValue('');
         onChange(undefined);
       }
     }
@@ -61,9 +61,9 @@ const Datepicker = ({
 
   useEffect(() => {
     if (!value) {
-      setInputValue("");
+      setInputValue('');
     } else {
-      setInputValue(format(new Date(value), "yyyy-MM-dd"));
+      setInputValue(format(new Date(value), 'yyyy-MM-dd'));
     }
   }, [value]);
 
@@ -83,7 +83,7 @@ const Datepicker = ({
 
   const validDate = (date: string) =>
     daterRegex.test(date) &&
-    new Date(date).toString() !== "Invalid Date" &&
+    new Date(date).toString() !== 'Invalid Date' &&
     isMoreThanMinDate(date) &&
     isLessThanMaxDate(date);
 
@@ -94,17 +94,10 @@ const Datepicker = ({
     }
   };
 
-  const textValue = validDate(inputValue)
-    ? format(new Date(inputValue), "yyyy-MM-dd")
-    : inputValue;
+  const textValue = validDate(inputValue) ? format(new Date(inputValue), 'yyyy-MM-dd') : inputValue;
 
   return (
-    <Container
-      bottom={bottom}
-      tabIndex={1}
-      onBlur={handleBlur}
-      disabled={disabled}
-    >
+    <Container bottom={bottom} tabIndex={1} onBlur={handleBlur} disabled={disabled}>
       <div tabIndex={2} onBlur={handleBlurInput}>
         <TextField
           placeholder="2000-01-01"
@@ -117,7 +110,7 @@ const Datepicker = ({
           error={error}
           rightIcon={
             <IconContainer disabled={disabled} onClick={() => setOpen(!open)}>
-              <CalendarIcon name={"calendar"} />
+              <CalendarIcon name={'calendar'} />
             </IconContainer>
           }
           disabled={disabled}
@@ -192,7 +185,7 @@ const IconContainer = styled.div<{ disabled: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 `;
 
 const Container = styled.div<{ disabled: boolean; bottom: boolean }>`
@@ -228,7 +221,7 @@ const Container = styled.div<{ disabled: boolean; bottom: boolean }>`
     &:hover {
       background-color: #febc1d;
       &::before {
-        content: "";
+        content: '';
         position: absolute;
         background-color: #febc1d;
         top: 50%;
@@ -245,7 +238,7 @@ const Container = styled.div<{ disabled: boolean; bottom: boolean }>`
       margin: 26px 16px 0px 0px;
       &:hover {
         &::before {
-          content: "";
+          content: '';
           width: 30px;
           height: 30px;
         }
@@ -258,7 +251,7 @@ const Container = styled.div<{ disabled: boolean; bottom: boolean }>`
   .react-datepicker {
     width: 364px;
     position: absolute;
-    top: ${({ bottom }) => (bottom ? "-450px" : "0px")};
+    top: ${({ bottom }) => (bottom ? '-450px' : '0px')};
     z-index: 2;
     background-color: #ffffff;
     box-shadow: 0px 2px 16px #121a5529;
@@ -286,7 +279,7 @@ const Container = styled.div<{ disabled: boolean; bottom: boolean }>`
     -webkit-appearance: none;
     margin: 0;
   }
-  input[type="number"] {
+  input[type='number'] {
     -moz-appearance: textfield;
   }
   .react-datepicker__day--selected {
@@ -301,7 +294,7 @@ const Container = styled.div<{ disabled: boolean; bottom: boolean }>`
     color: #121a55;
   }
   .react-datepicker__day--selected::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 50%;
     left: 50%;
@@ -315,7 +308,7 @@ const Container = styled.div<{ disabled: boolean; bottom: boolean }>`
 
   @media ${device.mobileS} {
     .react-datepicker__day--selected::before {
-      content: "";
+      content: '';
       width: 30px;
       height: 30px;
     }

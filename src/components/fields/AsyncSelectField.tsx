@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import Icon from "../other/Icons";
-import FieldWrapper from "./components/FieldWrapper";
-import OptionsContainer from "./components/OptionsContainer";
-import TextFieldInput from "./components/TextFieldInput";
-import { useAsyncSelectData } from "./utils/hooks";
+import styled from 'styled-components';
+import Icon from '../other/Icons';
+import FieldWrapper from './components/FieldWrapper';
+import OptionsContainer from './components/OptionsContainer';
+import TextFieldInput from './components/TextFieldInput';
+import { useAsyncSelectData } from './utils/hooks';
 
 export interface AsyncSelectFieldProps {
   id?: string;
@@ -47,7 +47,7 @@ const AsyncSelectField = ({
   disabled = false,
   backgroundColor,
   getOptionLabel,
-  optionsKey = "rows",
+  optionsKey = 'rows',
   loadOptions,
   dependantId,
   ...rest
@@ -61,13 +61,13 @@ const AsyncSelectField = ({
     input,
     showSelect,
     handleBlur,
-    handleClick
+    handleClick,
   } = useAsyncSelectData({
     loadOptions,
     name,
     optionsKey,
     disabled,
-    onChange
+    onChange,
   });
 
   return (
@@ -85,10 +85,10 @@ const AsyncSelectField = ({
         name={name}
         error={error}
         leftIcon={left}
-        rightIcon={<StyledIcon name={"dropdownArrow"} />}
+        rightIcon={<StyledIcon name={'dropdownArrow'} />}
         onChange={handleInputChange}
         disabled={disabled}
-        placeholder={(value && getOptionLabel(value)) || "Pasirinkite"}
+        placeholder={(value && getOptionLabel(value)) || 'Pasirinkite'}
         selectedValue={value}
       />
 

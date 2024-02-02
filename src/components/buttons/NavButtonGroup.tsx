@@ -1,6 +1,6 @@
-import { map } from "lodash";
-import styled from "styled-components";
-import { device } from "../../styles";
+import { map } from 'lodash';
+import styled from 'styled-components';
+import { device } from '../../styles';
 
 export interface ButtonGroupProps {
   options: any[];
@@ -17,7 +17,7 @@ const NavButtonGroup = ({
   disabled,
   isSelected,
   className,
-  getOptionLabel
+  getOptionLabel,
 }: ButtonGroupProps) => {
   return (
     <Container className={className}>
@@ -44,10 +44,7 @@ const Container = styled.div`
   width: 100%;
   padding: 4px;
   background-color: #edf1f2;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(min(100%/3, max(64px, 100%/5)), 1fr)
-  );
+  grid-template-columns: repeat(auto-fit, minmax(min(100%/3, max(64px, 100%/5)), 1fr));
   @media ${device.mobileS} {
     grid-template-columns: repeat(1, 1fr);
   }
@@ -71,19 +68,18 @@ const StyledButton = styled.button<{
   :hover {
     opacity: ${({ disabled }) => (disabled ? 0.48 : 0.6)};
   }
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 
-  box-shadow: ${({ selected }) =>
-    selected ? "0px 3px 6px #00000029" : "none"};
-  border-radius: ${({ selected }) => (selected ? "14px" : "0")};
-  background-color: ${({ selected }) => (selected ? "white" : "#EDF1F2")};
+  box-shadow: ${({ selected }) => (selected ? '0px 3px 6px #00000029' : 'none')};
+  border-radius: ${({ selected }) => (selected ? '14px' : '0')};
+  background-color: ${({ selected }) => (selected ? 'white' : '#EDF1F2')};
   color: #121926;
   justify-content: center;
   border-width: 1px;
-  border-top-left-radius: ${({ left }) => (left ? "4px" : 0)};
-  border-bottom-left-radius: ${({ left }) => (left ? "4px" : 0)};
-  border-top-right-radius: ${({ right }) => (right ? "4px" : 0)};
-  border-bottom-right-radius: ${({ right }) => (right ? "4px" : 0)};
+  border-top-left-radius: ${({ left }) => (left ? '4px' : 0)};
+  border-bottom-left-radius: ${({ left }) => (left ? '4px' : 0)};
+  border-top-right-radius: ${({ right }) => (right ? '4px' : 0)};
+  border-bottom-right-radius: ${({ right }) => (right ? '4px' : 0)};
 `;
 
 export default NavButtonGroup;

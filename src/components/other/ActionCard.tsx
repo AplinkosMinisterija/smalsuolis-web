@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Icon from "./Icons";
+import styled from 'styled-components';
+import Icon from './Icons';
 
 interface ActionCardProps {
   icon: string;

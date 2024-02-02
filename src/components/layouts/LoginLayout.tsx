@@ -1,6 +1,6 @@
-import Div100vh from "react-div-100vh";
-import styled from "styled-components";
-import { device } from "../../styles";
+import Div100vh from 'react-div-100vh';
+import styled from 'styled-components';
+import { device } from '../../styles';
 
 export interface LoginLayoutProps {
   children?: React.ReactNode;

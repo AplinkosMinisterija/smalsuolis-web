@@ -1,42 +1,42 @@
-import { isEqual } from "lodash";
-import React, { useEffect, useRef, useState } from "react";
-import { useInfiniteQuery } from "react-query";
-import { useNavigate } from "react-router";
-import styled from "styled-components";
-import NavButtonGroup from "../components/buttons/NavButtonGroup";
-import DefaultLayout from "../components/layouts/DefaultLayout";
-import EventCard from "../components/other/EventCard";
-import LoaderComponent from "../components/other/LoaderComponent";
-import { device } from "../styles";
-import api from "../utils/api";
-import { intersectionObserverConfig } from "../utils/configs";
-import { EventStatusTypes } from "../utils/constants";
-import { slugs } from "../utils/routes";
-import { eventStatusLabels } from "../utils/texts";
-import { Event } from "../utils/types";
+import { isEqual } from 'lodash';
+import React, { useEffect, useRef, useState } from 'react';
+import { useInfiniteQuery } from 'react-query';
+import { useNavigate } from 'react-router';
+import styled from 'styled-components';
+import NavButtonGroup from '../components/buttons/NavButtonGroup';
+import DefaultLayout from '../components/layouts/DefaultLayout';
+import EventCard from '../components/other/EventCard';
+import LoaderComponent from '../components/other/LoaderComponent';
+import { device } from '../styles';
+import api from '../utils/api';
+import { intersectionObserverConfig } from '../utils/configs';
+import { EventStatusTypes } from '../utils/constants';
+import { slugs } from '../utils/routes';
+import { eventStatusLabels } from '../utils/texts';
+import { Event } from '../utils/types';
 
 const Events = () => {
   const [status, setStatus] = useState(EventStatusTypes.UPCOMING);
   const navigate = useNavigate();
   const getStockings = async (page: number) => {
     const fishStockings = await api.getEvents({
-      page
+      page,
     });
 
     return {
       data: fishStockings.rows,
-      page:
-        fishStockings.page < fishStockings.totalPages
-          ? fishStockings.page + 1
-          : undefined
+      page: fishStockings.page < fishStockings.totalPages ? fishStockings.page + 1 : undefined,
     };
   };
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } =
-    useInfiniteQuery(["events"], ({ pageParam }) => getStockings(pageParam), {
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } = useInfiniteQuery(
+    ['events'],
+    ({ pageParam }) => getStockings(pageParam),
+    {
       getNextPageParam: (lastPage) => lastPage.page,
-      cacheTime: 60000
-    });
+      cacheTime: 60000,
+    },
+  );
 
   const observerRef = useRef<any>(null);
 
@@ -66,9 +66,7 @@ const Events = () => {
           <NavButtonGroup
             options={Object.keys(EventStatusTypes)}
             isSelected={(option) => isEqual(option, status)}
-            getOptionLabel={(option: EventStatusTypes) =>
-              eventStatusLabels[option]
-            }
+            getOptionLabel={(option: EventStatusTypes) => eventStatusLabels[option]}
             onChange={(option) => setStatus(option)}
           />
         </ButtonsContainer>
@@ -76,10 +74,7 @@ const Events = () => {
           return (
             <React.Fragment key={pageIndex}>
               {page.data.map((event: Event) => (
-                <EventCard
-                  event={event}
-                  onClick={() => navigate(slugs.event(event?.id!))}
-                />
+                <EventCard event={event} onClick={() => navigate(slugs.event(event?.id))} />
               ))}
             </React.Fragment>
           );

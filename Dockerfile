@@ -13,11 +13,11 @@ COPY . .
 # Docker build args and environment variables
 ARG ENVIRONMENT
 ARG VERSION
-ARG REACT_APP_ENVIRONMENT=${ENVIRONMENT}
-ARG REACT_APP_VERSION=${VERSION}
+ARG VITE_ENVIRONMENT=${ENVIRONMENT}
+ARG VITE_VERSION=${VERSION}
 
 # Set env variables
-ARG REACT_APP_SENTRY_DSN=
+ARG VITE_SENTRY_DSN=
 ARG NODE_ENV=production
 
 # Build and cleanup
@@ -30,7 +30,7 @@ FROM caddy:2.6-alpine
 COPY ./caddy/Caddyfile /etc/caddy/Caddyfile
 
 # Copy built files from the build stage
-COPY --from=build /app/build /srv
+COPY --from=build /app/dist /srv
 
 # Expose port
 EXPOSE 80

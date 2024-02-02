@@ -1,7 +1,7 @@
-import { isEmpty } from "lodash";
-import styled from "styled-components";
-import { inputLabels } from "../../../utils/texts";
-import LoaderComponent from "../../other/LoaderComponent";
+import { isEmpty } from 'lodash';
+import styled from 'styled-components';
+import { inputLabels } from '../../../utils/texts';
+import LoaderComponent from '../../other/LoaderComponent';
 
 export interface SelectOption {
   id?: string;
@@ -26,7 +26,7 @@ const OptionsContainer = ({
   handleClick,
   showSelect,
   loading,
-  observerRef
+  observerRef,
 }: OptionsContainerProps) => {
   const display = showSelect && !disabled;
 
@@ -65,7 +65,7 @@ const OptionsContainer = ({
 };
 
 const OptionContainer = styled.div<{ display: boolean }>`
-  display: ${({ display }) => (display ? "block" : "none")};
+  display: ${({ display }) => (display ? 'block' : 'none')};
   position: absolute;
   z-index: 9;
   width: 100%;
@@ -102,7 +102,7 @@ const Option = styled.div`
 `;
 
 const ObserverRef = styled.div<{ display: boolean }>`
-  display: ${({ display }) => (display ? "block" : "none")};
+  display: ${({ display }) => (display ? 'block' : 'none')};
 `;
 
 export default OptionsContainer;

@@ -1,4 +1,4 @@
-const Loader = ({ color = "#000" }) => {
+const Loader = ({ color = '#000' }) => {
   return (
     <svg
       version="1.1"

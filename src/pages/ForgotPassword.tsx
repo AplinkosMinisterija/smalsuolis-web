@@ -1,24 +1,17 @@
-import { useFormik } from "formik";
-import { useRef } from "react";
-//@ts-ignore
-import ReCAPTCHA from "react-google-recaptcha";
-import { useMutation } from "react-query";
-import styled from "styled-components";
-import Button from "../components/buttons/Button";
-import TextField from "../components/fields/TextField";
-import LoginLayout from "../components/layouts/LoginLayout";
-import ReturnToLogin from "../components/other/ReturnToLogin";
-import api from "../utils/api";
-import { getErrorMessage, handleAlert } from "../utils/functions";
-import {
-  buttonsTitles,
-  descriptions,
-  inputLabels,
-  titles,
-  validationTexts
-} from "../utils/texts";
-import { ReactQueryError } from "../utils/types";
-import { forgotPasswordSchema } from "../utils/validations";
+import { useFormik } from 'formik';
+import { useRef } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { useMutation } from 'react-query';
+import styled from 'styled-components';
+import Button from '../components/buttons/Button';
+import TextField from '../components/fields/TextField';
+import LoginLayout from '../components/layouts/LoginLayout';
+import ReturnToLogin from '../components/other/ReturnToLogin';
+import api from '../utils/api';
+import { getErrorMessage, handleAlert } from '../utils/functions';
+import { buttonsTitles, descriptions, inputLabels, titles, validationTexts } from '../utils/texts';
+import { ReactQueryError } from '../utils/types';
+import { forgotPasswordSchema } from '../utils/validations';
 
 const RemindPassword = () => {
   const captchaRef = useRef<ReCAPTCHA>(null);
@@ -39,14 +32,10 @@ const RemindPassword = () => {
     handleAlert();
   };
 
-  const handleSuccess = (response: {
-    invalidUntil: Date;
-    url: string;
-    success: boolean;
-  }): any => {
+  const handleSuccess = (response: { invalidUntil: Date; url: string; success: boolean }): any => {
     if (response.invalidUntil) {
       return setErrors({
-        email: validationTexts.tooFrequentRequest
+        email: validationTexts.tooFrequentRequest,
       });
     }
 
@@ -62,19 +51,19 @@ const RemindPassword = () => {
     {
       onError: handleError,
       onSuccess: handleSuccess,
-      retry: false
-    }
+      retry: false,
+    },
   );
 
   const isSuccess = data?.success;
 
   const { values, errors, setFieldValue, handleSubmit, setErrors } = useFormik({
     initialValues: {
-      email: ""
+      email: '',
     },
     validateOnChange: false,
     validationSchema: forgotPasswordSchema,
-    onSubmit: (values) => mutateAsync({ email: values.email })
+    onSubmit: (values) => mutateAsync({ email: values.email }),
   });
 
   const handleType = (field: string, value: string | boolean) => {
@@ -96,7 +85,7 @@ const RemindPassword = () => {
               type="email"
               name="email"
               error={errors.email}
-              onChange={(value) => handleType("email", value)}
+              onChange={(value) => handleType('email', value)}
               label={inputLabels.email}
             />
             <Button loading={isLoading} disabled={isLoading} type="submit">

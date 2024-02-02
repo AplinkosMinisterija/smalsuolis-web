@@ -1,8 +1,6 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
-declare module "styled-components" {
-  export interface DefaultTheme extends Theme {}
-}
+declare module 'styled-components' {}
 export interface Theme {
   colors: {
     primary: string;
@@ -38,35 +36,35 @@ export interface Theme {
 
 export const theme: Theme = {
   colors: {
-    disable: "#CDD5DF",
-    primary: "#0A196F",
-    secondary: "#13C9E7",
-    tertiary: "#7A7E9F",
-    transparent: "transparent",
-    danger: "#FE5B78",
-    success: "#4FB922",
-    login: "#FFFFFFA3",
+    disable: '#CDD5DF',
+    primary: '#0A196F',
+    secondary: '#13C9E7',
+    tertiary: '#7A7E9F',
+    transparent: 'transparent',
+    danger: '#FE5B78',
+    success: '#4FB922',
+    login: '#FFFFFFA3',
     hover: {
-      primary: "#0A196F",
-      secondary: "#13C9E78F",
-      tertiary: "#7A7E9F",
-      danger: "#FE5B78E6",
-      success: "#4FB922B3",
-      login: "#FFFFFFA3",
-      transparent: "transparent"
+      primary: '#0A196F',
+      secondary: '#13C9E78F',
+      tertiary: '#7A7E9F',
+      danger: '#FE5B78E6',
+      success: '#4FB922B3',
+      login: '#FFFFFFA3',
+      transparent: 'transparent',
     },
-    tertiaryMedium: "#C6C8D6",
-    tertiaryLight: "#F3F3F7",
-    input: "#F3F3F7",
-    border: "#121A553D",
-    label: "#0B1F51",
-    error: "#FE5B78",
-    light: "#f3f3f7",
-    white: "#ffffff",
-    darkerWhite: "#A4A7BD",
-    pending: "#fea700",
-    grey: "#B3B5C4"
-  }
+    tertiaryMedium: '#C6C8D6',
+    tertiaryLight: '#F3F3F7',
+    input: '#F3F3F7',
+    border: '#121A553D',
+    label: '#0B1F51',
+    error: '#FE5B78',
+    light: '#f3f3f7',
+    white: '#ffffff',
+    darkerWhite: '#A4A7BD',
+    pending: '#fea700',
+    grey: '#B3B5C4',
+  },
 };
 
 export const GlobalStyle = createGlobalStyle`
@@ -138,5 +136,5 @@ export const GlobalStyle = createGlobalStyle`
 export const device = {
   mobileS: `(max-width: 320px)`,
   mobileM: `(max-width: 425px)`,
-  mobileL: `(max-width: 868px)`
+  mobileL: `(max-width: 868px)`,
 };
