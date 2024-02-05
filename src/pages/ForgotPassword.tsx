@@ -72,7 +72,7 @@ const RemindPassword = () => {
   };
 
   return (
-    <LoginLayout>
+    <>
       {!isSuccess ? (
         <Container noValidate onSubmit={handleSubmit}>
           <InfoContainer>
@@ -107,7 +107,7 @@ const RemindPassword = () => {
         </InnerSecondContainer>
       )}
       <ReturnToLogin />
-    </LoginLayout>
+    </>
   );
 };
 

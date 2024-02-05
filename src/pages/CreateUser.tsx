@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Button from '../components/buttons/Button';
 import PasswordField from '../components/fields/PasswordField';
 import TextField from '../components/fields/TextField';
-import LoginLayout from '../components/layouts/LoginLayout';
 import { LoginTitle } from '../components/other/CommonStyles';
 import LoaderComponent from '../components/other/LoaderComponent';
 import PasswordCheckListContainer from '../components/other/PasswordCheckListContainer';
@@ -54,7 +53,7 @@ const ResetPassword = () => {
   const { repeatPassword, password } = values;
 
   return (
-    <LoginLayout>
+    <>
       {!isSuccess ? (
         <PasswordContainer noValidate onSubmit={handleSubmit}>
           <LoginTitle>{titles.createAccount}</LoginTitle>
@@ -116,7 +115,7 @@ const ResetPassword = () => {
           <Button onClick={() => navigate(slugs.login)}>{buttonsTitles.login}</Button>
         </SuccessContainer>
       )}
-    </LoginLayout>
+    </>
   );
 };
 

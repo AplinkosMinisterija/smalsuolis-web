@@ -32,6 +32,7 @@ export const inputLabels = {
 
 export const buttonLabels = {
   login: 'Prisijungti',
+  logout: 'Atsijungti',
 };
 
 export const titles = {

@@ -1,9 +1,10 @@
 import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
-import { useSearchParams } from 'react-router-dom';
+import { matchPath, useLocation, useSearchParams } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import { useAppDispatch } from '../state/hooks';
+import { routes } from '.';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { actions as userAction, UserReducerProps } from '../state/user/reducer';
 import api from './api';
 import { ServerErrorCodes } from './constants';
@@ -48,6 +49,18 @@ export const useCheckAuthMutation = () => {
   });
 
   return { isLoading };
+};
+
+export const useFilteredRoutes = () => {
+  return routes.filter((route) => {
+    if (!route?.slug) return false;
+
+    return true;
+  });
+};
+
+export const useMenuRouters = () => {
+  return useFilteredRoutes().filter((route) => !!route.iconName);
 };
 
 export const useLogoutMutation = () => {
@@ -104,4 +117,32 @@ export const useSetPassword = () => {
   );
 
   return { isSuccess: data?.success, mutateAsync, isLoading };
+};
+
+export const useWindowSize = (width: string) => {
+  const [isInRange, setIsInRange] = useState(false);
+
+  const handleResize = () => {
+    const mediaQuery = window.matchMedia(width);
+    setIsInRange(mediaQuery.matches);
+  };
+
+  useEffect(() => {
+    handleResize();
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return isInRange;
+};
+
+export const useGetCurrentRoute = () => {
+  const currentLocation = useLocation();
+
+  return routes?.find(
+    (route: any) => !!matchPath({ path: route.slug, end: true }, currentLocation.pathname),
+  );
 };

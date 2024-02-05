@@ -18,6 +18,10 @@ export const slugs = {
 export const routes = [
   {
     component: <Login />,
+    loggedIn: false,
+    title: 'Prisijungti',
+    back: false,
+    iconName: '',
     slug: slugs.login,
   },
   {

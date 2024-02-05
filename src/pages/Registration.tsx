@@ -5,7 +5,7 @@ import { useMutation } from 'react-query';
 import styled from 'styled-components';
 import Button from '../components/buttons/Button';
 import TextField from '../components/fields/TextField';
-import LoginLayout from '../components/layouts/LoginLayout';
+import ContentLayout from '../components/layouts/ContentLayout';
 import { LoginTitle } from '../components/other/CommonStyles';
 import ReturnToLogin from '../components/other/ReturnToLogin';
 import api from '../utils/api';
@@ -76,7 +76,7 @@ const Registration = () => {
   };
 
   return (
-    <LoginLayout>
+    <ContentLayout>
       {!isSuccess ? (
         <Container noValidate onSubmit={handleSubmit}>
           <InfoContainer>
@@ -111,7 +111,7 @@ const Registration = () => {
         </InnerSecondContainer>
       )}
       <ReturnToLogin />
-    </LoginLayout>
+    </ContentLayout>
   );
 };
 

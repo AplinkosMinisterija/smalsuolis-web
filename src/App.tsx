@@ -5,6 +5,7 @@ import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
+import DefaultLayout from './components/layouts/DefaultLayout';
 import LoaderComponent from './components/other/LoaderComponent';
 import { useAppSelector } from './state/hooks';
 import api from './utils/api';
@@ -55,7 +56,7 @@ function App() {
   if (isLoading) return <LoaderComponent />;
 
   return (
-    <>
+    <DefaultLayout>
       <Routes>
         <Route element={<PublicRoute />}>
           {(routes || []).map((route, index) => (
@@ -70,7 +71,7 @@ function App() {
         <Route path="*" element={<Navigate to={loggedIn ? slugs.login : slugs.login} />} />
       </Routes>
       <ToastContainer />
-    </>
+    </DefaultLayout>
   );
 }
 
