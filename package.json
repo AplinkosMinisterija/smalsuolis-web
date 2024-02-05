@@ -86,6 +86,7 @@
     "@aplinkosministerija/biip-prettier-config": "^1.1.0",
     "@aplinkosministerija/eslint-config-biip-react": "^1.0.0",
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
+    "@playwright/test": "^1.41.2",
     "@types/lodash": "^4.14.192",
     "@types/react-datepicker": "^4.10.0",
     "@types/styled-components": "^5.1.26",

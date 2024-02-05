@@ -15,6 +15,7 @@ export interface TextFieldProps {
   type?: string;
   selectedValue?: boolean;
   onBlur?: () => void;
+  testId?: string;
 }
 
 const TextFieldInput = ({
@@ -32,6 +33,7 @@ const TextFieldInput = ({
   height,
   selectedValue = false,
   onInputClick,
+  testId,
   ...rest
 }: TextFieldProps) => {
   const [showTooltip, setShowTooltip] = useState(false);
@@ -78,6 +80,7 @@ const TextFieldInput = ({
           onChange={(e) => onChange && onChange(e?.target?.value || '')}
           placeholder={placeholder}
           disabled={disabled}
+          data-testid={testId}
           {...rest}
         />
         {rightIcon}

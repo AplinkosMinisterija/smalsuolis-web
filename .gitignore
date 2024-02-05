@@ -134,3 +134,7 @@ dist
 .idea
 
 eslint-results.sarif
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

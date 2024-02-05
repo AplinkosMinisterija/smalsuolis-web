@@ -85,6 +85,7 @@ const Login = () => {
           error={errors.email}
           onChange={(value) => handleType('email', value)}
           label={inputLabels.email}
+          testId="login_email_field"
         />
         <PasswordField
           value={values.password}
@@ -95,6 +96,7 @@ const Login = () => {
           secondLabel={
             <Url onClick={() => navigate(slugs.forgotPassword)}>{titles.forgotPassword}</Url>
           }
+          testId="login_password_field"
         />
         <Row>
           <StyledSingleCheckbox

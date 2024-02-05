@@ -18,6 +18,7 @@ export interface TextFieldProps {
   onInputClick?: () => void;
   secondLabel?: JSX.Element;
   placeholder?: string;
+  testId?: string;
 }
 
 const PasswordField = ({
@@ -34,6 +35,7 @@ const PasswordField = ({
   disabled,
   height,
   onInputClick,
+  testId,
 }: TextFieldProps) => {
   const [show, setShow] = useState(false);
 
@@ -61,6 +63,7 @@ const PasswordField = ({
         height={height}
         onInputClick={onInputClick}
         placeholder={placeholder}
+        testId={testId}
       />
     </FieldWrapper>
   );

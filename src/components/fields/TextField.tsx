@@ -22,6 +22,7 @@ export interface TextFieldProps {
   type?: string;
   secondLabel?: JSX.Element;
   selectedValue?: boolean;
+  testId?: string;
 }
 
 const TextField = ({
@@ -44,6 +45,7 @@ const TextField = ({
   height,
   secondLabel,
   onInputClick,
+  testId,
 }: TextFieldProps) => {
   return (
     <FieldWrapper
@@ -69,6 +71,7 @@ const TextField = ({
         onInputClick={onInputClick}
         placeholder={placeholder}
         type={type}
+        testId={testId}
       />
     </FieldWrapper>
   );
