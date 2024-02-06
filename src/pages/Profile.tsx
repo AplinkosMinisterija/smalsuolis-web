@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useMutation } from 'react-query';
 import styled from 'styled-components';
 import Button from '../components/buttons/Button';
 import PasswordField from '../components/fields/PasswordField';
@@ -8,19 +8,24 @@ import TextField from '../components/fields/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';
 import PasswordCheckListContainer from '../components/other/PasswordCheckListContainer';
 import { useAppSelector } from '../state/hooks';
-import { useSetPassword } from '../utils/hooks';
-import { slugs } from '../utils/routes';
-import { buttonsTitles, descriptions, inputLabels } from '../utils/texts';
+import { handleSuccess } from '../utils';
+import api from '../utils/api';
+import { buttonsTitles, inputLabels, validationTexts } from '../utils/texts';
 
 const Profile = () => {
-  const navigate = useNavigate();
   const [allValid, setAllValid] = useState(false);
   const user = useAppSelector((state) => state.user.userData);
-  const {
-    mutateAsync: setPasswordMutation,
-    isSuccess,
-    isLoading: isSubmitLoading,
-  } = useSetPassword();
+
+  const { mutateAsync, isLoading } = useMutation(
+    (values: { password: string; repeatPassword: string; firstName: string; lastName: string }) => {
+      return api.updateProfile(values);
+    },
+    {
+      onSuccess: () => {
+        handleSuccess(validationTexts.profileUpdated);
+      },
+    },
+  );
 
   const { values, setFieldValue, handleSubmit, setErrors } = useFormik({
     initialValues: {
@@ -29,9 +34,8 @@ const Profile = () => {
       firstName: user.firstName || '',
       lastName: user.lastName || '',
     },
-    validateOnChange: false,
-    onSubmit: (values: { password: string }) => {
-      setPasswordMutation({ password: values.password });
+    onSubmit: (values) => {
+      mutateAsync(values);
     },
   });
 
@@ -43,55 +47,48 @@ const Profile = () => {
   const { repeatPassword, password } = values;
 
   const disableSubmit =
-    isSubmitLoading ||
+    isLoading ||
     ((!!password || !!repeatPassword) && !allValid) ||
     !values.firstName ||
     !values.lastName;
 
   return (
     <ContentLayout>
-      {!isSuccess ? (
-        <PasswordContainer noValidate onSubmit={handleSubmit}>
-          <TextField
-            label={inputLabels.firstName}
-            value={values.firstName}
-            name="firstName"
-            onChange={(firstName) => handleType('firstName', firstName)}
-          />
-          <TextField
-            label={inputLabels.lastName}
-            name="lastName"
-            value={values.lastName}
-            onChange={(lastName) => handleType('lastName', lastName)}
-          />
+      <PasswordContainer noValidate onSubmit={handleSubmit}>
+        <TextField
+          label={inputLabels.firstName}
+          value={values.firstName}
+          name="firstName"
+          onChange={(firstName) => handleType('firstName', firstName)}
+        />
+        <TextField
+          label={inputLabels.lastName}
+          name="lastName"
+          value={values.lastName}
+          onChange={(lastName) => handleType('lastName', lastName)}
+        />
 
-          <PasswordField
-            value={password}
-            name="password"
-            onChange={(value) => handleType('password', value)}
-            label={inputLabels.password}
-          />
-          <PasswordField
-            value={repeatPassword}
-            name="repeatPassword"
-            onChange={(value) => handleType('repeatPassword', value)}
-            label={inputLabels.password}
-          />
-          <PasswordCheckListContainer
-            setAllValid={setAllValid}
-            password={password}
-            repeatPassword={repeatPassword}
-          />
-          <StyledButton loading={isSubmitLoading} disabled={disableSubmit} type="submit">
-            {buttonsTitles.update}
-          </StyledButton>
-        </PasswordContainer>
-      ) : (
-        <SuccessContainer>
-          <Description>{descriptions.passwordChanged}</Description>
-          <Button onClick={() => navigate(slugs.login)}>{buttonsTitles.login}</Button>
-        </SuccessContainer>
-      )}
+        <PasswordField
+          value={password}
+          name="password"
+          onChange={(value) => handleType('password', value)}
+          label={inputLabels.password}
+        />
+        <PasswordField
+          value={repeatPassword}
+          name="repeatPassword"
+          onChange={(value) => handleType('repeatPassword', value)}
+          label={inputLabels.password}
+        />
+        <PasswordCheckListContainer
+          setAllValid={setAllValid}
+          password={password}
+          repeatPassword={repeatPassword}
+        />
+        <StyledButton loading={isLoading} disabled={disableSubmit} type="submit">
+          {buttonsTitles.update}
+        </StyledButton>
+      </PasswordContainer>
     </ContentLayout>
   );
 };

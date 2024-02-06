@@ -14,6 +14,7 @@ export const validationTexts = {
   requireMap: 'Privalote pasirinkti vietą žemėlapyje',
   requirePhotos: 'Privalote įkelti nuotrauką',
   userDeniedLocation: 'Turite leisti nustatyti jūsų buvimo vietą',
+  profileUpdated: 'Profilis atnaujintas',
 };
 
 export const inputLabels = {

@@ -123,12 +123,19 @@ class Api {
     );
   };
 
-  checkAuth = async () => {
+  getUserInfo = async () => {
     return this.get({ resource: Resources.ME });
   };
 
   logout = async () => {
     return this.post({ resource: Resources.LOG_OUT });
+  };
+
+  updateProfile = async (params: any): Promise<any> => {
+    return this.patch({
+      resource: Resources.ME,
+      params,
+    });
   };
 
   refreshToken = async () => {

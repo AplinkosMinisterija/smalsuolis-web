@@ -28,7 +28,7 @@ export const useCheckAuthMutation = () => {
   const dispatch = useAppDispatch();
   const token = cookies.get('token');
 
-  const { isLoading } = useQuery([token], () => api.checkAuth(), {
+  const { isLoading } = useQuery([token], () => api.getUserInfo(), {
     onError: ({ response }: any) => {
       if (isEqual(response.status, ServerErrorCodes.NO_PERMISSION)) {
         clearCookies();
@@ -56,6 +56,7 @@ export const useFilteredRoutes = () => {
 
   return routes.filter((route) => {
     if (!route?.slug) return false;
+
     if (Object.prototype.hasOwnProperty.call(route, 'loggedIn')) {
       return route.loggedIn === loggedIn;
     }

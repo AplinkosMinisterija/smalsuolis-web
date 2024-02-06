@@ -65,7 +65,7 @@ function App() {
             <Route key={`route-${index}`} path={route.slug} element={route.component} />
           ))}
         </Route>
-        <Route path="*" element={<Navigate to={loggedIn ? slugs.login : slugs.login} />} />
+        <Route path="*" element={<Navigate to={loggedIn ? slugs.profile : slugs.login} />} />
       </Routes>
       <ToastContainer />
     </DefaultLayout>
