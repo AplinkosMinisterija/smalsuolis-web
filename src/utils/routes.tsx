@@ -37,6 +37,7 @@ export const routes = [
   },
   {
     component: <RemindPassword />,
+    title: titles.forgotPassword,
     slug: slugs.forgotPassword,
   },
   {
