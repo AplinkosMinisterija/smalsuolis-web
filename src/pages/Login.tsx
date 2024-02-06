@@ -20,7 +20,6 @@ import { loginSchema } from '../utils/validations';
 interface LoginProps {
   email: string;
   password: string;
-  refresh: boolean;
 }
 
 const Login = () => {
@@ -28,10 +27,9 @@ const Login = () => {
   const navigate = useNavigate();
   const handleLogin = async (values: LoginProps) => {
     const captchaToken = await captchaRef?.current?.execute();
-    const { email, password, refresh } = values;
+    const { email, password } = values;
     const params = {
       password,
-      refresh,
       email: email.toLocaleLowerCase(),
       captchaToken,
     };
@@ -60,7 +58,6 @@ const Login = () => {
     initialValues: {
       email: '',
       password: '',
-      refresh: false,
     },
     validateOnChange: false,
     validationSchema: loginSchema,
@@ -128,10 +125,6 @@ const Row = styled.div`
   flex-wrap: wrap;
   gap: 20px;
   padding-top: 16px;
-`;
-
-const StyledSingleCheckbox = styled(CheckBox)`
-  flex-grow: 1;
 `;
 
 const StyledButton = styled(Button)`

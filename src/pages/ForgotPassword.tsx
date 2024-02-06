@@ -5,8 +5,6 @@ import { useMutation } from 'react-query';
 import styled from 'styled-components';
 import Button from '../components/buttons/Button';
 import TextField from '../components/fields/TextField';
-import LoginLayout from '../components/layouts/LoginLayout';
-import ReturnToLogin from '../components/other/ReturnToLogin';
 import api from '../utils/api';
 import { getErrorMessage, handleAlert } from '../utils/functions';
 import { buttonsTitles, descriptions, inputLabels, titles, validationTexts } from '../utils/texts';
@@ -106,7 +104,6 @@ const RemindPassword = () => {
           </Description>
         </InnerSecondContainer>
       )}
-      <ReturnToLogin />
     </>
   );
 };

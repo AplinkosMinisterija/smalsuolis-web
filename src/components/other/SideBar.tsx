@@ -1,10 +1,12 @@
 import { matchPath, useLocation, useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { buttonLabels, useLogoutMutation, useMenuRouters } from '../../utils';
+import { useAppSelector } from '../../state/hooks';
+import { buttonLabels, slugs, useLogoutMutation, useMenuRouters } from '../../utils';
 import Icon, { IconName } from './Icons';
 
 const SideBar = () => {
   const routes = useMenuRouters();
+  const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const navigate = useNavigate();
   const currentLocation = useLocation();
   const { mutateAsync } = useLogoutMutation();
@@ -26,11 +28,20 @@ const SideBar = () => {
         );
       })}
       <Divider />
-
-      <Item onClick={() => mutateAsync()} $isActive={false}>
-        <StyledIcon name={IconName.logout} />
-        <Label>{buttonLabels.logout}</Label>
-      </Item>
+      {loggedIn ? (
+        <Item onClick={() => mutateAsync()} $isActive={false}>
+          <StyledIcon name={IconName.logout} />
+          <Label>{buttonLabels.logout}</Label>
+        </Item>
+      ) : (
+        <Item
+          onClick={() => navigate(slugs.login)}
+          $isActive={!!matchPath({ path: slugs.login, end: false }, currentLocation.pathname)}
+        >
+          <StyledIcon name={IconName.logout} />
+          <Label>{buttonLabels.login}</Label>
+        </Item>
+      )}
     </Container>
   );
 };
@@ -92,29 +103,27 @@ const Item = styled.div<{ $isActive: boolean }>`
   ${({ $isActive, theme }) =>
     $isActive &&
     `
-${Label} {
-    color: white;
-  }
+
 
  ${StyledIcon} {
-    rect {
-      stroke: white;
+  rect {
+      stroke: black;
     }
     path {
-      stroke: white;
+      stroke: black;
     }
     circle {
-      stroke: white;
+      stroke: black;
     }
     polyline {
-      stroke: white;
+      stroke: black;
     }
     line {
-      stroke: white;
+      stroke: black;
     }
   }
 
-    background-color: ${theme.colors.text.retroBlack};
+    background-color: ${theme.colors.primary};
   
   
   `};

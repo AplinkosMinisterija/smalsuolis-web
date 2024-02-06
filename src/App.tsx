@@ -1,7 +1,7 @@
 import { isEqual } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
-import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
@@ -10,15 +10,17 @@ import LoaderComponent from './components/other/LoaderComponent';
 import { useAppSelector } from './state/hooks';
 import api from './utils/api';
 import { ServerErrorCodes } from './utils/constants';
-import { useCheckAuthMutation } from './utils/hooks';
+import { useCheckAuthMutation, useFilteredRoutes } from './utils/hooks';
 import { handleUpdateTokens } from './utils/loginFunctions';
-import { routes, slugs } from './utils/routes';
+import { slugs } from './utils/routes';
 const cookies = new Cookies();
 
 function App() {
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const [initialLoading, setInitialLoading] = useState(true);
   const location = useLocation();
+
+  const routes = useFilteredRoutes();
 
   const updateTokensMutation = useMutation(api.refreshToken, {
     onError: ({ response }: any) => {
@@ -58,13 +60,8 @@ function App() {
   return (
     <DefaultLayout>
       <Routes>
-        <Route element={<PublicRoute />}>
-          {(routes || []).map((route, index) => (
-            <Route key={`route-${index}`} path={route.slug} element={route.component} />
-          ))}
-        </Route>
-        <Route element={<ProtectedRoute loggedIn={loggedIn} />}>
-          {(routes || []).map((route, index) => (
+        <Route>
+          {routes.map((route, index) => (
             <Route key={`route-${index}`} path={route.slug} element={route.component} />
           ))}
         </Route>
@@ -74,17 +71,5 @@ function App() {
     </DefaultLayout>
   );
 }
-
-const PublicRoute = () => {
-  return <Outlet />;
-};
-
-const ProtectedRoute = ({ loggedIn }: { loggedIn: boolean }) => {
-  if (!loggedIn) {
-    return <Navigate to={slugs.login} replace />;
-  }
-
-  return <Outlet />;
-};
 
 export default App;

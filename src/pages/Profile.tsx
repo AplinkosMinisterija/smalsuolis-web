@@ -5,17 +5,17 @@ import styled from 'styled-components';
 import Button from '../components/buttons/Button';
 import PasswordField from '../components/fields/PasswordField';
 import TextField from '../components/fields/TextField';
-import { LoginTitle } from '../components/other/CommonStyles';
-import LoaderComponent from '../components/other/LoaderComponent';
+import ContentLayout from '../components/layouts/ContentLayout';
 import PasswordCheckListContainer from '../components/other/PasswordCheckListContainer';
-import { useSetPassword, useVerifyUser } from '../utils/hooks';
+import { useAppSelector } from '../state/hooks';
+import { useSetPassword } from '../utils/hooks';
 import { slugs } from '../utils/routes';
-import { buttonsTitles, descriptions, inputLabels, titles } from '../utils/texts';
+import { buttonsTitles, descriptions, inputLabels } from '../utils/texts';
 
-const ResetPassword = () => {
+const Profile = () => {
   const navigate = useNavigate();
-  const { isLoading, data } = useVerifyUser();
   const [allValid, setAllValid] = useState(false);
+  const user = useAppSelector((state) => state.user.userData);
   const {
     mutateAsync: setPasswordMutation,
     isSuccess,
@@ -26,18 +26,14 @@ const ResetPassword = () => {
     initialValues: {
       password: '',
       repeatPassword: '',
+      firstName: user.firstName || '',
+      lastName: user.lastName || '',
     },
     validateOnChange: false,
     onSubmit: (values: { password: string }) => {
-      if (!allValid) return;
-
       setPasswordMutation({ password: values.password });
     },
   });
-
-  if (isLoading) {
-    return <LoaderComponent />;
-  }
 
   const handleType = (field: string, value: string | boolean) => {
     setFieldValue(field, value);
@@ -46,13 +42,28 @@ const ResetPassword = () => {
 
   const { repeatPassword, password } = values;
 
+  const disableSubmit =
+    isSubmitLoading ||
+    ((!!password || !!repeatPassword) && !allValid) ||
+    !values.firstName ||
+    !values.lastName;
+
   return (
-    <>
+    <ContentLayout>
       {!isSuccess ? (
         <PasswordContainer noValidate onSubmit={handleSubmit}>
-          <LoginTitle>{titles.newPassword}</LoginTitle>
-          <Description>{descriptions.resetPassword}</Description>
-          <TextField value={data?.user?.email} disabled={true} label={inputLabels.email} />
+          <TextField
+            label={inputLabels.firstName}
+            value={values.firstName}
+            name="firstName"
+            onChange={(firstName) => handleType('firstName', firstName)}
+          />
+          <TextField
+            label={inputLabels.lastName}
+            name="lastName"
+            value={values.lastName}
+            onChange={(lastName) => handleType('lastName', lastName)}
+          />
 
           <PasswordField
             value={password}
@@ -66,34 +77,34 @@ const ResetPassword = () => {
             onChange={(value) => handleType('repeatPassword', value)}
             label={inputLabels.password}
           />
-
           <PasswordCheckListContainer
             setAllValid={setAllValid}
             password={password}
             repeatPassword={repeatPassword}
           />
-          <Button loading={isSubmitLoading} disabled={isSubmitLoading || !allValid} type="submit">
-            {buttonsTitles.createPassword}
-          </Button>
+          <StyledButton loading={isSubmitLoading} disabled={disableSubmit} type="submit">
+            {buttonsTitles.update}
+          </StyledButton>
         </PasswordContainer>
       ) : (
         <SuccessContainer>
-          <LoginTitle>{titles.passwordChanged}</LoginTitle>
           <Description>{descriptions.passwordChanged}</Description>
           <Button onClick={() => navigate(slugs.login)}>{buttonsTitles.login}</Button>
         </SuccessContainer>
       )}
-    </>
+    </ContentLayout>
   );
 };
 
-export default ResetPassword;
+export default Profile;
 
 const PasswordContainer = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  flex-direction: column;
   gap: 16px;
+  width: 100%;
 `;
 
 const SuccessContainer = styled.div`
@@ -101,10 +112,13 @@ const SuccessContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 16px;
+  width: 100%;
+`;
+
+const StyledButton = styled(Button)`
+  margin-top: 32px;
 `;
 
 const Description = styled.div`
-  font-weight: normal;
-  font-size: 1.4rem;
-  color: #121926;
+  text-align: center;
 `;

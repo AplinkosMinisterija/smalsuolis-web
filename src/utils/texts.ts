@@ -37,6 +37,7 @@ export const buttonLabels = {
 
 export const titles = {
   login: 'Prisijungimas',
+  profile: 'Profilis',
   forgotPassword: 'Pamiršote slaptažodį?',
   registration: 'Registracija',
   remindPassword: 'Slaptažodžio priminimas',
@@ -78,8 +79,8 @@ export const descriptions = {
 export const buttonsTitles = {
   resetPassword: 'Atstatyti slaptažodį',
   createAccount: 'Sukurti paskyrą',
+  update: 'Atnaujinti',
   createPassword: 'Nustatyti slaptažodį',
-  return: 'Grįžti į prisijungimo langą',
   login: 'Prisijungti',
   loginEvv: 'Prisijungti per El. valdžios vartus',
   save: 'Išsaugoti',

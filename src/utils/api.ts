@@ -1,7 +1,6 @@
 import Axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 import Cookies from 'universal-cookie';
-import { Resources } from './constants';
 import { Event } from './types';
 const cookies = new Cookies();
 
@@ -50,16 +49,29 @@ interface Create {
   id?: string;
 }
 
-const token = cookies.get('token');
+export enum Resources {
+  LOGIN = 'auth/login',
+  REFRESH_TOKEN = 'auth/refresh',
+  VERIFY_USER = 'auth/change/verify',
+  SET_PASSWORD = 'auth/change/accept',
+  REMIND_PASSWORD = 'auth/remind',
+  LOG_OUT = 'auth/logout',
+  ME = 'users/me',
+  events = 'events',
+  USERS = 'users',
+}
+
 class Api {
   private AuthApiAxios: AxiosInstance;
-  private readonly proxy: string = '/proxy';
+  private readonly proxy: string = '/api';
 
   constructor() {
     this.AuthApiAxios = Axios.create();
 
     this.AuthApiAxios.interceptors.request.use(
       (config) => {
+        const token = cookies.get('token');
+
         if (token) {
           config.headers.Authorization = 'Bearer ' + token;
         }
@@ -112,11 +124,11 @@ class Api {
   };
 
   checkAuth = async () => {
-    return this.errorWrapper(() => this.AuthApiAxios.get(Resources.ME));
+    return this.get({ resource: Resources.ME });
   };
 
   logout = async () => {
-    return this.errorWrapper(() => this.AuthApiAxios.post(Resources.LOG_OUT));
+    return this.post({ resource: Resources.LOG_OUT });
   };
 
   refreshToken = async () => {
@@ -136,6 +148,13 @@ class Api {
   remindPassword = async (params: { email: string }) => {
     return this.post({
       resource: Resources.REMIND_PASSWORD,
+      params,
+    });
+  };
+
+  registration = async (params: { email: string }) => {
+    return this.post({
+      resource: Resources.USERS,
       params,
     });
   };

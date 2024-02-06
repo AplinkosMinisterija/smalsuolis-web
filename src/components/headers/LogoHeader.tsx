@@ -13,7 +13,7 @@ const LogoHeader = () => {
     <>
       <Container>
         <div onClick={() => navigate('/')}>
-          <Icon name={IconName.logo} />
+          <Icon name={IconName.sidebarLogo} />
         </div>
         <Button onClick={() => setShowMenu(true)}>
           <MenuIcon name={IconName.burger} />
