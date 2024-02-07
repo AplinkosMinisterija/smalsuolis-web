@@ -1,16 +1,18 @@
 import { IconName } from '../components/other/Icons';
-import CreateUser from '../pages/CreateUser';
+import { default as CreatePassword } from '../pages/CreatePassword';
 import Event from '../pages/Event';
 import Events from '../pages/Events';
 import RemindPassword from '../pages/ForgotPassword';
 import Login from '../pages/Login';
 import Profile from '../pages/Profile';
 import Registration from '../pages/Registration';
+import ResetPassword from '../pages/ResetPassword';
 import { titles } from './texts';
 
 export const slugs = {
   login: '/prisijungimas/',
   forgotPassword: '/pamirsau',
+  resetPassword: '/atstatyti',
   registration: '/registracija',
   createAccount: '/pakvietimas',
   profile: '/profilis',
@@ -25,6 +27,14 @@ export const routes = [
     title: titles.login,
     back: false,
     slug: slugs.login,
+  },
+
+  {
+    component: <ResetPassword />,
+    loggedIn: false,
+    title: titles.resetPassword,
+    back: false,
+    slug: slugs.resetPassword,
   },
 
   {
@@ -48,11 +58,13 @@ export const routes = [
   },
   {
     title: titles.createAccount,
-    component: <CreateUser />,
+    component: <CreatePassword />,
     loggedIn: false,
     slug: slugs.createAccount,
   },
   {
+    title: titles.events,
+    iconName: IconName.fourSquares,
     component: <Events />,
     slug: slugs.events,
   },
