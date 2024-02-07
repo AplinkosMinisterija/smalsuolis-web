@@ -7,6 +7,20 @@ export const loginSchema = Yup.object().shape({
 });
 
 export const forgotPasswordSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .required(validationTexts.requireText)
+    .test('validFirstName', validationTexts.validFirstName, (values) => {
+      if (/\d/.test(values || '')) return false;
+
+      return true;
+    }),
+  lastName: Yup.string()
+    .required(validationTexts.requireText)
+    .test('validLastName', validationTexts.validLastName, (values) => {
+      if (/\d/.test(values || '')) return false;
+
+      return true;
+    }),
   email: Yup.string().required(validationTexts.requireText).email(validationTexts.badEmailFormat),
 });
 

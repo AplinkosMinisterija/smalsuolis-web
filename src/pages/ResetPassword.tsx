@@ -5,11 +5,10 @@ import styled from 'styled-components';
 import Button from '../components/buttons/Button';
 import PasswordField from '../components/fields/PasswordField';
 import TextField from '../components/fields/TextField';
-import LoginLayout from '../components/layouts/LoginLayout';
+import ContentLayout from '../components/layouts/ContentLayout';
 import { LoginTitle } from '../components/other/CommonStyles';
 import LoaderComponent from '../components/other/LoaderComponent';
 import PasswordCheckListContainer from '../components/other/PasswordCheckListContainer';
-import ReturnToLogin from '../components/other/ReturnToLogin';
 import { useSetPassword, useVerifyUser } from '../utils/hooks';
 import { slugs } from '../utils/routes';
 import { buttonsTitles, descriptions, inputLabels, titles } from '../utils/texts';
@@ -49,13 +48,11 @@ const ResetPassword = () => {
   const { repeatPassword, password } = values;
 
   return (
-    <LoginLayout>
+    <ContentLayout>
       {!isSuccess ? (
         <PasswordContainer noValidate onSubmit={handleSubmit}>
-          <LoginTitle>{titles.newPassword}</LoginTitle>
           <Description>{descriptions.resetPassword}</Description>
           <TextField value={data?.user?.email} disabled={true} label={inputLabels.email} />
-
           <PasswordField
             value={password}
             name="password"
@@ -68,7 +65,6 @@ const ResetPassword = () => {
             onChange={(value) => handleType('repeatPassword', value)}
             label={inputLabels.password}
           />
-
           <PasswordCheckListContainer
             setAllValid={setAllValid}
             password={password}
@@ -77,8 +73,6 @@ const ResetPassword = () => {
           <Button loading={isSubmitLoading} disabled={isSubmitLoading || !allValid} type="submit">
             {buttonsTitles.createPassword}
           </Button>
-
-          <ReturnToLogin />
         </PasswordContainer>
       ) : (
         <SuccessContainer>
@@ -87,7 +81,7 @@ const ResetPassword = () => {
           <Button onClick={() => navigate(slugs.login)}>{buttonsTitles.login}</Button>
         </SuccessContainer>
       )}
-    </LoginLayout>
+    </ContentLayout>
   );
 };
 

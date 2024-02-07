@@ -1,9 +1,10 @@
 import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
-import { useSearchParams } from 'react-router-dom';
+import { matchPath, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import { useAppDispatch } from '../state/hooks';
+import { routes, slugs } from '.';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { actions as userAction, UserReducerProps } from '../state/user/reducer';
 import api from './api';
 import { ServerErrorCodes } from './constants';
@@ -27,7 +28,7 @@ export const useCheckAuthMutation = () => {
   const dispatch = useAppDispatch();
   const token = cookies.get('token');
 
-  const { isLoading } = useQuery([token], () => api.checkAuth(), {
+  const { isLoading } = useQuery([token], () => api.getUserInfo(), {
     onError: ({ response }: any) => {
       if (isEqual(response.status, ServerErrorCodes.NO_PERMISSION)) {
         clearCookies();
@@ -50,12 +51,32 @@ export const useCheckAuthMutation = () => {
   return { isLoading };
 };
 
+export const useFilteredRoutes = () => {
+  const loggedIn = useAppSelector((state) => state.user.loggedIn);
+
+  return routes.filter((route) => {
+    if (!route?.slug) return false;
+
+    if (Object.prototype.hasOwnProperty.call(route, 'loggedIn')) {
+      return route.loggedIn === loggedIn;
+    }
+
+    return true;
+  });
+};
+
+export const useMenuRouters = () => {
+  return useFilteredRoutes().filter((route) => !!route.iconName);
+};
+
 export const useLogoutMutation = () => {
   const dispatch = useAppDispatch();
 
   const { mutateAsync } = useMutation(() => api.logout(), {
     onError: () => {
       handleAlert();
+      clearCookies();
+      dispatch(userAction.setUser(emptyUser));
     },
     onSuccess: () => {
       clearCookies();
@@ -69,15 +90,15 @@ export const useLogoutMutation = () => {
 export const useVerifyUser = () => {
   const [searchParams] = useSearchParams();
   const { h, s } = Object.fromEntries([...Array.from(searchParams)]);
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   if (!h || !s) {
-    // navigate(slugs.login);
+    navigate(slugs.login);
   }
 
   const { data, mutateAsync, isLoading } = useMutation(() => api.verifyUser({ h, s }), {
     onError: () => {
-      // navigate(slugs.login);
+      navigate(slugs.login);
     },
   });
 
@@ -104,4 +125,32 @@ export const useSetPassword = () => {
   );
 
   return { isSuccess: data?.success, mutateAsync, isLoading };
+};
+
+export const useWindowSize = (width: string) => {
+  const [isInRange, setIsInRange] = useState(false);
+
+  const handleResize = () => {
+    const mediaQuery = window.matchMedia(width);
+    setIsInRange(mediaQuery.matches);
+  };
+
+  useEffect(() => {
+    handleResize();
+  }, [handleResize]);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [handleResize]);
+
+  return isInRange;
+};
+
+export const useGetCurrentRoute = () => {
+  const currentLocation = useLocation();
+
+  return routes?.find(
+    (route: any) => !!matchPath({ path: route.slug, end: true }, currentLocation.pathname),
+  );
 };

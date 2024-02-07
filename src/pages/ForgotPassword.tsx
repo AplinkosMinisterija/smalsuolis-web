@@ -1,25 +1,19 @@
 import { useFormik } from 'formik';
-import { useRef } from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
 import { useMutation } from 'react-query';
 import styled from 'styled-components';
 import Button from '../components/buttons/Button';
 import TextField from '../components/fields/TextField';
-import LoginLayout from '../components/layouts/LoginLayout';
-import ReturnToLogin from '../components/other/ReturnToLogin';
+import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
 import { getErrorMessage, handleAlert } from '../utils/functions';
-import { buttonsTitles, descriptions, inputLabels, titles, validationTexts } from '../utils/texts';
+import { buttonsTitles, descriptions, inputLabels, validationTexts } from '../utils/texts';
 import { ReactQueryError } from '../utils/types';
 import { forgotPasswordSchema } from '../utils/validations';
 
 const RemindPassword = () => {
-  const captchaRef = useRef<ReCAPTCHA>(null);
-
   const handleRemindPassword = async (values: { email: string }) => {
-    const captchaToken = await captchaRef?.current?.execute();
     const { email } = values;
-    const params = { email: email.toLocaleLowerCase(), captchaToken };
+    const params = { email: email.toLocaleLowerCase() };
 
     return await api.remindPassword(params);
   };
@@ -55,7 +49,7 @@ const RemindPassword = () => {
     },
   );
 
-  const isSuccess = data?.success;
+  const isSuccess = !!data;
 
   const { values, errors, setFieldValue, handleSubmit, setErrors } = useFormik({
     initialValues: {
@@ -72,11 +66,10 @@ const RemindPassword = () => {
   };
 
   return (
-    <LoginLayout>
+    <ContentLayout>
       {!isSuccess ? (
         <Container noValidate onSubmit={handleSubmit}>
           <InfoContainer>
-            <SecondTitle>{titles.forgotPassword}</SecondTitle>
             <Description>{descriptions.forgotPassword}</Description>
           </InfoContainer>
           <FormContainer>
@@ -92,42 +85,27 @@ const RemindPassword = () => {
               {buttonsTitles.resetPassword}
             </Button>
           </FormContainer>
-          <ReCAPTCHA
-            ref={captchaRef}
-            size="invisible"
-            sitekey="6LdydlggAAAAAO-vBvg9yBWEVxlulH5b4X6BijMV"
-          />
         </Container>
       ) : (
         <InnerSecondContainer>
-          <SecondTitle>{titles.remindPassword}</SecondTitle>
-          <Description>
-            {`El. paštu ${values.email} išsiuntėme prisijungimo instrukciją`}
-          </Description>
+          {`El. paštu  `}
+          <BoldText> {values.email}</BoldText>
+          {` išsiuntėme prisijungimo instrukciją`}
         </InnerSecondContainer>
       )}
-      <ReturnToLogin />
-    </LoginLayout>
+    </ContentLayout>
   );
 };
 
 export default RemindPassword;
+const InnerSecondContainer = styled.span``;
 
-const InnerSecondContainer = styled.div`
-  margin-bottom: 48px;
-`;
-
-const SecondTitle = styled.div`
-  color: #121926;
-  font-size: 1.8rem;
+const BoldText = styled.span`
   font-weight: bold;
 `;
 
 const Description = styled.div`
-  font-weight: normal;
-  font-size: 1.4rem;
-  color: #121926;
-  margin
+  text-align: center;
 `;
 
 const FormContainer = styled.div`

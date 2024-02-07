@@ -72,8 +72,8 @@ const BottomLabel = styled.div`
 const Label = styled.label`
   text-align: left;
   font-size: 1.4rem;
-  color: ${({ theme }) => theme.colors.label};
-  opacity: 1;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.text.primary};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -83,10 +83,10 @@ const LabelContainer = styled.div`
   display: flex;
   align-items: center;
   min-height: 2.4rem;
-  max-height: 5rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-bottom: 4px;
 `;
 
 const SubLabel = styled.div`

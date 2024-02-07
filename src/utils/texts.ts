@@ -14,6 +14,7 @@ export const validationTexts = {
   requireMap: 'Privalote pasirinkti vietą žemėlapyje',
   requirePhotos: 'Privalote įkelti nuotrauką',
   userDeniedLocation: 'Turite leisti nustatyti jūsų buvimo vietą',
+  profileUpdated: 'Profilis atnaujintas',
 };
 
 export const inputLabels = {
@@ -32,10 +33,12 @@ export const inputLabels = {
 
 export const buttonLabels = {
   login: 'Prisijungti',
+  logout: 'Atsijungti',
 };
 
 export const titles = {
   login: 'Prisijungimas',
+  profile: 'Profilis',
   forgotPassword: 'Pamiršote slaptažodį?',
   registration: 'Registracija',
   remindPassword: 'Slaptažodžio priminimas',
@@ -77,8 +80,8 @@ export const descriptions = {
 export const buttonsTitles = {
   resetPassword: 'Atstatyti slaptažodį',
   createAccount: 'Sukurti paskyrą',
+  update: 'Atnaujinti',
   createPassword: 'Nustatyti slaptažodį',
-  return: 'Grįžti į prisijungimo langą',
   login: 'Prisijungti',
   loginEvv: 'Prisijungti per El. valdžios vartus',
   save: 'Išsaugoti',
