@@ -12,7 +12,7 @@ import { useSetPassword, useVerifyUser } from '../utils/hooks';
 import { slugs } from '../utils/routes';
 import { buttonsTitles, descriptions, inputLabels } from '../utils/texts';
 
-const ResetPassword = () => {
+const CreatePassword = () => {
   const navigate = useNavigate();
   const { isLoading, data } = useVerifyUser();
   const [allValid, setAllValid] = useState(false);
@@ -85,7 +85,7 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default CreatePassword;
 
 const PasswordContainer = styled.form`
   display: flex;

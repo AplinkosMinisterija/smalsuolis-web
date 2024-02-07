@@ -4,7 +4,7 @@ import { useInfiniteQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import NavButtonGroup from '../components/buttons/NavButtonGroup';
-import DefaultLayout from '../components/layouts/DefaultLayout';
+import ContentLayout from '../components/layouts/ContentLayout';
 import EventCard from '../components/other/EventCard';
 import LoaderComponent from '../components/other/LoaderComponent';
 import { device } from '../styles';
@@ -18,7 +18,7 @@ import { Event } from '../utils/types';
 const Events = () => {
   const [status, setStatus] = useState(EventStatusTypes.UPCOMING);
   const navigate = useNavigate();
-  const getStockings = async (page: number) => {
+  const getEvents = async (page: number) => {
     const fishStockings = await api.getEvents({
       page,
     });
@@ -31,7 +31,7 @@ const Events = () => {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } = useInfiniteQuery(
     ['events'],
-    ({ pageParam }) => getStockings(pageParam),
+    ({ pageParam }) => getEvents(pageParam),
     {
       getNextPageParam: (lastPage) => lastPage.page,
       cacheTime: 60000,
@@ -86,9 +86,9 @@ const Events = () => {
   };
 
   return (
-    <DefaultLayout>
+    <ContentLayout>
       <Container>{renderContent()}</Container>
-    </DefaultLayout>
+    </ContentLayout>
   );
 };
 

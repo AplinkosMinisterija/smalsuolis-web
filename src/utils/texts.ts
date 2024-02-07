@@ -37,6 +37,7 @@ export const buttonLabels = {
 };
 
 export const titles = {
+  events: 'Įvykiai',
   login: 'Prisijungimas',
   profile: 'Profilis',
   forgotPassword: 'Pamiršote slaptažodį?',
@@ -44,6 +45,7 @@ export const titles = {
   remindPassword: 'Slaptažodžio priminimas',
   passwordChanged: 'Slaptažodis pakeistas',
   createAccount: 'Sukurti Paskyra',
+  resetPassword: 'Atkurti slaptažodį',
   passwordCreated: 'Slaptažodis sukurtas',
   newPassword: 'Nustatyti naują slaptažodį',
 };

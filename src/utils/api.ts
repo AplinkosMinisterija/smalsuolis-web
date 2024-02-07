@@ -54,7 +54,7 @@ export enum Resources {
   REFRESH_TOKEN = 'auth/refresh',
   VERIFY_USER = 'auth/change/verify',
   SET_PASSWORD = 'auth/change/accept',
-  REMIND_PASSWORD = 'auth/remind',
+  REMIND_PASSWORD = 'auth/change/remind',
   LOG_OUT = 'auth/logout',
   ME = 'users/me',
   events = 'events',
@@ -189,7 +189,7 @@ class Api {
   getEvents = async ({ page }: { page: number }): Promise<GetAllResponse<Event>> => {
     return this.get({
       resource: Resources.events,
-      populate: ['geom'],
+      populate: ['geom', 'app'],
       page,
     });
   };
