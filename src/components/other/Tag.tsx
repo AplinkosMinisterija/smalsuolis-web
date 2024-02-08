@@ -11,7 +11,6 @@ const Tag = ({
   icon?: any;
   onClick?: () => void;
 }) => {
-  console.log(text, 'text');
   return (
     <Container onClick={onClick} color={color}>
       {icon}

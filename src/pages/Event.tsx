@@ -6,7 +6,7 @@ import Icon, { IconName } from '../components/other/Icons';
 import LoaderComponent from '../components/other/LoaderComponent';
 import PreviewMap from '../components/other/PreviewMap';
 import Tag from '../components/other/Tag';
-import { appKeyToIcon, appKeyToName } from '../utils';
+import { appKeyToIcon, appKeyToName, buttonLabels } from '../utils';
 import api from '../utils/api';
 import { getTimeDifference, handleAlert } from '../utils/functions';
 
@@ -35,6 +35,11 @@ const Event = () => {
           <TimeIcon name={IconName.time} />
           {getTimeDifference(event.startAt)}
         </Time>
+        {event.url && (
+          <Button onClick={() => window.open(event.url)}>
+            {buttonLabels.website} <EventIcon name={IconName.openInNew} />
+          </Button>
+        )}
       </Line>
       <MapContainer>
         <PreviewMap value={event.geom} height={'400px'} />
@@ -44,7 +49,7 @@ const Event = () => {
 };
 
 const EventIcon = styled(Icon)`
-  width: 20px;
+  width: 15px;
 `;
 
 const TimeIcon = styled(Icon)`
@@ -68,6 +73,23 @@ const Line = styled.div`
 
 const MapContainer = styled.div`
   width: 100%;
+`;
+
+const Button = styled.div`
+  background-color: ${({ theme }) => theme.colors.largeButton.GREY};
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: ${({ theme }) => theme.colors.text.primary};
+  display: grid;
+  grid-template-columns: 1fr 16px;
+  align-items: center;
+  text-decoration: none;
+  gap: 8px;
+  cursor: pointer;
+
+  :hover {
+    background-color: ${({ theme }) => theme.colors.primary};
+  }
 `;
 
 export default Event;
