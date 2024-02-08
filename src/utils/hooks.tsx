@@ -42,11 +42,9 @@ export const useGetUserInfoQuery = () => {
     if (errResponse === ServerErrorCodes.NO_PERMISSION) {
       clearCookies();
       dispatch(userAction.setUser(emptyUser));
-
-      return;
+    } else {
+      handleAlert();
     }
-
-    handleAlert();
   }
 
   return { isLoading };
