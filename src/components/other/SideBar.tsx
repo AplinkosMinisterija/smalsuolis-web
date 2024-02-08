@@ -13,7 +13,9 @@ const SideBar = () => {
 
   return (
     <Container>
-      <StyledISideBarLogo name={IconName.sidebarLogo} />
+      <LogoContainer>
+        <StyledISideBarLogo name={IconName.sidebarLogo} />
+      </LogoContainer>
 
       {routes.map((route, index) => {
         return (
@@ -46,10 +48,10 @@ const SideBar = () => {
   );
 };
 
-const StyledISideBarLogo = styled(Icon)`
-  cursor: pointer;
-  height: 28px;
-  margin: 20px 0 30px -90px;
+const StyledISideBarLogo = styled(Icon)``;
+
+const LogoContainer = styled.div`
+  margin-bottom: 20px;
 `;
 
 const StyledIcon = styled(Icon)`

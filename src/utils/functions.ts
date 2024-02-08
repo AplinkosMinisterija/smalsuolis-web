@@ -1,4 +1,11 @@
-import { endOfDay, format, startOfDay } from 'date-fns';
+import {
+  differenceInHours,
+  differenceInMinutes,
+  differenceInSeconds,
+  endOfDay,
+  format,
+  startOfDay,
+} from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import { toast } from 'react-toastify';
 import Cookies from 'universal-cookie';
@@ -48,6 +55,9 @@ export const handleSetTokens = (data: any) => {
 export const formatTime = (datetime?: Date | string) =>
   datetime ? format(new Date(datetime), 'HH:mm') : '';
 
+export const formatDate = (date?: Date | string) =>
+  date ? format(new Date(date), 'yyyy-MM-dd') : '';
+
 export const formatDateTo = (date: string) => {
   return format(utcToZonedTime(endOfDay(new Date(date)), 'Europe/Vilnius'), 'yyyy-MM-dd');
 };
@@ -90,5 +100,37 @@ export const handleGetCurrentLocation = (onSuccess: (props: any) => void) => {
       handleAlert('userDeniedLocation');
     },
     { enableHighAccuracy: true, maximumAge: 0 },
+  );
+};
+
+export const getTimeDifference = (date: Date) => {
+  const inputDate = new Date(date);
+  const currentDate = new Date();
+
+  const seconds = differenceInSeconds(currentDate, inputDate);
+  const minutes = differenceInMinutes(currentDate, inputDate);
+  const hours = differenceInHours(currentDate, inputDate);
+
+  if (hours > 23) {
+    return formatDate(inputDate);
+  }
+
+  if (minutes > 59) {
+    return `${hours} val.`;
+  }
+
+  if (seconds > 59) {
+    return `${minutes} min.`;
+  }
+
+  return `${seconds} s.`;
+};
+
+export const isEmpty = (value: any) => {
+  return (
+    value === undefined ||
+    value === null ||
+    (typeof value === 'object' && Object.keys(value).length === 0) ||
+    (typeof value === 'string' && value.trim().length === 0)
   );
 };

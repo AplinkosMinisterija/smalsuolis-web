@@ -1,13 +1,11 @@
-import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { matchPath, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import { routes, slugs } from '.';
+import { routes, ServerErrorCodes, slugs } from '.';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { actions as userAction, UserReducerProps } from '../state/user/reducer';
 import api from './api';
-import { ServerErrorCodes } from './constants';
 import { handleAlert, handleGetCurrentLocation } from './functions';
 import { clearCookies, emptyUser } from './loginFunctions';
 
@@ -24,21 +22,11 @@ export const useCurrentLocation = () => {
   return location;
 };
 
-export const useCheckAuthMutation = () => {
+export const useGetUserInfoQuery = () => {
   const dispatch = useAppDispatch();
   const token = cookies.get('token');
 
-  const { isLoading } = useQuery([token], () => api.getUserInfo(), {
-    onError: ({ response }: any) => {
-      if (isEqual(response.status, ServerErrorCodes.NO_PERMISSION)) {
-        clearCookies();
-        dispatch(userAction.setUser(emptyUser));
-
-        return;
-      }
-
-      return handleAlert();
-    },
+  const { isLoading, error } = useQuery([token, 'token'], () => api.getUserInfo(), {
     onSuccess: (data: UserReducerProps) => {
       if (data) {
         dispatch(userAction.setUser({ userData: data, loggedIn: true }));
@@ -47,6 +35,17 @@ export const useCheckAuthMutation = () => {
     retry: false,
     enabled: !!token,
   });
+
+  const errResponse = (error as any)?.response;
+
+  if (errResponse) {
+    if (errResponse === ServerErrorCodes.NO_PERMISSION) {
+      clearCookies();
+      dispatch(userAction.setUser(emptyUser));
+    } else {
+      handleAlert();
+    }
+  }
 
   return { isLoading };
 };

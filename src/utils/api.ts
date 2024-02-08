@@ -57,7 +57,8 @@ export enum Resources {
   REMIND_PASSWORD = 'auth/change/remind',
   LOG_OUT = 'auth/logout',
   ME = 'users/me',
-  events = 'events',
+  EVENTS = 'events',
+  NEWSFEED = 'newsfeed',
   USERS = 'users',
 }
 
@@ -71,7 +72,6 @@ class Api {
     this.AuthApiAxios.interceptors.request.use(
       (config) => {
         const token = cookies.get('token');
-
         if (token) {
           config.headers.Authorization = 'Bearer ' + token;
         }
@@ -91,9 +91,9 @@ class Api {
     return res.data;
   };
 
-  get = async ({ resource, id, populate }: GetAll) => {
+  get = async ({ resource, id, ...rest }: GetAll) => {
     const config = {
-      params: { ...(!!populate && { populate }) },
+      params: { page: 1, pageSize: 10, ...rest },
     };
 
     return this.errorWrapper(() =>
@@ -188,16 +188,26 @@ class Api {
 
   getEvents = async ({ page }: { page: number }): Promise<GetAllResponse<Event>> => {
     return this.get({
-      resource: Resources.events,
+      resource: Resources.EVENTS,
       populate: ['geom', 'app'],
+      sort: ['-startAt'],
+      page,
+    });
+  };
+
+  getNewsfeed = async ({ page }: { page: number }): Promise<GetAllResponse<Event>> => {
+    return this.get({
+      resource: Resources.NEWSFEED,
+      populate: ['geom', 'app'],
+      sort: ['-startAt'],
       page,
     });
   };
 
   getEvent = async ({ id }: { id: string }): Promise<Event> => {
     return this.getOne({
-      resource: Resources.events,
-      populate: ['geom'],
+      resource: Resources.EVENTS,
+      populate: ['geom', 'app'],
       id,
     });
   };

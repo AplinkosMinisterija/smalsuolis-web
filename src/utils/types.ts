@@ -1,14 +1,25 @@
+import { AppType } from './constants';
+
 export type ChildrenType = string | JSX.Element | JSX.Element[] | any;
 
 export interface Event {
   id?: string;
+  externalId?: any;
   body?: any;
   createdAt: Date;
+  geom: any;
   startAt: Date;
   endAt?: Date;
   isFullDay: boolean;
   name: string;
   url?: string;
+  app: App;
+}
+
+export interface App {
+  id: string;
+  key: AppType;
+  name: string;
 }
 
 export interface User {
