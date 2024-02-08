@@ -6,7 +6,7 @@ import Icon, { IconName } from '../components/other/Icons';
 import LoaderComponent from '../components/other/LoaderComponent';
 import PreviewMap from '../components/other/PreviewMap';
 import Tag from '../components/other/Tag';
-import { appKeyToIcon, appKeyToName, buttonLabels } from '../utils';
+import { appKeyToIconName, appKeyToName, buttonLabels } from '../utils';
 import api from '../utils/api';
 import { getTimeDifference, handleAlert } from '../utils/functions';
 
@@ -29,7 +29,7 @@ const Event = () => {
   return (
     <ContentLayoutContainer>
       <ContentLayoutTitle>{event?.name}</ContentLayoutTitle>
-      <Tag icon={<EventIcon name={appKeyToIcon[appKey]} />} text={appKeyToName[appKey]} />
+      <Tag icon={<EventIcon name={appKeyToIconName[appKey]} />} text={appKeyToName[appKey]} />
       <Line>
         <Time>
           <TimeIcon name={IconName.time} />

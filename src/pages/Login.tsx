@@ -10,7 +10,7 @@ import TextField from '../components/fields/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
 import { getErrorMessage } from '../utils/functions';
-import { useCGetUserInfoMutation } from '../utils/hooks';
+import { useGetUserInfoQuery } from '../utils/hooks';
 import { handleUpdateTokens } from '../utils/loginFunctions';
 import { slugs } from '../utils/routes';
 import { buttonsTitles, inputLabels, titles } from '../utils/texts';
@@ -52,9 +52,9 @@ const Login = () => {
     retry: false,
   });
 
-  const { isLoading: checkAuthLoading } = useCGetUserInfoMutation();
+  const { isLoading: userInfoLoading } = useGetUserInfoQuery();
 
-  const loading = [loginMutation.isLoading, checkAuthLoading].some((loading) => loading);
+  const loading = [loginMutation.isLoading, userInfoLoading].some((loading) => loading);
 
   const { values, errors, setFieldValue, handleSubmit, setErrors } = useFormik({
     initialValues: {

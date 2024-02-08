@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { device } from '../../styles';
-import { appKeyToIcon, appKeyToName, Event, getTimeDifference } from '../../utils';
+import { appKeyToIconName, appKeyToName, Event, getTimeDifference } from '../../utils';
 import Icon from './Icons';
 
 const EventCard = ({ event, onClick }: { event: Event; onClick?: () => void }) => {
@@ -9,7 +9,7 @@ const EventCard = ({ event, onClick }: { event: Event; onClick?: () => void }) =
   return (
     <Container onClick={onClick}>
       <IconContainer>
-        <EventIcon name={appKeyToIcon[app.key]} />
+        <EventIcon name={appKeyToIconName[app.key]} />
       </IconContainer>
       <Content>
         <Name>{appKeyToName[app.key]}</Name>

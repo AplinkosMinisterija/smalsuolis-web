@@ -24,7 +24,7 @@ export const useCurrentLocation = () => {
   return location;
 };
 
-export const useCGetUserInfoMutation = () => {
+export const useGetUserInfoQuery = () => {
   const dispatch = useAppDispatch();
   const token = cookies.get('token');
 

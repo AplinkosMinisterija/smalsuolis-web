@@ -30,7 +30,7 @@ export enum AppType {
   FISH_STOCKING = 'zuvinimas',
 }
 
-export const appKeyToIcon = {
+export const appKeyToIconName = {
   [AppType.INFO_CONSTRUCTION]: IconName.home,
   [AppType.FISH_STOCKING]: IconName.fish,
 };

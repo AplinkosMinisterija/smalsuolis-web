@@ -10,7 +10,7 @@ import LoaderComponent from './components/other/LoaderComponent';
 import { useAppSelector } from './state/hooks';
 import api from './utils/api';
 import { ServerErrorCodes } from './utils/constants';
-import { useCGetUserInfoMutation, useFilteredRoutes } from './utils/hooks';
+import { useFilteredRoutes, useGetUserInfoQuery } from './utils/hooks';
 import { handleUpdateTokens } from './utils/loginFunctions';
 import { slugs } from './utils/routes';
 const cookies = new Cookies();
@@ -41,7 +41,7 @@ function App() {
     }
   }, [updateTokensMutationMutateAsyncFunction]);
 
-  const { isLoading: checkAuthLoading } = useCGetUserInfoMutation();
+  const { isLoading: userInfoLoading } = useGetUserInfoQuery();
 
   useEffect(() => {
     (async () => {
@@ -51,7 +51,7 @@ function App() {
     })();
   }, [location.pathname, shouldUpdateTokens]);
 
-  const isLoading = [initialLoading, updateTokensMutation.isLoading, checkAuthLoading].some(
+  const isLoading = [initialLoading, updateTokensMutation.isLoading, userInfoLoading].some(
     (loading) => loading,
   );
 
