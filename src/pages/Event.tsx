@@ -1,16 +1,18 @@
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
-import DefaultLayout from '../components/layouts/DefaultLayout';
-import EventCard from '../components/other/EventCard';
+import { ContentLayoutContainer, ContentLayoutTitle } from '../components/other/CommonStyles';
+import Icon, { IconName } from '../components/other/Icons';
 import LoaderComponent from '../components/other/LoaderComponent';
-import { device } from '../styles';
+import PreviewMap from '../components/other/PreviewMap';
+import Tag from '../components/other/Tag';
+import { appKeyToIcon, appKeyToName } from '../utils';
 import api from '../utils/api';
-import { handleAlert } from '../utils/functions';
+import { getTimeDifference, handleAlert } from '../utils/functions';
 
 const Event = () => {
   const { id = '' } = useParams();
-  const { data, isLoading } = useQuery(['event', id], () => api.getEvent({ id: id }), {
+  const { data: event, isLoading } = useQuery(['event', id], () => api.getEvent({ id }), {
     onError: () => {
       handleAlert();
     },
@@ -18,31 +20,54 @@ const Event = () => {
     retry: false,
   });
 
-  if (isLoading || !data) {
+  if (isLoading || !event) {
     return <LoaderComponent />;
   }
 
+  const appKey = event.app.key;
+
   return (
-    <DefaultLayout>
-      <EventsContainer>
-        <EventCard event={data} />
-      </EventsContainer>
-    </DefaultLayout>
+    <ContentLayoutContainer>
+      <ContentLayoutTitle>{event?.name}</ContentLayoutTitle>
+      <Tag icon={<EventIcon name={appKeyToIcon[appKey]} />} text={appKeyToName[appKey]} />
+      <Line>
+        <Time>
+          <TimeIcon name={IconName.time} />
+          {getTimeDifference(event.startAt)}
+        </Time>
+      </Line>
+      <MapContainer>
+        <PreviewMap value={event.geom} height={'400px'} />
+      </MapContainer>
+    </ContentLayoutContainer>
   );
 };
 
-export default Event;
-
-const EventsContainer = styled.div`
-  display: flex;
-  max-width: 800px;
-
-  margin: auto;
-  margin-top: 30px;
-  width: 100%;
-  gap: 12px;
-  flex-direction: column;
-  @media ${device.mobileL} {
-    padding: 12px;
-  }
+const EventIcon = styled(Icon)`
+  width: 20px;
 `;
+
+const TimeIcon = styled(Icon)`
+  font-size: 1.7rem;
+`;
+
+const Time = styled.div`
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  font-size: 1.4rem;
+`;
+
+const Line = styled.div`
+  margin: 40px 0 12px 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+`;
+
+const MapContainer = styled.div`
+  width: 100%;
+`;
+
+export default Event;

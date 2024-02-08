@@ -1,36 +1,30 @@
-import { isEqual } from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import NavButtonGroup from '../components/buttons/NavButtonGroup';
 import ContentLayout from '../components/layouts/ContentLayout';
 import EventCard from '../components/other/EventCard';
 import LoaderComponent from '../components/other/LoaderComponent';
 import { device } from '../styles';
-import api from '../utils/api';
 import { intersectionObserverConfig } from '../utils/configs';
-import { EventStatusTypes } from '../utils/constants';
 import { slugs } from '../utils/routes';
-import { eventStatusLabels } from '../utils/texts';
 import { Event } from '../utils/types';
 
-const Events = () => {
-  const [status, setStatus] = useState(EventStatusTypes.UPCOMING);
+const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
   const navigate = useNavigate();
   const getEvents = async (page: number) => {
-    const fishStockings = await api.getEvents({
+    const events = await apiEndpoint({
       page,
     });
 
     return {
-      data: fishStockings.rows,
-      page: fishStockings.page < fishStockings.totalPages ? fishStockings.page + 1 : undefined,
+      data: events.rows,
+      page: events.page < events.totalPages ? events.page + 1 : undefined,
     };
   };
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } = useInfiniteQuery(
-    ['events'],
+    [key],
     ({ pageParam }) => getEvents(pageParam),
     {
       getNextPageParam: (lastPage) => lastPage.page,
@@ -62,14 +56,6 @@ const Events = () => {
   const renderContent = () => {
     return (
       <EventsContainer>
-        <ButtonsContainer>
-          <NavButtonGroup
-            options={Object.keys(EventStatusTypes)}
-            isSelected={(option) => isEqual(option, status)}
-            getOptionLabel={(option: EventStatusTypes) => eventStatusLabels[option]}
-            onChange={(option) => setStatus(option)}
-          />
-        </ButtonsContainer>
         {data?.pages.map((page, pageIndex) => {
           return (
             <React.Fragment key={pageIndex}>
@@ -93,14 +79,6 @@ const Events = () => {
 };
 
 export default Events;
-
-const ButtonsContainer = styled.div`
-  min-width: 400px;
-  margin: auto;
-  @media ${device.mobileL} {
-    min-width: 100%;
-  }
-`;
 
 const Invisible = styled.div`
   width: 10px;

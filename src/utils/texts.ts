@@ -37,7 +37,8 @@ export const buttonLabels = {
 };
 
 export const titles = {
-  events: 'Įvykiai',
+  myEvents: 'Mano naujienos',
+  allEvents: 'Visos naujienos',
   login: 'Prisijungimas',
   profile: 'Profilis',
   forgotPassword: 'Pamiršote slaptažodį?',

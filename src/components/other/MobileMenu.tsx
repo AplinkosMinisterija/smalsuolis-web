@@ -11,6 +11,7 @@ const MobileMenu = ({ onClose, visible = true }: any) => {
   const navigate = useNavigate();
   const currentLocation = useLocation();
   const routes = useMenuRouters();
+
   const { mutateAsync } = useLogoutMutation();
 
   return (

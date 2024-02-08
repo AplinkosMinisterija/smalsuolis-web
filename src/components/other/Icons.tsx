@@ -77,6 +77,7 @@ export enum IconName {
   researches = 'researches',
   fullscreen = 'fullscreen',
   exitFullScreen = 'exitFullScreen',
+  list = 'list',
 }
 export interface IconProps {
   name: IconName | string;
@@ -85,6 +86,29 @@ export interface IconProps {
 
 const Icon = ({ name, className }: IconProps) => {
   switch (name) {
+    case IconName.list:
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          className={className}
+        >
+          <line x1="8" x2="21" y1="6" y2="6" />
+          <line x1="8" x2="21" y1="12" y2="12" />
+          <line x1="8" x2="21" y1="18" y2="18" />
+          <line x1="3" x2="3.01" y1="6" y2="6" />
+          <line x1="3" x2="3.01" y1="12" y2="12" />
+          <line x1="3" x2="3.01" y1="18" y2="18" />
+        </svg>
+      );
+
     case IconName.sidebarLogo:
       return (
         <svg
@@ -186,16 +210,22 @@ const Icon = ({ name, className }: IconProps) => {
         </svg>
       );
 
-    case IconName.logo:
+    case IconName.home:
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
-          viewBox="0 0 512 512"
-          fill="#102EB1"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          className={className}
+          stroke-linejoin="round"
         >
-          <path d="M68 512h55V406c0-14.8-17.9-22.2-28.3-11.7l-53.4 53.4C17.6 471.4 34.4 512 68 512zM447 188c24.1-24.1 65.4-7 65.4 27.1v111.6c0 102.3-83 185.3-185.3 185.3H123l324-324zm-76 170.6h43c34.8 0 62.9-28.2 62.9-62.9v-43c0-14.8-17.9-22.2-28.3-11.7l-89.4 89.4c-10.3 10.3-2.9 28.2 11.8 28.2zM444.9 0h-55v106c0 14.8 17.9 22.2 28.3 11.7l53.4-53.4C495.2 40.6 478.4 0 444.9 0zM185.7 0h204.1l-324 324C41.7 348.1.4 331 .4 296.9V185.3C.4 83 83.4 0 185.7 0zM35.8 259.4c0 14.8 17.9 22.2 28.3 11.7l89.4-89.4c10.5-10.5 3-28.3-11.7-28.3h-43c-34.8 0-62.9 28.2-62.9 62.9v43.1z"></path>
+          <path className={className} d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline className={className} points="9 22 9 12 15 12 15 22"></polyline>
         </svg>
       );
 
@@ -333,24 +363,7 @@ const Icon = ({ name, className }: IconProps) => {
           <rect x="3" y="14" width="7" height="7"></rect>
         </svg>
       );
-    case IconName.home:
-      return (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className={className}
-        >
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-          <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-      );
+
     case IconName.journal:
       return (
         <svg
