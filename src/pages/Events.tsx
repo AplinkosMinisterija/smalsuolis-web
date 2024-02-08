@@ -4,8 +4,10 @@ import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import ContentLayout from '../components/layouts/ContentLayout';
 import EventCard from '../components/other/EventCard';
+import Icon, { IconName } from '../components/other/Icons';
 import LoaderComponent from '../components/other/LoaderComponent';
 import { device } from '../styles';
+import { descriptions, isEmpty, titles } from '../utils';
 import { intersectionObserverConfig } from '../utils/configs';
 import { slugs } from '../utils/routes';
 import { Event } from '../utils/types';
@@ -54,6 +56,16 @@ const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage, data]);
 
   const renderContent = () => {
+    if (isEmpty(data?.pages?.[0]?.data)) {
+      return (
+        <>
+          <StyledIcon name={IconName.airBallon} />
+          <Title>{titles.emptyState}</Title>
+          <Description>{descriptions.emptyState}</Description>
+        </>
+      );
+    }
+
     return (
       <EventsContainer>
         {data?.pages.map((page, pageIndex) => {
@@ -80,14 +92,35 @@ const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
 
 export default Events;
 
+const Title = styled.div`
+  font-size: 1.9rem;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: center;
+  margin: 30px 0px 20px 0px;
+`;
+
+const Description = styled.div`
+  line-height: 24px;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 24px;
+  text-align: center;
+`;
+
 const Invisible = styled.div`
   width: 10px;
   height: 16px;
 `;
 
+const StyledIcon = styled(Icon)`
+  text-align: center;
+`;
+
 const Container = styled.div`
   display: flex;
   overflow-y: auto;
+  align-items: center;
   flex-direction: column;
   padding: 32px;
   width: 100%;

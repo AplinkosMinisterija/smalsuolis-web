@@ -1,22 +1,18 @@
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
-import { ContentLayoutContainer, ContentLayoutTitle } from '../components/other/CommonStyles';
+import ContentLayout from '../components/layouts/ContentLayout';
 import Icon, { IconName } from '../components/other/Icons';
 import LoaderComponent from '../components/other/LoaderComponent';
 import PreviewMap from '../components/other/PreviewMap';
 import Tag from '../components/other/Tag';
 import { appKeyToIconName, appKeyToName, buttonLabels } from '../utils';
 import api from '../utils/api';
-import { getTimeDifference, handleAlert } from '../utils/functions';
+import { getTimeDifference } from '../utils/functions';
 
 const Event = () => {
   const { id = '' } = useParams();
   const { data: event, isLoading } = useQuery(['event', id], () => api.getEvent({ id }), {
-    onError: () => {
-      handleAlert();
-    },
-
     retry: false,
   });
 
@@ -27,9 +23,12 @@ const Event = () => {
   const appKey = event.app.key;
 
   return (
-    <ContentLayoutContainer>
-      <ContentLayoutTitle>{event?.name}</ContentLayoutTitle>
-      <Tag icon={<EventIcon name={appKeyToIconName[appKey]} />} text={appKeyToName[appKey]} />
+    <ContentLayout
+      title={event?.name}
+      customSubTitle={
+        <Tag icon={<EventIcon name={appKeyToIconName[appKey]} />} text={appKeyToName[appKey]} />
+      }
+    >
       <Line>
         <Time>
           <TimeIcon name={IconName.time} />
@@ -44,7 +43,7 @@ const Event = () => {
       <MapContainer>
         <PreviewMap value={event.geom} height={'400px'} />
       </MapContainer>
-    </ContentLayoutContainer>
+    </ContentLayout>
   );
 };
 
