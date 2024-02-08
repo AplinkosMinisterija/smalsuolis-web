@@ -93,7 +93,7 @@ class Api {
 
   get = async ({ resource, id, ...rest }: GetAll) => {
     const config = {
-      params: { ...rest },
+      params: { page: 1, pageSize: 10, ...rest },
     };
 
     return this.errorWrapper(() =>

@@ -24,11 +24,11 @@ export const useCurrentLocation = () => {
   return location;
 };
 
-export const useCheckAuthMutation = () => {
+export const useCGetUserInfoMutation = () => {
   const dispatch = useAppDispatch();
   const token = cookies.get('token');
 
-  const { isLoading } = useQuery([token], () => api.getUserInfo(), {
+  const { isLoading } = useQuery([token, 'token'], () => api.getUserInfo(), {
     onError: ({ response }: any) => {
       if (isEqual(response.status, ServerErrorCodes.NO_PERMISSION)) {
         clearCookies();

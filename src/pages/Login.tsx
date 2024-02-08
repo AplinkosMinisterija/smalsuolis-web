@@ -10,7 +10,7 @@ import TextField from '../components/fields/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
 import { getErrorMessage } from '../utils/functions';
-import { useCheckAuthMutation } from '../utils/hooks';
+import { useCGetUserInfoMutation } from '../utils/hooks';
 import { handleUpdateTokens } from '../utils/loginFunctions';
 import { slugs } from '../utils/routes';
 import { buttonsTitles, inputLabels, titles } from '../utils/texts';
@@ -52,7 +52,7 @@ const Login = () => {
     retry: false,
   });
 
-  const { isLoading: checkAuthLoading } = useCheckAuthMutation();
+  const { isLoading: checkAuthLoading } = useCGetUserInfoMutation();
 
   const loading = [loginMutation.isLoading, checkAuthLoading].some((loading) => loading);
 
