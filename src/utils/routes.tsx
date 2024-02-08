@@ -8,6 +8,8 @@ import Profile from '../pages/Profile';
 import Registration from '../pages/Registration';
 import ResetPassword from '../pages/ResetPassword';
 import { titles } from './texts';
+import Subscriptions from '../pages/Subscriptions';
+import Subscription from '../pages/Subscription';
 
 export const slugs = {
   login: '/prisijungimas/',
@@ -16,6 +18,8 @@ export const slugs = {
   registration: '/registracija',
   createAccount: '/pakvietimas',
   profile: '/profilis',
+  subscriptions: '/prenumeratos',
+  subscription: (id?: string) => `/prenumeratos/${id}`,
   events: '/ivykiai',
   event: (id?: string) => `/ivykis/${id}`,
 };
@@ -28,7 +32,6 @@ export const routes = [
     back: false,
     slug: slugs.login,
   },
-
   {
     component: <ResetPassword />,
     loggedIn: false,
@@ -36,7 +39,20 @@ export const routes = [
     back: false,
     slug: slugs.resetPassword,
   },
-
+  {
+    component: <Subscriptions />,
+    title: titles.subscriptions,
+    loggedIn: true,
+    iconName: IconName.settings,
+    back: false,
+    slug: slugs.subscriptions,
+  },
+  {
+    component: <Subscription />,
+    title: titles.subscription,
+    loggedIn: true,
+    slug: slugs.subscription(':id'),
+  },
   {
     component: <Profile />,
     title: titles.profile,

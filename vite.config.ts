@@ -10,6 +10,7 @@ export default () => {
     plugins: [react(), VitePWA(manifestForPlugIn as Partial<VitePWAOptions>)],
     server: {
       proxy: {
+        open: '/',
         '/api': {
           target: env.VITE_PROXY_URL,
           changeOrigin: true,

@@ -1,4 +1,15 @@
+import { Frequency } from './constants';
+
 export type ChildrenType = string | JSX.Element | JSX.Element[] | any;
+
+export interface Subscription {
+  id: number;
+  user: number;
+  apps: number[];
+  geom: any;
+  frequency: Frequency;
+  active: boolean;
+}
 
 export interface Event {
   id?: string;

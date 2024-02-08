@@ -22,3 +22,9 @@ export enum ButtonColors {
   SUCCESS = 'success',
   TRANSPARENT = 'transparent',
 }
+
+export enum Frequency {
+  DAY = 'DAY',
+  WEEK = 'WEEK',
+  MONTH = 'MONTH',
+}

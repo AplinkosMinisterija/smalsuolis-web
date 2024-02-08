@@ -2,6 +2,7 @@ import Axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 import Cookies from 'universal-cookie';
 import { Event } from './types';
+import { Frequency } from './constants';
 const cookies = new Cookies();
 
 interface GetAll {
@@ -58,6 +59,7 @@ export enum Resources {
   LOG_OUT = 'auth/logout',
   ME = 'users/me',
   events = 'events',
+  subscriptions = 'subscriptions',
   USERS = 'users',
 }
 
@@ -199,6 +201,32 @@ class Api {
       resource: Resources.events,
       populate: ['geom'],
       id,
+    });
+  };
+
+  getSubscriptions = async ({ page }: { page: number }): Promise<GetAllResponse<Event>> => {
+    return this.get({
+      resource: Resources.subscriptions,
+      page,
+    });
+  };
+  getSubscription = async ({ id }: { id: string }): Promise<Event> => {
+    return this.getOne({
+      resource: Resources.subscriptions,
+      populate: ['geom'],
+      id,
+    });
+  };
+
+  createSubscription = async (params: {
+    active: boolean;
+    apps: number[];
+    frequency: Frequency;
+    geom?: any;
+  }) => {
+    return this.post({
+      resource: Resources.subscriptions,
+      params,
     });
   };
 }
