@@ -25,14 +25,11 @@ const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
     };
   };
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } = useInfiniteQuery(
-    [key],
-    ({ pageParam }) => getEvents(pageParam),
-    {
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, isLoading } =
+    useInfiniteQuery([key], ({ pageParam }) => getEvents(pageParam), {
       getNextPageParam: (lastPage) => lastPage.page,
       cacheTime: 60000,
-    },
-  );
+    });
 
   const observerRef = useRef<any>(null);
 
@@ -56,6 +53,8 @@ const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage, data]);
 
   const renderContent = () => {
+    if (isLoading) return <LoaderComponent />;
+
     if (isEmpty(data?.pages?.[0]?.data)) {
       return (
         <>
