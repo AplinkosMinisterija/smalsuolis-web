@@ -17,7 +17,7 @@ export interface Event {
 }
 
 export interface App {
-  id?: string;
+  id: string;
   key: AppType;
   name: string;
 }
