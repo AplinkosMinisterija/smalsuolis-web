@@ -25,6 +25,7 @@ const RadioFrequency = ({ value, onChange }: { value: Frequency; onChange: any }
     <Container>
       {options.map((option) => (
         <RadioButton
+          key={option.id}
           id={option.id}
           checked={value === option.id}
           onChange={() => onChange(option.id)}

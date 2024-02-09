@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import React from 'react';
 import { App } from '../../utils';
 
-const Apps = ({ id, checked, onChange, app }: any) => {
+const AppItem = ({ id, checked, onChange, app }: any) => {
   return (
     <Button>
       <InputRadio type="checkbox" id={id} checked={checked} onChange={onChange} />
@@ -16,7 +16,7 @@ const Apps = ({ id, checked, onChange, app }: any) => {
   );
 };
 
-const RadioGroup = ({
+const Apps = ({
   options,
   value,
   onChange,
@@ -35,7 +35,8 @@ const RadioGroup = ({
   return (
     <Container>
       {options.map((option) => (
-        <Apps
+        <AppItem
+          key={option.id}
           id={option.id}
           checked={value.includes(option.id)}
           onChange={(e: any) => {
@@ -49,7 +50,7 @@ const RadioGroup = ({
   );
 };
 
-export default RadioGroup;
+export default Apps;
 
 const Container = styled.div`
   display: grid;

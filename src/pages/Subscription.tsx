@@ -5,12 +5,12 @@ import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
 import { useMutation, useQuery } from 'react-query';
 import Switch from '../components/buttons/Switch';
-import Apps from '../components/other/Apps';
 import RadioFrequency from '../components/other/RadioFrequency';
 import { Frequency, Subscription, SubscriptionForm } from '../utils';
 import Button from '../components/buttons/Button';
 import { Form, Formik } from 'formik';
 import LoaderComponent from '../components/other/LoaderComponent';
+import Apps from '../components/other/Apps';
 
 const Subscriptions = () => {
   const navigate = useNavigate();
