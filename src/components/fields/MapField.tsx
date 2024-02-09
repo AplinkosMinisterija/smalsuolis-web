@@ -11,11 +11,14 @@ const MapField = ({
 }) => {
   const iframeRef = useRef<any>(null);
 
-  const handleSaveGeom = useCallback((event: any) => {
-    if (event.origin === import.meta.env.VITE_MAPS_URL) {
-      onChange(JSON.parse(event?.data?.mapIframeMsg?.data));
-    }
-  }, []);
+  const handleSaveGeom = useCallback(
+    (event: any) => {
+      if (event.origin === import.meta.env.VITE_MAPS_URL) {
+        onChange(JSON.parse(event?.data?.mapIframeMsg?.data));
+      }
+    },
+    [onChange],
+  );
 
   useEffect(() => {
     window.addEventListener('message', handleSaveGeom);
