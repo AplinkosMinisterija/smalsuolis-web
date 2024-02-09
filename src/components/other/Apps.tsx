@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import React from 'react';
-import { Simulate } from 'react-dom/test-utils';
 import { App } from '../../utils';
 
 const Apps = ({ id, checked, onChange, app }: any) => {
@@ -8,21 +7,8 @@ const Apps = ({ id, checked, onChange, app }: any) => {
     <Button>
       <InputRadio type="checkbox" id={id} checked={checked} onChange={onChange} />
       <Label htmlFor={id}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          className="feather feather-home"
-        >
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-          <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
+        <Logo src={app.icon} />
+        {/*<Logo src="https://cdn.biip.lt/zuvys-wp/app/uploads/zuvys-favicon-150x150.png" />*/}
         <Title>{app.name}</Title>
         <Description>{app.description || 'Aprašymas'}</Description>
       </Label>
@@ -112,4 +98,8 @@ const Description = styled.div`
   color: #525252;
   font-weight: 400;
   font-size: 12px;
+`;
+
+const Logo = styled.img`
+  height: 24px;
 `;

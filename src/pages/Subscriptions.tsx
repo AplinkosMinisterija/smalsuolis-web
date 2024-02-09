@@ -1,12 +1,12 @@
 import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
-import { slugs, useInfinityLoad } from '../utils';
-import React, { useRef } from 'react';
+import { App, Event, slugs, Subscription, useInfinityLoad } from '../utils';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import LoaderComponent from '../components/other/LoaderComponent';
 import { device } from '../styles';
-import Button from '../components/buttons/Button';
 import { useNavigate } from 'react-router';
+import SubscriptionCard from '../components/cards/SubscriptionCard';
 
 const Subscriptions = () => {
   const navigate = useNavigate();
@@ -21,11 +21,24 @@ const Subscriptions = () => {
   return (
     <ContentLayout>
       <Container>
+        <ButtonsContainer>
+          <NewSubscriptionButton onClick={() => navigate(slugs.subscription('nauja'))}>
+            Nauja prenumerata
+          </NewSubscriptionButton>
+        </ButtonsContainer>
         <SubscriptionsContainer>
-          <ButtonsContainer>
-            <Button onClick={() => navigate(slugs.subscription('nauja'))}>Nauja prenumerata</Button>
-          </ButtonsContainer>
-          {/*{subscriptions?.rows?.map()}*/}
+          {subscriptions?.pages.map((page, pageIndex) => {
+            return (
+              <React.Fragment key={pageIndex}>
+                {page.data.map((subscription: Subscription<App>) => (
+                  <SubscriptionCard
+                    subscription={subscription}
+                    onClick={() => navigate(slugs.subscription(subscription?.id?.toString()))}
+                  />
+                ))}
+              </React.Fragment>
+            );
+          })}
           {observerRef && <Invisible ref={observerRef} />}
           {isFetching && <LoaderComponent />}
         </SubscriptionsContainer>
@@ -62,14 +75,17 @@ const SubscriptionsContainer = styled.div`
 `;
 
 const ButtonsContainer = styled.div`
-  min-width: 400px;
-  margin: auto;
-  @media ${device.mobileL} {
-    min-width: 100%;
-  }
+  width: 100%;
+  margin-bottom: 16px;
 `;
 
 const Invisible = styled.div`
   width: 10px;
   height: 16px;
+`;
+
+const NewSubscriptionButton = styled.a`
+  color: #1f5c2e;
+  text-decoration: underline;
+  float: right;
 `;

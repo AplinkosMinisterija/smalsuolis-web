@@ -1,22 +1,38 @@
-import { format } from 'date-fns';
 import styled from 'styled-components';
-import { Event, Subscription, subscriptionFrequencyTitles } from '../../utils';
-import Icon from '../other/Icons';
-import api from '../../utils/api';
-import { useInfiniteQuery } from 'react-query';
+import { App, Frequency, Subscription, subscriptionFrequencyTitles } from '../../utils';
+
+import Tag from '../other/Tag';
+
+export const frequencyLabels = {
+  [Frequency.DAY]: 'kasdieninė',
+  [Frequency.WEEK]: 'savaitinė',
+  [Frequency.MONTH]: 'mėnesinė',
+};
 
 const SubscriptionCard = ({
   subscription,
   onClick,
 }: {
-  subscription: Subscription;
+  subscription: Subscription<App>;
   onClick?: () => void;
 }) => {
   return (
     <Container onClick={onClick}>
       <InnerContainer>
         <Content>
-          <Name>{subscriptionFrequencyTitles[subscription.frequency]}</Name>
+          <Name>
+            {`${subscription.active ? 'Aktyvi' : 'Neaktyvi'} ${frequencyLabels[subscription.frequency]} prenumerata`}{' '}
+          </Name>
+          <AppsContainer>
+            {subscription.apps?.map((app) => (
+              <Tag
+                icon={<AppIcon src={app.icon} />}
+                text={app.name}
+                color={'#101010'}
+                backgroundColor={'#f7f7f7'}
+              />
+            ))}
+          </AppsContainer>
         </Content>
       </InnerContainer>
     </Container>
@@ -30,7 +46,10 @@ const Container = styled.div`
   cursor: pointer;
 `;
 
-const TimeIcon = styled(Icon)``;
+const AppIcon = styled.img`
+  height: 16px;
+  margin-right: 4px;
+`;
 
 const InnerContainer = styled.div`
   display: flex;
@@ -80,4 +99,13 @@ const Time = styled.div`
 
 const Name = styled.div`
   font-size: 1.7rem;
+  font-weight: bold;
+`;
+
+const AppsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 8px;
+  margin-top: 16px;
 `;

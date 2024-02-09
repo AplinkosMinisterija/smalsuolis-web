@@ -1,7 +1,7 @@
 import Axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 import Cookies from 'universal-cookie';
-import { App, Event, Subscription } from './types';
+import { App, Event, Subscription, SubscriptionForm } from './types';
 import { Frequency } from './constants';
 const cookies = new Cookies();
 
@@ -37,10 +37,10 @@ interface GetOne {
   populate?: string[];
   scope?: string;
 }
-interface UpdateOne {
+interface UpdateOne<T = any> {
   resource?: string;
   id?: string;
-  params?: any;
+  params?: T;
 }
 
 interface Create {
@@ -219,10 +219,11 @@ class Api {
   getSubscriptions = async ({ page }: { page: number }): Promise<GetAllResponse<Subscription>> => {
     return this.get({
       resource: Resources.subscriptions,
+      populate: ['apps'],
       page,
     });
   };
-  getSubscription = async ({ id }: { id: string }): Promise<Event> => {
+  getSubscription = async ({ id }: { id: string }): Promise<Subscription> => {
     return this.getOne({
       resource: Resources.subscriptions,
       populate: ['geom'],
@@ -230,15 +231,17 @@ class Api {
     });
   };
 
-  createSubscription = async (params: {
-    active: boolean;
-    apps: number[];
-    frequency: Frequency;
-    geom?: any;
-  }) => {
+  createSubscription = async (params: SubscriptionForm): Promise<Subscription> => {
     return this.post({
       resource: Resources.subscriptions,
       params,
+    });
+  };
+
+  updateSubscription = async (params: UpdateOne<SubscriptionForm>): Promise<Subscription> => {
+    return this.patch({
+      resource: Resources.subscriptions,
+      ...params,
     });
   };
   getApps = async ({ page }: { page: number }): Promise<GetAllResponse<App>> => {

@@ -54,6 +54,7 @@ export const routes = [
     component: <Subscription />,
     title: titles.subscription,
     loggedIn: true,
+    back: true,
     slug: slugs.subscription(':id'),
   },
   {

@@ -1,60 +1,103 @@
 import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useMutation, useQuery } from 'react-query';
 import Switch from '../components/buttons/Switch';
 import Apps from '../components/other/Apps';
 import RadioFrequency from '../components/other/RadioFrequency';
-import { Frequency } from '../utils';
+import { Frequency, Subscription, SubscriptionForm } from '../utils';
 import Button from '../components/buttons/Button';
 import { Form, Formik } from 'formik';
 import LoaderComponent from '../components/other/LoaderComponent';
 
-const Subscription = () => {
+const Subscriptions = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
+  const [geom, setGeom] = useState();
+
+  const iframeRef = useRef<any>(null);
+
+  const handleSaveGeom = (event: any) => {
+    if (event.origin === import.meta.env.VITE_MAPS_URL) {
+      const geoJson = JSON.parse(event?.data?.mapIframeMsg?.data);
+      setGeom(geoJson);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('message', handleSaveGeom);
+    return () => window.removeEventListener('message', handleSaveGeom);
+  }, []);
 
   const { data: subscription, isLoading: subscriptionLoading } = useQuery({
     queryKey: ['sub', id],
-    queryFn: () => (id && !isNaN(Number(id)) ? api.getSubscription({ id }) : {}),
+    queryFn: () => (id && !isNaN(Number(id)) ? api.getSubscription({ id }) : undefined),
   });
+
+  useEffect(() => {
+    if (subscription?.geom) {
+      setGeom(geom);
+    }
+  }, [subscription]);
 
   const { data: apps, isLoading: appsLoading } = useQuery({
     queryKey: ['apps'],
     queryFn: () => api.getApps({ page: 1 }),
   });
 
+  const onSuccess = () => {
+    navigate(-1);
+  };
+
   const { mutateAsync: createSubscription } = useMutation(api.createSubscription, {
-    onError: (error, variables, context) => {
-      console.log('error');
-    },
-    onSuccess: async (response) => {
-      console.log('response');
-    },
+    onSuccess,
   });
 
-  const handleSubmit = (values: any) => {
-    createSubscription(values);
-  };
+  const { mutateAsync: updateSubscription } = useMutation(api.updateSubscription, {
+    onSuccess,
+  });
 
   if (subscriptionLoading || appsLoading) {
     return <LoaderComponent />;
   }
 
+  const handleLoadMap = () => {
+    if (!subscription?.id) return;
+    !!subscription.geom &&
+      iframeRef?.current?.contentWindow?.postMessage({ geom: subscription.geom }, '*');
+  };
+
+  const initialValues: SubscriptionForm = {
+    active: !!subscription?.active,
+    apps: subscription?.apps || [],
+    frequency: subscription?.frequency || Frequency.DAY,
+  };
+
+  const handleSubmit = (values: SubscriptionForm) => {
+    if (!geom) {
+      return;
+    }
+    const params = { ...values, geom };
+    if (subscription?.id) {
+      return updateSubscription({ id: subscription?.id?.toString(), params });
+    }
+    return createSubscription(params);
+  };
+
   return (
-    <ContentLayout>
-      <Subtitle>
-        Norėdami gauti el. paštu naujus skelbimus, atitinkančius Jūsų paieškos kriterijus,
-        užpildykite žemiau esančią formą.
-      </Subtitle>
+    <ContentLayout
+      customSubTitle={
+        <Subtitle>
+          Norėdami gauti el. paštu naujus skelbimus, atitinkančius Jūsų paieškos kriterijus,
+          užpildykite žemiau esančią formą.
+        </Subtitle>
+      }
+    >
       <Formik
         enableReinitialize={true}
-        initialValues={{
-          active: true,
-          apps: [],
-          frequency: Frequency.MONTH,
-        }}
+        initialValues={initialValues}
         onSubmit={handleSubmit}
         validateOnChange={false}
       >
@@ -63,7 +106,9 @@ const Subscription = () => {
             <Container>
               <SubscriptionFormContainer>
                 <SubscriptionActivation>
-                  <SubscriptionActiveTitle>Prenumerata aktyvi</SubscriptionActiveTitle>
+                  <SubscriptionActiveTitle>
+                    {values.active ? 'Prenumerata aktyvi' : 'Prenumerata neaktyvi'}
+                  </SubscriptionActiveTitle>
                   <Switch
                     value={values.active}
                     onChange={(e) => setFieldValue('active', e.target.checked)}
@@ -96,7 +141,15 @@ const Subscription = () => {
                 <SectionLabel>
                   Padėkite tašką, kur norite stebėti ir nustatykite spindulį
                 </SectionLabel>
-                <Iframe src="https://maps.biip.lt/edit?types[]=point" allow="geolocation"></Iframe>
+                <Iframe
+                  src={`${import.meta.env.VITE_MAPS_URL}/edit?types[]=point&buffer=true`}
+                  ref={iframeRef}
+                  width={'100%'}
+                  allowFullScreen={true}
+                  onLoad={handleLoadMap}
+                  aria-hidden="false"
+                  tabIndex={1}
+                />
               </SubscriptionFormContainer>
               <SubscriptionFormContainer>
                 <SectionLabel>Kokiu dažnumu jums siųsti informaciją</SectionLabel>
@@ -106,7 +159,7 @@ const Subscription = () => {
                 />
               </SubscriptionFormContainer>
               <ButtonContainer>
-                <Button type="submit">Prenumeruoti</Button>
+                <Button type="submit">{subscription?.id ? 'Išsaugoti' : 'Prenumeruoti'}</Button>
               </ButtonContainer>
             </Container>
           );
@@ -116,7 +169,7 @@ const Subscription = () => {
   );
 };
 
-export default Subscription;
+export default Subscriptions;
 
 const Container = styled(Form)`
   display: flex;
@@ -132,9 +185,7 @@ const ButtonContainer = styled.div`
 
 const Subtitle = styled.div`
   line-height: 24px;
-  margin-top: 8px;
   text-align: center;
-  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 1em;
   font-weight: 500;
 `;
