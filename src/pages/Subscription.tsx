@@ -6,41 +6,21 @@ import { useNavigate, useParams } from 'react-router';
 import { useMutation, useQuery } from 'react-query';
 import Switch from '../components/buttons/Switch';
 import RadioFrequency from '../components/other/RadioFrequency';
-import { Frequency, Subscription, SubscriptionForm } from '../utils';
+import { Frequency, Subscription, SubscriptionForm, validateSubscriptionForm } from '../utils';
 import Button from '../components/buttons/Button';
 import { Form, Formik } from 'formik';
 import LoaderComponent from '../components/other/LoaderComponent';
 import Apps from '../components/other/Apps';
+import MapField from '../components/fields/MapField';
 
 const Subscriptions = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [geom, setGeom] = useState();
-
-  const iframeRef = useRef<any>(null);
-
-  const handleSaveGeom = (event: any) => {
-    if (event.origin === import.meta.env.VITE_MAPS_URL) {
-      const geoJson = JSON.parse(event?.data?.mapIframeMsg?.data);
-      setGeom(geoJson);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('message', handleSaveGeom);
-    return () => window.removeEventListener('message', handleSaveGeom);
-  }, []);
 
   const { data: subscription, isLoading: subscriptionLoading } = useQuery({
     queryKey: ['sub', id],
     queryFn: () => (id && !isNaN(Number(id)) ? api.getSubscription({ id }) : undefined),
   });
-
-  useEffect(() => {
-    if (subscription?.geom) {
-      setGeom(subscription?.geom);
-    }
-  }, [subscription]);
 
   const { data: apps, isLoading: appsLoading } = useQuery({
     queryKey: ['apps'],
@@ -63,27 +43,18 @@ const Subscriptions = () => {
     return <LoaderComponent />;
   }
 
-  const handleLoadMap = () => {
-    if (!subscription?.id) return;
-    !!subscription.geom &&
-      iframeRef?.current?.contentWindow?.postMessage({ geom: subscription.geom }, '*');
-  };
-
   const initialValues: SubscriptionForm = {
     active: !!subscription?.active,
     apps: subscription?.apps || [],
+    geom: subscription?.geom,
     frequency: subscription?.frequency || Frequency.DAY,
   };
 
   const handleSubmit = (values: SubscriptionForm) => {
-    if (!geom) {
-      return;
-    }
-    const params = { ...values, geom };
     if (subscription?.id) {
-      return updateSubscription({ id: subscription?.id?.toString(), params });
+      return updateSubscription({ id: subscription?.id?.toString(), params: values });
     }
-    return createSubscription(params);
+    return createSubscription(values);
   };
 
   return (
@@ -100,6 +71,7 @@ const Subscriptions = () => {
         initialValues={initialValues}
         onSubmit={handleSubmit}
         validateOnChange={false}
+        validationSchema={validateSubscriptionForm}
       >
         {({ values, errors, handleSubmit, setFieldValue }) => {
           return (
@@ -141,15 +113,7 @@ const Subscriptions = () => {
                 <SectionLabel>
                   Padėkite tašką, kur norite stebėti ir nustatykite spindulį
                 </SectionLabel>
-                <Iframe
-                  src={`${import.meta.env.VITE_MAPS_URL}/edit?types[]=point&buffer=true`}
-                  ref={iframeRef}
-                  width={'100%'}
-                  allowFullScreen={true}
-                  onLoad={handleLoadMap}
-                  aria-hidden="false"
-                  tabIndex={1}
-                />
+                <MapField value={values.geom} onChange={(value) => setFieldValue('geom', value)} />
               </SubscriptionFormContainer>
               <SubscriptionFormContainer>
                 <SectionLabel>Kokiu dažnumu jums siųsti informaciją</SectionLabel>
@@ -179,6 +143,7 @@ const Container = styled(Form)`
   gap: 16px;
   margin-top: 32px;
 `;
+
 const ButtonContainer = styled.div`
   margin-top: 24px;
 `;
