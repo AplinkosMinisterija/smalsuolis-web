@@ -64,7 +64,6 @@ const Container = styled.div`
 const SubscriptionsContainer = styled.div`
   display: flex;
   max-width: 800px;
-
   margin: auto;
   width: 100%;
   gap: 12px;
@@ -77,6 +76,9 @@ const SubscriptionsContainer = styled.div`
 const ButtonsContainer = styled.div`
   width: 100%;
   margin-bottom: 16px;
+  @media ${device.mobileL} {
+    padding: 0 12px;
+  }
 `;
 
 const Invisible = styled.div`
