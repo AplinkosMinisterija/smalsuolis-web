@@ -2,26 +2,28 @@ import styled from 'styled-components';
 import { device } from '../../styles';
 import { useGetCurrentRoute } from '../../utils';
 
-const ContentLayout = ({ children }: any) => {
+const ContentLayout = ({ children, title, customSubTitle }: any) => {
   const currentRoute = useGetCurrentRoute();
+
+  const pageTitle = title || currentRoute?.title;
+
   return (
-    <Content>
-      {currentRoute?.title && <Title>{currentRoute?.title}</Title>}
+    <Container>
+      {pageTitle && <Title>{pageTitle}</Title>}
+      {customSubTitle ||
+        (currentRoute?.description && <Description>{currentRoute?.description}</Description>)}
       {children}
-    </Content>
+    </Container>
   );
 };
 export default ContentLayout;
 
-const Title = styled.div`
+const Description = styled.div`
   color: ${({ theme }) => theme.colors.text.primary};
-  font-size: 3.2rem;
-  font-weight: 800;
-  margin: 16px 0;
-  text-align: center;
+  margin-bottom: 16px;
 `;
 
-const Content = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -38,4 +40,12 @@ const Content = styled.div`
     overflow-y: auto;
     height: fit-content;
   }
+`;
+
+const Title = styled.div`
+  color: ${({ theme }) => theme.colors.text.primary};
+  font-size: 3.2rem;
+  font-weight: 800;
+  margin: 16px 0;
+  text-align: center;
 `;

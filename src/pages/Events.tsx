@@ -1,42 +1,35 @@
-import { isEqual } from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import NavButtonGroup from '../components/buttons/NavButtonGroup';
 import ContentLayout from '../components/layouts/ContentLayout';
 import EventCard from '../components/other/EventCard';
+import Icon, { IconName } from '../components/other/Icons';
 import LoaderComponent from '../components/other/LoaderComponent';
 import { device } from '../styles';
-import api from '../utils/api';
+import { descriptions, isEmpty, titles } from '../utils';
 import { intersectionObserverConfig } from '../utils/configs';
-import { EventStatusTypes } from '../utils/constants';
 import { slugs } from '../utils/routes';
-import { eventStatusLabels } from '../utils/texts';
 import { Event } from '../utils/types';
 
-const Events = () => {
-  const [status, setStatus] = useState(EventStatusTypes.UPCOMING);
+const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
   const navigate = useNavigate();
   const getEvents = async (page: number) => {
-    const fishStockings = await api.getEvents({
+    const events = await apiEndpoint({
       page,
     });
 
     return {
-      data: fishStockings.rows,
-      page: fishStockings.page < fishStockings.totalPages ? fishStockings.page + 1 : undefined,
+      data: events.rows,
+      page: events.page < events.totalPages ? events.page + 1 : undefined,
     };
   };
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } = useInfiniteQuery(
-    ['events'],
-    ({ pageParam }) => getEvents(pageParam),
-    {
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, isLoading } =
+    useInfiniteQuery([key], ({ pageParam }) => getEvents(pageParam), {
       getNextPageParam: (lastPage) => lastPage.page,
       cacheTime: 60000,
-    },
-  );
+    });
 
   const observerRef = useRef<any>(null);
 
@@ -60,16 +53,20 @@ const Events = () => {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage, data]);
 
   const renderContent = () => {
+    if (isLoading) return <LoaderComponent />;
+
+    if (isEmpty(data?.pages?.[0]?.data)) {
+      return (
+        <>
+          <StyledIcon name={IconName.airBallon} />
+          <Title>{titles.emptyState}</Title>
+          <Description>{descriptions.emptyState}</Description>
+        </>
+      );
+    }
+
     return (
       <EventsContainer>
-        <ButtonsContainer>
-          <NavButtonGroup
-            options={Object.keys(EventStatusTypes)}
-            isSelected={(option) => isEqual(option, status)}
-            getOptionLabel={(option: EventStatusTypes) => eventStatusLabels[option]}
-            onChange={(option) => setStatus(option)}
-          />
-        </ButtonsContainer>
         {data?.pages.map((page, pageIndex) => {
           return (
             <React.Fragment key={pageIndex}>
@@ -94,12 +91,20 @@ const Events = () => {
 
 export default Events;
 
-const ButtonsContainer = styled.div`
-  min-width: 400px;
-  margin: auto;
-  @media ${device.mobileL} {
-    min-width: 100%;
-  }
+const Title = styled.div`
+  font-size: 1.9rem;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: center;
+  margin: 30px 0px 20px 0px;
+`;
+
+const Description = styled.div`
+  line-height: 24px;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 24px;
+  text-align: center;
 `;
 
 const Invisible = styled.div`
@@ -107,9 +112,14 @@ const Invisible = styled.div`
   height: 16px;
 `;
 
+const StyledIcon = styled(Icon)`
+  text-align: center;
+`;
+
 const Container = styled.div`
   display: flex;
   overflow-y: auto;
+  align-items: center;
   flex-direction: column;
   padding: 32px;
   width: 100%;

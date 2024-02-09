@@ -7,6 +7,7 @@ import Login from '../pages/Login';
 import Profile from '../pages/Profile';
 import Registration from '../pages/Registration';
 import ResetPassword from '../pages/ResetPassword';
+import api from './api';
 import { titles } from './texts';
 import Subscriptions from '../pages/Subscriptions';
 import Subscription from '../pages/Subscription';
@@ -18,9 +19,10 @@ export const slugs = {
   registration: '/registracija',
   createAccount: '/pakvietimas',
   profile: '/profilis',
+  events: '/visos-naujienos',
+  myEvents: '/mano-naujienos',
   subscriptions: '/prenumeratos',
   subscription: (id?: string) => `/prenumeratos/${id}`,
-  events: '/ivykiai',
   event: (id?: string) => `/ivykis/${id}`,
 };
 
@@ -39,6 +41,7 @@ export const routes = [
     back: false,
     slug: slugs.resetPassword,
   },
+
   {
     component: <Subscriptions />,
     title: titles.subscriptions,
@@ -79,13 +82,29 @@ export const routes = [
     slug: slugs.createAccount,
   },
   {
-    title: titles.events,
+    title: titles.myEvents,
+    description: 'Visos atrinktos naujienos',
+    iconName: IconName.list,
+    loggedIn: true,
+    component: <Events apiEndpoint={api.getNewsfeed} key={'newsfeed'} />,
+    slug: slugs.myEvents,
+  },
+  {
+    title: titles.allEvents,
     iconName: IconName.fourSquares,
-    component: <Events />,
+    component: <Events apiEndpoint={api.getEvents} key={'events'} />,
     slug: slugs.events,
   },
   {
     component: <Event />,
     slug: slugs.event(':id'),
+  },
+  {
+    component: <Profile />,
+    title: titles.profile,
+    loggedIn: true,
+    iconName: IconName.profile,
+    back: false,
+    slug: slugs.profile,
   },
 ];

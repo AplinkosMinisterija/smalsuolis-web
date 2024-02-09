@@ -34,10 +34,12 @@ export const inputLabels = {
 export const buttonLabels = {
   login: 'Prisijungti',
   logout: 'Atsijungti',
+  website: 'Tinklalapis',
 };
 
 export const titles = {
-  events: 'Įvykiai',
+  myEvents: 'Mano naujienos',
+  allEvents: 'Visos naujienos',
   login: 'Prisijungimas',
   profile: 'Profilis',
   subscriptions: 'Prenumeratos',
@@ -50,6 +52,7 @@ export const titles = {
   resetPassword: 'Atkurti slaptažodį',
   passwordCreated: 'Slaptažodis sukurtas',
   newPassword: 'Nustatyti naują slaptažodį',
+  emptyState: 'Jūsų naujienų srautas yra tuščias',
 };
 
 export const monthShorthands = [
@@ -68,6 +71,8 @@ export const monthShorthands = [
 ];
 
 export const descriptions = {
+  emptyState:
+    'Jūsų pasirinktos temos ar šaltiniai šiuo metu neturi naujienų, galite palaukti arba pakoreguoti savo prenumeratos nustatymus',
   forgotPassword:
     'Jeigu pamiršote slaptažodį, įrašykite savo el. pašto adresą ir mes padėsime jį atkurti',
   newAccount:

@@ -1,10 +1,12 @@
+import { AppType } from './constants';
+
 import { Frequency } from './constants';
 
 export type ChildrenType = string | JSX.Element | JSX.Element[] | any;
 
 export interface App {
   id: number;
-  key: number;
+  key: AppType;
   name: string;
 }
 
@@ -19,13 +21,16 @@ export interface Subscription {
 
 export interface Event {
   id?: string;
+  externalId?: any;
   body?: any;
   createdAt: Date;
+  geom: any;
   startAt: Date;
   endAt?: Date;
   isFullDay: boolean;
   name: string;
   url?: string;
+  app: App;
 }
 
 export interface User {

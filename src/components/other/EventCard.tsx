@@ -1,93 +1,72 @@
-import { format } from 'date-fns';
 import styled from 'styled-components';
-import { monthShorthands } from '../../utils/texts';
-import { Event } from '../../utils/types';
+import { device } from '../../styles';
+import { appKeyToIconName, appKeyToName, Event, getTimeDifference } from '../../utils';
 import Icon from './Icons';
 
 const EventCard = ({ event, onClick }: { event: Event; onClick?: () => void }) => {
-  const { startAt, endAt, isFullDay, name } = event;
-
-  const formattedDay = format(new Date(startAt), 'dd');
-  const formattedMonth = monthShorthands[new Date(startAt).getMonth()];
-  const formattedTime = !isFullDay
-    ? `${format(new Date(startAt), 'HH:mm')} - ${endAt ? format(new Date(endAt), 'HH:mm') : '-'}`
-    : 'Visą dieną';
+  const { startAt, app } = event;
 
   return (
     <Container onClick={onClick}>
-      <InnerContainer>
-        <DateContainer>
-          <Month>{formattedMonth}</Month>
-          <Day>{formattedDay}</Day>
-        </DateContainer>
-        <Content>
-          <Name>{name}</Name>
+      <IconContainer>
+        <EventIcon name={appKeyToIconName[app.key]} />
+      </IconContainer>
+      <Content>
+        <Name>{appKeyToName[app.key]}</Name>
 
-          <Time>
-            <TimeIcon name="time" />
-            {formattedTime}
-          </Time>
-        </Content>
-      </InnerContainer>
+        <Time>{getTimeDifference(startAt)}</Time>
+      </Content>
     </Container>
   );
 };
 
 export default EventCard;
 
-const Container = styled.div`
-  width: 100%;
+const Container = styled.a`
+  background: ${({ theme }) => theme.colors.largeButton.GREY};
   cursor: pointer;
-`;
-
-const TimeIcon = styled(Icon)``;
-
-const InnerContainer = styled.div`
-  display: flex;
-  box-sizing: border-box;
-  padding: 12px;
+  border: 1px solid transparent;
   border-radius: 8px;
-  background-color: #fff;
-  border: 1px solid #d4ddde;
-  box-shadow: 0px 8px 16px #00465014;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  padding: 16px;
+  gap: 12px;
+
+  @media ${device.mobileL} {
+    max-width: 100%;
+  }
+
+  &:hover,
+  &:focus {
+    border: 1px solid ${({ theme }) => theme.colors.primary};
+    background-color: ${({ theme }) => `${theme.colors.primary}33`};
+  }
 `;
 
-const DateContainer = styled.div`
+const EventIcon = styled(Icon)``;
+
+const IconContainer = styled.div`
+  background-color: white;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  justify-content: center;
   align-items: center;
-  width: 64px;
-  height: 64px;
-  margin-right: 12px;
-  border-radius: 4px;
-  background-color: #edf1f2;
-  color: ${({ theme }) => theme.colors.primary};
-`;
-
-const Month = styled.div`
-  font-size: 12px;
-`;
-
-const Day = styled.div`
-  font-size: 24px;
-  font-weight: Bold;
+  justify-content: center;
+  font-weight: 600;
 `;
 
 const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 4px;
 `;
 
-const Time = styled.div`
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  font-size: 1.4rem;
-`;
+const Time = styled.div``;
 
 const Name = styled.div`
-  font-size: 1.7rem;
+  font-size: 2rem;
+  font-weight: 700;
 `;
