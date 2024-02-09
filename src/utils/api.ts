@@ -60,9 +60,8 @@ export enum Resources {
   ME = 'users/me',
   EVENTS = 'events',
   NEWSFEED = 'newsfeed',
-  events = 'events',
-  subscriptions = 'subscriptions',
-  apps = 'apps',
+  SUBSCRIPTIONS = 'SUBSCRIPTIONS',
+  APPS = 'APPS',
   USERS = 'users',
 }
 
@@ -218,14 +217,14 @@ class Api {
 
   getSubscriptions = async ({ page }: { page: number }): Promise<GetAllResponse<Subscription>> => {
     return this.get({
-      resource: Resources.subscriptions,
+      resource: Resources.SUBSCRIPTIONS,
       populate: ['apps'],
       page,
     });
   };
   getSubscription = async ({ id }: { id: string }): Promise<Subscription> => {
     return this.getOne({
-      resource: Resources.subscriptions,
+      resource: Resources.SUBSCRIPTIONS,
       populate: ['geom'],
       id,
     });
@@ -233,20 +232,20 @@ class Api {
 
   createSubscription = async (params: SubscriptionForm): Promise<Subscription> => {
     return this.post({
-      resource: Resources.subscriptions,
+      resource: Resources.SUBSCRIPTIONS,
       params,
     });
   };
 
   updateSubscription = async (params: UpdateOne<SubscriptionForm>): Promise<Subscription> => {
     return this.patch({
-      resource: Resources.subscriptions,
+      resource: Resources.SUBSCRIPTIONS,
       ...params,
     });
   };
   getApps = async ({ page }: { page: number }): Promise<GetAllResponse<App>> => {
     return this.get({
-      resource: Resources.apps,
+      resource: Resources.APPS,
       page,
     });
   };

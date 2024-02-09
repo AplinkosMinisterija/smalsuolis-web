@@ -38,7 +38,7 @@ const Subscriptions = () => {
 
   useEffect(() => {
     if (subscription?.geom) {
-      setGeom(geom);
+      setGeom(subscription?.geom);
     }
   }, [subscription]);
 

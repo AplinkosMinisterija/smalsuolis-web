@@ -2,9 +2,9 @@ import Div100vh from 'react-div-100vh';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { device } from '../../styles';
-import { useLogoutMutation, useMenuRouters } from '../../utils';
+import { IconName, useLogoutMutation, useMenuRouters } from '../../utils';
 import MenuButton from '../buttons/MenuButton';
-import Icon, { IconName } from './Icons';
+import Icon from './Icons';
 import Modal from './Modal';
 
 const MobileMenu = ({ onClose, visible = true }: any) => {

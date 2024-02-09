@@ -1,8 +1,8 @@
 import { matchPath, useLocation, useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { useAppSelector } from '../../state/hooks';
-import { buttonLabels, slugs, useLogoutMutation, useMenuRouters } from '../../utils';
-import Icon, { IconName } from './Icons';
+import { buttonLabels, IconName, slugs, useLogoutMutation, useMenuRouters } from '../../utils';
+import Icon from './Icons';
 
 const SideBar = () => {
   const routes = useMenuRouters();

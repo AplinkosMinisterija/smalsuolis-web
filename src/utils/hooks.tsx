@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
 import { matchPath, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import Cookies from 'universal-cookie';
@@ -131,10 +131,10 @@ export const useSetPassword = () => {
 export const useWindowSize = (width: string) => {
   const [isInRange, setIsInRange] = useState(false);
 
-  const handleResize = () => {
+  const handleResize = useCallback(() => {
     const mediaQuery = window.matchMedia(width);
     setIsInRange(mediaQuery.matches);
-  };
+  }, [width]);
 
   useEffect(() => {
     handleResize();
@@ -156,7 +156,11 @@ export const useGetCurrentRoute = () => {
   );
 };
 
-export const useInfinityLoad = (queryKey: string, fn: Function, observerRef: any) => {
+export const useInfinityLoad = (
+  queryKey: string,
+  fn: (params: { page: number }) => any,
+  observerRef: any,
+) => {
   const queryFn = async (page: number) => {
     const data = await fn({
       page,
@@ -192,7 +196,7 @@ export const useInfinityLoad = (queryKey: string, fn: Function, observerRef: any
         observer.unobserve(currentObserver);
       }
     };
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage, data]);
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage, data, observerRef]);
 
   return result;
 };

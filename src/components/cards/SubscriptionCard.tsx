@@ -3,7 +3,7 @@ import { App, Frequency, Subscription, subscriptionFrequencyTitles } from '../..
 
 import Tag from '../other/Tag';
 
-export const frequencyLabels = {
+const frequencyLabels = {
   [Frequency.DAY]: 'kasdieninė',
   [Frequency.WEEK]: 'savaitinė',
   [Frequency.MONTH]: 'mėnesinė',

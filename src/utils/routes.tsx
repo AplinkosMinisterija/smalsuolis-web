@@ -1,4 +1,3 @@
-import { IconName } from '../components/other/Icons';
 import { default as CreatePassword } from '../pages/CreatePassword';
 import Event from '../pages/Event';
 import Events from '../pages/Events';
@@ -11,6 +10,7 @@ import api from './api';
 import { titles } from './texts';
 import Subscriptions from '../pages/Subscriptions';
 import Subscription from '../pages/Subscription';
+import { IconName } from './constants';
 
 export const slugs = {
   login: '/prisijungimas/',
