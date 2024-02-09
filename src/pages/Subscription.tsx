@@ -10,40 +10,22 @@ import RadioFrequency from '../components/other/RadioFrequency';
 import { Frequency } from '../utils';
 import Button from '../components/buttons/Button';
 import { Form, Formik } from 'formik';
-import app from '../App';
-
-const apps = [
-  {
-    id: 1,
-    name: 'Infostatyba',
-    description: 'Statybos leidimai, Užbaigimo deklaracijos',
-  },
-  {
-    id: 2,
-    name: 'Valstybinė miškų tarnyba',
-    description: 'Miško kirtimo leidimai',
-  },
-  {
-    id: 3,
-    name: 'Tvarkau Lietuvą',
-    description: 'Aprašymas',
-  },
-];
+import LoaderComponent from '../components/other/LoaderComponent';
 
 const Subscription = () => {
   const { id } = useParams();
 
-  const { data, error } = useQuery({
-    queryKey: ['subscription', id],
+  const { data: subscription, isLoading: subscriptionLoading } = useQuery({
+    queryKey: ['sub', id],
     queryFn: () => (id && !isNaN(Number(id)) ? api.getSubscription({ id }) : {}),
   });
 
-  // const { data, error } = useQuery({
-  //     queryKey: ['apps'],
-  //     queryFn: api.getApps,
-  // });
+  const { data: apps, isLoading: appsLoading } = useQuery({
+    queryKey: ['apps'],
+    queryFn: () => api.getApps({ page: 1 }),
+  });
 
-  const { mutateAsync: subscriptionMutation } = useMutation(api.createSubscription, {
+  const { mutateAsync: createSubscription } = useMutation(api.createSubscription, {
     onError: (error, variables, context) => {
       console.log('error');
     },
@@ -53,9 +35,12 @@ const Subscription = () => {
   });
 
   const handleSubmit = (values: any) => {
-    console.log('submiting...', values);
-    subscriptionMutation(values);
+    createSubscription(values);
   };
+
+  if (subscriptionLoading || appsLoading) {
+    return <LoaderComponent />;
+  }
 
   return (
     <ContentLayout>
@@ -95,14 +80,14 @@ const Subscription = () => {
                   onClick={() =>
                     setFieldValue(
                       'apps',
-                      apps.map((app) => app.id),
+                      (apps?.rows || []).map((app) => app.id),
                     )
                   }
                 >
                   Esu smalsus domina viskas
                 </SubscriptionAppsButton>
                 <Apps
-                  options={apps}
+                  options={apps?.rows || []}
                   value={values.apps}
                   onChange={(value) => setFieldValue('apps', value)}
                 />

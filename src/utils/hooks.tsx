@@ -175,7 +175,7 @@ export const useInfinityLoad = (queryKey: string, fn: Function, observerRef: any
   });
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = result;
-
+  console.log('data', data);
   useEffect(() => {
     const currentObserver = observerRef.current;
     const observer = new IntersectionObserver(([entry]) => {

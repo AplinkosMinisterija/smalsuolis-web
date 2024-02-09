@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
-import change = Simulate.change;
+import { App } from '../../utils';
 
 const Apps = ({ id, checked, onChange, app }: any) => {
   return (
@@ -24,7 +24,7 @@ const Apps = ({ id, checked, onChange, app }: any) => {
           <polyline points="9 22 9 12 15 12 15 22"></polyline>
         </svg>
         <Title>{app.name}</Title>
-        <Description>{app.description}</Description>
+        <Description>{app.description || 'Aprašymas'}</Description>
       </Label>
     </Button>
   );
@@ -35,7 +35,7 @@ const RadioGroup = ({
   value,
   onChange,
 }: {
-  options: { id: number; name?: string; description?: string }[];
+  options: App[];
   value: number[];
   onChange: (options: number[]) => void;
 }) => {

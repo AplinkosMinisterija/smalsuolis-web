@@ -2,6 +2,12 @@ import { Frequency } from './constants';
 
 export type ChildrenType = string | JSX.Element | JSX.Element[] | any;
 
+export interface App {
+  id: number;
+  key: number;
+  name: string;
+}
+
 export interface Subscription {
   id: number;
   user: number;

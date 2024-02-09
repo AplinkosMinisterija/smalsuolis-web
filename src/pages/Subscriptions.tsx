@@ -12,7 +12,11 @@ const Subscriptions = () => {
   const navigate = useNavigate();
   const observerRef = useRef<any>(null);
 
-  const { data, isFetching } = useInfinityLoad('subscriptions', api.getSubscriptions, observerRef);
+  const { data: subscriptions, isFetching } = useInfinityLoad(
+    'subscriptions',
+    api.getSubscriptions,
+    observerRef,
+  );
 
   return (
     <ContentLayout>
@@ -21,6 +25,7 @@ const Subscriptions = () => {
           <ButtonsContainer>
             <Button onClick={() => navigate(slugs.subscription('nauja'))}>Nauja prenumerata</Button>
           </ButtonsContainer>
+          {/*{subscriptions?.rows?.map()}*/}
           {observerRef && <Invisible ref={observerRef} />}
           {isFetching && <LoaderComponent />}
         </SubscriptionsContainer>

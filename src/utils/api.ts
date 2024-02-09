@@ -1,7 +1,7 @@
 import Axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 import Cookies from 'universal-cookie';
-import { Event } from './types';
+import { App, Event, Subscription } from './types';
 import { Frequency } from './constants';
 const cookies = new Cookies();
 
@@ -60,6 +60,7 @@ export enum Resources {
   ME = 'users/me',
   events = 'events',
   subscriptions = 'subscriptions',
+  apps = 'apps',
   USERS = 'users',
 }
 
@@ -204,7 +205,7 @@ class Api {
     });
   };
 
-  getSubscriptions = async ({ page }: { page: number }): Promise<GetAllResponse<Event>> => {
+  getSubscriptions = async ({ page }: { page: number }): Promise<GetAllResponse<Subscription>> => {
     return this.get({
       resource: Resources.subscriptions,
       page,
@@ -227,6 +228,12 @@ class Api {
     return this.post({
       resource: Resources.subscriptions,
       params,
+    });
+  };
+  getApps = async ({ page }: { page: number }): Promise<GetAllResponse<App>> => {
+    return this.get({
+      resource: Resources.apps,
+      page,
     });
   };
 }
