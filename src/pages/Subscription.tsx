@@ -6,7 +6,13 @@ import { useNavigate, useParams } from 'react-router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Switch from '../components/buttons/Switch';
 import RadioFrequency from '../components/other/RadioFrequency';
-import { Frequency, Subscription, SubscriptionForm, validateSubscriptionForm } from '../utils';
+import {
+  Frequency,
+  slugs,
+  Subscription,
+  SubscriptionForm,
+  validateSubscriptionForm,
+} from '../utils';
 import Button from '../components/buttons/Button';
 import { Form, Formik } from 'formik';
 import LoaderComponent from '../components/other/LoaderComponent';
@@ -28,7 +34,7 @@ const Subscriptions = () => {
   });
 
   const onSuccess = () => {
-    navigate(-1);
+    navigate(slugs.subscriptions);
   };
 
   const { mutateAsync: createSubscription } = useMutation(api.createSubscription, {
