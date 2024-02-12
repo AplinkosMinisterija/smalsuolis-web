@@ -33,17 +33,15 @@ const MapField = ({
   };
 
   return (
-    <>
-      <Iframe
-        src={`${mapsHost}/edit?types[]=point&buffer=true`}
-        ref={iframeRef}
-        width={'100%'}
-        allowFullScreen={true}
-        onLoad={handleLoadMap}
-        aria-hidden="false"
-        tabIndex={1}
-      />
-    </>
+    <Iframe
+      src={`${mapsHost}/edit?types[]=point&buffer=true`}
+      ref={iframeRef}
+      width={'100%'}
+      allowFullScreen={true}
+      onLoad={handleLoadMap}
+      aria-hidden="false"
+      tabIndex={1}
+    />
   );
 };
 
