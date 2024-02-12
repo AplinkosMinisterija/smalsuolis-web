@@ -3,7 +3,7 @@ import api from '../utils/api';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Switch from '../components/buttons/Switch';
 import RadioFrequency from '../components/other/RadioFrequency';
 import { Frequency, Subscription, SubscriptionForm, validateSubscriptionForm } from '../utils';
