@@ -3,12 +3,13 @@ import React from 'react';
 import { App } from '../../utils';
 
 const AppItem = ({ id, checked, onChange, app }: any) => {
+  const base64SVG = window.btoa(app.icon);
+  const appIcon = `data:image/svg+xml;base64,${base64SVG}`;
   return (
     <Button>
       <InputRadio type="checkbox" id={id} checked={checked} onChange={onChange} />
       <Label htmlFor={id}>
-        <Logo src={app.icon} />
-        {/*<Logo src="https://cdn.biip.lt/zuvys-wp/app/uploads/zuvys-favicon-150x150.png" />*/}
+        <Logo src={appIcon} />
         <Title>{app.name}</Title>
         <Description>{app.description || 'Aprašymas'}</Description>
       </Label>
@@ -103,4 +104,5 @@ const Description = styled.div`
 
 const Logo = styled.img`
   height: 24px;
+  filter: invert(100%) sepia(17%) saturate(5026%) hue-rotate(56deg) brightness(89%) contrast(99%);
 `;

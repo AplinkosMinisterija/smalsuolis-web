@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { App, Frequency, Subscription, subscriptionFrequencyTitles } from '../../utils';
-
 import Tag from '../other/Tag';
 
 const frequencyLabels = {
@@ -24,14 +23,18 @@ const SubscriptionCard = ({
             {`${subscription.active ? 'Aktyvi' : 'Neaktyvi'} ${frequencyLabels[subscription.frequency]} prenumerata`}{' '}
           </Name>
           <AppsContainer>
-            {subscription.apps?.map((app) => (
-              <Tag
-                icon={<AppIcon src={app.icon} />}
-                text={app.name}
-                color={'#101010'}
-                backgroundColor={'#f7f7f7'}
-              />
-            ))}
+            {subscription.apps?.map((app) => {
+              const base64SVG = window.btoa(app.icon);
+              const appIcon = `data:image/svg+xml;base64,${base64SVG}`;
+              return (
+                <Tag
+                  icon={<AppIcon src={appIcon} />}
+                  text={app.name}
+                  color={'#101010'}
+                  backgroundColor={'#f7f7f7'}
+                />
+              );
+            })}
           </AppsContainer>
         </Content>
       </InnerContainer>
