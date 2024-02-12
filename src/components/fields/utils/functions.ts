@@ -1,5 +1,3 @@
-import { isEmpty } from 'lodash';
-
 export const getFilteredOptions = (
   options: any[],
   input: string,
@@ -20,7 +18,7 @@ export const filterSelectedOptions = (
   );
 
 export const handleRemove = (index: number, onChange: (values: any[]) => void, values: any[]) => {
-  if (isEmpty(values)) return;
+  if (!values?.length) return;
 
   onChange([...values.slice(0, index), ...values.slice(index + 1)]);
 };
