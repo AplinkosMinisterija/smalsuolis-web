@@ -24,7 +24,6 @@
     "formik": "^2.2.9",
     "leaflet": "^1.9.4",
     "leaflet-routing-machine": "^3.2.12",
-    "lodash": "^4.17.21",
     "lt-codes": "ambrazasp/lt-codes",
     "react": "^18.2.0",
     "react-datepicker": "^4.11.0",

@@ -1,4 +1,3 @@
-import { isEmpty } from 'lodash';
 import styled from 'styled-components';
 import { inputLabels } from '../../../utils/texts';
 import LoaderComponent from '../../other/LoaderComponent';
@@ -31,7 +30,7 @@ const OptionsContainer = ({
   const display = showSelect && !disabled;
 
   const renderOptions = () => {
-    if (isEmpty(values))
+    if (!values?.length)
       return loading ? (
         <LoaderComponent />
       ) : (
