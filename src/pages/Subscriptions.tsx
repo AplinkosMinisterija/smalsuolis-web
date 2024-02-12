@@ -1,7 +1,7 @@
 import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
-import { App, Event, slugs, Subscription, useInfinityLoad } from '../utils';
-import React, { useEffect, useRef, useState } from 'react';
+import { App, descriptions, IconName, slugs, Subscription, useInfinityLoad } from '../utils';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import LoaderComponent from '../components/other/LoaderComponent';
 import { device } from '../styles';
@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router';
 import SubscriptionCard from '../components/cards/SubscriptionCard';
 import Button from '../components/buttons/Button';
 import { useMutation, useQueryClient } from 'react-query';
+import EmptyState from '../components/other/EmptyState';
 
 const Subscriptions = () => {
   const queryClient = useQueryClient();
@@ -63,16 +64,13 @@ const Subscriptions = () => {
     updateSubscription({ id: id.toString(), params: { active } });
   };
 
-  const deleteVisible = !!subscriptions?.pages
-    ?.flat()
-    ?.map((i) => i.data)
-    ?.flat().length;
+  const emptySubscriptions = !!subscriptions?.pages[0]?.data?.length;
 
   return (
     <ContentLayout>
       <Container>
         <ButtonsContainer>
-          {deleteVisible && (
+          {emptySubscriptions && (
             <DeleteSubscriptionButton onClick={() => handleEnableDelete(!deleteEnabled)}>
               Ištrinti prenumeratą
             </DeleteSubscriptionButton>
@@ -81,31 +79,39 @@ const Subscriptions = () => {
             Nauja prenumerata
           </NewSubscriptionButton>
         </ButtonsContainer>
-        <SubscriptionsContainer>
-          {subscriptions?.pages.map((page, pageIndex) => {
-            return (
-              <React.Fragment key={pageIndex}>
-                {page.data.map((subscription: Subscription<App>) => (
-                  <SubscriptionCard
-                    subscription={subscription}
-                    canDelete={deleteEnabled}
-                    deleteChecked={selectedSubscriptions.includes(subscription.id)}
-                    onClick={() => navigate(slugs.subscription(subscription?.id?.toString()))}
-                    onDelete={(e) => updateSelectedSubscriptions(e, subscription.id)}
-                    onActiveChange={(e) => handleSubscriptionActive(subscription.id, e)}
-                  />
-                ))}
-              </React.Fragment>
-            );
-          })}
-          {observerRef && <Invisible ref={observerRef} />}
-          {isFetching && <LoaderComponent />}
-          {deleteEnabled && (
-            <Button variant={Button.colors.DANGER} onClick={handleDeleteSubscriptions}>
-              Ištrinti pažymėtas prenumeratas
-            </Button>
-          )}
-        </SubscriptionsContainer>
+        {!emptySubscriptions ? (
+          <EmptyState
+            title="Jūs neturite prenumeratų"
+            description="Kad galėtumėte matyti naujienas jūsų pasirinktomis temomis bei gautumėte naujienlaiškius elektroniniu paštu, sukurkite naują prenumeratą."
+            icon={IconName.airBallon}
+          />
+        ) : (
+          <SubscriptionsContainer>
+            {subscriptions?.pages.map((page, pageIndex) => {
+              return (
+                <React.Fragment key={pageIndex}>
+                  {page.data.map((subscription: Subscription<App>) => (
+                    <SubscriptionCard
+                      subscription={subscription}
+                      canDelete={deleteEnabled}
+                      deleteChecked={selectedSubscriptions.includes(subscription.id)}
+                      onClick={() => navigate(slugs.subscription(subscription?.id?.toString()))}
+                      onDelete={(e) => updateSelectedSubscriptions(e, subscription.id)}
+                      onActiveChange={(e) => handleSubscriptionActive(subscription.id, e)}
+                    />
+                  ))}
+                </React.Fragment>
+              );
+            })}
+            {observerRef && <Invisible ref={observerRef} />}
+            {isFetching && <LoaderComponent />}
+            {deleteEnabled && (
+              <Button variant={Button.colors.DANGER} onClick={handleDeleteSubscriptions}>
+                Ištrinti pažymėtas prenumeratas
+              </Button>
+            )}
+          </SubscriptionsContainer>
+        )}
       </Container>
     </ContentLayout>
   );
