@@ -1,4 +1,3 @@
-import { isEmpty } from 'lodash';
 import { useRef } from 'react';
 import styled from 'styled-components';
 import Icon from '../../other/Icons';
@@ -69,7 +68,7 @@ const MultiTextField = ({
           <Input
             aria-label={name}
             ref={inputRef}
-            placeholder={isEmpty(values) ? placeholder : ''}
+            placeholder={!values?.length ? placeholder : ''}
             disabled={disabled}
             value={input}
             name={name}
