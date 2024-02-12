@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { FeatureCollection } from '../../utils';
 
+const mapsHost = import.meta.env.VITE_MAPS_HOST || 'https://dev.maps.biip.lt';
+
 const MapField = ({
   value,
   onChange,
@@ -13,7 +15,7 @@ const MapField = ({
 
   const handleSaveGeom = useCallback(
     (event: any) => {
-      if (event.origin === import.meta.env.VITE_MAPS_URL) {
+      if (event.origin === mapsHost) {
         onChange(JSON.parse(event?.data?.mapIframeMsg?.data));
       }
     },
@@ -33,7 +35,7 @@ const MapField = ({
   return (
     <>
       <Iframe
-        src={`${import.meta.env.VITE_MAPS_URL}/edit?types[]=point&buffer=true`}
+        src={`${mapsHost}/edit?types[]=point&buffer=true`}
         ref={iframeRef}
         width={'100%'}
         allowFullScreen={true}
