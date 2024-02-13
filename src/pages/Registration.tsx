@@ -5,7 +5,7 @@ import Button from '../components/buttons/Button';
 import TextField from '../components/fields/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
-import { getErrorMessage, handleAlert } from '../utils/functions';
+import { getErrorMessage, handleAlert, handleToastSuccess } from '../utils/functions';
 import { buttonsTitles, inputLabels, validationTexts } from '../utils/texts';
 import { ReactQueryError } from '../utils/types';
 import { forgotPasswordSchema } from '../utils/validations';
@@ -32,13 +32,15 @@ const Registration = () => {
         email: validationTexts.tooFrequentRequest,
       });
     }
-
-    const url = new URL(response.url);
-    url.hostname = window.location.hostname;
-    url.port = window.location.port;
-    url.protocol = window.location.protocol;
-    console.log(url.href);
-    alert(url.href);
+    if (response?.url) {
+      const url = new URL(response.url);
+      url.hostname = window.location.hostname;
+      url.port = window.location.port;
+      url.protocol = window.location.protocol;
+      console.log(url.href);
+      alert(url.href);
+    }
+    handleToastSuccess(validationTexts.registration);
   };
 
   const { mutateAsync, isLoading, data } = useMutation(
