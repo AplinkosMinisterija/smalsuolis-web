@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useCallback, useEffect, useState } from 'react';
+import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
 import { matchPath, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { routes, ServerErrorCodes, slugs } from '.';
@@ -8,6 +8,7 @@ import { actions as userAction, UserReducerProps } from '../state/user/reducer';
 import api from './api';
 import { handleAlert, handleGetCurrentLocation } from './functions';
 import { clearCookies, emptyUser } from './loginFunctions';
+import { intersectionObserverConfig } from './configs';
 
 const cookies = new Cookies();
 
@@ -52,6 +53,7 @@ export const useGetUserInfoQuery = () => {
 
 export const useFilteredRoutes = () => {
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
+  //TODO: do not use from redux state
 
   return routes.filter((route) => {
     if (!route?.slug) return false;
@@ -129,10 +131,10 @@ export const useSetPassword = () => {
 export const useWindowSize = (width: string) => {
   const [isInRange, setIsInRange] = useState(false);
 
-  const handleResize = () => {
+  const handleResize = useCallback(() => {
     const mediaQuery = window.matchMedia(width);
     setIsInRange(mediaQuery.matches);
-  };
+  }, [width]);
 
   useEffect(() => {
     handleResize();
@@ -152,4 +154,48 @@ export const useGetCurrentRoute = () => {
   return routes?.find(
     (route: any) => !!matchPath({ path: route.slug, end: true }, currentLocation.pathname),
   );
+};
+
+export const useInfinityLoad = (
+  queryKey: string,
+  fn: (params: { page: number }) => any,
+  observerRef: any,
+) => {
+  const queryFn = async (page: number) => {
+    const data = await fn({
+      page,
+    });
+
+    return {
+      data: data.rows,
+      page: data.page < data.totalPages ? data.page + 1 : undefined,
+    };
+  };
+
+  const result = useInfiniteQuery([queryKey], ({ pageParam }) => queryFn(pageParam), {
+    getNextPageParam: (lastPage) => lastPage.page,
+    cacheTime: 60000,
+  });
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = result;
+  useEffect(() => {
+    const currentObserver = observerRef.current;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    }, intersectionObserverConfig);
+
+    if (currentObserver) {
+      observer.observe(currentObserver);
+    }
+
+    return () => {
+      if (currentObserver) {
+        observer.unobserve(currentObserver);
+      }
+    };
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage, data, observerRef]);
+
+  return result;
 };

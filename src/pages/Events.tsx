@@ -4,13 +4,14 @@ import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import ContentLayout from '../components/layouts/ContentLayout';
 import EventCard from '../components/other/EventCard';
-import Icon, { IconName } from '../components/other/Icons';
+import Icon from '../components/other/Icons';
 import LoaderComponent from '../components/other/LoaderComponent';
 import { device } from '../styles';
-import { descriptions, isEmpty, titles } from '../utils';
+import { descriptions, IconName, isEmpty, titles } from '../utils';
 import { intersectionObserverConfig } from '../utils/configs';
 import { slugs } from '../utils/routes';
 import { Event } from '../utils/types';
+import EmptyState from '../components/other/EmptyState';
 
 const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
   const navigate = useNavigate();
@@ -55,13 +56,13 @@ const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
   const renderContent = () => {
     if (isLoading) return <LoaderComponent />;
 
-    if (isEmpty(data?.pages?.[0]?.data)) {
+    if (!data?.pages?.[0]?.data?.length) {
       return (
-        <>
-          <StyledIcon name={IconName.airBallon} />
-          <Title>{titles.emptyState}</Title>
-          <Description>{descriptions.emptyState}</Description>
-        </>
+        <EmptyState
+          title={titles.emptyState}
+          description={descriptions.emptyState}
+          icon={IconName.airBallon}
+        />
       );
     }
 
@@ -91,29 +92,9 @@ const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
 
 export default Events;
 
-const Title = styled.div`
-  font-size: 1.9rem;
-  font-weight: 600;
-  line-height: 24px;
-  text-align: center;
-  margin: 30px 0px 20px 0px;
-`;
-
-const Description = styled.div`
-  line-height: 24px;
-  font-weight: 400;
-  font-size: 1.6rem;
-  line-height: 24px;
-  text-align: center;
-`;
-
 const Invisible = styled.div`
   width: 10px;
   height: 16px;
-`;
-
-const StyledIcon = styled(Icon)`
-  text-align: center;
 `;
 
 const Container = styled.div`
