@@ -15,6 +15,7 @@ export const validationTexts = {
   requirePhotos: 'Privalote įkelti nuotrauką',
   userDeniedLocation: 'Turite leisti nustatyti jūsų buvimo vietą',
   profileUpdated: 'Profilis atnaujintas',
+  registration: 'Registracija sėkminga',
   appsNotSelected: 'Pasirinkite bent vieną sritį',
 };
 
