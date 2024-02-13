@@ -1,12 +1,12 @@
 import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
 import { useMutation, useQuery } from 'react-query';
 import Switch from '../components/buttons/Switch';
 import RadioFrequency from '../components/other/RadioFrequency';
-import { Frequency, Subscription, SubscriptionForm, validateSubscriptionForm } from '../utils';
+import { Frequency, SubscriptionForm, validateSubscriptionForm } from '../utils';
 import Button from '../components/buttons/Button';
 import { Form, Formik } from 'formik';
 import LoaderComponent from '../components/other/LoaderComponent';
