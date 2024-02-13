@@ -6,7 +6,7 @@ import Icon, { IconName } from '../components/other/Icons';
 import LoaderComponent from '../components/other/LoaderComponent';
 import PreviewMap from '../components/other/PreviewMap';
 import Tag from '../components/other/Tag';
-import { appKeyToIconName, appKeyToName, buttonLabels } from '../utils';
+import { buttonLabels } from '../utils';
 import api from '../utils/api';
 import { getTimeDifference } from '../utils/functions';
 
@@ -20,13 +20,20 @@ const Event = () => {
     return <LoaderComponent />;
   }
 
-  const appKey = event.app.key;
+  const app = event.app;
+
+  const parser = new DOMParser();
+
+  const svgDoc = parser.parseFromString(app?.icon || '', 'image/svg+xml');
 
   return (
     <ContentLayout
       title={event?.name}
       customSubTitle={
-        <Tag icon={<EventIcon name={appKeyToIconName[appKey]} />} text={appKeyToName[appKey]} />
+        <Tag
+          icon={<SvgIcon dangerouslySetInnerHTML={{ __html: app?.icon || '' }} />}
+          text={app.name}
+        />
       }
     >
       <Line>
@@ -46,6 +53,12 @@ const Event = () => {
     </ContentLayout>
   );
 };
+
+const SvgIcon = styled.div`
+  svg {
+    width: 18px;
+  }
+`;
 
 const EventIcon = styled(Icon)`
   width: 15px;

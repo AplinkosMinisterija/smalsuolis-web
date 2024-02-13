@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { device } from '../../styles';
-import { appKeyToIconName, appKeyToName, Event, getTimeDifference } from '../../utils';
-import Icon from './Icons';
+import { Event, getTimeDifference } from '../../utils';
+import Tag from './Tag';
 
 const EventCard = ({ event, onClick }: { event: Event; onClick?: () => void }) => {
   const { startAt, app } = event;
@@ -9,12 +9,17 @@ const EventCard = ({ event, onClick }: { event: Event; onClick?: () => void }) =
   return (
     <Container onClick={onClick}>
       <IconContainer>
-        <EventIcon name={appKeyToIconName[app.key]} />
+        <div dangerouslySetInnerHTML={{ __html: app?.icon || '' }} />
       </IconContainer>
       <Content>
-        <Name>{appKeyToName[app.key]}</Name>
+        <Name>{event.name}</Name>
 
-        <Time>{getTimeDifference(startAt)}</Time>
+        <Row>
+          <Time>{getTimeDifference(startAt)}</Time>
+          <TagContainer>
+            <Tag text={app.name} />
+          </TagContainer>
+        </Row>
       </Content>
     </Container>
   );
@@ -44,7 +49,13 @@ const Container = styled.a`
   }
 `;
 
-const EventIcon = styled(Icon)``;
+const TagContainer = styled.div``;
+
+const Row = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+`;
 
 const IconContainer = styled.div`
   background-color: white;

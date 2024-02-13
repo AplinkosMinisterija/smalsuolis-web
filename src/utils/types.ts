@@ -20,6 +20,7 @@ export interface App {
   id: string;
   key: AppType;
   name: string;
+  icon?: string;
 }
 
 export interface User {
