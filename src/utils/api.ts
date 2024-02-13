@@ -2,8 +2,12 @@ import Axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 import Cookies from 'universal-cookie';
 import { App, Event, Subscription, SubscriptionForm } from './types';
-import { Frequency } from './constants';
 const cookies = new Cookies();
+
+interface Delete {
+  resource: string;
+  id: string;
+}
 
 interface GetAll {
   resource: string;
@@ -60,11 +64,10 @@ export enum Resources {
   ME = 'users/me',
   EVENTS = 'events',
   NEWSFEED = 'newsfeed',
-  SUBSCRIPTIONS = 'SUBSCRIPTIONS',
-  APPS = 'APPS',
+  SUBSCRIPTIONS = 'subscriptions',
+  APPS = 'apps',
   USERS = 'users',
 }
-
 class Api {
   private AuthApiAxios: AxiosInstance;
   private readonly proxy: string = '/api';
@@ -237,12 +240,24 @@ class Api {
     });
   };
 
-  updateSubscription = async (params: UpdateOne<SubscriptionForm>): Promise<Subscription> => {
+  updateSubscription = async (
+    params: UpdateOne<Partial<SubscriptionForm>>,
+  ): Promise<Subscription> => {
     return this.patch({
       resource: Resources.SUBSCRIPTIONS,
       ...params,
     });
   };
+
+  deleteSubscriptions = async (ids: number[]): Promise<any> => {
+    return this.post({
+      resource: Resources.SUBSCRIPTIONS + '/delete',
+      params: {
+        ids,
+      },
+    });
+  };
+
   getApps = async ({ page }: { page: number }): Promise<GetAllResponse<App>> => {
     return this.get({
       resource: Resources.APPS,

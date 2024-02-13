@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import { App, Frequency, Subscription, subscriptionFrequencyTitles } from '../../utils';
 import Tag from '../other/Tag';
+import Checkbox from '../buttons/Checkbox';
+import optionsContainer from '../fields/components/OptionsContainer';
+import Switch from '../buttons/Switch';
 
 const frequencyLabels = {
   [Frequency.DAY]: 'kasdieninė',
@@ -10,15 +13,28 @@ const frequencyLabels = {
 
 const SubscriptionCard = ({
   subscription,
+  canDelete,
+  deleteChecked,
   onClick,
+  onDelete,
+  onActiveChange,
 }: {
   subscription: Subscription<App>;
-  onClick?: () => void;
+  canDelete: boolean;
+  deleteChecked: boolean;
+  onClick: () => void;
+  onDelete: (e: boolean) => void;
+  onActiveChange: (e: boolean) => void;
 }) => {
   return (
-    <Container onClick={onClick}>
+    <Container>
       <InnerContainer>
-        <Content>
+        {canDelete && (
+          <CheckboxWrapper>
+            <Checkbox onChange={onDelete} value={deleteChecked} />
+          </CheckboxWrapper>
+        )}
+        <Content onClick={onClick}>
           <Name>
             {`${subscription.active ? 'Aktyvi' : 'Neaktyvi'} ${frequencyLabels[subscription.frequency]} prenumerata`}{' '}
           </Name>
@@ -37,6 +53,9 @@ const SubscriptionCard = ({
             })}
           </AppsContainer>
         </Content>
+        <SwitchWrapper>
+          <Switch value={subscription.active} onChange={(e) => onActiveChange(e.target.checked)} />
+        </SwitchWrapper>
       </InnerContainer>
     </Container>
   );
@@ -62,42 +81,23 @@ const InnerContainer = styled.div`
   background-color: #fff;
   border: 1px solid #d4ddde;
   box-shadow: 0px 8px 16px #00465014;
-`;
-
-const DateContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  justify-content: center;
   align-items: center;
-  width: 64px;
-  height: 64px;
-  margin-right: 12px;
-  border-radius: 4px;
-  background-color: #edf1f2;
-  color: ${({ theme }) => theme.colors.primary};
 `;
 
-const Month = styled.div`
-  font-size: 12px;
+const SwitchWrapper = styled.div`
+  padding: 0 8px;
+  align-self: flex-start;
 `;
 
-const Day = styled.div`
-  font-size: 24px;
-  font-weight: Bold;
+const CheckboxWrapper = styled.div`
+  padding: 0 8px;
 `;
 
 const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`;
-
-const Time = styled.div`
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  font-size: 1.4rem;
+  flex: 1;
 `;
 
 const Name = styled.div`

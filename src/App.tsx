@@ -1,4 +1,3 @@
-import { isEqual } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
@@ -24,7 +23,7 @@ function App() {
 
   const updateTokensMutation = useMutation(api.refreshToken, {
     onError: ({ response }: any) => {
-      if (isEqual(response.status, ServerErrorCodes.NOT_FOUND)) {
+      if (response.status === ServerErrorCodes.NOT_FOUND) {
         cookies.remove('refreshToken', { path: '/' });
       }
     },

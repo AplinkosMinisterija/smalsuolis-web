@@ -99,8 +99,8 @@ const Label = styled.label<{
     opacity: 0;
     content: '';
     position: absolute;
-    width: 13px;
-    height: 6px;
+    width: 11px;
+    height: 4px;
     background: transparent;
     top: ${({ intermediate }) => `${intermediate ? 2 : 3}px`};
     left: ${({ intermediate }) => `${intermediate ? 0.8 : 1}px`};

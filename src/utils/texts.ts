@@ -15,7 +15,7 @@ export const validationTexts = {
   requirePhotos: 'Privalote įkelti nuotrauką',
   userDeniedLocation: 'Turite leisti nustatyti jūsų buvimo vietą',
   profileUpdated: 'Profilis atnaujintas',
-  appsNotSelected: 'Pasirinkite bent vieną srity',
+  appsNotSelected: 'Pasirinkite bent vieną sritį',
 };
 
 export const inputLabels = {

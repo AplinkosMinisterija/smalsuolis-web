@@ -3,7 +3,7 @@ import api from '../utils/api';
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Switch from '../components/buttons/Switch';
 import RadioFrequency from '../components/other/RadioFrequency';
 import { Frequency, SubscriptionForm, validateSubscriptionForm } from '../utils';
@@ -28,7 +28,7 @@ const Subscriptions = () => {
   });
 
   const onSuccess = () => {
-    navigate(-1);
+    navigate(slugs.subscriptions);
   };
 
   const { mutateAsync: createSubscription } = useMutation(api.createSubscription, {
