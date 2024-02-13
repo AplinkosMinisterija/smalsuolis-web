@@ -49,7 +49,7 @@ export const titles = {
   registration: 'Registracija',
   remindPassword: 'Slaptažodžio priminimas',
   passwordChanged: 'Slaptažodis pakeistas',
-  createAccount: 'Sukurti Paskyra',
+  createAccount: 'Sukurti paskyrą',
   resetPassword: 'Atkurti slaptažodį',
   passwordCreated: 'Slaptažodis sukurtas',
   newPassword: 'Nustatyti naują slaptažodį',
