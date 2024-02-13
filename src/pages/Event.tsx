@@ -2,11 +2,11 @@ import { useQuery } from 'react-query';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
 import ContentLayout from '../components/layouts/ContentLayout';
-import Icon, { IconName } from '../components/other/Icons';
+import Icon from '../components/other/Icons';
 import LoaderComponent from '../components/other/LoaderComponent';
 import PreviewMap from '../components/other/PreviewMap';
 import Tag from '../components/other/Tag';
-import { buttonLabels } from '../utils';
+import { buttonLabels, IconName } from '../utils';
 import api from '../utils/api';
 import { getTimeDifference } from '../utils/functions';
 

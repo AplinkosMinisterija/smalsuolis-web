@@ -1,4 +1,3 @@
-import { IconName } from '../components/other/Icons';
 import { default as CreatePassword } from '../pages/CreatePassword';
 import Event from '../pages/Event';
 import Events from '../pages/Events';
@@ -9,6 +8,9 @@ import Registration from '../pages/Registration';
 import ResetPassword from '../pages/ResetPassword';
 import api from './api';
 import { titles } from './texts';
+import Subscriptions from '../pages/Subscriptions';
+import Subscription from '../pages/Subscription';
+import { IconName } from './constants';
 
 export const slugs = {
   login: '/prisijungimas/',
@@ -19,6 +21,8 @@ export const slugs = {
   profile: '/profilis',
   events: '/visos-naujienos',
   myEvents: '/mano-naujienos',
+  subscriptions: '/prenumeratos',
+  subscription: (id?: string) => `/prenumeratos/${id}`,
   event: (id?: string) => `/ivykis/${id}`,
 };
 
@@ -30,7 +34,6 @@ export const routes = [
     back: false,
     slug: slugs.login,
   },
-
   {
     component: <ResetPassword />,
     loggedIn: false,
@@ -39,6 +42,29 @@ export const routes = [
     slug: slugs.resetPassword,
   },
 
+  {
+    component: <Subscriptions />,
+    title: titles.subscriptions,
+    loggedIn: true,
+    iconName: IconName.settings,
+    back: false,
+    slug: slugs.subscriptions,
+  },
+  {
+    component: <Subscription />,
+    title: titles.subscription,
+    loggedIn: true,
+    back: true,
+    slug: slugs.subscription(':id'),
+  },
+  {
+    component: <Profile />,
+    title: titles.profile,
+    loggedIn: true,
+    iconName: IconName.profile,
+    back: false,
+    slug: slugs.profile,
+  },
   {
     component: <RemindPassword />,
     title: titles.forgotPassword,

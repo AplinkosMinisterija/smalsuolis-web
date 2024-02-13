@@ -1,8 +1,13 @@
 import Axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 import Cookies from 'universal-cookie';
-import { Event } from './types';
+import { App, Event, Subscription, SubscriptionForm } from './types';
 const cookies = new Cookies();
+
+interface Delete {
+  resource: string;
+  id: string;
+}
 
 interface GetAll {
   resource: string;
@@ -36,10 +41,10 @@ interface GetOne {
   populate?: string[];
   scope?: string;
 }
-interface UpdateOne {
+interface UpdateOne<T = any> {
   resource?: string;
   id?: string;
-  params?: any;
+  params?: T;
 }
 
 interface Create {
@@ -59,9 +64,10 @@ export enum Resources {
   ME = 'users/me',
   EVENTS = 'events',
   NEWSFEED = 'newsfeed',
+  SUBSCRIPTIONS = 'subscriptions',
+  APPS = 'apps',
   USERS = 'users',
 }
-
 class Api {
   private AuthApiAxios: AxiosInstance;
   private readonly proxy: string = '/api';
@@ -209,6 +215,53 @@ class Api {
       resource: Resources.EVENTS,
       populate: ['geom', 'app'],
       id,
+    });
+  };
+
+  getSubscriptions = async ({ page }: { page: number }): Promise<GetAllResponse<Subscription>> => {
+    return this.get({
+      resource: Resources.SUBSCRIPTIONS,
+      populate: ['apps'],
+      page,
+    });
+  };
+  getSubscription = async ({ id }: { id: string }): Promise<Subscription> => {
+    return this.getOne({
+      resource: Resources.SUBSCRIPTIONS,
+      populate: ['geom'],
+      id,
+    });
+  };
+
+  createSubscription = async (params: SubscriptionForm): Promise<Subscription> => {
+    return this.post({
+      resource: Resources.SUBSCRIPTIONS,
+      params,
+    });
+  };
+
+  updateSubscription = async (
+    params: UpdateOne<Partial<SubscriptionForm>>,
+  ): Promise<Subscription> => {
+    return this.patch({
+      resource: Resources.SUBSCRIPTIONS,
+      ...params,
+    });
+  };
+
+  deleteSubscriptions = async (ids: number[]): Promise<any> => {
+    return this.post({
+      resource: Resources.SUBSCRIPTIONS + '/delete',
+      params: {
+        ids,
+      },
+    });
+  };
+
+  getApps = async ({ page }: { page: number }): Promise<GetAllResponse<App>> => {
+    return this.get({
+      resource: Resources.APPS,
+      page,
     });
   };
 }

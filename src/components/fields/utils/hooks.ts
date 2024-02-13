@@ -1,4 +1,3 @@
-import { isEmpty } from 'lodash';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { intersectionObserverConfig } from '../../../utils/configs';
@@ -79,7 +78,7 @@ export const useAsyncSelectData = ({
   };
 
   const handleInputChange = (input: string) => {
-    setShowSelect(!isEmpty(input));
+    setShowSelect(!!input);
     setInput(input);
   };
 
@@ -135,7 +134,7 @@ export const useSelectData = ({
   }, [dependantId, refreshOptions]);
 
   useEffect(() => {
-    if (!showSelect || !isEmpty(options)) return;
+    if (!showSelect || !!options?.length) return;
     handleSetOptions();
   }, [showSelect, handleSetOptions, options]);
 

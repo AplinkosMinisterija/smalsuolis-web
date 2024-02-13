@@ -1,4 +1,4 @@
-import { EventStatusTypes } from './constants';
+import { EventStatusTypes, Frequency } from './constants';
 
 export const validationTexts = {
   requireText: 'Privalote įvesti',
@@ -15,6 +15,7 @@ export const validationTexts = {
   requirePhotos: 'Privalote įkelti nuotrauką',
   userDeniedLocation: 'Turite leisti nustatyti jūsų buvimo vietą',
   profileUpdated: 'Profilis atnaujintas',
+  appsNotSelected: 'Pasirinkite bent vieną sritį',
 };
 
 export const inputLabels = {
@@ -42,6 +43,8 @@ export const titles = {
   allEvents: 'Visos naujienos',
   login: 'Prisijungimas',
   profile: 'Profilis',
+  subscriptions: 'Prenumeratos',
+  subscription: 'Prenumeratos valdymas',
   forgotPassword: 'Pamiršote slaptažodį?',
   registration: 'Registracija',
   remindPassword: 'Slaptažodžio priminimas',
@@ -121,4 +124,10 @@ export const stateLabels = {
 export const eventStatusLabels = {
   [EventStatusTypes.UPCOMING]: 'Būsimi',
   [EventStatusTypes.FINISHED]: 'Įvykę',
+};
+
+export const subscriptionFrequencyTitles = {
+  [Frequency.DAY]: 'kas dieną',
+  [Frequency.WEEK]: 'kas savaitę',
+  [Frequency.MONTH]: 'kas mėnesį',
 };

@@ -76,7 +76,7 @@ export const theme: Theme<{
       success: '#4FB922B3',
     },
     text: {
-      primary: '#2C2C2C',
+      primary: '#101010',
       secondary: '#525252',
       tertiary: '#4B5565',
       labels: '#697586',
