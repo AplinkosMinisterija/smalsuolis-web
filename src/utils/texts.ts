@@ -40,6 +40,7 @@ export const buttonLabels = {
 };
 
 export const titles = {
+  about: 'Apie mus',
   myEvents: 'Mano naujienos',
   allEvents: 'Visos naujienos',
   login: 'Prisijungimas',
@@ -86,9 +87,12 @@ export const descriptions = {
   updateUserInfo: 'Atnaujinti darbuotojo informaciją',
   myProfile: 'Mano profilis',
   login: 'Greitosios pagalbos pavežėjimo aplikacija vairuotojams',
+  about:
+    'Nori žinoti visą naujausią informaciją? Užsiregistruok, pažymėk tave dominančias teritorijas ir gauk elektroniniu paštu naujausią informaciją apie išduotus statybų leidimus, miško kirtimo leidimus, želdynų ir želdinių šalinimo leidimus bei sprendimus ir daugelį kitų.',
 };
 
 export const buttonsTitles = {
+  subscribeNews: 'Prenumeruoti naujienas',
   resetPassword: 'Atstatyti slaptažodį',
   createAccount: 'Sukurti paskyrą',
   update: 'Atnaujinti',
@@ -100,6 +104,10 @@ export const buttonsTitles = {
   logout: 'Atsijungti',
   profile: 'Profilis',
   edit: 'Redaguoti',
+};
+
+export const subtitle = {
+  about: 'Domina, kas vyksta aplinkui tave?',
 };
 
 export const toasts = {

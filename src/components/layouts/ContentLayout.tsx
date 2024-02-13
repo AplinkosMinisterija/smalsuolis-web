@@ -2,23 +2,23 @@ import styled from 'styled-components';
 import { device } from '../../styles';
 import { useGetCurrentRoute } from '../../utils';
 
-const ContentLayout = ({ children, title, customSubTitle }: any) => {
+const ContentLayout = ({ children, title, customSubTitle, customTitle }: any) => {
   const currentRoute = useGetCurrentRoute();
 
   const pageTitle = title || currentRoute?.title;
 
   return (
     <Container>
-      {pageTitle && <Title>{pageTitle}</Title>}
+      {customTitle || (pageTitle && <Title>{pageTitle}</Title>)}
       {customSubTitle ||
-        (currentRoute?.description && <Description>{currentRoute?.description}</Description>)}
+        (currentRoute?.description && <SubTitle>{currentRoute?.description}</SubTitle>)}
       {children}
     </Container>
   );
 };
 export default ContentLayout;
 
-const Description = styled.div`
+const SubTitle = styled.div`
   color: ${({ theme }) => theme.colors.text.primary};
   margin-bottom: 16px;
 `;
