@@ -28,7 +28,7 @@ export const handleAlert = (responseError?: string) => {
   });
 };
 
-export const handleSuccess = (message: string) => {
+export const handleToastSuccess = (message: string) => {
   toast.success(message, {
     position: 'top-center',
     autoClose: 5000,

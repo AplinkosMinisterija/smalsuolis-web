@@ -32,12 +32,14 @@ const RemindPassword = () => {
         email: validationTexts.tooFrequentRequest,
       });
     }
-
-    const url = new URL(response.url);
-    url.hostname = window.location.hostname;
-    url.port = window.location.port;
-    url.protocol = window.location.protocol;
-    console.log(url.href);
+    if (response?.url) {
+      const url = new URL(response.url);
+      url.hostname = window.location.hostname;
+      url.port = window.location.port;
+      url.protocol = window.location.protocol;
+      console.log(url.href);
+      alert(url.href);
+    }
   };
 
   const {
