@@ -144,10 +144,10 @@ class Api {
     });
   };
 
-  refreshToken = async () => {
+  refreshToken = async (refreshToken: string) => {
     return this.post({
       resource: Resources.REFRESH_TOKEN,
-      params: { token: cookies.get('refreshToken') },
+      params: { token: refreshToken },
     });
   };
 

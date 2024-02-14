@@ -2,7 +2,7 @@ import Div100vh from 'react-div-100vh';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { device } from '../../styles';
-import { IconName, useLogoutMutation, useMenuRouters } from '../../utils';
+import { filterMenuRoutes, IconName, useGetUserInfoQuery, useLogout } from '../../utils';
 import MenuButton from '../buttons/MenuButton';
 import Icon from './Icons';
 import Modal from './Modal';
@@ -10,9 +10,10 @@ import Modal from './Modal';
 const MobileMenu = ({ onClose, visible = true }: any) => {
   const navigate = useNavigate();
   const currentLocation = useLocation();
-  const routes = useMenuRouters();
+  const { loggedIn } = useGetUserInfoQuery();
+  const { mutateAsync: logout } = useLogout();
 
-  const { mutateAsync } = useLogoutMutation();
+  const routes = filterMenuRoutes(loggedIn);
 
   return (
     <Modal visible={visible} onClose={onClose}>
@@ -28,7 +29,7 @@ const MobileMenu = ({ onClose, visible = true }: any) => {
             <Title>Meniu</Title>
             <Subtitle>Pasirinkite dominančią sritį</Subtitle>
           </Headings>
-          {routes.map((route, index) => {
+          {routes?.map((route, index) => {
             return (
               <MenuButton
                 key={`menu_button_${index}`}
@@ -42,7 +43,7 @@ const MobileMenu = ({ onClose, visible = true }: any) => {
               />
             );
           })}
-          <MenuButton label="Atsijungti" icon={IconName.logout} onClick={() => mutateAsync()} />
+          <MenuButton label="Atsijungti" icon={IconName.logout} onClick={() => logout()} />
         </InnerContainer>
       </Container>
     </Modal>

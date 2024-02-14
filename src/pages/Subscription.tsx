@@ -3,10 +3,10 @@ import api from '../utils/api';
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import Switch from '../components/buttons/Switch';
 import RadioFrequency from '../components/other/RadioFrequency';
-import { Frequency, SubscriptionForm, validateSubscriptionForm } from '../utils';
+import { Frequency, slugs, SubscriptionForm, validateSubscriptionForm } from '../utils';
 import Button from '../components/buttons/Button';
 import { Form, Formik } from 'formik';
 import LoaderComponent from '../components/other/LoaderComponent';
@@ -31,11 +31,13 @@ const Subscriptions = () => {
     navigate(slugs.subscriptions);
   };
 
-  const { mutateAsync: createSubscription } = useMutation(api.createSubscription, {
+  const { mutateAsync: createSubscription } = useMutation({
+    mutationFn: api.createSubscription,
     onSuccess,
   });
 
-  const { mutateAsync: updateSubscription } = useMutation(api.updateSubscription, {
+  const { mutateAsync: updateSubscription } = useMutation({
+    mutationFn: api.updateSubscription,
     onSuccess,
   });
 

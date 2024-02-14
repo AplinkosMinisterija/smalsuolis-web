@@ -1,6 +1,4 @@
 import { useFormik } from 'formik';
-import { useRef } from 'react';
-import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/buttons/Button';
@@ -8,54 +6,14 @@ import CheckBox from '../components/buttons/Checkbox';
 import PasswordField from '../components/fields/PasswordField';
 import TextField from '../components/fields/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';
-import api from '../utils/api';
-import { getErrorMessage } from '../utils/functions';
-import { useGetUserInfoQuery } from '../utils/hooks';
-import { handleUpdateTokens } from '../utils/loginFunctions';
+import { useGetUserInfoQuery, useLogin } from '../utils/hooks';
 import { slugs } from '../utils/routes';
 import { buttonsTitles, inputLabels, titles } from '../utils/texts';
-import { ReactQueryError } from '../utils/types';
 import { loginSchema } from '../utils/validations';
 
-interface LoginProps {
-  email: string;
-  password: string;
-  refresh: boolean;
-}
-
 const Login = () => {
-  const captchaRef = useRef<any>();
   const navigate = useNavigate();
-  const handleLogin = async (values: LoginProps) => {
-    const captchaToken = await captchaRef?.current?.execute();
-    const { email, password, refresh } = values;
-    const params = {
-      password,
-      refresh,
-      email: email.toLocaleLowerCase(),
-      captchaToken,
-    };
-
-    return await api.login(params);
-  };
-
-  const handleError = ({ response }: ReactQueryError): any => {
-    const text = getErrorMessage(response?.data?.message);
-    return setErrors({ email: text });
-  };
-
-  const loginMutation = useMutation((params: LoginProps) => handleLogin(params), {
-    onError: handleError,
-    onSuccess: (data) => {
-      handleUpdateTokens(data);
-    },
-    retry: false,
-  });
-
-  const { isLoading: userInfoLoading } = useGetUserInfoQuery();
-
-  const loading = [loginMutation.isLoading, userInfoLoading].some((loading) => loading);
-
+  const { isLoading: userLoading } = useGetUserInfoQuery();
   const { values, errors, setFieldValue, handleSubmit, setErrors } = useFormik({
     initialValues: {
       email: '',
@@ -64,8 +22,12 @@ const Login = () => {
     },
     validateOnChange: false,
     validationSchema: loginSchema,
-    onSubmit: (values) => loginMutation.mutateAsync(values),
+    onSubmit: (values) => login(values),
   });
+
+  const { mutateAsync: login, isPending: loginLoading } = useLogin();
+
+  const loading = [loginLoading, userLoading].some((loading) => loading);
 
   const handleType = (field: string, value: string | boolean) => {
     setFieldValue(field, value);

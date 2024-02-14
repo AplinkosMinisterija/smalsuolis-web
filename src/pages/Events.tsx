@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import ContentLayout from '../components/layouts/ContentLayout';
@@ -21,15 +21,21 @@ const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
     });
 
     return {
+      ...events,
       data: events.rows,
-      page: events.page < events.totalPages ? events.page + 1 : undefined,
     };
   };
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, isLoading } =
-    useInfiniteQuery([key], ({ pageParam }) => getEvents(pageParam), {
-      getNextPageParam: (lastPage) => lastPage.page,
-      cacheTime: 60000,
+    useInfiniteQuery({
+      queryKey: [key],
+      initialPageParam: 1,
+      queryFn: ({ pageParam }: any) => getEvents(pageParam),
+      getNextPageParam: (lastPage) => {
+        const { page, totalPages } = lastPage;
+        return page < totalPages ? page + 1 : undefined;
+      },
+      gcTime: 60000,
     });
 
   const observerRef = useRef<any>(null);

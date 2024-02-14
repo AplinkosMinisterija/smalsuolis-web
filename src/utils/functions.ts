@@ -10,6 +10,8 @@ import { utcToZonedTime } from 'date-fns-tz';
 import { toast } from 'react-toastify';
 import Cookies from 'universal-cookie';
 import { validationTexts } from './texts';
+import { routes } from './routes';
+import { useGetUserInfoQuery } from './hooks';
 
 const cookies = new Cookies();
 
@@ -133,4 +135,18 @@ export const isEmpty = (value: any) => {
     (typeof value === 'object' && Object.keys(value).length === 0) ||
     (typeof value === 'string' && value.trim().length === 0)
   );
+};
+
+export const filterRoutes = (loggedIn: boolean) => {
+  return routes.filter((route) => {
+    if (!route?.slug) return false;
+    if (Object.prototype.hasOwnProperty.call(route, 'loggedIn')) {
+      return route.loggedIn === loggedIn;
+    }
+    return true;
+  });
+};
+
+export const filterMenuRoutes = (loggedIn: boolean) => {
+  return filterRoutes(loggedIn).filter((route) => !!route.iconName);
 };

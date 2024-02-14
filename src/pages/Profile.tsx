@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import { useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 import Button from '../components/buttons/Button';
 import PasswordField from '../components/fields/PasswordField';
@@ -8,25 +8,31 @@ import TextField from '../components/fields/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';
 import PasswordCheckListContainer from '../components/other/PasswordCheckListContainer';
 import { useAppSelector } from '../state/hooks';
-import { handleSuccess } from '../utils';
+import { handleSuccess, useGetUserInfoQuery } from '../utils';
 import api from '../utils/api';
 import { buttonsTitles, inputLabels, validationTexts } from '../utils/texts';
 
 const Profile = () => {
   const [allValid, setAllValid] = useState(false);
-  const user = useAppSelector((state) => state.user.userData);
 
-  const { mutateAsync, isLoading } = useMutation(
-    (values: { password: string; repeatPassword: string; firstName: string; lastName: string }) => {
+  const { data: user, isLoading: userLoading, error } = useGetUserInfoQuery();
+
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: (values: {
+      password: string;
+      repeatPassword: string;
+      firstName: string;
+      lastName: string;
+    }) => {
       return api.updateProfile(values);
     },
-    {
-      onSuccess: () => {
-        handleSuccess(validationTexts.profileUpdated);
-      },
-    },
-  );
 
+    onSuccess: () => {
+      handleSuccess(validationTexts.profileUpdated);
+    },
+  });
+
+  //TODO: would be better if not used as a hook
   const { values, setFieldValue, handleSubmit, setErrors } = useFormik({
     initialValues: {
       password: '',
