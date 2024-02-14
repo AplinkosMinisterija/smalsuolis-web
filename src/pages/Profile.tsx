@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 import Button from '../components/buttons/Button';
@@ -7,19 +7,13 @@ import PasswordField from '../components/fields/PasswordField';
 import TextField from '../components/fields/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';
 import PasswordCheckListContainer from '../components/other/PasswordCheckListContainer';
-import {
-  handleToastSuccess,
-  useGetUserInfoQuery,
-  buttonsTitles,
-  inputLabels,
-  validationTexts,
-} from '../utils';
+import { handleToastSuccess, buttonsTitles, inputLabels, validationTexts } from '../utils';
 import api from '../utils/api';
+import { UserContext, UserContextType } from '../components/UserProvider';
 
 const Profile = () => {
   const [allValid, setAllValid] = useState(false);
-
-  const { data: user, isLoading: userLoading, error } = useGetUserInfoQuery();
+  const { data: user } = useContext<UserContextType>(UserContext);
 
   const { mutateAsync, isPending: isLoading } = useMutation({
     mutationFn: (values: {
@@ -41,8 +35,8 @@ const Profile = () => {
     initialValues: {
       password: '',
       repeatPassword: '',
-      firstName: user.firstName || '',
-      lastName: user.lastName || '',
+      firstName: user?.firstName || '',
+      lastName: user?.lastName || '',
     },
     onSubmit: (values) => {
       mutateAsync(values);
@@ -77,7 +71,6 @@ const Profile = () => {
           value={values.lastName}
           onChange={(lastName) => handleType('lastName', lastName)}
         />
-
         <PasswordField
           value={password}
           name="password"
@@ -114,18 +107,6 @@ const PasswordContainer = styled.form`
   width: 100%;
 `;
 
-const SuccessContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 16px;
-  width: 100%;
-`;
-
 const StyledButton = styled(Button)`
   margin-top: 32px;
-`;
-
-const Description = styled.div`
-  text-align: center;
 `;

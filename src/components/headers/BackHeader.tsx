@@ -6,7 +6,7 @@ import Icon from '../other/Icons';
 import MobileMenu from '../other/MobileMenu';
 import { IconName } from '../../utils';
 
-const BackHeader = ({ loggedIn }: any) => {
+const BackHeader = () => {
   const [showMenu, setShowMenu] = useState(false);
 
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const BackHeader = ({ loggedIn }: any) => {
           Meniu
         </Menu>
       </Container>
-      <MobileMenu visible={showMenu} onClose={() => setShowMenu(false)} loggedIn={loggedIn} />
+      <MobileMenu visible={showMenu} onClose={() => setShowMenu(false)} />
     </>
   );
 };

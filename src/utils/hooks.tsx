@@ -5,55 +5,8 @@ import Cookies from 'universal-cookie';
 import { getErrorMessage, LoginForm, ReactQueryError, routes, ServerErrorCodes, slugs } from '.';
 import api from './api';
 import { handleAlert } from './functions';
-import { clearCookies, handleUpdateTokens } from './loginFunctions';
+import { clearCookies, updateTokens } from './loginFunctions';
 import { intersectionObserverConfig } from './configs';
-import { AxiosError } from 'axios';
-
-const cookies = new Cookies();
-
-export const useGetUserInfoQuery = () => {
-  const token = cookies.get('token');
-  const refreshToken = cookies.get('refreshToken');
-
-  const { mutateAsync: refresh } = useMutation({
-    mutationFn: api.refreshToken,
-    onError: ({ response }: any) => {
-      if (response.status === ServerErrorCodes.NOT_FOUND) {
-        cookies.remove('refreshToken', { path: '/' });
-      }
-    },
-    onSuccess: (data) => {
-      handleUpdateTokens(data);
-    },
-  });
-
-  const { data, error, isError, isLoading } = useQuery({
-    queryKey: ['user'],
-    queryFn: api.getUserInfo,
-    retry: false,
-    enabled: !!token,
-  });
-
-  // useEffect(() => {
-  //   console.log('error', error);
-  //
-  //   const errResponse = (error as any)?.response;
-  //   if (errResponse) {
-  //     if (errResponse === ServerErrorCodes.NO_PERMISSION) {
-  //       console.log('refreshToken', refreshToken, refresh);
-  //       if (refreshToken) {
-  //         refresh().then((data) => {
-  //           console.log('data', data);
-  //         });
-  //       }
-  //     } else {
-  //       handleAlert();
-  //     }
-  //   }
-  // }, [error]);
-
-  return { data, isLoading, error, loggedIn: !!data?.id && !error && !isLoading };
-};
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
@@ -71,7 +24,7 @@ export const useLogin = () => {
       const text = getErrorMessage(response?.data?.message);
     },
     onSuccess: async (data) => {
-      handleUpdateTokens(data);
+      updateTokens(data);
       await queryClient.invalidateQueries({ queryKey: ['user'] });
     },
     retry: false,
@@ -83,7 +36,6 @@ export const useLogout = () => {
   const { mutateAsync } = useMutation({
     mutationFn: api.logout,
     onError: async () => {
-      //TODO: do we realy need to clear cookies on logout error
       handleAlert();
       clearCookies();
       await queryClient.invalidateQueries({ queryKey: ['user'] });

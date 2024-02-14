@@ -6,14 +6,16 @@ import CheckBox from '../components/buttons/Checkbox';
 import PasswordField from '../components/fields/PasswordField';
 import TextField from '../components/fields/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';
-import { useGetUserInfoQuery, useLogin } from '../utils/hooks';
+import { useLogin } from '../utils/hooks';
 import { slugs } from '../utils/routes';
 import { buttonsTitles, inputLabels, titles } from '../utils/texts';
 import { loginSchema } from '../utils/validations';
+import { useContext } from 'react';
+import { UserContext, UserContextType } from '../components/UserProvider';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { isLoading: userLoading } = useGetUserInfoQuery();
+  const { isLoading: userLoading } = useContext<UserContextType>(UserContext);
   const { values, errors, setFieldValue, handleSubmit, setErrors } = useFormik({
     initialValues: {
       email: '',

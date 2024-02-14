@@ -3,14 +3,15 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DefaultLayout from './components/layouts/DefaultLayout';
 import LoaderComponent from './components/other/LoaderComponent';
-import { useGetUserInfoQuery } from './utils/hooks';
 import { slugs } from './utils/routes';
 import { filterRoutes } from './utils';
+import { useContext, useEffect } from 'react';
+import { UserContext, UserContextType } from './components/UserProvider'; // Ensure to export UserContext from UserContext.js
 
 function App() {
-  const { isLoading: userInfoLoading, loggedIn } = useGetUserInfoQuery();
+  const { isLoading, loggedIn } = useContext<UserContextType>(UserContext);
 
-  if (userInfoLoading) return <LoaderComponent />;
+  if (isLoading) return <LoaderComponent />;
 
   const routes = filterRoutes(loggedIn);
 

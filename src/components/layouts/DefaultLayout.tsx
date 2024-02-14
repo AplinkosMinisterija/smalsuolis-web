@@ -1,22 +1,25 @@
 import Div100vh from 'react-div-100vh';
 import styled from 'styled-components';
 import { device } from '../../styles';
-import { useGetCurrentRoute, useGetUserInfoQuery, useWindowSize } from '../../utils';
+import { useGetCurrentRoute, useWindowSize } from '../../utils';
 import BackHeader from '../headers/BackHeader';
 import LogoHeader from '../headers/LogoHeader';
 import SideBar from '../other/SideBar';
 import LoaderComponent from '../other/LoaderComponent';
+import { useContext } from 'react';
+import { UserContext, UserContextType } from '../UserProvider';
 
 const DefaultLayout = ({ children, onScroll = () => {} }: any) => {
   const isMobile = useWindowSize(device.mobileL);
   const currentRoute = useGetCurrentRoute();
-  const { loggedIn, isLoading } = useGetUserInfoQuery();
+  const { isLoading, loggedIn } = useContext<UserContextType>(UserContext);
+
   if (isLoading) {
     return (
       <Container>
         <ScrollableContainer onScroll={onScroll}>
           <InnerContainer>
-            {currentRoute?.back ? <BackHeader loggedIn={loggedIn} /> : <LogoHeader />}
+            {currentRoute?.back ? <BackHeader /> : <LogoHeader />}
             <LoaderComponent />
           </InnerContainer>
         </ScrollableContainer>
@@ -28,7 +31,7 @@ const DefaultLayout = ({ children, onScroll = () => {} }: any) => {
       {!isMobile && <SideBar loggedIn={loggedIn} />}
       <ScrollableContainer onScroll={onScroll}>
         <InnerContainer>
-          {currentRoute?.back ? <BackHeader loggedIn={loggedIn} /> : <LogoHeader />}
+          {currentRoute?.back ? <BackHeader /> : <LogoHeader />}
           {children}
         </InnerContainer>
       </ScrollableContainer>

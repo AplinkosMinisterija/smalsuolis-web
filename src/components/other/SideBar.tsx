@@ -1,14 +1,6 @@
 import { matchPath, useLocation, useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { useAppSelector } from '../../state/hooks';
-import {
-  buttonLabels,
-  filterMenuRoutes,
-  IconName,
-  slugs,
-  useGetUserInfoQuery,
-  useLogout,
-} from '../../utils';
+import { buttonLabels, filterMenuRoutes, IconName, slugs, useLogout } from '../../utils';
 import Icon from './Icons';
 
 const SideBar = ({ loggedIn }: any) => {
