@@ -1,6 +1,6 @@
 import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
-import { App, descriptions, IconName, slugs, Subscription, useInfinityLoad } from '../utils';
+import { App, IconName, slugs, Subscription, useInfinityLoad } from '../utils';
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import LoaderComponent from '../components/other/LoaderComponent';
@@ -165,10 +165,12 @@ const NewSubscriptionButton = styled.a`
   float: right;
   width: fit-content;
   margin-left: auto;
+  cursor: pointer;
 `;
 
 const DeleteSubscriptionButton = styled.a`
   color: ${({ theme }) => theme.colors.error};
   text-decoration: underline;
   float: right;
+  cursor: pointer;
 `;
