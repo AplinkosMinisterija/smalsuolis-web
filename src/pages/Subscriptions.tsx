@@ -87,10 +87,10 @@ const Subscriptions = () => {
           />
         ) : (
           <SubscriptionsContainer>
-            {subscriptions?.pages.map((page, pageIndex) => {
+            {subscriptions?.pages.map((page: { data: Subscription<App>[] }, pageIndex: number) => {
               return (
                 <React.Fragment key={pageIndex}>
-                  {page.data.map((subscription: Subscription<App>) => (
+                  {page?.data.map((subscription) => (
                     <SubscriptionCard
                       subscription={subscription}
                       canDelete={deleteEnabled}
