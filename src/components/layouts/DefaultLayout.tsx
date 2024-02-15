@@ -28,7 +28,7 @@ const DefaultLayout = ({ children, onScroll = () => {} }: any) => {
   }
   return (
     <Container>
-      {!isMobile && <SideBar loggedIn={loggedIn} />}
+      {!isMobile && <SideBar />}
       <ScrollableContainer onScroll={onScroll}>
         <InnerContainer>
           {currentRoute?.back ? <BackHeader /> : <LogoHeader />}
