@@ -7,11 +7,21 @@ import EmptyState from '../components/other/EmptyState';
 import EventCard from '../components/other/EventCard';
 import LoaderComponent from '../components/other/LoaderComponent';
 import { device } from '../styles';
-import { descriptions, EventFilter, IconName, isEmpty, titles, useInfinityLoad } from '../utils';
+import { EventFilter, IconName, isEmpty, useInfinityLoad } from '../utils';
 import { slugs } from '../utils/routes';
 import { Event } from '../utils/types';
 
-const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
+const Events = ({
+  apiEndpoint,
+  queryKey,
+  emptyStateDescription,
+  emptyStateTitle,
+}: {
+  apiEndpoint: any;
+  queryKey: string;
+  emptyStateDescription?: string;
+  emptyStateTitle: string;
+}) => {
   const navigate = useNavigate();
   const observerRef = useRef<any>(null);
   const [filter, setFilter] = useState(EventFilter.UPCOMING);
@@ -28,7 +38,7 @@ const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
     data: events,
     isFetching,
     isLoading,
-  } = useInfinityLoad(`${key}-${filter}`, apiEndpoint, observerRef, { filter: getFilter() });
+  } = useInfinityLoad(`${queryKey}-${filter}`, apiEndpoint, observerRef, { filter: getFilter() });
 
   const renderContent = () => {
     if (isLoading) return <LoaderComponent />;
@@ -36,8 +46,8 @@ const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
     if (isEmpty(events?.pages?.[0]?.data)) {
       return (
         <EmptyState
-          title={titles.emptyState}
-          description={descriptions.emptyState}
+          title={emptyStateTitle}
+          description={emptyStateDescription}
           icon={IconName.airBallon}
         />
       );

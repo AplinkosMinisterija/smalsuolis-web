@@ -11,7 +11,7 @@ import Subscription from '../pages/Subscription';
 import Subscriptions from '../pages/Subscriptions';
 import api from './api';
 import { IconName } from './constants';
-import { titles } from './texts';
+import { descriptions, titles } from './texts';
 
 export const slugs = {
   login: '/prisijungimas',
@@ -82,13 +82,26 @@ export const routes = [
     description: 'Visos atrinktos naujienos',
     iconName: IconName.list,
     loggedIn: true,
-    component: <Events apiEndpoint={api.getNewsfeed} key={'newsfeed'} />,
+    component: (
+      <Events
+        apiEndpoint={api.getNewsfeed}
+        queryKey={'newsfeed'}
+        emptyStateTitle={titles.myEventsEmptyState}
+        emptyStateDescription={descriptions.myEventsEmptyState}
+      />
+    ),
     slug: slugs.myEvents,
   },
   {
     title: titles.allEvents,
     iconName: IconName.fourSquares,
-    component: <Events apiEndpoint={api.getEvents} key={'events'} />,
+    component: (
+      <Events
+        apiEndpoint={api.getEvents}
+        queryKey={'events'}
+        emptyStateTitle={titles.eventsEmptyState}
+      />
+    ),
     slug: slugs.events,
   },
   {
