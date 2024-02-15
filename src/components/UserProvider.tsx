@@ -24,7 +24,6 @@ const defaultValue: UserContextType = {
   subscriptionsCount: 0,
 };
 
-export const InvalidateUserKeys = ['user', 'subsCount'];
 export const UserContext: any = createContext<UserContextType>(defaultValue);
 
 export const UserProvider = ({ children }: any) => {
