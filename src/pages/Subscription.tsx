@@ -6,13 +6,7 @@ import { useNavigate, useParams } from 'react-router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Switch from '../components/buttons/Switch';
 import RadioFrequency from '../components/other/RadioFrequency';
-import {
-  Frequency,
-  slugs,
-  Subscription,
-  SubscriptionForm,
-  validateSubscriptionForm,
-} from '../utils';
+import { Frequency, slugs, SubscriptionForm, validateSubscriptionForm } from '../utils';
 import Button from '../components/buttons/Button';
 import { Form, Formik } from 'formik';
 import LoaderComponent from '../components/other/LoaderComponent';
@@ -48,10 +42,12 @@ const Subscriptions = () => {
   if (subscriptionLoading || appsLoading) {
     return <LoaderComponent />;
   }
+  // preselect first app
+  const preselectedAppId = apps?.rows?.[0]?.id;
 
   const initialValues: SubscriptionForm = {
     active: !!subscription?.active,
-    apps: subscription?.apps || [],
+    apps: subscription?.apps || (preselectedAppId ? [preselectedAppId] : []),
     geom: subscription?.geom,
     frequency: subscription?.frequency || Frequency.DAY,
   };
