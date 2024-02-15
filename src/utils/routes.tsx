@@ -1,3 +1,4 @@
+import About from '../pages/About';
 import { default as CreatePassword } from '../pages/CreatePassword';
 import Event from '../pages/Event';
 import Events from '../pages/Events';
@@ -6,14 +7,14 @@ import Login from '../pages/Login';
 import Profile from '../pages/Profile';
 import Registration from '../pages/Registration';
 import ResetPassword from '../pages/ResetPassword';
-import api from './api';
-import { titles } from './texts';
-import Subscriptions from '../pages/Subscriptions';
 import Subscription from '../pages/Subscription';
+import Subscriptions from '../pages/Subscriptions';
+import api from './api';
 import { IconName } from './constants';
+import { titles } from './texts';
 
 export const slugs = {
-  login: '/prisijungimas/',
+  login: '/prisijungimas',
   forgotPassword: '/pamirsau',
   resetPassword: '/atstatyti',
   registration: '/registracija',
@@ -23,7 +24,9 @@ export const slugs = {
   myEvents: '/mano-naujienos',
   subscriptions: '/prenumeratos',
   subscription: (id?: string) => `/prenumeratos/${id}`,
+  newSubscription: `/prenumeratos/nauja`,
   event: (id?: string) => `/ivykis/${id}`,
+  about: '/aie-mus',
 };
 
 export const routes = [
@@ -56,14 +59,6 @@ export const routes = [
     loggedIn: true,
     back: true,
     slug: slugs.subscription(':id'),
-  },
-  {
-    component: <Profile />,
-    title: titles.profile,
-    loggedIn: true,
-    iconName: IconName.profile,
-    back: false,
-    slug: slugs.profile,
   },
   {
     component: <RemindPassword />,
@@ -99,6 +94,13 @@ export const routes = [
   {
     component: <Event />,
     slug: slugs.event(':id'),
+  },
+  {
+    component: <About />,
+    title: titles.about,
+    iconName: IconName.book,
+    back: false,
+    slug: slugs.about,
   },
   {
     component: <Profile />,

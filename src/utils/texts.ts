@@ -15,6 +15,7 @@ export const validationTexts = {
   requirePhotos: 'Privalote įkelti nuotrauką',
   userDeniedLocation: 'Turite leisti nustatyti jūsų buvimo vietą',
   profileUpdated: 'Profilis atnaujintas',
+  registration: 'Registracija sėkminga',
   appsNotSelected: 'Pasirinkite bent vieną sritį',
 };
 
@@ -39,6 +40,7 @@ export const buttonLabels = {
 };
 
 export const titles = {
+  about: 'Apie mus',
   myEvents: 'Mano naujienos',
   allEvents: 'Visos naujienos',
   login: 'Prisijungimas',
@@ -49,7 +51,7 @@ export const titles = {
   registration: 'Registracija',
   remindPassword: 'Slaptažodžio priminimas',
   passwordChanged: 'Slaptažodis pakeistas',
-  createAccount: 'Sukurti Paskyra',
+  createAccount: 'Sukurti paskyrą',
   resetPassword: 'Atkurti slaptažodį',
   passwordCreated: 'Slaptažodis sukurtas',
   newPassword: 'Nustatyti naują slaptažodį',
@@ -85,9 +87,12 @@ export const descriptions = {
   updateUserInfo: 'Atnaujinti darbuotojo informaciją',
   myProfile: 'Mano profilis',
   login: 'Greitosios pagalbos pavežėjimo aplikacija vairuotojams',
+  about:
+    'Nori žinoti visą naujausią informaciją? Užsiregistruok, pažymėk tave dominančias teritorijas ir gauk elektroniniu paštu naujausią informaciją apie išduotus statybų leidimus, miško kirtimo leidimus, želdynų ir želdinių šalinimo leidimus bei sprendimus ir daugelį kitų.',
 };
 
 export const buttonsTitles = {
+  subscribeNews: 'Prenumeruoti naujienas',
   resetPassword: 'Atstatyti slaptažodį',
   createAccount: 'Sukurti paskyrą',
   update: 'Atnaujinti',
@@ -99,6 +104,10 @@ export const buttonsTitles = {
   logout: 'Atsijungti',
   profile: 'Profilis',
   edit: 'Redaguoti',
+};
+
+export const subtitle = {
+  about: 'Domina, kas vyksta aplinkui tave?',
 };
 
 export const toasts = {

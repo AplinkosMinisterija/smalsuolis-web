@@ -8,7 +8,7 @@ import TextField from '../components/fields/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';
 import PasswordCheckListContainer from '../components/other/PasswordCheckListContainer';
 import { useAppSelector } from '../state/hooks';
-import { handleSuccess } from '../utils';
+import { handleToastSuccess } from '../utils';
 import api from '../utils/api';
 import { buttonsTitles, inputLabels, validationTexts } from '../utils/texts';
 
@@ -22,7 +22,7 @@ const Profile = () => {
     },
     {
       onSuccess: () => {
-        handleSuccess(validationTexts.profileUpdated);
+        handleToastSuccess(validationTexts.profileUpdated);
       },
     },
   );
