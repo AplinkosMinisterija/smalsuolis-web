@@ -30,7 +30,6 @@ const Profile = () => {
     },
   });
 
-  //TODO: would be better if not used as a hook
   const { values, setFieldValue, handleSubmit, setErrors } = useFormik({
     initialValues: {
       password: '',
