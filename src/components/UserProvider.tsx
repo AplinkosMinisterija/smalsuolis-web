@@ -51,7 +51,6 @@ export const UserProvider = ({ children }: any) => {
     onSuccess: (response) => {
       updateTokens(response);
       refetch();
-      // queryClient.invalidateQueries({ queryKey: ['user'] });
     },
     onError: (error) => {
       const errorCode = (error as AxiosError).response?.status;
