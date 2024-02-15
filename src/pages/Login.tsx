@@ -10,12 +10,14 @@ import { useLogin } from '../utils/hooks';
 import { slugs } from '../utils/routes';
 import { buttonsTitles, inputLabels, titles } from '../utils/texts';
 import { loginSchema } from '../utils/validations';
-import { useContext } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { UserContext, UserContextType } from '../components/UserProvider';
+import { getErrorMessage } from '../utils';
 
 const Login = () => {
   const navigate = useNavigate();
   const { isLoading: userLoading } = useContext<UserContextType>(UserContext);
+
   const { values, errors, setFieldValue, handleSubmit, setErrors } = useFormik({
     initialValues: {
       email: '',
@@ -27,7 +29,21 @@ const Login = () => {
     onSubmit: (values) => login(values),
   });
 
-  const { mutateAsync: login, isPending: loginLoading } = useLogin();
+  const { mutateAsync: login, isPending: loginLoading, error, isError } = useLogin();
+
+  const handleError = useCallback(
+    (e: any) => {
+      if (e) {
+        const text = getErrorMessage(e.response?.data?.message);
+        setErrors({ email: text });
+      }
+    },
+    [setErrors],
+  );
+
+  useEffect(() => {
+    handleError(error);
+  }, [error]);
 
   const loading = [loginLoading, userLoading].some((loading) => loading);
 

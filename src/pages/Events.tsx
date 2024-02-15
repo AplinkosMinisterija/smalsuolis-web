@@ -13,7 +13,7 @@ import { slugs } from '../utils/routes';
 import { Event } from '../utils/types';
 import EmptyState from '../components/other/EmptyState';
 
-const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
+const Events = ({ apiEndpoint, queryKey }: { apiEndpoint: any; queryKey: string }) => {
   const navigate = useNavigate();
   const getEvents = async (page: number) => {
     const events = await apiEndpoint({
@@ -28,7 +28,7 @@ const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, isLoading } =
     useInfiniteQuery({
-      queryKey: [key],
+      queryKey: [queryKey],
       initialPageParam: 1,
       queryFn: ({ pageParam }: any) => getEvents(pageParam),
       getNextPageParam: (lastPage) => {
@@ -78,7 +78,11 @@ const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
           return (
             <React.Fragment key={pageIndex}>
               {page.data.map((event: Event) => (
-                <EventCard event={event} onClick={() => navigate(slugs.event(event?.id))} />
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  onClick={() => navigate(slugs.event(event?.id))}
+                />
               ))}
             </React.Fragment>
           );

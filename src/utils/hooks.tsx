@@ -6,7 +6,6 @@ import api from './api';
 import { handleAlert } from './functions';
 import { clearCookies, updateTokens } from './loginFunctions';
 import { intersectionObserverConfig } from './configs';
-import { InvalidateUserKeys } from '../components/UserProvider';
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
@@ -25,7 +24,7 @@ export const useLogin = () => {
     },
     onSuccess: async (data) => {
       updateTokens(data);
-      await queryClient.invalidateQueries({ queryKey: InvalidateUserKeys });
+      await queryClient.invalidateQueries({ queryKey: ['user'] });
     },
     retry: false,
   });
@@ -38,11 +37,11 @@ export const useLogout = () => {
     onError: async () => {
       handleAlert();
       clearCookies();
-      await queryClient.invalidateQueries({ queryKey: InvalidateUserKeys });
+      await queryClient.invalidateQueries();
     },
     onSuccess: async () => {
       clearCookies();
-      await queryClient.invalidateQueries({ queryKey: InvalidateUserKeys });
+      await queryClient.invalidateQueries();
     },
   });
 

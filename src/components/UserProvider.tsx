@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import api from '../utils/api';
 import { AxiosError } from 'axios/index';
 import { useMutation } from '@tanstack/react-query';
@@ -24,10 +24,11 @@ const defaultValue: UserContextType = {
   subscriptionsCount: 0,
 };
 
-export const InvalidateUserKeys = ['user', 'subscriptionsCount'];
+export const InvalidateUserKeys = ['user', 'subsCount'];
 export const UserContext: any = createContext<UserContextType>(defaultValue);
 
 export const UserProvider = ({ children }: any) => {
+  const queryClient = useQueryClient();
   const {
     data,
     error: userError,
@@ -35,7 +36,7 @@ export const UserProvider = ({ children }: any) => {
     refetch,
   } = useQuery({
     queryKey: ['user'],
-    queryFn: api.getUserInfo,
+    queryFn: () => api.getUserInfo(),
     retry: false,
     gcTime: 60 * 60 * 1000,
   });
@@ -47,9 +48,10 @@ export const UserProvider = ({ children }: any) => {
   } = useMutation({
     mutationFn: api.refreshToken,
     retry: false,
-    onSuccess: () => {
-      updateTokens(data);
+    onSuccess: (response) => {
+      updateTokens(response);
       refetch();
+      // queryClient.invalidateQueries({ queryKey: ['user'] });
     },
     onError: (error) => {
       const errorCode = (error as AxiosError).response?.status;
@@ -64,11 +66,11 @@ export const UserProvider = ({ children }: any) => {
     isLoading: subsCountLoading,
     error: subsCountError,
   } = useQuery({
-    queryKey: ['subscriptionCount'],
+    queryKey: ['subsCount'],
     queryFn: api.getSubscriptionsCount,
     retry: false,
     gcTime: 60 * 60 * 1000,
-    enabled: !userLoading && !isPending,
+    enabled: !userLoading && !isPending && !userError,
   });
 
   useEffect(() => {
@@ -80,6 +82,12 @@ export const UserProvider = ({ children }: any) => {
       }
     }
   }, [userError]);
+
+  useEffect(() => {
+    if (userLoading) {
+      queryClient.invalidateQueries({ queryKey: ['subsCount'] });
+    }
+  }, [userLoading]);
 
   const error = userError || refreshTokenError;
   const isLoading = userLoading || isPending || subsCountLoading;
