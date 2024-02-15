@@ -34,7 +34,7 @@ const MapField = ({
 
   return (
     <Iframe
-      src={`${mapsHost}/edit?types[]=point&buffer=true`}
+      src={`${mapsHost}/edit?types[]=point&buffer=xl`}
       ref={iframeRef}
       width={'100%'}
       allowFullScreen={true}
