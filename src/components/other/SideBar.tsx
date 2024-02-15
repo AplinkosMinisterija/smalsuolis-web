@@ -2,11 +2,14 @@ import { matchPath, useLocation, useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { buttonLabels, filterMenuRoutes, IconName, slugs, useLogout } from '../../utils';
 import Icon from './Icons';
+import { useContext } from 'react';
+import { UserContext, UserContextType } from '../UserProvider';
 
-const SideBar = ({ loggedIn }: any) => {
+const SideBar = () => {
   const navigate = useNavigate();
   const currentLocation = useLocation();
   const { mutateAsync } = useLogout();
+  const { loggedIn } = useContext<UserContextType>(UserContext);
 
   const routes = filterMenuRoutes(loggedIn);
 

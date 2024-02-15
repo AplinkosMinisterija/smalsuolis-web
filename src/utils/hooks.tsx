@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { matchPath, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import Cookies from 'universal-cookie';
 import { getErrorMessage, LoginForm, ReactQueryError, routes, ServerErrorCodes, slugs } from '.';
 import api from './api';
 import { handleAlert } from './functions';
 import { clearCookies, updateTokens } from './loginFunctions';
 import { intersectionObserverConfig } from './configs';
+import { InvalidateUserKeys } from '../components/UserProvider';
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
@@ -25,7 +25,7 @@ export const useLogin = () => {
     },
     onSuccess: async (data) => {
       updateTokens(data);
-      await queryClient.invalidateQueries({ queryKey: ['user'] });
+      await queryClient.invalidateQueries({ queryKey: InvalidateUserKeys });
     },
     retry: false,
   });
@@ -38,11 +38,11 @@ export const useLogout = () => {
     onError: async () => {
       handleAlert();
       clearCookies();
-      await queryClient.invalidateQueries({ queryKey: ['user'] });
+      await queryClient.invalidateQueries({ queryKey: InvalidateUserKeys });
     },
     onSuccess: async () => {
       clearCookies();
-      await queryClient.invalidateQueries({ queryKey: ['user'] });
+      await queryClient.invalidateQueries({ queryKey: InvalidateUserKeys });
     },
   });
 

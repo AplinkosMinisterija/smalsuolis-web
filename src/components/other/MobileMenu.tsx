@@ -2,7 +2,7 @@ import Div100vh from 'react-div-100vh';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { device } from '../../styles';
-import { filterMenuRoutes, IconName, useLogout } from '../../utils';
+import { filterMenuRoutes, IconName, slugs, useLogout } from '../../utils';
 import MenuButton from '../buttons/MenuButton';
 import Icon from './Icons';
 import Modal from './Modal';
@@ -45,7 +45,18 @@ const MobileMenu = ({ onClose, visible = true }: any) => {
               />
             );
           })}
-          <MenuButton label="Atsijungti" icon={IconName.logout} onClick={() => logout()} />
+          <MenuButton
+            label={loggedIn ? 'Atsijungti' : 'Prisijungti'}
+            icon={IconName.logout}
+            onClick={() => {
+              if (loggedIn) {
+                logout();
+              } else {
+                navigate(slugs.login);
+                onClose();
+              }
+            }}
+          />
         </InnerContainer>
       </Container>
     </Modal>

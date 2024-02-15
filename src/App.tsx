@@ -5,13 +5,17 @@ import DefaultLayout from './components/layouts/DefaultLayout';
 import LoaderComponent from './components/other/LoaderComponent';
 import { slugs } from './utils/routes';
 import { filterRoutes } from './utils';
-import { useContext, useEffect } from 'react';
-import { UserContext, UserContextType } from './components/UserProvider'; // Ensure to export UserContext from UserContext.js
+import { useContext } from 'react';
+import { UserContext, UserContextType } from './components/UserProvider';
 
 function App() {
-  const { isLoading, loggedIn } = useContext<UserContextType>(UserContext);
+  const {
+    isLoading: userLoading,
+    loggedIn,
+    subscriptionsCount,
+  } = useContext<UserContextType>(UserContext);
 
-  if (isLoading) return <LoaderComponent />;
+  if (userLoading) return <LoaderComponent />;
 
   const routes = filterRoutes(loggedIn);
 
@@ -23,7 +27,20 @@ function App() {
             <Route key={`route-${index}`} path={route.slug} element={route.component} />
           ))}
         </Route>
-        <Route path="*" element={<Navigate to={loggedIn ? slugs.profile : slugs.login} />} />
+        <Route
+          path="*"
+          element={
+            <Navigate
+              to={
+                loggedIn
+                  ? subscriptionsCount > 0
+                    ? slugs.myEvents
+                    : slugs.newSubscription
+                  : slugs.events
+              }
+            />
+          }
+        />
       </Routes>
       <ToastContainer />
     </DefaultLayout>

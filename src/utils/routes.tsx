@@ -44,7 +44,6 @@ export const routes = [
     back: false,
     slug: slugs.resetPassword,
   },
-
   {
     component: <Subscriptions />,
     title: titles.subscriptions,

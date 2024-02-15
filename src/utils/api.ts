@@ -249,6 +249,12 @@ class Api {
     });
   };
 
+  getSubscriptionsCount = async (): Promise<number> => {
+    return this.get({
+      resource: Resources.SUBSCRIPTIONS + '/count',
+    });
+  };
+
   deleteSubscriptions = async (ids: number[]): Promise<any> => {
     return this.post({
       resource: Resources.SUBSCRIPTIONS + '/delete',
