@@ -8,19 +8,12 @@ const EventCard = ({ event, onClick }: { event: Event; onClick?: () => void }) =
 
   return (
     <Container onClick={onClick}>
-      <IconContainer>
-        <div dangerouslySetInnerHTML={{ __html: app?.icon || '' }} />
-      </IconContainer>
-      <Content>
+      <Row>
         <Name>{event.name}</Name>
+        <Time>{getTimeDifference(startAt)}</Time>
+      </Row>
 
-        <Row>
-          <Time>{getTimeDifference(startAt)}</Time>
-          <TagContainer>
-            <Tag text={app.name} />
-          </TagContainer>
-        </Row>
-      </Content>
+      <Tag text={app.name} />
     </Container>
   );
 };
@@ -34,7 +27,6 @@ const Container = styled.a`
   border-radius: 8px;
   width: 100%;
   display: grid;
-  grid-template-columns: 48px 1fr;
   padding: 16px;
   gap: 12px;
 
@@ -49,33 +41,18 @@ const Container = styled.a`
   }
 `;
 
-const TagContainer = styled.div``;
-
 const Row = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
+  gap: 12px;
+  @media ${device.mobileL} {
+    gap: 4px;
+    flex-wrap: wrap-reverse;
+  }
 `;
 
-const IconContainer = styled.div`
-  background-color: white;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
+const Time = styled.div`
+  white-space: nowrap;
 `;
-
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 4px;
-`;
-
-const Time = styled.div``;
 
 const Name = styled.div`
   font-size: 2rem;

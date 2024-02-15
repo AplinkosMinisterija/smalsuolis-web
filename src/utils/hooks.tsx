@@ -6,9 +6,9 @@ import { routes, ServerErrorCodes, slugs } from '.';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { actions as userAction, UserReducerProps } from '../state/user/reducer';
 import api from './api';
+import { intersectionObserverConfig } from './configs';
 import { handleAlert, handleGetCurrentLocation } from './functions';
 import { clearCookies, emptyUser } from './loginFunctions';
-import { intersectionObserverConfig } from './configs';
 
 const cookies = new Cookies();
 
@@ -160,9 +160,11 @@ export const useInfinityLoad = (
   queryKey: string,
   fn: (params: { page: number }) => any,
   observerRef: any,
+  filters = {},
 ) => {
   const queryFn = async (page: number) => {
     const data = await fn({
+      ...filters,
       page,
     });
 

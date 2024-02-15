@@ -1,62 +1,39 @@
-import React, { useEffect, useRef } from 'react';
-import { useInfiniteQuery } from 'react-query';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+import Tabs from '../components/buttons/Tabs';
 import ContentLayout from '../components/layouts/ContentLayout';
+import EmptyState from '../components/other/EmptyState';
 import EventCard from '../components/other/EventCard';
-import Icon from '../components/other/Icons';
 import LoaderComponent from '../components/other/LoaderComponent';
 import { device } from '../styles';
-import { descriptions, IconName, isEmpty, titles } from '../utils';
-import { intersectionObserverConfig } from '../utils/configs';
+import { descriptions, EventFilter, IconName, isEmpty, titles, useInfinityLoad } from '../utils';
 import { slugs } from '../utils/routes';
 import { Event } from '../utils/types';
-import EmptyState from '../components/other/EmptyState';
 
 const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
   const navigate = useNavigate();
-  const getEvents = async (page: number) => {
-    const events = await apiEndpoint({
-      page,
-    });
-
-    return {
-      data: events.rows,
-      page: events.page < events.totalPages ? events.page + 1 : undefined,
-    };
-  };
-
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, isLoading } =
-    useInfiniteQuery([key], ({ pageParam }) => getEvents(pageParam), {
-      getNextPageParam: (lastPage) => lastPage.page,
-      cacheTime: 60000,
-    });
-
   const observerRef = useRef<any>(null);
+  const [filter, setFilter] = useState(EventFilter.UPCOMING);
 
-  useEffect(() => {
-    const currentObserver = observerRef.current;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
-        fetchNextPage();
-      }
-    }, intersectionObserverConfig);
-
-    if (currentObserver) {
-      observer.observe(currentObserver);
+  const getFilter = () => {
+    if (filter === EventFilter.PREVIOUS) {
+      return { startAt: { $lte: new Date() } };
     }
 
-    return () => {
-      if (currentObserver) {
-        observer.unobserve(currentObserver);
-      }
-    };
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage, data]);
+    return { startAt: { $gte: new Date() } };
+  };
+
+  const {
+    data: events,
+    isFetching,
+    isLoading,
+  } = useInfinityLoad(`${key}-${filter}`, apiEndpoint, observerRef, { filter: getFilter() });
 
   const renderContent = () => {
     if (isLoading) return <LoaderComponent />;
 
-    if (!data?.pages?.[0]?.data?.length) {
+    if (isEmpty(events?.pages?.[0]?.data)) {
       return (
         <EmptyState
           title={titles.emptyState}
@@ -68,7 +45,7 @@ const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
 
     return (
       <EventsContainer>
-        {data?.pages.map((page, pageIndex) => {
+        {events?.pages.map((page, pageIndex) => {
           return (
             <React.Fragment key={pageIndex}>
               {page.data.map((event: Event) => (
@@ -85,6 +62,14 @@ const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
 
   return (
     <ContentLayout>
+      <Tabs
+        options={[
+          { label: 'Įvykę įvykiai', value: EventFilter.PREVIOUS },
+          { label: 'Suplanuoti įvykiai', value: EventFilter.UPCOMING },
+        ]}
+        onChange={setFilter}
+        value={filter}
+      />
       <Container>{renderContent()}</Container>
     </ContentLayout>
   );
@@ -102,11 +87,11 @@ const Container = styled.div`
   overflow-y: auto;
   align-items: center;
   flex-direction: column;
-  padding: 32px;
+  padding: 32 0px;
   width: 100%;
 
   @media ${device.mobileL} {
-    padding: 12px;
+    padding: 12px 0px;
   }
 `;
 
