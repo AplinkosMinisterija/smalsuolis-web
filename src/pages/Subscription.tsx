@@ -42,12 +42,10 @@ const Subscriptions = () => {
   if (subscriptionLoading || appsLoading) {
     return <LoaderComponent />;
   }
-  // preselect first app
-  const preselectedAppId = apps?.rows?.[0]?.id;
 
   const initialValues: SubscriptionForm = {
-    active: !!subscription?.active,
-    apps: subscription?.apps || (preselectedAppId ? [preselectedAppId] : []),
+    active: typeof subscription?.active === 'boolean' ? subscription?.active : true,
+    apps: subscription?.apps || [],
     geom: subscription?.geom,
     frequency: subscription?.frequency || Frequency.DAY,
   };
