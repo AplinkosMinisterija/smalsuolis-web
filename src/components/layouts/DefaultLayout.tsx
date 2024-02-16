@@ -5,27 +5,11 @@ import { useGetCurrentRoute, useWindowSize } from '../../utils';
 import BackHeader from '../headers/BackHeader';
 import LogoHeader from '../headers/LogoHeader';
 import SideBar from '../other/SideBar';
-import LoaderComponent from '../other/LoaderComponent';
-import { useContext } from 'react';
-import { UserContext, UserContextType } from '../UserProvider';
 
 const DefaultLayout = ({ children, onScroll = () => {} }: any) => {
   const isMobile = useWindowSize(device.mobileL);
   const currentRoute = useGetCurrentRoute();
-  const { isLoading, loggedIn } = useContext<UserContextType>(UserContext);
 
-  if (isLoading) {
-    return (
-      <Container>
-        <ScrollableContainer onScroll={onScroll}>
-          <InnerContainer>
-            {currentRoute?.back ? <BackHeader /> : <LogoHeader />}
-            <LoaderComponent />
-          </InnerContainer>
-        </ScrollableContainer>
-      </Container>
-    );
-  }
   return (
     <Container>
       {!isMobile && <SideBar />}
