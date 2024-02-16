@@ -6,13 +6,7 @@ import { useNavigate, useParams } from 'react-router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Switch from '../components/buttons/Switch';
 import RadioFrequency from '../components/other/RadioFrequency';
-import {
-  Frequency,
-  slugs,
-  Subscription,
-  SubscriptionForm,
-  validateSubscriptionForm,
-} from '../utils';
+import { Frequency, slugs, SubscriptionForm, validateSubscriptionForm } from '../utils';
 import Button from '../components/buttons/Button';
 import { Form, Formik } from 'formik';
 import LoaderComponent from '../components/other/LoaderComponent';
@@ -50,7 +44,7 @@ const Subscriptions = () => {
   }
 
   const initialValues: SubscriptionForm = {
-    active: !!subscription?.active,
+    active: typeof subscription?.active === 'boolean' ? subscription?.active : true,
     apps: subscription?.apps || [],
     geom: subscription?.geom,
     frequency: subscription?.frequency || Frequency.DAY,
