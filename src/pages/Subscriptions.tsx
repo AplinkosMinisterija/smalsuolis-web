@@ -1,6 +1,6 @@
 import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
-import { App, descriptions, IconName, slugs, Subscription, useInfinityLoad } from '../utils';
+import { App, IconName, slugs, Subscription, useInfinityLoad } from '../utils';
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import LoaderComponent from '../components/other/LoaderComponent';
@@ -87,10 +87,10 @@ const Subscriptions = () => {
           />
         ) : (
           <SubscriptionsContainer>
-            {subscriptions?.pages.map((page, pageIndex) => {
+            {subscriptions?.pages.map((page: { data: Subscription<App>[] }, pageIndex: number) => {
               return (
                 <React.Fragment key={pageIndex}>
-                  {page.data.map((subscription: Subscription<App>) => (
+                  {page?.data.map((subscription) => (
                     <SubscriptionCard
                       subscription={subscription}
                       canDelete={deleteEnabled}
@@ -165,10 +165,12 @@ const NewSubscriptionButton = styled.a`
   float: right;
   width: fit-content;
   margin-left: auto;
+  cursor: pointer;
 `;
 
 const DeleteSubscriptionButton = styled.a`
   color: ${({ theme }) => theme.colors.error};
   text-decoration: underline;
   float: right;
+  cursor: pointer;
 `;
