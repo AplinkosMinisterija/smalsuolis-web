@@ -10,18 +10,18 @@ import { useLogin } from '../utils/hooks';
 import { slugs } from '../utils/routes';
 import { buttonsTitles, inputLabels, titles } from '../utils/texts';
 import { loginSchema } from '../utils/validations';
-import { useCallback, useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { UserContext, UserContextType } from '../components/UserProvider';
-import { getErrorMessage } from '../utils';
-
 const Login = () => {
+  const env: any = import.meta.env;
+
   const navigate = useNavigate();
   const { isLoading: userLoading } = useContext<UserContextType>(UserContext);
 
   const { values, errors, setFieldValue, handleSubmit, setErrors } = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      email: env.VITE_USER || '',
+      password: env.VITE_PASSWORD || '',
       refresh: false,
     },
     validateOnChange: false,
@@ -29,23 +29,9 @@ const Login = () => {
     onSubmit: (values) => login(values),
   });
 
-  const { mutateAsync: login, isPending: loginLoading, error, isError } = useLogin();
+  const { mutateAsync: login, isPending: loginLoading } = useLogin();
 
-  const handleError = useCallback(
-    (e: any) => {
-      if (e) {
-        const text = getErrorMessage(e.response?.data?.message);
-        setErrors({ email: text });
-      }
-    },
-    [setErrors],
-  );
-
-  useEffect(() => {
-    handleError(error);
-  }, [error]);
-
-  const loading = [loginLoading, userLoading].some((loading) => loading);
+  const loading = loginLoading || userLoading;
 
   const handleType = (field: string, value: string | boolean) => {
     setFieldValue(field, value);
@@ -59,14 +45,14 @@ const Login = () => {
           value={values.email}
           type="email"
           name="email"
-          error={errors.email}
+          error={errors.email as string}
           onChange={(value) => handleType('email', value)}
           label={inputLabels.email}
         />
         <PasswordField
           value={values.password}
           name="password"
-          error={errors.password}
+          error={errors.password as string}
           onChange={(value) => handleType('password', value)}
           label={inputLabels.password}
           secondLabel={
@@ -92,6 +78,7 @@ const Login = () => {
     </ContentLayout>
   );
 };
+
 const StyledSingleCheckbox = styled(CheckBox)`
   flex-grow: 1;
 `;

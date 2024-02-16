@@ -67,6 +67,7 @@ export enum Resources {
   SUBSCRIPTIONS = 'subscriptions',
   APPS = 'apps',
   USERS = 'users',
+  SUBSCRIPTIONS_COUNT = 'subscriptions/count',
 }
 class Api {
   private AuthApiAxios: AxiosInstance;
@@ -251,7 +252,7 @@ class Api {
 
   getSubscriptionsCount = async (): Promise<number> => {
     return this.get({
-      resource: Resources.SUBSCRIPTIONS + '/count',
+      resource: Resources.SUBSCRIPTIONS_COUNT,
     });
   };
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { matchPath, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { getErrorMessage, LoginForm, ReactQueryError, routes, ServerErrorCodes, slugs } from '.';
@@ -6,6 +6,7 @@ import api from './api';
 import { handleAlert } from './functions';
 import { clearCookies, updateTokens } from './loginFunctions';
 import { intersectionObserverConfig } from './configs';
+import { UserContext, UserContextType } from '../components/UserProvider';
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
@@ -19,10 +20,7 @@ export const useLogin = () => {
       };
       return api.login(params);
     },
-    onError: ({ response }: ReactQueryError) => {
-      const text = getErrorMessage(response?.data?.message);
-    },
-    onSuccess: async (data) => {
+    onSuccess: async (data: { token: string; refreshToken?: string }) => {
       updateTokens(data);
       await queryClient.invalidateQueries({ queryKey: ['user'] });
     },
@@ -119,6 +117,7 @@ export const useInfinityLoad = (
   fn: (params: { page: number }) => any,
   observerRef: any,
 ) => {
+  const { isLoading, loggedIn } = useContext<UserContextType>(UserContext);
   const queryFn = async (page: number) => {
     const data = await fn({
       page,
@@ -132,8 +131,9 @@ export const useInfinityLoad = (
   const result = useInfiniteQuery({
     queryKey: [queryKey],
     initialPageParam: 1,
-    queryFn: ({ pageParam }: any) => queryFn(pageParam),
-    getNextPageParam: (lastPage, _pages) => {
+    queryFn: ({ pageParam }: any) =>
+      !isLoading && loggedIn ? queryFn(pageParam) : Promise.resolve(),
+    getNextPageParam: (lastPage: any) => {
       const { page, totalPages } = lastPage;
       return page < totalPages ? page + 1 : undefined;
     },

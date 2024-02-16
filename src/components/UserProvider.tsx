@@ -1,10 +1,18 @@
-import React, { createContext, useCallback, useEffect, useState } from 'react';
+import React, { createContext, useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import api from '../utils/api';
+import api, { Resources } from '../utils/api';
 import { AxiosError } from 'axios/index';
 import { useMutation } from '@tanstack/react-query';
 import { updateTokens } from '../utils/loginFunctions';
 import Cookies from 'universal-cookie';
+import { routes } from '../utils';
+
+const excludedRouters = [Resources.ME];
+
+export const isUserError = (error: AxiosError) => {
+  const url = error?.request?.responseURL;
+  return excludedRouters.some((ep) => url.includes(ep));
+};
 
 const cookies = new Cookies();
 
@@ -35,9 +43,11 @@ export const UserProvider = ({ children }: any) => {
     refetch,
   } = useQuery({
     queryKey: ['user'],
-    queryFn: () => api.getUserInfo(),
+    queryFn: () => {
+      return api.getUserInfo();
+    },
     retry: false,
-    gcTime: 60 * 60 * 1000,
+    gcTime: 0,
   });
 
   const {
@@ -67,7 +77,6 @@ export const UserProvider = ({ children }: any) => {
     queryKey: ['subsCount'],
     queryFn: api.getSubscriptionsCount,
     retry: false,
-    gcTime: 60 * 60 * 1000,
     enabled: !userLoading && !isPending && !userError,
   });
 
@@ -76,13 +85,24 @@ export const UserProvider = ({ children }: any) => {
       const errorCode = (userError as AxiosError).response?.status;
       const refreshToken = cookies.get('refreshToken');
       if (errorCode == 401 && refreshToken) {
+        const slug = window.location.pathname;
+        const route = routes.find((r) => r.slug === slug);
+        if (route?.loggedIn) {
+          cookies.set('page', slug, {
+            path: '/',
+            expires: new Date(new Date().getTime() + 2 * 60 * 1000),
+          });
+        }
         refresh(refreshToken);
+      } else {
+        cookies.remove('page');
       }
     }
   }, [userError]);
 
   useEffect(() => {
     if (userLoading) {
+      // invalidate subscriptions count query so that it would re-fetch after user query succeeds.
       queryClient.invalidateQueries({ queryKey: ['subsCount'] });
     }
   }, [userLoading]);
