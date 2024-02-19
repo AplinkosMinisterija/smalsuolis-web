@@ -1,9 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios/index';
 import { createContext, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 import Cookies from 'universal-cookie';
 import api, { Resources } from '../utils/api';
-import { updateTokens } from '../utils/loginFunctions';
+import { clearCookies, updateTokens } from '../utils/loginFunctions';
 
 const excludedRouters = [Resources.ME];
 const cookies = new Cookies();
@@ -33,6 +34,7 @@ export const UserContext: any = createContext<UserContextType>(defaultValue);
 
 export const UserProvider = ({ children }: any) => {
   const queryClient = useQueryClient();
+  const [{ token }] = useCookies(['token']);
 
   const {
     data,
@@ -40,15 +42,12 @@ export const UserProvider = ({ children }: any) => {
     isLoading: userLoading,
     refetch,
   } = useQuery({
-    queryKey: ['user'],
+    queryKey: ['user', token],
     queryFn: () => {
-      const token = cookies.get('token');
-
-      if (!token) return;
-
       return api.getUserInfo();
     },
     retry: false,
+    enabled: !!token,
   });
 
   const {
@@ -79,17 +78,19 @@ export const UserProvider = ({ children }: any) => {
     queryFn: api.getSubscriptionsCount,
 
     retry: false,
-    enabled: !userLoading && !isPending && !userError,
+    enabled: !userLoading && !isPending && !userError && !!token,
   });
 
   useEffect(() => {
     if (userError) {
       const errorCode = (userError as AxiosError).response?.status;
       const refreshToken = cookies.get('refreshToken');
-      if (errorCode == 401 && refreshToken) {
-        refresh(refreshToken);
-      } else {
-        cookies.remove('page');
+      if (errorCode == 401) {
+        if (refreshToken) {
+          refresh(refreshToken);
+        } else {
+          clearCookies();
+        }
       }
     }
   }, [userError]);

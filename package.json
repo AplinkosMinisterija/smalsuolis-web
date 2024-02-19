@@ -21,6 +21,7 @@
     "leaflet-routing-machine": "^3.2.12",
     "lt-codes": "ambrazasp/lt-codes",
     "react": "^18.2.0",
+    "react-cookie": "^7.0.2",
     "react-datepicker": "^4.11.0",
     "react-div-100vh": "^0.7.0",
     "react-dom": "^18.2.0",

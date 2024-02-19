@@ -1,6 +1,7 @@
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { AxiosError } from 'axios';
+import { CookiesProvider } from 'react-cookie';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -38,7 +39,7 @@ const queryClient: any = new QueryClient({
 });
 
 root.render(
-  <>
+  <CookiesProvider>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
@@ -50,7 +51,7 @@ root.render(
       </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
-  </>,
+  </CookiesProvider>,
 );
 
 // If you want your app to work offline and load faster, you can change

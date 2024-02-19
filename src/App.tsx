@@ -10,10 +10,7 @@ import { slugs } from './utils/routes';
 
 function App() {
   const { isLoading, loggedIn, subscriptionsCount } = useContext<UserContextType>(UserContext);
-
-  if (isLoading) return <LoaderComponent />;
-
-  const routes = filterRoutes(loggedIn);
+  const filteredRoutes = filterRoutes(loggedIn);
 
   const getInitialSlug = () => {
     if (!loggedIn) return slugs.events;
@@ -23,11 +20,13 @@ function App() {
     return slugs.myEvents;
   };
 
+  if (isLoading) return <LoaderComponent />;
+
   return (
     <DefaultLayout>
       <Routes>
         <Route>
-          {routes.map((route, index) => (
+          {filteredRoutes.map((route, index) => (
             <Route key={`route-${index}`} path={route.slug} element={route.component} />
           ))}
         </Route>

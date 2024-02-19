@@ -1,7 +1,6 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { matchPath, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import Cookies from 'universal-cookie';
 import { LoginForm, routes, slugs } from '.';
 import { UserContext, UserContextType } from '../components/UserProvider';
 import api from './api';
@@ -9,10 +8,7 @@ import { intersectionObserverConfig } from './configs';
 import { handleAlert } from './functions';
 import { clearCookies, updateTokens } from './loginFunctions';
 
-const cookies = new Cookies();
-
 export const useLogin = () => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (values: LoginForm) => {
       const { email, password, refresh } = values;
@@ -25,8 +21,6 @@ export const useLogin = () => {
     },
     onSuccess: async (data: { token: string; refreshToken?: string }) => {
       updateTokens(data);
-
-      await queryClient.invalidateQueries({ queryKey: ['user'] });
     },
     retry: false,
   });
