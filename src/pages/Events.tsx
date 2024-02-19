@@ -24,10 +24,10 @@ const Events = ({
 }) => {
   const navigate = useNavigate();
   const observerRef = useRef<any>(null);
-  const [filter, setFilter] = useState(EventFilter.UPCOMING);
+  const [filter, setFilter] = useState(EventFilter.PLANNED);
 
   const getFilter = () => {
-    if (filter === EventFilter.PREVIOUS) {
+    if (filter === EventFilter.HAPPENED) {
       return { startAt: { $lte: new Date() } };
     }
 
@@ -38,7 +38,7 @@ const Events = ({
     data: events,
     isFetching,
     isLoading,
-  } = useInfinityLoad(`${queryKey}-${filter}`, apiEndpoint, observerRef, { filter: getFilter() });
+  } = useInfinityLoad(`${queryKey}-${filter}`, apiEndpoint, observerRef);
 
   const renderContent = () => {
     if (isLoading) return <LoaderComponent />;
@@ -78,8 +78,8 @@ const Events = ({
     <ContentLayout>
       <Tabs
         options={[
-          { label: 'Įvykę įvykiai', value: EventFilter.PREVIOUS },
-          { label: 'Suplanuoti įvykiai', value: EventFilter.UPCOMING },
+          { label: 'Įvykę įvykiai', value: EventFilter.HAPPENED },
+          { label: 'Suplanuoti įvykiai', value: EventFilter.PLANNED },
         ]}
         onChange={setFilter}
         value={filter}

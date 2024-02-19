@@ -24,19 +24,13 @@ const Event = () => {
 
   const app = event.app;
 
-  const parser = new DOMParser();
-
-  const svgDoc = parser.parseFromString(app?.icon || '', 'image/svg+xml');
+  const base64SVG = window.btoa(app.icon);
+  const appIcon = `data:image/svg+xml;base64,${base64SVG}`;
 
   return (
     <ContentLayout
       title={event?.name}
-      customSubTitle={
-        <Tag
-          icon={<SvgIcon dangerouslySetInnerHTML={{ __html: app?.icon || '' }} />}
-          text={app.name}
-        />
-      }
+      customSubTitle={<Tag icon={<SvgIcon src={appIcon} />} text={app.name} />}
     >
       <Line>
         <Time>
@@ -56,10 +50,8 @@ const Event = () => {
   );
 };
 
-const SvgIcon = styled.div`
-  svg {
-    width: 18px;
-  }
+const SvgIcon = styled.img`
+  width: 16px;
 `;
 
 const EventIcon = styled(Icon)`
