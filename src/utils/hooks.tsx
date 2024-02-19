@@ -1,87 +1,49 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
+import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { matchPath, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import { routes, ServerErrorCodes, slugs } from '.';
-import { useAppDispatch, useAppSelector } from '../state/hooks';
-import { actions as userAction, UserReducerProps } from '../state/user/reducer';
+import { LoginForm, routes, slugs } from '.';
+import { UserContext, UserContextType } from '../components/UserProvider';
 import api from './api';
 import { intersectionObserverConfig } from './configs';
-import { handleAlert, handleGetCurrentLocation } from './functions';
-import { clearCookies, emptyUser } from './loginFunctions';
+import { handleAlert } from './functions';
+import { clearCookies, updateTokens } from './loginFunctions';
 
 const cookies = new Cookies();
 
-export const useCurrentLocation = () => {
-  const [location, setLocation] = useState<{ lat?: number; lng?: number }>();
+export const useLogin = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (values: LoginForm) => {
+      const { email, password, refresh } = values;
+      const params = {
+        password,
+        refresh,
+        email: email.toLocaleLowerCase(),
+      };
+      return api.login(params);
+    },
+    onSuccess: async (data: { token: string; refreshToken?: string }) => {
+      updateTokens(data);
 
-  useEffect(() => {
-    if (!navigator?.geolocation) return;
-
-    handleGetCurrentLocation((data) => setLocation(data));
-  }, []);
-  return location;
-};
-
-export const useGetUserInfoQuery = () => {
-  const dispatch = useAppDispatch();
-  const token = cookies.get('token');
-
-  const { isLoading, error } = useQuery([token, 'token'], () => api.getUserInfo(), {
-    onSuccess: (data: UserReducerProps) => {
-      if (data) {
-        dispatch(userAction.setUser({ userData: data, loggedIn: true }));
-      }
+      await queryClient.invalidateQueries({ queryKey: ['user'] });
     },
     retry: false,
-    enabled: !!token,
-  });
-
-  const errResponse = (error as any)?.response;
-
-  if (errResponse) {
-    if (errResponse === ServerErrorCodes.NO_PERMISSION) {
-      clearCookies();
-      dispatch(userAction.setUser(emptyUser));
-    } else {
-      handleAlert();
-    }
-  }
-
-  return { isLoading };
-};
-
-export const useFilteredRoutes = () => {
-  const loggedIn = useAppSelector((state) => state.user.loggedIn);
-  //TODO: do not use from redux state
-
-  return routes.filter((route) => {
-    if (!route?.slug) return false;
-
-    if (Object.prototype.hasOwnProperty.call(route, 'loggedIn')) {
-      return route.loggedIn === loggedIn;
-    }
-
-    return true;
   });
 };
 
-export const useMenuRouters = () => {
-  return useFilteredRoutes().filter((route) => !!route.iconName);
-};
-
-export const useLogoutMutation = () => {
-  const dispatch = useAppDispatch();
-
-  const { mutateAsync } = useMutation(() => api.logout(), {
-    onError: () => {
+export const useLogout = () => {
+  const queryClient = useQueryClient();
+  const { mutateAsync } = useMutation({
+    mutationFn: api.logout,
+    onError: async () => {
       handleAlert();
       clearCookies();
-      dispatch(userAction.setUser(emptyUser));
+      await queryClient.invalidateQueries();
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       clearCookies();
-      dispatch(userAction.setUser(emptyUser));
+      await queryClient.invalidateQueries();
     },
   });
 
@@ -97,7 +59,8 @@ export const useVerifyUser = () => {
     navigate(slugs.login);
   }
 
-  const { data, mutateAsync, isLoading } = useMutation(() => api.verifyUser({ h, s }), {
+  const { data, mutateAsync, isPending } = useMutation({
+    mutationFn: () => api.verifyUser({ h, s }),
     onError: () => {
       navigate(slugs.login);
     },
@@ -107,25 +70,22 @@ export const useVerifyUser = () => {
     mutateAsync();
   }, [mutateAsync]);
 
-  return { data, mutateAsync, isLoading };
+  return { data, mutateAsync, isLoading: isPending };
 };
 
 export const useSetPassword = () => {
   const [searchParams] = useSearchParams();
   const { h, s } = Object.fromEntries([...Array.from(searchParams)]);
-
-  const { data, mutateAsync, isLoading } = useMutation(
-    ({ password }: { password: string }) => {
+  const { data, mutateAsync, isPending } = useMutation({
+    mutationFn: ({ password }: { password: string }) => {
       return api.setPassword({ h, s, password });
     },
-    {
-      onError: () => {
-        handleAlert();
-      },
+    onError: () => {
+      handleAlert();
     },
-  );
+  });
 
-  return { isSuccess: data?.success, mutateAsync, isLoading };
+  return { isSuccess: data?.success, mutateAsync, isLoading: isPending };
 };
 
 export const useWindowSize = (width: string) => {
@@ -162,21 +122,27 @@ export const useInfinityLoad = (
   observerRef: any,
   filters = {},
 ) => {
+  const { isLoading, loggedIn } = useContext<UserContextType>(UserContext);
   const queryFn = async (page: number) => {
     const data = await fn({
       ...filters,
       page,
     });
-
     return {
-      data: data.rows,
-      page: data.page < data.totalPages ? data.page + 1 : undefined,
+      ...data,
+      data: data.rows, // TODO: backend could return data instead of rows
     };
   };
 
-  const result = useInfiniteQuery([queryKey], ({ pageParam }) => queryFn(pageParam), {
-    getNextPageParam: (lastPage) => lastPage.page,
-    cacheTime: 60000,
+  const result = useInfiniteQuery({
+    queryKey: [queryKey],
+    initialPageParam: 1,
+    queryFn: ({ pageParam }: any) =>
+      !isLoading && loggedIn ? queryFn(pageParam) : Promise.resolve(),
+    getNextPageParam: (lastPage: any) => {
+      return lastPage?.page < lastPage?.totalPages ? lastPage.page + 1 : undefined;
+    },
+    gcTime: 60000,
   });
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = result;

@@ -59,7 +59,11 @@ const Events = ({
           return (
             <React.Fragment key={pageIndex}>
               {page.data.map((event: Event) => (
-                <EventCard event={event} onClick={() => navigate(slugs.event(event?.id))} />
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  onClick={() => navigate(slugs.event(event?.id))}
+                />
               ))}
             </React.Fragment>
           );

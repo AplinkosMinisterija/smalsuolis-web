@@ -2,7 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles';
 import Loader from '../other/Loader';
-import { ButtonColors } from '../../utils';
+enum ButtonColors {
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
+  TERTIARY = 'tertiary',
+  DANGER = 'danger',
+  SUCCESS = 'success',
+  TRANSPARENT = 'transparent',
+  POWDER = 'powder',
+}
 
 const buttonColors = {
   [ButtonColors.PRIMARY]: theme.colors.primary,

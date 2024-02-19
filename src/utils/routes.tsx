@@ -26,7 +26,7 @@ export const slugs = {
   subscription: (id?: string) => `/prenumeratos/${id}`,
   newSubscription: `/prenumeratos/nauja`,
   event: (id?: string) => `/ivykis/${id}`,
-  about: '/aie-mus',
+  about: '/apie-mus',
 };
 
 export const routes = [
@@ -44,7 +44,6 @@ export const routes = [
     back: false,
     slug: slugs.resetPassword,
   },
-
   {
     component: <Subscriptions />,
     title: titles.subscriptions,

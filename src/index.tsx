@@ -1,30 +1,54 @@
+import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { AxiosError } from 'axios';
 import ReactDOM from 'react-dom/client';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from 'styled-components';
 import App from './App';
-import redux from './state/store';
+import { UserProvider } from './components/UserProvider';
 import { GlobalStyle, theme } from './styles/index';
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-const { store, persistor } = redux;
+import { handleAlert } from './utils';
 
-const queryClient = new QueryClient();
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
+const handleGlobalError = (queryClient: any, error: Error, query: any) => {
+  const code = (error as AxiosError)?.response?.status;
+  if (code == 401) {
+    // only for non users queries
+    if (!(query.queryKey.includes('user') && query.queryKey.length === 1)) {
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+    }
+  } else {
+    handleAlert();
+  }
+};
+
+const queryClient: any = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+  queryCache: new QueryCache({
+    onError: (error, query) => handleGlobalError(queryClient, error, query),
+  }),
+  mutationCache: new MutationCache({
+    onError: (error, query) => handleGlobalError(queryClient, error, query),
+  }),
+});
 
 root.render(
   <>
     <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <ThemeProvider theme={theme}>
-            <GlobalStyle />
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </ThemeProvider>
-        </PersistGate>
-      </Provider>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <BrowserRouter>
+          <UserProvider>
+            <App />
+          </UserProvider>
+        </BrowserRouter>
+      </ThemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </>,
 );

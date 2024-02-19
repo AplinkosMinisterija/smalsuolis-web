@@ -1,18 +1,12 @@
 import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import Switch from '../components/buttons/Switch';
 import RadioFrequency from '../components/other/RadioFrequency';
-import {
-  Frequency,
-  slugs,
-  Subscription,
-  SubscriptionForm,
-  validateSubscriptionForm,
-} from '../utils';
+import { Frequency, slugs, SubscriptionForm, validateSubscriptionForm } from '../utils';
 import Button from '../components/buttons/Button';
 import { Form, Formik } from 'formik';
 import LoaderComponent from '../components/other/LoaderComponent';
@@ -24,24 +18,28 @@ const Subscriptions = () => {
   const { id } = useParams();
 
   const { data: subscription, isLoading: subscriptionLoading } = useQuery({
-    queryKey: ['sub', id],
+    queryKey: ['subscription', id],
     queryFn: () => (id && !isNaN(Number(id)) ? api.getSubscription({ id }) : undefined),
+    retry: false,
   });
 
   const { data: apps, isLoading: appsLoading } = useQuery({
     queryKey: ['apps'],
     queryFn: () => api.getApps({ page: 1 }),
+    retry: false,
   });
 
   const onSuccess = () => {
     navigate(slugs.subscriptions);
   };
 
-  const { mutateAsync: createSubscription } = useMutation(api.createSubscription, {
+  const { mutateAsync: createSubscription } = useMutation({
+    mutationFn: api.createSubscription,
     onSuccess,
   });
 
-  const { mutateAsync: updateSubscription } = useMutation(api.updateSubscription, {
+  const { mutateAsync: updateSubscription } = useMutation({
+    mutationFn: api.updateSubscription,
     onSuccess,
   });
 
@@ -50,7 +48,7 @@ const Subscriptions = () => {
   }
 
   const initialValues: SubscriptionForm = {
-    active: !!subscription?.active,
+    active: typeof subscription?.active === 'boolean' ? subscription?.active : true,
     apps: subscription?.apps || [],
     geom: subscription?.geom,
     frequency: subscription?.frequency || Frequency.DAY,
