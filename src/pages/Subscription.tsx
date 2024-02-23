@@ -48,7 +48,7 @@ const Subscriptions = () => {
   }
 
   const initialValues: SubscriptionForm = {
-    active: !!subscription?.active,
+    active: typeof subscription?.active === 'boolean' ? subscription?.active : true,
     apps: subscription?.apps || [],
     geom: subscription?.geom,
     frequency: subscription?.frequency || Frequency.DAY,
