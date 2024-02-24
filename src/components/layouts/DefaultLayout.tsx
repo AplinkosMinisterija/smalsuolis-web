@@ -1,43 +1,50 @@
 import Div100vh from 'react-div-100vh';
 import styled from 'styled-components';
-import NavBar from '../other/NavBar';
+import { device } from '../../styles';
+import { useGetCurrentRoute, useWindowSize } from '../../utils';
+import BackHeader from '../headers/BackHeader';
+import LogoHeader from '../headers/LogoHeader';
+import SideBar from '../other/SideBar';
 
-export interface DefaultLayoutProps {
-  children?: React.ReactNode;
-  maxWidth?: string;
-  onScroll?: any;
-}
+const DefaultLayout = ({ children, onScroll = () => {} }: any) => {
+  const isMobile = useWindowSize(device.mobileL);
+  const currentRoute = useGetCurrentRoute();
 
-const DefaultLayout = ({ children, maxWidth = '100%', onScroll }: DefaultLayoutProps) => {
   return (
-    <Div100vh>
-      <Container>
-        <NavBar />
-        <Content onScroll={onScroll} maxWidth={maxWidth}>
+    <Container>
+      {!isMobile && <SideBar />}
+      <ScrollableContainer onScroll={onScroll}>
+        <InnerContainer>
+          {currentRoute?.back ? <BackHeader /> : <LogoHeader />}
           {children}
-        </Content>
-      </Container>
-    </Div100vh>
+        </InnerContainer>
+      </ScrollableContainer>
+    </Container>
   );
 };
-
-const Container = styled.div`
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow-y: auto;
-  height: 100%;
-  width: 100%;
-  background-color: white;
-`;
-
-const Content = styled.div<{ maxWidth: string }>`
-  overflow: auto;
-  height: 100%;
-  width: 100%;
-  max-width: ${({ maxWidth }) => maxWidth};
-  margin: 0 auto;
-`;
-
 export default DefaultLayout;
+
+const Container = styled(Div100vh)`
+  width: 100vw;
+  display: flex;
+`;
+
+const ScrollableContainer = styled.div`
+  width: 100%;
+  min-height: 100%;
+  overflow-y: scroll;
+  background-color: white;
+`;
+
+const InnerContainer = styled.div`
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+  flex-direction: column;
+  align-items: center;
+  @media ${device.desktop} {
+    padding: 40px 16px;
+    height: fit-content;
+    background-color: #f7f7f7;
+  }
+`;

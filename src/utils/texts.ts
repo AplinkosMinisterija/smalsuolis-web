@@ -1,4 +1,4 @@
-import { EventStatusTypes } from './constants';
+import { EventStatusTypes, Frequency } from './constants';
 
 export const validationTexts = {
   requireText: 'Privalote įvesti',
@@ -14,6 +14,9 @@ export const validationTexts = {
   requireMap: 'Privalote pasirinkti vietą žemėlapyje',
   requirePhotos: 'Privalote įkelti nuotrauką',
   userDeniedLocation: 'Turite leisti nustatyti jūsų buvimo vietą',
+  profileUpdated: 'Profilis atnaujintas',
+  registration: 'Registracija sėkminga',
+  appsNotSelected: 'Pasirinkite bent vieną sritį',
 };
 
 export const inputLabels = {
@@ -32,17 +35,27 @@ export const inputLabels = {
 
 export const buttonLabels = {
   login: 'Prisijungti',
+  logout: 'Atsijungti',
+  website: 'Tinklalapis',
 };
 
 export const titles = {
+  about: 'Apie mus',
+  myEvents: 'Mano naujienos',
+  allEvents: 'Visos naujienos',
   login: 'Prisijungimas',
+  profile: 'Profilis',
+  subscriptions: 'Prenumeratos',
+  subscription: 'Prenumeratos valdymas',
   forgotPassword: 'Pamiršote slaptažodį?',
   registration: 'Registracija',
   remindPassword: 'Slaptažodžio priminimas',
   passwordChanged: 'Slaptažodis pakeistas',
-  createAccount: 'Sukurti Paskyra',
+  createAccount: 'Sukurti paskyrą',
+  resetPassword: 'Atkurti slaptažodį',
   passwordCreated: 'Slaptažodis sukurtas',
   newPassword: 'Nustatyti naują slaptažodį',
+  emptyState: 'Jūsų naujienų srautas yra tuščias',
 };
 
 export const monthShorthands = [
@@ -61,6 +74,8 @@ export const monthShorthands = [
 ];
 
 export const descriptions = {
+  emptyState:
+    'Jūsų pasirinktos temos ar šaltiniai šiuo metu neturi naujienų, galite palaukti arba pakoreguoti savo prenumeratos nustatymus',
   forgotPassword:
     'Jeigu pamiršote slaptažodį, įrašykite savo el. pašto adresą ir mes padėsime jį atkurti',
   newAccount:
@@ -72,13 +87,16 @@ export const descriptions = {
   updateUserInfo: 'Atnaujinti darbuotojo informaciją',
   myProfile: 'Mano profilis',
   login: 'Greitosios pagalbos pavežėjimo aplikacija vairuotojams',
+  about:
+    'Nori žinoti visą naujausią informaciją? Užsiregistruok, pažymėk tave dominančias teritorijas ir gauk elektroniniu paštu naujausią informaciją apie išduotus statybų leidimus, miško kirtimo leidimus, želdynų ir želdinių šalinimo leidimus bei sprendimus ir daugelį kitų.',
 };
 
 export const buttonsTitles = {
+  subscribeNews: 'Prenumeruoti naujienas',
   resetPassword: 'Atstatyti slaptažodį',
   createAccount: 'Sukurti paskyrą',
+  update: 'Atnaujinti',
   createPassword: 'Nustatyti slaptažodį',
-  return: 'Grįžti į prisijungimo langą',
   login: 'Prisijungti',
   loginEvv: 'Prisijungti per El. valdžios vartus',
   save: 'Išsaugoti',
@@ -86,6 +104,10 @@ export const buttonsTitles = {
   logout: 'Atsijungti',
   profile: 'Profilis',
   edit: 'Redaguoti',
+};
+
+export const subtitle = {
+  about: 'Domina, kas vyksta aplinkui tave?',
 };
 
 export const toasts = {
@@ -111,4 +133,10 @@ export const stateLabels = {
 export const eventStatusLabels = {
   [EventStatusTypes.UPCOMING]: 'Būsimi',
   [EventStatusTypes.FINISHED]: 'Įvykę',
+};
+
+export const subscriptionFrequencyTitles = {
+  [Frequency.DAY]: 'kas dieną',
+  [Frequency.WEEK]: 'kas savaitę',
+  [Frequency.MONTH]: 'kas mėnesį',
 };

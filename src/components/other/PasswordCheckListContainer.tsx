@@ -21,13 +21,13 @@ const PasswordCheckListContainer = ({
 
   const checkList = [
     [
-      { label: '1 Didžioji raidė', value: containsUL },
-      { label: '1 mažoji raidė', value: containsLL },
-      { label: 'Bent 1 skaičius', value: containsN },
+      { label: 'Didžioji raidė', value: containsUL },
+      { label: 'Mažoji raidė', value: containsLL },
+      { label: 'Skaičius', value: containsN },
     ],
     [
-      { label: 'Bent 1 specialus simbolis', value: containsSC },
-      { label: 'Min 8 simbolių', value: contains8C },
+      { label: 'Specialus simbolis', value: containsSC },
+      { label: '8 simbolių', value: contains8C },
       { label: 'Slaptažodžiai sutampa', value: passwordMatch },
     ],
   ];

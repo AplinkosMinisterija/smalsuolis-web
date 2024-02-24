@@ -1,42 +1,42 @@
-import { isEqual } from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
-import { useInfiniteQuery } from 'react-query';
+import React, { useEffect, useRef } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import NavButtonGroup from '../components/buttons/NavButtonGroup';
-import DefaultLayout from '../components/layouts/DefaultLayout';
+import ContentLayout from '../components/layouts/ContentLayout';
 import EventCard from '../components/other/EventCard';
+import Icon from '../components/other/Icons';
 import LoaderComponent from '../components/other/LoaderComponent';
 import { device } from '../styles';
-import api from '../utils/api';
+import { descriptions, IconName, isEmpty, titles } from '../utils';
 import { intersectionObserverConfig } from '../utils/configs';
-import { EventStatusTypes } from '../utils/constants';
 import { slugs } from '../utils/routes';
-import { eventStatusLabels } from '../utils/texts';
 import { Event } from '../utils/types';
+import EmptyState from '../components/other/EmptyState';
 
-const Events = () => {
-  const [status, setStatus] = useState(EventStatusTypes.UPCOMING);
+const Events = ({ apiEndpoint, queryKey }: { apiEndpoint: any; queryKey: string }) => {
   const navigate = useNavigate();
-  const getStockings = async (page: number) => {
-    const fishStockings = await api.getEvents({
+  const getEvents = async (page: number) => {
+    const events = await apiEndpoint({
       page,
     });
 
     return {
-      data: fishStockings.rows,
-      page: fishStockings.page < fishStockings.totalPages ? fishStockings.page + 1 : undefined,
+      ...events,
+      data: events.rows,
     };
   };
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } = useInfiniteQuery(
-    ['events'],
-    ({ pageParam }) => getStockings(pageParam),
-    {
-      getNextPageParam: (lastPage) => lastPage.page,
-      cacheTime: 60000,
-    },
-  );
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, isLoading } =
+    useInfiniteQuery({
+      queryKey: [queryKey],
+      initialPageParam: 1,
+      queryFn: ({ pageParam }: any) => getEvents(pageParam),
+      getNextPageParam: (lastPage) => {
+        const { page, totalPages } = lastPage;
+        return page < totalPages ? page + 1 : undefined;
+      },
+      gcTime: 60000,
+    });
 
   const observerRef = useRef<any>(null);
 
@@ -60,21 +60,29 @@ const Events = () => {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage, data]);
 
   const renderContent = () => {
+    if (isLoading) return <LoaderComponent />;
+
+    if (!data?.pages?.[0]?.data?.length) {
+      return (
+        <EmptyState
+          title={titles.emptyState}
+          description={descriptions.emptyState}
+          icon={IconName.airBallon}
+        />
+      );
+    }
+
     return (
       <EventsContainer>
-        <ButtonsContainer>
-          <NavButtonGroup
-            options={Object.keys(EventStatusTypes)}
-            isSelected={(option) => isEqual(option, status)}
-            getOptionLabel={(option: EventStatusTypes) => eventStatusLabels[option]}
-            onChange={(option) => setStatus(option)}
-          />
-        </ButtonsContainer>
         {data?.pages.map((page, pageIndex) => {
           return (
             <React.Fragment key={pageIndex}>
               {page.data.map((event: Event) => (
-                <EventCard event={event} onClick={() => navigate(slugs.event(event?.id))} />
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  onClick={() => navigate(slugs.event(event?.id))}
+                />
               ))}
             </React.Fragment>
           );
@@ -86,21 +94,13 @@ const Events = () => {
   };
 
   return (
-    <DefaultLayout>
+    <ContentLayout>
       <Container>{renderContent()}</Container>
-    </DefaultLayout>
+    </ContentLayout>
   );
 };
 
 export default Events;
-
-const ButtonsContainer = styled.div`
-  min-width: 400px;
-  margin: auto;
-  @media ${device.mobileL} {
-    min-width: 100%;
-  }
-`;
 
 const Invisible = styled.div`
   width: 10px;
@@ -110,6 +110,7 @@ const Invisible = styled.div`
 const Container = styled.div`
   display: flex;
   overflow-y: auto;
+  align-items: center;
   flex-direction: column;
   padding: 32px;
   width: 100%;

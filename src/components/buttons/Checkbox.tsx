@@ -36,7 +36,13 @@ const Checkbox = ({
           error={error}
           checked={value}
         >
-          <CheckBox type="checkbox" name={name} checked={value || false} disabled={disabled} />
+          <CheckBox
+            type="checkbox"
+            name={name}
+            checked={value || false}
+            disabled={disabled}
+            onChange={() => {}} //To prevent console errors
+          />
           <Label checked={value || false} intermediate={intermediate} disabled={disabled} />
         </InnerContainer>
         <TextLabel>{label}</TextLabel>
@@ -99,8 +105,8 @@ const Label = styled.label<{
     opacity: 0;
     content: '';
     position: absolute;
-    width: 13px;
-    height: 6px;
+    width: 11px;
+    height: 4px;
     background: transparent;
     top: ${({ intermediate }) => `${intermediate ? 2 : 3}px`};
     left: ${({ intermediate }) => `${intermediate ? 0.8 : 1}px`};

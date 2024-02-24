@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 export interface TextFieldProps {
   value?: string | number;
@@ -13,7 +12,9 @@ export interface TextFieldProps {
   onInputClick?: () => void;
   placeholder?: string;
   type?: string;
+  inputMode?: any;
   selectedValue?: boolean;
+  onFocus?: any;
   onBlur?: () => void;
   testId?: string;
 }
@@ -24,133 +25,67 @@ const TextFieldInput = ({
   error,
   readOnly = false,
   leftIcon,
-  onBlur,
   rightIcon,
   onChange,
   placeholder,
   type = 'text',
   disabled,
-  height,
+  height = 56,
   selectedValue = false,
   onInputClick,
-  testId,
+  inputMode = 'text',
+  onFocus = () => {},
   ...rest
 }: TextFieldProps) => {
-  const [showTooltip, setShowTooltip] = useState(false);
-  const [delayHandler, setDelayHandler] = useState<any>(null);
-  const canShowTooltip = disabled && (value || selectedValue);
-
-  const handleMouseEnter = () => {
-    if (!canShowTooltip) return;
-
-    setShowTooltip(true);
-    clearTimeout(delayHandler);
-  };
-
-  const handleMouseLeave = () => {
-    if (!canShowTooltip) return;
-
-    setDelayHandler(
-      setTimeout(() => {
-        setShowTooltip(false);
-      }, 500),
-    );
-
-    clearTimeout(delayHandler);
-  };
-
   return (
-    <Container onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <InputContainer
-        error={!!error}
-        height={height || 40}
-        onBlur={onBlur}
-        disabled={disabled || false}
-      >
-        {leftIcon}
-        <TextInput
-          aria-label={name}
-          selectedValue={selectedValue}
-          onClick={() => (onInputClick ? onInputClick() : null)}
-          readOnly={readOnly}
-          type={type}
-          name={name}
-          autoComplete="off"
-          value={value}
-          onChange={(e) => onChange && onChange(e?.target?.value || '')}
-          placeholder={placeholder}
-          disabled={disabled}
-          data-testid={testId}
-          {...rest}
-        />
-        {rightIcon}
-      </InputContainer>
-      {showTooltip && <TooltipBox>{value || placeholder}</TooltipBox>}
-    </Container>
+    <InputContainer $error={!!error} $height={height || 40} $disabled={disabled || false}>
+      {leftIcon}
+      <StyledTextInput
+        $selectedValue={selectedValue}
+        onClick={() => (onInputClick ? onInputClick() : null)}
+        readOnly={readOnly}
+        type={type}
+        name={name}
+        autoComplete="off"
+        value={value || ''}
+        onChange={(e) => onChange && onChange(e?.target?.value || '')}
+        placeholder={placeholder}
+        disabled={disabled}
+        onFocus={onFocus}
+        inputMode={inputMode}
+        {...rest}
+      />
+      {rightIcon}
+    </InputContainer>
   );
 };
 
-export const TooltipBox = styled.div`
-  position: absolute;
-  top: calc(100% + 10px);
-  z-index: 1111;
-  left: -5px;
-  color: transparent;
-  background-color: transparent;
-  padding: 4px 4px;
-  max-width: 100%;
-  border-radius: 4px;
-  word-break: break-all;
-  opacity: 1 !important;
-  &:before {
-    content: '';
-    z-index: 38;
-    width: 0;
-    height: 0;
-    left: 3px;
-    top: -4px;
-    position: absolute;
-    border: 5px solid transparent;
-    transform: rotate(135deg);
-  }
-
-  display: block;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.8);
-  padding: 4px 4px;
-  &:before {
-    border-color: transparent transparent rgba(0, 0, 0, 0.8) rgba(0, 0, 0, 0.8);
-  }
-`;
-
-export const Container = styled.div`
-  position: relative;
-`;
-
 const InputContainer = styled.div<{
-  error: boolean;
-  height: number;
-  disabled: boolean;
+  $error: boolean;
+  $height: number;
+  $disabled: boolean;
 }>`
   display: flex;
-  height: ${({ height }) => (height ? `${height}px` : `40px`)};
+  height: ${({ $height }) => `${$height}px`};
   background-color: white;
   justify-content: space-between;
   align-items: center;
   border-radius: 4px;
   overflow: hidden;
-  border: 1px solid ${({ theme, error }) => (error ? theme.colors.error : theme.colors.border)};
+  border: 1px solid ${({ theme, $error }) => ($error ? theme.colors.error : theme.colors.border)};
+  opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
 
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'text')};
+  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'text')};
   :focus-within {
     border-color: ${({ theme }) => theme.colors.primary};
     box-shadow: 0 0 0 4px ${({ theme }) => `${theme.colors.primary}33`};
   }
-
-  opacity: ${({ disabled }) => (disabled ? 0.48 : 1)};
 `;
 
-const TextInput = styled.input<{ readOnly: boolean; selectedValue: boolean }>`
+const StyledTextInput = styled.input<{
+  readOnly: boolean;
+  $selectedValue: boolean;
+}>`
   border: none;
   padding: 0 12px;
   width: 100%;
@@ -160,7 +95,7 @@ const TextInput = styled.input<{ readOnly: boolean; selectedValue: boolean }>`
 
   background-color: white;
   font-size: 1.6rem;
-  color: ${({ theme }) => theme.colors.label};
+  color: ${({ theme }) => theme.colors.text.input};
 
   &:focus {
     outline: none;
@@ -175,16 +110,20 @@ const TextInput = styled.input<{ readOnly: boolean; selectedValue: boolean }>`
     margin: 0;
   }
   ::-webkit-input-placeholder {
-    color: ${({ theme, selectedValue }) => theme.colors.label + `${!selectedValue ? '8F' : ''}`};
+    color: ${({ theme, $selectedValue }) =>
+      theme.colors.text.input + `${!$selectedValue ? '8F' : ''}`};
   }
   ::-moz-placeholder {
-    color: ${({ theme, selectedValue }) => theme.colors.label + `${!selectedValue ? '8F' : ''}`};
+    color: ${({ theme, $selectedValue }) =>
+      theme.colors.text.input + `${!$selectedValue ? '8F' : ''}`};
   }
   ::-ms-placeholder {
-    color: ${({ theme, selectedValue }) => theme.colors.label + `${!selectedValue ? '8F' : ''}`};
+    color: ${({ theme, $selectedValue }) =>
+      theme.colors.text.input + `${!$selectedValue ? '8F' : ''}`};
   }
   ::placeholder {
-    color: ${({ theme, selectedValue }) => theme.colors.label + `${!selectedValue ? '8F' : ''}`};
+    color: ${({ theme, $selectedValue }) =>
+      theme.colors.text.input + `${!$selectedValue ? '8F' : ''}`};
   }
 `;
 

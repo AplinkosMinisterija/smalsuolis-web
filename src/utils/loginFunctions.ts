@@ -1,5 +1,4 @@
 import Cookies from 'universal-cookie';
-import { UserReducerProps } from '../state/user/reducer';
 
 const cookies = new Cookies();
 
@@ -10,18 +9,13 @@ interface UpdateTokenProps {
   refreshToken?: string;
 }
 
-export const emptyUser: UserReducerProps = {
-  userData: {},
-  loggedIn: false,
-};
-
 export const clearCookies = () => {
   cookies.remove('token', { path: '/' });
   cookies.remove('refreshToken', { path: '/' });
   cookies.remove('module', { path: '/' });
 };
 
-export const handleUpdateTokens = (data: UpdateTokenProps) => {
+export const updateTokens = (data: UpdateTokenProps) => {
   const { token, refreshToken } = data;
 
   if (token) {

@@ -1,4 +1,3 @@
-import { map } from 'lodash';
 import styled from 'styled-components';
 import { device } from '../../styles';
 
@@ -21,7 +20,7 @@ const NavButtonGroup = ({
 }: ButtonGroupProps) => {
   return (
     <Container className={className}>
-      {map(options, (option, index) => (
+      {options?.map((option, index) => (
         <StyledButton
           type="button"
           disabled={disabled || option?.disabled}

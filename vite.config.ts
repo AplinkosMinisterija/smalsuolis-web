@@ -61,8 +61,9 @@ export default () => {
     server: {
       open: '/',
       proxy: {
-        '/proxy': {
-          target: 'http://localhost:3000',
+        open: '/',
+        '/api': {
+          target: env.VITE_PROXY_URL,
           changeOrigin: true,
           secure: false,
           rewrite: (path) => path.replace(/^\/proxy/, ''),

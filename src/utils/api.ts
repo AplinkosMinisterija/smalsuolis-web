@@ -1,9 +1,13 @@
 import Axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 import Cookies from 'universal-cookie';
-import { Resources } from './constants';
-import { Event } from './types';
+import { App, Event, Subscription, SubscriptionForm } from './types';
 const cookies = new Cookies();
+
+interface Delete {
+  resource: string;
+  id: string;
+}
 
 interface GetAll {
   resource: string;
@@ -37,10 +41,10 @@ interface GetOne {
   populate?: string[];
   scope?: string;
 }
-interface UpdateOne {
+interface UpdateOne<T = any> {
   resource?: string;
   id?: string;
-  params?: any;
+  params?: T;
 }
 
 interface Create {
@@ -50,16 +54,31 @@ interface Create {
   id?: string;
 }
 
-const token = cookies.get('token');
+export enum Resources {
+  LOGIN = 'auth/login',
+  REFRESH_TOKEN = 'auth/refresh',
+  VERIFY_USER = 'auth/change/verify',
+  SET_PASSWORD = 'auth/change/accept',
+  REMIND_PASSWORD = 'auth/change/remind',
+  LOG_OUT = 'auth/logout',
+  ME = 'users/me',
+  EVENTS = 'events',
+  NEWSFEED = 'newsfeed',
+  SUBSCRIPTIONS = 'subscriptions',
+  APPS = 'apps',
+  USERS = 'users',
+  SUBSCRIPTIONS_COUNT = 'subscriptions/count',
+}
 class Api {
   private AuthApiAxios: AxiosInstance;
-  private readonly proxy: string = '/proxy';
+  private readonly proxy: string = '/api';
 
   constructor() {
     this.AuthApiAxios = Axios.create();
 
     this.AuthApiAxios.interceptors.request.use(
       (config) => {
+        const token = cookies.get('token');
         if (token) {
           config.headers.Authorization = 'Bearer ' + token;
         }
@@ -79,9 +98,9 @@ class Api {
     return res.data;
   };
 
-  get = async ({ resource, id, populate }: GetAll) => {
+  get = async ({ resource, id, ...rest }: GetAll) => {
     const config = {
-      params: { ...(!!populate && { populate }) },
+      params: { page: 1, pageSize: 10, ...rest },
     };
 
     return this.errorWrapper(() =>
@@ -111,18 +130,25 @@ class Api {
     );
   };
 
-  checkAuth = async () => {
-    return this.errorWrapper(() => this.AuthApiAxios.get(Resources.ME));
+  getUserInfo = async () => {
+    return this.get({ resource: Resources.ME });
   };
 
   logout = async () => {
-    return this.errorWrapper(() => this.AuthApiAxios.post(Resources.LOG_OUT));
+    return this.post({ resource: Resources.LOG_OUT });
   };
 
-  refreshToken = async () => {
+  updateProfile = async (params: any): Promise<any> => {
+    return this.patch({
+      resource: Resources.ME,
+      params,
+    });
+  };
+
+  refreshToken = async (refreshToken: string) => {
     return this.post({
       resource: Resources.REFRESH_TOKEN,
-      params: { token: cookies.get('refreshToken') },
+      params: { token: refreshToken },
     });
   };
 
@@ -136,6 +162,13 @@ class Api {
   remindPassword = async (params: { email: string }) => {
     return this.post({
       resource: Resources.REMIND_PASSWORD,
+      params,
+    });
+  };
+
+  registration = async (params: { email: string }) => {
+    return this.post({
+      resource: Resources.USERS,
       params,
     });
   };
@@ -162,17 +195,80 @@ class Api {
 
   getEvents = async ({ page }: { page: number }): Promise<GetAllResponse<Event>> => {
     return this.get({
-      resource: Resources.events,
-      populate: ['geom'],
+      resource: Resources.EVENTS,
+      populate: ['geom', 'app'],
+      sort: ['-startAt'],
+      page,
+    });
+  };
+
+  getNewsfeed = async ({ page }: { page: number }): Promise<GetAllResponse<Event>> => {
+    return this.get({
+      resource: Resources.NEWSFEED,
+      populate: ['geom', 'app'],
+      sort: ['-startAt'],
       page,
     });
   };
 
   getEvent = async ({ id }: { id: string }): Promise<Event> => {
     return this.getOne({
-      resource: Resources.events,
+      resource: Resources.EVENTS,
+      populate: ['geom', 'app'],
+      id,
+    });
+  };
+
+  getSubscriptions = async ({ page }: { page: number }): Promise<GetAllResponse<Subscription>> => {
+    return this.get({
+      resource: Resources.SUBSCRIPTIONS,
+      populate: ['apps'],
+      page,
+    });
+  };
+  getSubscription = async ({ id }: { id: string }): Promise<Subscription> => {
+    return this.getOne({
+      resource: Resources.SUBSCRIPTIONS,
       populate: ['geom'],
       id,
+    });
+  };
+
+  createSubscription = async (params: SubscriptionForm): Promise<Subscription> => {
+    return this.post({
+      resource: Resources.SUBSCRIPTIONS,
+      params,
+    });
+  };
+
+  updateSubscription = async (
+    params: UpdateOne<Partial<SubscriptionForm>>,
+  ): Promise<Subscription> => {
+    return this.patch({
+      resource: Resources.SUBSCRIPTIONS,
+      ...params,
+    });
+  };
+
+  getSubscriptionsCount = async (): Promise<number> => {
+    return this.get({
+      resource: Resources.SUBSCRIPTIONS_COUNT,
+    });
+  };
+
+  deleteSubscriptions = async (ids: number[]): Promise<any> => {
+    return this.post({
+      resource: Resources.SUBSCRIPTIONS + '/delete',
+      params: {
+        ids,
+      },
+    });
+  };
+
+  getApps = async ({ page }: { page: number }): Promise<GetAllResponse<App>> => {
+    return this.get({
+      resource: Resources.APPS,
+      page,
     });
   };
 }
