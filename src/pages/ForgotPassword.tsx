@@ -51,7 +51,6 @@ const RemindPassword = () => {
 
     onError: handleError,
     onSuccess: handleSuccess,
-    retry: false,
   });
 
   const isSuccess = !!data;

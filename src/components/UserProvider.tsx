@@ -46,7 +46,6 @@ export const UserProvider = ({ children }: any) => {
     queryFn: () => {
       return api.getUserInfo();
     },
-    retry: false,
     gcTime: 0,
   });
 
@@ -56,7 +55,6 @@ export const UserProvider = ({ children }: any) => {
     isPending,
   } = useMutation({
     mutationFn: api.refreshToken,
-    retry: false,
     onSuccess: (response) => {
       updateTokens(response);
       refetch();
@@ -76,7 +74,6 @@ export const UserProvider = ({ children }: any) => {
   } = useQuery({
     queryKey: ['subsCount'],
     queryFn: api.getSubscriptionsCount,
-    retry: false,
     enabled: !userLoading && !isPending && !userError,
   });
 

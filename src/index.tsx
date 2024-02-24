@@ -14,10 +14,7 @@ import { GlobalStyle, theme } from './styles/index';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { UserProvider, isUserError } from './components/UserProvider';
 import { AxiosError } from 'axios';
-import { handleAlert, routes, slugs } from './utils';
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
+import { handleAlert } from './utils';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -36,6 +33,9 @@ const handleGlobalError = (queryClient: any, error: Error, query: any) => {
 const queryClient: any = new QueryClient({
   defaultOptions: {
     queries: {
+      retry: false,
+    },
+    mutations: {
       retry: false,
     },
   },

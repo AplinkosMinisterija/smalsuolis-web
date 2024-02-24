@@ -20,13 +20,11 @@ const Subscriptions = () => {
   const { data: subscription, isLoading: subscriptionLoading } = useQuery({
     queryKey: ['subscription', id],
     queryFn: () => (id && !isNaN(Number(id)) ? api.getSubscription({ id }) : undefined),
-    retry: false,
   });
 
   const { data: apps, isLoading: appsLoading } = useQuery({
     queryKey: ['apps'],
     queryFn: () => api.getApps({ page: 1 }),
-    retry: false,
   });
 
   const onSuccess = () => {

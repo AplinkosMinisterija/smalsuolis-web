@@ -15,7 +15,6 @@ const Event = () => {
   const { data: event, isLoading } = useQuery({
     queryKey: ['event', id],
     queryFn: () => api.getEvent({ id }),
-    retry: false,
   });
 
   if (isLoading || !event) {

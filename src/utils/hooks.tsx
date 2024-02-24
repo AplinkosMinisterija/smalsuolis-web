@@ -24,7 +24,6 @@ export const useLogin = () => {
       updateTokens(data);
       await queryClient.invalidateQueries({ queryKey: ['user'] });
     },
-    retry: false,
   });
 };
 

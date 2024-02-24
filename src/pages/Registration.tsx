@@ -51,7 +51,6 @@ const Registration = () => {
     mutationFn: (params: { email: string }) => handleRemindPassword(params),
     onError: handleError,
     onSuccess: handleSuccess,
-    retry: false,
   });
 
   const isSuccess = !!data;

@@ -33,7 +33,6 @@ const Subscriptions = () => {
 
   const { mutateAsync: deleteSubscriptions } = useMutation({
     mutationFn: (params: number[]) => api.deleteSubscriptions(params),
-
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
     },
@@ -60,6 +59,7 @@ const Subscriptions = () => {
     deleteSubscriptions(selectedSubscriptions);
     setDeleteEnabled(false);
   };
+
   const handleSubscriptionActive = (id: number, active: boolean) => {
     updateSubscription({ id: id.toString(), params: { active } });
   };
