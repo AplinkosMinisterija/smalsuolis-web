@@ -9,7 +9,7 @@ const ContentLayout = ({ children, title, customSubTitle, customTitle }: any) =>
 
   return (
     <Container>
-      {customTitle || (pageTitle && <Title>{pageTitle}</Title>)}
+      {customTitle || (pageTitle && <Title data-testid="content_layout_title">{pageTitle}</Title>)}
       {customSubTitle ||
         (currentRoute?.description && <SubTitle>{currentRoute?.description}</SubTitle>)}
       {children}

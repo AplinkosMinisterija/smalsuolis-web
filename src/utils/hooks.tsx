@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { matchPath, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { getErrorMessage, LoginForm, ReactQueryError, routes, ServerErrorCodes, slugs } from '.';
+import { LoginForm, routes, slugs } from '.';
 import api from './api';
 import { handleAlert } from './functions';
 import { clearCookies, updateTokens } from './loginFunctions';
@@ -140,6 +140,7 @@ export const useInfinityLoad = (
   });
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = result;
+
   useEffect(() => {
     const currentObserver = observerRef.current;
     const observer = new IntersectionObserver(([entry]) => {
@@ -147,11 +148,9 @@ export const useInfinityLoad = (
         fetchNextPage();
       }
     }, intersectionObserverConfig);
-
     if (currentObserver) {
       observer.observe(currentObserver);
     }
-
     return () => {
       if (currentObserver) {
         observer.unobserve(currentObserver);

@@ -33,12 +33,13 @@ const SideBar = () => {
       })}
       <Divider />
       {loggedIn ? (
-        <Item onClick={() => mutateAsync()} $isActive={false}>
+        <Item data-testid="menu_button_logout" onClick={() => mutateAsync()} $isActive={false}>
           <StyledIcon name={IconName.logout} />
           <Label>{buttonLabels.logout}</Label>
         </Item>
       ) : (
         <Item
+          data-testid="menu_button_login"
           onClick={() => navigate(slugs.login)}
           $isActive={!!matchPath({ path: slugs.login, end: false }, currentLocation.pathname)}
         >

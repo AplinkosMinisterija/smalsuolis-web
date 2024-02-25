@@ -35,7 +35,6 @@ const PasswordField = ({
   disabled,
   height,
   onInputClick,
-  testId,
 }: TextFieldProps) => {
   const [show, setShow] = useState(false);
 
@@ -63,7 +62,7 @@ const PasswordField = ({
         height={height}
         onInputClick={onInputClick}
         placeholder={placeholder}
-        testId={testId}
+        testId="login_password_field"
       />
     </FieldWrapper>
   );

@@ -35,6 +35,7 @@ const TextFieldInput = ({
   onInputClick,
   inputMode = 'text',
   onFocus = () => {},
+  testId,
   ...rest
 }: TextFieldProps) => {
   return (
@@ -53,6 +54,7 @@ const TextFieldInput = ({
         disabled={disabled}
         onFocus={onFocus}
         inputMode={inputMode}
+        data-testid={testId}
         {...rest}
       />
       {rightIcon}

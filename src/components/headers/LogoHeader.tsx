@@ -8,7 +8,6 @@ import { IconName } from '../../utils';
 
 const LogoHeader = () => {
   const navigate = useNavigate();
-
   const [showMenu, setShowMenu] = useState(false);
   return (
     <>

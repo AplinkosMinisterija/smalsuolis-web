@@ -83,6 +83,7 @@ const Registration = () => {
               error={errors.email}
               onChange={(value) => handleType('email', value)}
               label={inputLabels.email}
+              testId="registration_email_fiels"
             />
             <TextField
               value={values.firstName}
@@ -90,6 +91,7 @@ const Registration = () => {
               error={errors.firstName}
               onChange={(value) => handleType('firstName', value)}
               label={inputLabels.firstName}
+              testId="registration_first_name_field"
             />
             <TextField
               value={values.lastName}
@@ -97,8 +99,14 @@ const Registration = () => {
               error={errors.lastName}
               onChange={(value) => handleType('lastName', value)}
               label={inputLabels.lastName}
+              testId="registration_last_name_field"
             />
-            <Button loading={isLoading} disabled={isLoading} type="submit">
+            <Button
+              loading={isLoading}
+              disabled={isLoading}
+              type="submit"
+              data-testid="registration_submit_button"
+            >
               {buttonsTitles.createAccount}
             </Button>
           </FormContainer>

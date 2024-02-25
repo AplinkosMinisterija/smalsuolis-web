@@ -59,7 +59,6 @@ const Login = () => {
           secondLabel={
             <Url onClick={() => navigate(slugs.forgotPassword)}>{titles.forgotPassword}</Url>
           }
-          testId="login_password_field"
         />
         <Row>
           <StyledSingleCheckbox
@@ -67,7 +66,12 @@ const Login = () => {
             value={values.refresh}
             label={inputLabels.rememberMe}
           />
-          <StyledButton loading={loading} disabled={loading} type="submit">
+          <StyledButton
+            loading={loading}
+            disabled={loading}
+            type="submit"
+            data-testid="login_submit_id"
+          >
             {buttonsTitles.login}
           </StyledButton>
         </Row>
@@ -75,7 +79,9 @@ const Login = () => {
 
       <BottomInnerContainer>
         Neturite paskyros?
-        <Url onClick={() => navigate(slugs.registration)}>Registruotis</Url>
+        <Url onClick={() => navigate(slugs.registration)} data-testid="register_button">
+          Registruotis
+        </Url>
       </BottomInnerContainer>
     </ContentLayout>
   );

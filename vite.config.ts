@@ -63,10 +63,10 @@ export default () => {
       proxy: {
         open: '/',
         '/api': {
-          target: env.VITE_PROXY_URL,
+          target: env.VITE_PROXY_URL || 'http://localhost:5173/',
           changeOrigin: true,
           secure: false,
-          rewrite: (path) => path.replace(/^\/proxy/, ''),
+          rewrite: (path) => path.replace(/^\/api/, ''),
         },
       },
     },
