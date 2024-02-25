@@ -24,11 +24,6 @@ const handleGlobalError = async (queryClient: QueryClient, error: Error, query: 
       try {
         const response = await api.refreshToken(refreshToken);
         updateTokens(response);
-        const slug = window.location.pathname;
-        cookies.set('page', slug, {
-          path: '/',
-          expires: new Date(new Date().getTime() + 60 * 1000),
-        });
         location.reload();
       } catch (e: any) {
         handleAlert();
