@@ -77,7 +77,9 @@ const Login = () => {
             <Url onClick={() => navigate(slugs.forgotPassword)}>{titles.forgotPassword}</Url>
           }
         />
-        {invalidLoginData && <Error>{validationTexts.invalidUserNameOrPassword}</Error>}
+        {invalidLoginData && (
+          <Error data-testid="login_data_error">{validationTexts.invalidUserNameOrPassword}</Error>
+        )}
         <Row>
           <StyledSingleCheckbox
             onChange={(value) => handleType('refresh', value)}
