@@ -27,7 +27,7 @@ const handleGlobalError = async (queryClient: QueryClient, error: Error, query: 
         const slug = window.location.pathname;
         cookies.set('page', slug, {
           path: '/',
-          expires: new Date(new Date().getTime() + 30 * 1000),
+          expires: new Date(new Date().getTime() + 60 * 1000),
         });
         location.reload();
       } catch (e: any) {
