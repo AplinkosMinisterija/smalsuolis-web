@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import { useContext, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 import Button from '../components/buttons/Button';
 import PasswordField from '../components/fields/PasswordField';
@@ -12,6 +12,7 @@ import api from '../utils/api';
 import { UserContext, UserContextType } from '../components/UserProvider';
 
 const Profile = () => {
+  const queryClient = useQueryClient();
   const [allValid, setAllValid] = useState(false);
   const { data: user } = useContext<UserContextType>(UserContext);
 
@@ -27,6 +28,7 @@ const Profile = () => {
 
     onSuccess: () => {
       handleToastSuccess(validationTexts.profileUpdated);
+      queryClient.invalidateQueries({ queryKey: ['user'] });
     },
   });
 
