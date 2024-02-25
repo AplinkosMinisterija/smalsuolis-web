@@ -9,6 +9,7 @@ export interface CheckboxProps {
   error?: boolean;
   className?: string;
   intermediate?: boolean;
+  testId?: string;
 }
 
 const Checkbox = ({
@@ -20,6 +21,7 @@ const Checkbox = ({
   error,
   className,
   intermediate,
+  testId = 'checkbox',
 }: CheckboxProps) => {
   return (
     <>
@@ -42,6 +44,7 @@ const Checkbox = ({
             checked={value || false}
             disabled={disabled}
             onChange={() => {}} //To prevent console errors
+            data-testid={testId}
           />
           <Label checked={value || false} intermediate={intermediate} disabled={disabled} />
         </InnerContainer>

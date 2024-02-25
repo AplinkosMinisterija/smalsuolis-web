@@ -85,6 +85,7 @@ const Login = () => {
             onChange={(value) => handleType('refresh', value)}
             value={values.refresh}
             label={inputLabels.rememberMe}
+            testId="stay_loggedin_checkbox"
           />
           <StyledButton
             loading={loading}
