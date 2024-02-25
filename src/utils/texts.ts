@@ -17,6 +17,7 @@ export const validationTexts = {
   profileUpdated: 'Profilis atnaujintas',
   registration: 'Registracija sėkminga',
   appsNotSelected: 'Pasirinkite bent vieną sritį',
+  invalidUserNameOrPassword: 'Neteisingai įvestas el. paštas arba slaptažodis',
 };
 
 export const inputLabels = {
