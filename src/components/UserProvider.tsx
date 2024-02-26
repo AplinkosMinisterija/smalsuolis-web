@@ -44,7 +44,7 @@ export const UserProvider = ({ children }: any) => {
         error,
         isLoading,
         loggedIn,
-        subscriptionsCount: data?.subscriptions?.length || 0,
+        subscriptionsCount: data?.subscriptions || 0,
       }}
     >
       {children}
