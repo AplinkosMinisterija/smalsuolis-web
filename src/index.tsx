@@ -34,7 +34,9 @@ const handleGlobalError = async (queryClient: QueryClient, error: Error, query: 
       await queryClient.invalidateQueries({ queryKey: ['user'] });
     }
   } else {
-    handleAlert();
+    if (error.name === 'AxiosError') {
+      handleAlert();
+    }
   }
 };
 
