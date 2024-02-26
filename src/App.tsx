@@ -9,8 +9,8 @@ import { useContext } from 'react';
 import { UserContext, UserContextType } from './components/UserProvider';
 
 function App() {
-  const { isLoading, loggedIn, subscriptionsCount } = useContext<UserContextType>(UserContext);
-
+  const { data, isLoading, loggedIn, subscriptionsCount } =
+    useContext<UserContextType>(UserContext);
   if (isLoading) return <LoaderComponent />;
 
   const routes = filterRoutes(loggedIn);
