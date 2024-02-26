@@ -8,7 +8,7 @@ import PreviewMap from '../components/other/PreviewMap';
 import Tag from '../components/other/Tag';
 import { buttonLabels, IconName } from '../utils';
 import api from '../utils/api';
-import { getTimeDifference } from '../utils/functions';
+import { getTimeLabel } from '../utils/functions';
 
 const Event = () => {
   const { id = '' } = useParams();
@@ -35,7 +35,7 @@ const Event = () => {
       <Line>
         <Time>
           <TimeIcon name={IconName.time} />
-          {getTimeDifference(event.startAt)}
+          {getTimeLabel(event)}
         </Time>
         {event.url && (
           <Button onClick={() => window.open(event.url)}>

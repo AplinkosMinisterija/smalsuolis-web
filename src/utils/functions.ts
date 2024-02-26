@@ -2,6 +2,7 @@ import { format, isToday } from 'date-fns';
 import { toast } from 'react-toastify';
 import { routes } from './routes';
 import { validationTexts } from './texts';
+import { Event } from './types';
 
 export const getErrorMessage = (error?: string) =>
   validationTexts[error as keyof typeof validationTexts] || validationTexts.error;
@@ -34,8 +35,21 @@ export const formatDateAndTime = (date?: Date | string) =>
 
 export const formatTime = (date?: Date | string) => (date ? format(new Date(date), 'HH:MM') : '');
 
-export const getTimeDifference = (date: Date) =>
-  isToday(date) ? `Šiandien ${formatTime(date)}` : formatDateAndTime(date);
+export const getTimeLabel = (event: Event) => {
+  const { startAt, endAt, isFullDay } = event;
+
+  if (endAt) {
+    return `${formatDateAndTime(startAt)} - ${formatDateAndTime(endAt)}`;
+  }
+
+  const todayLabel = isToday(startAt) ? `Šiandien` : '';
+
+  if (isFullDay) {
+    return todayLabel || formatDate(startAt);
+  }
+
+  return todayLabel ? `${todayLabel} ${formatTime(startAt)}` : formatDateAndTime(startAt);
+};
 
 export const isEmpty = (value: any) => {
   return (

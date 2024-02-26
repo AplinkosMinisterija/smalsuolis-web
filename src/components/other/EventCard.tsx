@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { device } from '../../styles';
-import { Event, getTimeDifference } from '../../utils';
+import { Event, getTimeLabel } from '../../utils';
 import Tag from './Tag';
 
 const EventCard = ({ event, onClick }: { event: Event; onClick?: () => void }) => {
@@ -10,7 +10,7 @@ const EventCard = ({ event, onClick }: { event: Event; onClick?: () => void }) =
     <Container onClick={onClick}>
       <Row>
         <Name>{event.name}</Name>
-        <Time>{getTimeDifference(startAt)}</Time>
+        <Time>{getTimeLabel(event)}</Time>
       </Row>
 
       <Tag text={app.name} />
