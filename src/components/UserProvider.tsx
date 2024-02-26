@@ -1,14 +1,6 @@
-import React, { createContext, useEffect } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import api, { Resources } from '../utils/api';
-import { AxiosError } from 'axios/index';
-
-const excludedRouters = [Resources.ME];
-
-export const isUserError = (error: AxiosError) => {
-  const url = error?.request?.responseURL;
-  return excludedRouters.some((ep) => url.includes(ep));
-};
+import React, { createContext } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import api from '../utils/api';
 
 export type UserContextType = {
   data: any;
