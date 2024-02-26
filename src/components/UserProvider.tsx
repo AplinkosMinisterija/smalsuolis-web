@@ -30,7 +30,7 @@ export const UserProvider = ({ children }: any) => {
     queryFn: () => {
       return api.getUserInfo();
     },
-    gcTime: 0,
+    gcTime: 2 * 60 * 60 * 1000,
   });
 
   const error = userError;
