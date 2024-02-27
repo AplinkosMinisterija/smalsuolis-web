@@ -44,7 +44,6 @@ export const routes = [
     back: false,
     slug: slugs.resetPassword,
   },
-
   {
     component: <Subscriptions />,
     title: titles.subscriptions,
@@ -82,13 +81,13 @@ export const routes = [
     description: 'Visos atrinktos naujienos',
     iconName: IconName.list,
     loggedIn: true,
-    component: <Events apiEndpoint={api.getNewsfeed} key={'newsfeed'} />,
+    component: <Events apiEndpoint={api.getNewsfeed} queryKey={'newsfeed'} />,
     slug: slugs.myEvents,
   },
   {
     title: titles.allEvents,
     iconName: IconName.fourSquares,
-    component: <Events apiEndpoint={api.getEvents} key={'events'} />,
+    component: <Events apiEndpoint={api.getEvents} queryKey={'events'} />,
     slug: slugs.events,
   },
   {

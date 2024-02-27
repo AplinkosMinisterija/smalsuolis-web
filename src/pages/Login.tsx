@@ -1,6 +1,4 @@
 import { useFormik } from 'formik';
-import { useRef } from 'react';
-import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/buttons/Button';
@@ -8,64 +6,47 @@ import CheckBox from '../components/buttons/Checkbox';
 import PasswordField from '../components/fields/PasswordField';
 import TextField from '../components/fields/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';
-import api from '../utils/api';
-import { getErrorMessage } from '../utils/functions';
-import { useGetUserInfoQuery } from '../utils/hooks';
-import { handleUpdateTokens } from '../utils/loginFunctions';
+import { useLogin } from '../utils/hooks';
 import { slugs } from '../utils/routes';
-import { buttonsTitles, inputLabels, titles } from '../utils/texts';
-import { ReactQueryError } from '../utils/types';
+import { buttonsTitles, inputLabels, titles, validationTexts } from '../utils/texts';
 import { loginSchema } from '../utils/validations';
-
-interface LoginProps {
-  email: string;
-  password: string;
-  refresh: boolean;
-}
-
+import { useContext, useEffect } from 'react';
+import { UserContext, UserContextType } from '../components/UserProvider';
+import { AxiosError } from 'axios';
+import { handleAlert } from '../utils';
 const Login = () => {
-  const captchaRef = useRef<any>();
+  const env: any = import.meta.env;
+
   const navigate = useNavigate();
-  const handleLogin = async (values: LoginProps) => {
-    const captchaToken = await captchaRef?.current?.execute();
-    const { email, password, refresh } = values;
-    const params = {
-      password,
-      refresh,
-      email: email.toLocaleLowerCase(),
-      captchaToken,
-    };
 
-    return await api.login(params);
-  };
-
-  const handleError = ({ response }: ReactQueryError): any => {
-    const text = getErrorMessage(response?.data?.message);
-    return setErrors({ email: text });
-  };
-
-  const loginMutation = useMutation((params: LoginProps) => handleLogin(params), {
-    onError: handleError,
-    onSuccess: (data) => {
-      handleUpdateTokens(data);
-    },
-    retry: false,
-  });
-
-  const { isLoading: userInfoLoading } = useGetUserInfoQuery();
-
-  const loading = [loginMutation.isLoading, userInfoLoading].some((loading) => loading);
+  const { isLoading: userLoading } = useContext<UserContextType>(UserContext);
 
   const { values, errors, setFieldValue, handleSubmit, setErrors } = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      email: env.VITE_USER || '',
+      password: env.VITE_PASSWORD || '',
       refresh: false,
     },
     validateOnChange: false,
     validationSchema: loginSchema,
-    onSubmit: (values) => loginMutation.mutateAsync(values),
+    onSubmit: (values) => login(values),
   });
+
+  const { mutateAsync: login, isPending: loginLoading, error } = useLogin();
+  const loading = loginLoading || userLoading;
+
+  const invalidLoginData = (error as AxiosError)?.response?.status === 400;
+
+  useEffect(() => {
+    if ((error as any)?.response?.data?.type === 'WRONG_PASSWORD') {
+      setErrors({
+        email: validationTexts.invalidUserNameOrPassword,
+        password: validationTexts.invalidUserNameOrPassword,
+      });
+    } else {
+      handleAlert();
+    }
+  }, [error]);
 
   const handleType = (field: string, value: string | boolean) => {
     setFieldValue(field, value);
@@ -79,20 +60,23 @@ const Login = () => {
           value={values.email}
           type="email"
           name="email"
-          error={errors.email}
+          showError={!invalidLoginData}
+          error={errors.email as string}
           onChange={(value) => handleType('email', value)}
           label={inputLabels.email}
         />
         <PasswordField
           value={values.password}
           name="password"
-          error={errors.password}
+          showError={!invalidLoginData}
+          error={errors.password as string}
           onChange={(value) => handleType('password', value)}
           label={inputLabels.password}
           secondLabel={
             <Url onClick={() => navigate(slugs.forgotPassword)}>{titles.forgotPassword}</Url>
           }
         />
+        {invalidLoginData && <Error>{validationTexts.invalidUserNameOrPassword}</Error>}
         <Row>
           <StyledSingleCheckbox
             onChange={(value) => handleType('refresh', value)}
@@ -112,6 +96,7 @@ const Login = () => {
     </ContentLayout>
   );
 };
+
 const StyledSingleCheckbox = styled(CheckBox)`
   flex-grow: 1;
 `;
@@ -148,6 +133,11 @@ const Container = styled.form`
 const Url = styled.div`
   cursor: pointer;
   text-decoration: underline;
+`;
+
+const Error = styled.div`
+  color: ${({ theme }) => theme.colors.error};
+  font-size: 1.4rem;
 `;
 
 export default Login;

@@ -1,30 +1,74 @@
 import ReactDOM from 'react-dom/client';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { Provider } from 'react-redux';
+import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
-import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from 'styled-components';
 import App from './App';
-import redux from './state/store';
 import { GlobalStyle, theme } from './styles/index';
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-const { store, persistor } = redux;
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { UserProvider } from './components/UserProvider';
+import { AxiosError } from 'axios';
+import { handleAlert } from './utils';
+import api from './utils/api';
+import Cookies from 'universal-cookie';
+import { updateTokens } from './utils/loginFunctions';
+const cookies = new Cookies();
 
-const queryClient = new QueryClient();
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
+const handleGlobalError = async (queryClient: QueryClient, error: Error, query: any) => {
+  const code = (error as AxiosError)?.response?.status;
+  if (code == 401) {
+    // Try to refresh token if any query fails with 401
+    const refreshToken = cookies.get('refreshToken');
+    if (refreshToken) {
+      try {
+        const response = await api.refreshToken(refreshToken);
+        updateTokens(response);
+        location.reload();
+      } catch (e: any) {
+        handleAlert();
+      }
+    }
+    // Invalidate user query in order to rerender page (only for non users queries)
+    if (!(query.queryKey.includes('user') && query.queryKey.length === 1)) {
+      await queryClient.invalidateQueries({ queryKey: ['user'] });
+    }
+  } else {
+    if (error.name === 'AxiosError') {
+      handleAlert();
+    }
+  }
+};
+
+const queryClient: any = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+    mutations: {
+      retry: false,
+    },
+  },
+  queryCache: new QueryCache({
+    onError: (error, query) => handleGlobalError(queryClient, error, query),
+  }),
+  mutationCache: new MutationCache({
+    onError: (error, query) => handleGlobalError(queryClient, error, query),
+  }),
+});
 
 root.render(
   <>
     <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <ThemeProvider theme={theme}>
-            <GlobalStyle />
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </ThemeProvider>
-        </PersistGate>
-      </Provider>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <BrowserRouter>
+          <UserProvider>
+            <App />
+          </UserProvider>
+        </BrowserRouter>
+      </ThemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </>,
 );

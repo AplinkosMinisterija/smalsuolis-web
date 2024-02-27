@@ -1,16 +1,15 @@
 import { useFormik } from 'formik';
-import { useState } from 'react';
-import { useMutation } from 'react-query';
+import { useContext, useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 import Button from '../components/buttons/Button';
 import PasswordField from '../components/fields/PasswordField';
 import TextField from '../components/fields/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';
 import PasswordCheckListContainer from '../components/other/PasswordCheckListContainer';
-import { useAppSelector } from '../state/hooks';
-import { handleToastSuccess } from '../utils';
+import { handleToastSuccess, buttonsTitles, inputLabels, validationTexts } from '../utils';
 import api from '../utils/api';
-import { buttonsTitles, inputLabels, validationTexts } from '../utils/texts';
+import { UserContext, UserContextType } from '../components/UserProvider';
 
 interface ProfileForm {
   password: string;
@@ -19,19 +18,20 @@ interface ProfileForm {
 }
 
 const Profile = () => {
+  const queryClient = useQueryClient();
   const [allValid, setAllValid] = useState(false);
-  const user = useAppSelector((state) => state.user.userData);
+  const { data: user } = useContext<UserContextType>(UserContext);
 
-  const { mutateAsync, isLoading } = useMutation(
-    (values: Partial<ProfileForm>) => {
+  const { mutateAsync, isPending: isLoading } = useMutation({
+    mutationFn: (values: Partial<ProfileForm>) => {
       return api.updateProfile(values);
     },
-    {
-      onSuccess: () => {
-        handleToastSuccess(validationTexts.profileUpdated);
-      },
+
+    onSuccess: () => {
+      handleToastSuccess(validationTexts.profileUpdated);
+      queryClient.invalidateQueries({ queryKey: ['user'] });
     },
-  );
+  });
 
   const { values, setFieldValue, handleSubmit, setErrors } = useFormik({
     initialValues: {
@@ -59,7 +59,6 @@ const Profile = () => {
     <ContentLayout>
       <PasswordContainer noValidate onSubmit={handleSubmit}>
         <TextField label={inputLabels.email} value={values.email} name="email" disabled={true} />
-
         <PasswordField
           value={password}
           name="password"
@@ -96,18 +95,6 @@ const PasswordContainer = styled.form`
   width: 100%;
 `;
 
-const SuccessContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 16px;
-  width: 100%;
-`;
-
 const StyledButton = styled(Button)`
   margin-top: 32px;
-`;
-
-const Description = styled.div`
-  text-align: center;
 `;

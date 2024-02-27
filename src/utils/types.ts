@@ -91,3 +91,9 @@ type CoordinatesTypes =
   | CoordinatesMultiPoint
   | CoordinatesMultiLineString
   | CoordinatesMultiPolygon;
+
+export interface LoginForm {
+  email: string;
+  password: string;
+  refresh: boolean;
+}
