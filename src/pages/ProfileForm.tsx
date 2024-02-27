@@ -12,12 +12,18 @@ import { handleToastSuccess } from '../utils';
 import api from '../utils/api';
 import { buttonsTitles, inputLabels, validationTexts } from '../utils/texts';
 
+interface ProfileForm {
+  password: string;
+  repeatPassword: string;
+  email: string;
+}
+
 const Profile = () => {
   const [allValid, setAllValid] = useState(false);
   const user = useAppSelector((state) => state.user.userData);
 
   const { mutateAsync, isLoading } = useMutation(
-    (values: { password: string; repeatPassword: string; firstName: string; lastName: string }) => {
+    (values: Partial<ProfileForm>) => {
       return api.updateProfile(values);
     },
     {
@@ -31,11 +37,12 @@ const Profile = () => {
     initialValues: {
       password: '',
       repeatPassword: '',
-      firstName: user.firstName || '',
-      lastName: user.lastName || '',
-    },
+      email: user?.email || '',
+    } as ProfileForm,
     onSubmit: (values) => {
-      mutateAsync(values);
+      const form: Partial<ProfileForm> = { ...values };
+      delete form.email;
+      mutateAsync(form);
     },
   });
 
@@ -46,26 +53,16 @@ const Profile = () => {
 
   const { repeatPassword, password } = values;
 
-  const disableSubmit =
-    isLoading ||
-    ((!!password || !!repeatPassword) && !allValid) ||
-    !values.firstName ||
-    !values.lastName;
+  const disableSubmit = isLoading || ((!!password || !!repeatPassword) && !allValid);
 
   return (
     <ContentLayout>
       <PasswordContainer noValidate onSubmit={handleSubmit}>
         <TextField
-          label={inputLabels.firstName}
-          value={values.firstName}
+          label={inputLabels.email}
+          value={values.email}
           name="firstName"
-          onChange={(firstName) => handleType('firstName', firstName)}
-        />
-        <TextField
-          label={inputLabels.lastName}
-          name="lastName"
-          value={values.lastName}
-          onChange={(lastName) => handleType('lastName', lastName)}
+          disabled={true}
         />
 
         <PasswordField

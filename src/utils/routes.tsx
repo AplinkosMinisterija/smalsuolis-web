@@ -4,7 +4,7 @@ import Event from '../pages/Event';
 import Events from '../pages/Events';
 import RemindPassword from '../pages/ForgotPassword';
 import Login from '../pages/Login';
-import Profile from '../pages/Profile';
+import Profile from '../pages/ProfileForm';
 import Registration from '../pages/Registration';
 import ResetPassword from '../pages/ResetPassword';
 import Subscription from '../pages/Subscription';

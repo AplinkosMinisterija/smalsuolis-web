@@ -57,8 +57,6 @@ const Registration = () => {
   const { values, errors, setFieldValue, handleSubmit, setErrors } = useFormik({
     initialValues: {
       email: '',
-      firstName: '',
-      lastName: '',
     },
     validateOnChange: false,
     validationSchema: forgotPasswordSchema,
@@ -82,20 +80,6 @@ const Registration = () => {
               error={errors.email}
               onChange={(value) => handleType('email', value)}
               label={inputLabels.email}
-            />
-            <TextField
-              value={values.firstName}
-              name="firstName"
-              error={errors.firstName}
-              onChange={(value) => handleType('firstName', value)}
-              label={inputLabels.firstName}
-            />
-            <TextField
-              value={values.lastName}
-              name="lastName"
-              error={errors.lastName}
-              onChange={(value) => handleType('lastName', value)}
-              label={inputLabels.lastName}
             />
             <Button loading={isLoading} disabled={isLoading} type="submit">
               {buttonsTitles.createAccount}
