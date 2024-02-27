@@ -23,13 +23,13 @@ const Tag = ({
 const Container = styled.div<{ $color: string; $backgroundColor: string }>`
   background-color: ${({ $backgroundColor }) => $backgroundColor};
   border-radius: 17px;
-  padding: 4px 24px;
+  padding: 4px 12px;
   display: flex;
   width: fit-content;
   justify-content: center;
   align-items: center;
   opacity: 1;
-  gap: 4px;
+  gap: 6px;
   cursor: pointer;
   color: ${({ $color }) => $color};
 `;

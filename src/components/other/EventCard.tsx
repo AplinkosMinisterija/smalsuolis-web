@@ -4,7 +4,10 @@ import { Event, getTimeLabel } from '../../utils';
 import Tag from './Tag';
 
 const EventCard = ({ event, onClick }: { event: Event; onClick?: () => void }) => {
-  const { startAt, app } = event;
+  const { app } = event;
+
+  const base64SVG = window.btoa(app.icon);
+  const appIcon = `data:image/svg+xml;base64,${base64SVG}`;
 
   return (
     <Container onClick={onClick}>
@@ -13,12 +16,16 @@ const EventCard = ({ event, onClick }: { event: Event; onClick?: () => void }) =
         <Time>{getTimeLabel(event)}</Time>
       </Row>
 
-      <Tag text={app.name} />
+      <Tag text={app.name} icon={<AppIcon src={appIcon} />} />
     </Container>
   );
 };
 
 export default EventCard;
+
+const AppIcon = styled.img`
+  height: 16px;
+`;
 
 const Container = styled.a`
   background: ${({ theme }) => theme.colors.largeButton.GREY};
