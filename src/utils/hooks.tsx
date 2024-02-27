@@ -9,6 +9,7 @@ import { handleAlert } from './functions';
 import { clearCookies, updateTokens } from './loginFunctions';
 
 export const useLogin = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (values: LoginForm) => {
       const { email, password, refresh } = values;
@@ -21,10 +22,10 @@ export const useLogin = () => {
     },
     onSuccess: async (data: { token: string; refreshToken?: string }) => {
       updateTokens(data);
+      await queryClient.invalidateQueries({ queryKey: ['user'] });
     },
   });
 };
-
 export const useLogout = () => {
   const queryClient = useQueryClient();
   const { mutateAsync } = useMutation({
