@@ -31,7 +31,6 @@ function App() {
         </Route>
         <Route path="*" element={<Navigate to={mainPage} />} />
       </Routes>
-      <ToastContainer />
     </DefaultLayout>
   );
 }
