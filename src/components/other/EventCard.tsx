@@ -1,14 +1,11 @@
 import styled from 'styled-components';
 import { device } from '../../styles';
-import { Event, getTimeLabel } from '../../utils';
+import { Event, getIconUrl, getTimeLabel } from '../../utils';
 import Tag from './Tag';
 
 const EventCard = ({ event, onClick }: { event: Event; onClick?: () => void }) => {
   const { app } = event;
-
-  const base64SVG = window.btoa(app.icon);
-  const appIcon = `data:image/svg+xml;base64,${base64SVG}`;
-
+  const appIcon = getIconUrl(app.icon);
   return (
     <Container onClick={onClick}>
       <Row>

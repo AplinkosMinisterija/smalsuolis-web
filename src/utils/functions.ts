@@ -76,3 +76,8 @@ export const filterRoutes = (loggedIn: boolean) => {
 export const filterMenuRoutes = (loggedIn: boolean) => {
   return filterRoutes(loggedIn).filter((route) => !!route.iconName);
 };
+
+export const getIconUrl = (icon: string) => {
+  const base64SVG = window.btoa(icon);
+  return `data:image/svg+xml;base64,${base64SVG}`;
+};

@@ -8,7 +8,7 @@ import PreviewMap from '../components/other/PreviewMap';
 import Tag from '../components/other/Tag';
 import { buttonLabels, IconName } from '../utils';
 import api from '../utils/api';
-import { getTimeLabel } from '../utils/functions';
+import { getIconUrl, getTimeLabel } from '../utils/functions';
 
 const Event = () => {
   const { id = '' } = useParams();
@@ -23,8 +23,7 @@ const Event = () => {
 
   const app = event.app;
 
-  const base64SVG = window.btoa(app.icon);
-  const appIcon = `data:image/svg+xml;base64,${base64SVG}`;
+  const appIcon = getIconUrl(app.icon);
 
   return (
     <ContentLayout
