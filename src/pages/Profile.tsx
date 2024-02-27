@@ -26,16 +26,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-const PasswordContainer = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
-`;
-
-const StyledButton = styled(Button)`
-  margin-top: 32px;
-`;
