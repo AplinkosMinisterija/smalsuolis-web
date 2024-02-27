@@ -58,12 +58,7 @@ const Profile = () => {
   return (
     <ContentLayout>
       <PasswordContainer noValidate onSubmit={handleSubmit}>
-        <TextField
-          label={inputLabels.email}
-          value={values.email}
-          name="firstName"
-          disabled={true}
-        />
+        <TextField label={inputLabels.email} value={values.email} name="email" disabled={true} />
 
         <PasswordField
           value={password}
