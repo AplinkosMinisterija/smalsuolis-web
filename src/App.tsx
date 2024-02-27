@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DefaultLayout from './components/layouts/DefaultLayout';
@@ -31,6 +31,7 @@ function App() {
         </Route>
         <Route path="*" element={<Navigate to={mainPage} />} />
       </Routes>
+      <ToastContainer />
     </DefaultLayout>
   );
 }
