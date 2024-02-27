@@ -14,7 +14,6 @@ import { UserContext, UserContextType } from '../components/UserProvider';
 interface Profile {
   password: string;
   repeatPassword: string;
-  email: string;
 }
 
 const Profile = () => {
@@ -23,10 +22,9 @@ const Profile = () => {
   const { data: user } = useContext<UserContextType>(UserContext);
 
   const { mutateAsync, isPending: isLoading } = useMutation({
-    mutationFn: (values: Partial<Profile>) => {
+    mutationFn: (values: Profile) => {
       return api.updateProfile(values);
     },
-
     onSuccess: () => {
       handleToastSuccess(validationTexts.profileUpdated);
       queryClient.invalidateQueries({ queryKey: ['user'] });
@@ -37,12 +35,9 @@ const Profile = () => {
     initialValues: {
       password: '',
       repeatPassword: '',
-      email: user?.email || '',
     } as Profile,
     onSubmit: (values) => {
-      const form: Partial<Profile> = { ...values };
-      delete form.email;
-      mutateAsync(form);
+      mutateAsync(values);
     },
   });
 
@@ -58,7 +53,7 @@ const Profile = () => {
   return (
     <ContentLayout>
       <PasswordContainer noValidate onSubmit={handleSubmit}>
-        <TextField label={inputLabels.email} value={values.email} name="email" disabled={true} />
+        <TextField label={inputLabels.email} value={user?.email} name="email" disabled={true} />
         <PasswordField
           value={password}
           name="password"
