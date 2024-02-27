@@ -11,7 +11,7 @@ import { slugs } from './utils/routes';
 function App() {
   const { isLoading, loggedIn, subscriptionsCount } = useContext<UserContextType>(UserContext);
 
-  const filteredRoutes = filterRoutes(loggedIn);
+  const routes = filterRoutes(loggedIn);
 
   if (isLoading) return <LoaderComponent />;
 
@@ -25,7 +25,7 @@ function App() {
     <DefaultLayout>
       <Routes>
         <Route>
-          {filteredRoutes.map((route, index) => (
+          {routes.map((route, index) => (
             <Route key={`route-${index}`} path={route.slug} element={route.component} />
           ))}
         </Route>
