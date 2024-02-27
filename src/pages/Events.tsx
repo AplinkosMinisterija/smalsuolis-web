@@ -46,13 +46,7 @@ const Events = ({
     data: events,
     isFetching,
     isLoading,
-  } = useInfinityLoad(
-    `${queryKey}-${filter}`,
-    apiEndpoint,
-    observerRef,
-    { filter: getFilter() },
-    false,
-  );
+  } = useInfinityLoad(`${queryKey}-${filter}`, apiEndpoint, observerRef, { filter: getFilter() });
 
   const renderContent = () => {
     if (isLoading) return <LoaderComponent />;

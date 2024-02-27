@@ -1,8 +1,7 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { matchPath, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { LoginForm, routes, slugs } from '.';
-import { UserContext, UserContextType } from '../components/UserProvider';
 import api from './api';
 import { intersectionObserverConfig } from './configs';
 import { handleAlert } from './functions';
@@ -115,9 +114,7 @@ export const useInfinityLoad = (
   fn: (params: { page: number }) => any,
   observerRef: any,
   filters = {},
-  hasToBeLoggedIn = true,
 ) => {
-  const { isLoading, loggedIn } = useContext<UserContextType>(UserContext);
   const queryFn = async (page: number) => {
     const data = await fn({
       ...filters,
@@ -129,12 +126,10 @@ export const useInfinityLoad = (
     };
   };
 
-  const canFetch = !hasToBeLoggedIn || (!isLoading && loggedIn);
-
   const result = useInfiniteQuery({
     queryKey: [queryKey],
     initialPageParam: 1,
-    queryFn: ({ pageParam }: any) => (canFetch ? queryFn(pageParam) : Promise.resolve()),
+    queryFn: ({ pageParam }: any) => queryFn(pageParam),
     getNextPageParam: (lastPage: any) => {
       return lastPage?.page < lastPage?.totalPages ? lastPage.page + 1 : undefined;
     },

@@ -11,9 +11,9 @@ import { slugs } from './utils/routes';
 function App() {
   const { isLoading, loggedIn, subscriptionsCount } = useContext<UserContextType>(UserContext);
 
-  const routes = filterRoutes(loggedIn);
-
   if (isLoading) return <LoaderComponent />;
+
+  const routes = filterRoutes(loggedIn);
 
   const mainPage = loggedIn
     ? subscriptionsCount > 0
