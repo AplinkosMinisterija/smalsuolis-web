@@ -24,7 +24,7 @@ const buttonTextColors = {
   [ButtonColors.POWDER]: theme.colors.text.primary,
 };
 export interface ButtonProps {
-  $variant?: ButtonColors;
+  variant?: ButtonColors;
   route?: string;
   children?: JSX.Element | string;
   leftIcon?: JSX.Element | string;
@@ -42,7 +42,7 @@ export interface ButtonProps {
 }
 
 const Button = ({
-  $variant = ButtonColors.PRIMARY,
+  variant = ButtonColors.PRIMARY,
   route,
   children,
   height = 56,
@@ -64,7 +64,7 @@ const Button = ({
       className={className}
       $padding={padding}
       $fontWeight={fontWeight}
-      $variant={$variant}
+      $variant={variant}
       $height={height || 40}
       type={type}
       disabled={disabled}
