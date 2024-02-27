@@ -5,7 +5,7 @@ import Button from '../components/buttons/Button';
 import TextField from '../components/fields/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
-import { getErrorMessage, handleAlert } from '../utils/functions';
+import { getErrorMessage } from '../utils/functions';
 import { buttonsTitles, descriptions, inputLabels, validationTexts } from '../utils/texts';
 import { ReactQueryError } from '../utils/types';
 import { forgotPasswordSchema } from '../utils/validations';
@@ -23,7 +23,6 @@ const RemindPassword = () => {
     if (text) {
       return setErrors({ email: text });
     }
-    handleAlert();
   };
 
   const handleSuccess = (response: { invalidUntil: Date; url: string; success: boolean }): any => {

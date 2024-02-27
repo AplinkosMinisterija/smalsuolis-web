@@ -32,7 +32,6 @@ export const useLogout = () => {
   const { mutateAsync } = useMutation({
     mutationFn: api.logout,
     onError: async () => {
-      handleAlert();
       clearCookies();
       await queryClient.invalidateQueries();
     },
@@ -74,9 +73,6 @@ export const useSetPassword = () => {
   const { data, mutateAsync, isPending } = useMutation({
     mutationFn: ({ password }: { password: string }) => {
       return api.setPassword({ h, s, password });
-    },
-    onError: () => {
-      handleAlert();
     },
   });
 

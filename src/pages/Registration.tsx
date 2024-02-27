@@ -23,7 +23,6 @@ const Registration = () => {
     if (text) {
       return setErrors({ email: text });
     }
-    handleAlert();
   };
 
   const handleSuccess = (response: { invalidUntil: Date; url: string; success: boolean }): any => {
