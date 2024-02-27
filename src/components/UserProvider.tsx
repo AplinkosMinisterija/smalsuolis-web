@@ -1,18 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios/index';
-import { createContext, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
-import Cookies from 'universal-cookie';
-import api, { Resources } from '../utils/api';
-import { clearCookies, updateTokens } from '../utils/loginFunctions';
-
-const excludedRouters = [Resources.ME];
-const cookies = new Cookies();
-
-export const isUserError = (error: AxiosError) => {
-  const url = error?.request?.responseURL;
-  return excludedRouters.some((ep) => url.includes(ep));
-};
+import { useQuery } from '@tanstack/react-query';
+import { createContext } from 'react';
+import api from '../utils/api';
 
 export type UserContextType = {
   data: any;
@@ -33,82 +21,31 @@ const defaultValue: UserContextType = {
 export const UserContext: any = createContext<UserContextType>(defaultValue);
 
 export const UserProvider = ({ children }: any) => {
-  const queryClient = useQueryClient();
-  const [{ token }] = useCookies(['token']);
-
   const {
     data,
     error: userError,
     isLoading: userLoading,
-    refetch,
   } = useQuery({
-    queryKey: ['user', token],
+    queryKey: ['user'],
     queryFn: () => {
       return api.getUserInfo();
     },
-    retry: false,
-    enabled: !!token,
+    gcTime: 2 * 60 * 60 * 1000,
   });
 
-  const {
-    mutateAsync: refresh,
-    error: refreshTokenError,
-    isPending,
-  } = useMutation({
-    mutationFn: api.refreshToken,
-    retry: false,
-    onSuccess: (response) => {
-      updateTokens(response);
-      refetch();
-    },
-    onError: (error) => {
-      const errorCode = (error as AxiosError).response?.status;
-      if (errorCode == 404) {
-        cookies.remove('refreshToken', { path: '/' });
-      }
-    },
-  });
-
-  const {
-    data: subsCount,
-    isLoading: subsCountLoading,
-    error: subsCountError,
-  } = useQuery({
-    queryKey: ['subsCount'],
-    queryFn: api.getSubscriptionsCount,
-
-    retry: false,
-    enabled: !userLoading && !isPending && !userError && !!token,
-  });
-
-  useEffect(() => {
-    if (userError) {
-      const errorCode = (userError as AxiosError).response?.status;
-      const refreshToken = cookies.get('refreshToken');
-      if (errorCode == 401) {
-        if (refreshToken) {
-          refresh(refreshToken);
-        } else {
-          clearCookies();
-        }
-      }
-    }
-  }, [userError]);
-
-  useEffect(() => {
-    if (userLoading) {
-      // invalidate subscriptions count query so that it would re-fetch after user query succeeds.
-      queryClient.invalidateQueries({ queryKey: ['subsCount'] });
-    }
-  }, [userLoading]);
-
-  const error = userError || refreshTokenError;
-  const isLoading = userLoading || isPending || subsCountLoading;
+  const error = userError;
+  const isLoading = userLoading;
   const loggedIn = !error && !!data?.id;
 
   return (
     <UserContext.Provider
-      value={{ data, error, isLoading, loggedIn, subscriptionsCount: subsCount || 0 }}
+      value={{
+        data,
+        error,
+        isLoading,
+        loggedIn,
+        subscriptionsCount: data?.subscriptions || 0,
+      }}
     >
       {children}
     </UserContext.Provider>

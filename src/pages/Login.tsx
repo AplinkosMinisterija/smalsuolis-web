@@ -1,4 +1,6 @@
+import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/buttons/Button';
@@ -6,16 +8,17 @@ import CheckBox from '../components/buttons/Checkbox';
 import PasswordField from '../components/fields/PasswordField';
 import TextField from '../components/fields/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';
+import { UserContext, UserContextType } from '../components/UserProvider';
+import { handleAlert } from '../utils';
 import { useLogin } from '../utils/hooks';
 import { slugs } from '../utils/routes';
-import { buttonsTitles, inputLabels, titles } from '../utils/texts';
+import { buttonsTitles, inputLabels, titles, validationTexts } from '../utils/texts';
 import { loginSchema } from '../utils/validations';
-import { useContext } from 'react';
-import { UserContext, UserContextType } from '../components/UserProvider';
 const Login = () => {
   const env: any = import.meta.env;
 
   const navigate = useNavigate();
+
   const { isLoading: userLoading } = useContext<UserContextType>(UserContext);
 
   const { values, errors, setFieldValue, handleSubmit, setErrors } = useFormik({
@@ -29,9 +32,23 @@ const Login = () => {
     onSubmit: (values) => login(values),
   });
 
-  const { mutateAsync: login, isPending: loginLoading } = useLogin();
-
+  const { mutateAsync: login, isPending: loginLoading, error } = useLogin();
   const loading = loginLoading || userLoading;
+
+  const invalidLoginData = (error as AxiosError)?.response?.status === 400;
+
+  useEffect(() => {
+    if (!error) return;
+
+    if ((error as any)?.response?.data?.type === 'WRONG_PASSWORD') {
+      setErrors({
+        email: validationTexts.invalidUserNameOrPassword,
+        password: validationTexts.invalidUserNameOrPassword,
+      });
+    } else {
+      handleAlert();
+    }
+  }, [error]);
 
   const handleType = (field: string, value: string | boolean) => {
     setFieldValue(field, value);
@@ -45,6 +62,7 @@ const Login = () => {
           value={values.email}
           type="email"
           name="email"
+          showError={!invalidLoginData}
           error={errors.email as string}
           onChange={(value) => handleType('email', value)}
           label={inputLabels.email}
@@ -52,6 +70,7 @@ const Login = () => {
         <PasswordField
           value={values.password}
           name="password"
+          showError={!invalidLoginData}
           error={errors.password as string}
           onChange={(value) => handleType('password', value)}
           label={inputLabels.password}
@@ -59,6 +78,7 @@ const Login = () => {
             <Url onClick={() => navigate(slugs.forgotPassword)}>{titles.forgotPassword}</Url>
           }
         />
+        {invalidLoginData && <Error>{validationTexts.invalidUserNameOrPassword}</Error>}
         <Row>
           <StyledSingleCheckbox
             onChange={(value) => handleType('refresh', value)}
@@ -115,6 +135,11 @@ const Container = styled.form`
 const Url = styled.div`
   cursor: pointer;
   text-decoration: underline;
+`;
+
+const Error = styled.div`
+  color: ${({ theme }) => theme.colors.error};
+  font-size: 1.4rem;
 `;
 
 export default Login;

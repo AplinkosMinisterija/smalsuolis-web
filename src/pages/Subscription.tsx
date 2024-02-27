@@ -3,7 +3,7 @@ import api from '../utils/api';
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Switch from '../components/buttons/Switch';
 import RadioFrequency from '../components/other/RadioFrequency';
 import { Frequency, slugs, SubscriptionForm, validateSubscriptionForm } from '../utils';
@@ -14,23 +14,23 @@ import Apps from '../components/other/Apps';
 import MapField from '../components/fields/MapField';
 
 const Subscriptions = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { id } = useParams();
 
   const { data: subscription, isLoading: subscriptionLoading } = useQuery({
     queryKey: ['subscription', id],
     queryFn: () => (id && !isNaN(Number(id)) ? api.getSubscription({ id }) : undefined),
-    retry: false,
   });
 
   const { data: apps, isLoading: appsLoading } = useQuery({
     queryKey: ['apps'],
     queryFn: () => api.getApps({ page: 1 }),
-    retry: false,
   });
 
   const onSuccess = () => {
     navigate(slugs.subscriptions);
+    queryClient.invalidateQueries({ queryKey: ['user'] });
   };
 
   const { mutateAsync: createSubscription } = useMutation({

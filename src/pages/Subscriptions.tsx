@@ -24,19 +24,19 @@ const Subscriptions = () => {
     observerRef,
   );
 
+  const onSuccess = () => {
+    queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
+    queryClient.invalidateQueries({ queryKey: ['user'] });
+  };
+
   const { mutateAsync: updateSubscription } = useMutation({
     mutationFn: api.updateSubscription,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
-    },
+    onSuccess,
   });
 
   const { mutateAsync: deleteSubscriptions } = useMutation({
     mutationFn: (params: number[]) => api.deleteSubscriptions(params),
-
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
-    },
+    onSuccess,
   });
 
   const handleEnableDelete = (enabled: boolean) => {
@@ -60,6 +60,7 @@ const Subscriptions = () => {
     deleteSubscriptions(selectedSubscriptions);
     setDeleteEnabled(false);
   };
+
   const handleSubscriptionActive = (id: number, active: boolean) => {
     updateSubscription({ id: id.toString(), params: { active } });
   };

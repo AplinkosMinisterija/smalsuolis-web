@@ -1,4 +1,4 @@
-import { format, isToday } from 'date-fns';
+import { format, isToday, parseISO } from 'date-fns';
 import { toast } from 'react-toastify';
 import { routes } from './routes';
 import { validationTexts } from './texts';
@@ -38,11 +38,14 @@ export const formatTime = (date?: Date | string) => (date ? format(new Date(date
 export const getTimeLabel = (event: Event) => {
   const { startAt, endAt, isFullDay } = event;
 
+  const startAtParsed = parseISO(startAt);
+
   if (endAt) {
-    return `${formatDateAndTime(startAt)} - ${formatDateAndTime(endAt)}`;
+    const endAtParsed = parseISO(endAt);
+    return `${formatDateAndTime(startAtParsed)} - ${formatDateAndTime(endAtParsed)}`;
   }
 
-  const todayLabel = isToday(startAt) ? `Šiandien` : '';
+  const todayLabel = isToday(startAtParsed) ? `Šiandien` : '';
 
   if (isFullDay) {
     return todayLabel || formatDate(startAt);

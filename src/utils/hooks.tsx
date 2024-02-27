@@ -22,7 +22,6 @@ export const useLogin = () => {
     onSuccess: async (data: { token: string; refreshToken?: string }) => {
       updateTokens(data);
     },
-    retry: false,
   });
 };
 
@@ -115,6 +114,7 @@ export const useInfinityLoad = (
   fn: (params: { page: number }) => any,
   observerRef: any,
   filters = {},
+  hasToBeLoggedIn = true,
 ) => {
   const { isLoading, loggedIn } = useContext<UserContextType>(UserContext);
   const queryFn = async (page: number) => {
@@ -128,11 +128,12 @@ export const useInfinityLoad = (
     };
   };
 
+  const canFetch = !hasToBeLoggedIn || (!isLoading && loggedIn);
+
   const result = useInfiniteQuery({
     queryKey: [queryKey],
     initialPageParam: 1,
-    queryFn: ({ pageParam }: any) =>
-      !isLoading && loggedIn ? queryFn(pageParam) : Promise.resolve(),
+    queryFn: ({ pageParam }: any) => (canFetch ? queryFn(pageParam) : Promise.resolve()),
     getNextPageParam: (lastPage: any) => {
       return lastPage?.page < lastPage?.totalPages ? lastPage.page + 1 : undefined;
     },

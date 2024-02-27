@@ -10,17 +10,16 @@ import { slugs } from './utils/routes';
 
 function App() {
   const { isLoading, loggedIn, subscriptionsCount } = useContext<UserContextType>(UserContext);
+
   const filteredRoutes = filterRoutes(loggedIn);
 
-  const getInitialSlug = () => {
-    if (!loggedIn) return slugs.events;
-
-    if (!subscriptionsCount) return slugs.newSubscription;
-
-    return slugs.myEvents;
-  };
-
   if (isLoading) return <LoaderComponent />;
+
+  const mainPage = loggedIn
+    ? subscriptionsCount > 0
+      ? slugs.myEvents
+      : slugs.newSubscription
+    : slugs.events;
 
   return (
     <DefaultLayout>
@@ -30,7 +29,7 @@ function App() {
             <Route key={`route-${index}`} path={route.slug} element={route.component} />
           ))}
         </Route>
-        <Route path="*" element={<Navigate to={getInitialSlug()} />} />
+        <Route path="*" element={<Navigate to={mainPage} />} />
       </Routes>
       <ToastContainer />
     </DefaultLayout>

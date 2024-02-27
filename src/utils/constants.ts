@@ -105,7 +105,3 @@ export enum Frequency {
   WEEK = 'WEEK',
   MONTH = 'MONTH',
 }
-export enum EventFilter {
-  HAPPENED = 'HAPPENED',
-  PLANNED = 'PLANNED',
-}

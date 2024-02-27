@@ -7,9 +7,14 @@ import EmptyState from '../components/other/EmptyState';
 import EventCard from '../components/other/EventCard';
 import LoaderComponent from '../components/other/LoaderComponent';
 import { device } from '../styles';
-import { EventFilter, IconName, isEmpty, useInfinityLoad } from '../utils';
+import { IconName, isEmpty, useInfinityLoad } from '../utils';
 import { slugs } from '../utils/routes';
 import { Event } from '../utils/types';
+
+enum EventFilter {
+  HAPPENED = 'HAPPENED',
+  PLANNED = 'PLANNED',
+}
 
 const Events = ({
   apiEndpoint,
@@ -24,21 +29,30 @@ const Events = ({
 }) => {
   const navigate = useNavigate();
   const observerRef = useRef<any>(null);
-  const [filter, setFilter] = useState(EventFilter.PLANNED);
+  const [filter, setFilter] = useState(EventFilter.HAPPENED);
 
   const getFilter = () => {
-    if (filter === EventFilter.HAPPENED) {
-      return { startAt: { $lte: new Date() } };
-    }
+    const currentDate = new Date();
+    const filterCondition = filter === EventFilter.HAPPENED ? '$lte' : '$gte';
 
-    return { startAt: { $gte: new Date() } };
+    return {
+      startAt: {
+        [filterCondition]: currentDate,
+      },
+    };
   };
 
   const {
     data: events,
     isFetching,
     isLoading,
-  } = useInfinityLoad(`${queryKey}-${filter}`, apiEndpoint, observerRef);
+  } = useInfinityLoad(
+    `${queryKey}-${filter}`,
+    apiEndpoint,
+    observerRef,
+    { filter: getFilter() },
+    false,
+  );
 
   const renderContent = () => {
     if (isLoading) return <LoaderComponent />;
