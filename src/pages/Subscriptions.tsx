@@ -8,7 +8,7 @@ import { device } from '../styles';
 import { useNavigate } from 'react-router';
 import SubscriptionCard from '../components/cards/SubscriptionCard';
 import Button from '../components/buttons/Button';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import EmptyState from '../components/other/EmptyState';
 
 const Subscriptions = () => {
@@ -24,20 +24,20 @@ const Subscriptions = () => {
     observerRef,
   );
 
-  const { mutateAsync: updateSubscription } = useMutation(api.updateSubscription, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['subscriptions']);
-    },
+  const onSuccess = () => {
+    queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
+    queryClient.invalidateQueries({ queryKey: ['user'] });
+  };
+
+  const { mutateAsync: updateSubscription } = useMutation({
+    mutationFn: api.updateSubscription,
+    onSuccess,
   });
 
-  const { mutateAsync: deleteSubscriptions } = useMutation(
-    (params: number[]) => api.deleteSubscriptions(params),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['subscriptions']);
-      },
-    },
-  );
+  const { mutateAsync: deleteSubscriptions } = useMutation({
+    mutationFn: (params: number[]) => api.deleteSubscriptions(params),
+    onSuccess,
+  });
 
   const handleEnableDelete = (enabled: boolean) => {
     if (!enabled) {
@@ -60,6 +60,7 @@ const Subscriptions = () => {
     deleteSubscriptions(selectedSubscriptions);
     setDeleteEnabled(false);
   };
+
   const handleSubscriptionActive = (id: number, active: boolean) => {
     updateSubscription({ id: id.toString(), params: { active } });
   };

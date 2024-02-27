@@ -36,7 +36,13 @@ const Checkbox = ({
           error={error}
           checked={value}
         >
-          <CheckBox type="checkbox" name={name} checked={value || false} disabled={disabled} />
+          <CheckBox
+            type="checkbox"
+            name={name}
+            checked={value || false}
+            disabled={disabled}
+            onChange={() => {}} //To prevent console errors
+          />
           <Label checked={value || false} intermediate={intermediate} disabled={disabled} />
         </InnerContainer>
         <TextLabel>{label}</TextLabel>

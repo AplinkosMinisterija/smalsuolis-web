@@ -9,6 +9,7 @@ import SideBar from '../other/SideBar';
 const DefaultLayout = ({ children, onScroll = () => {} }: any) => {
   const isMobile = useWindowSize(device.mobileL);
   const currentRoute = useGetCurrentRoute();
+
   return (
     <Container>
       {!isMobile && <SideBar />}

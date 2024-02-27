@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
 import ContentLayout from '../components/layouts/ContentLayout';
@@ -12,8 +12,9 @@ import { getTimeDifference } from '../utils/functions';
 
 const Event = () => {
   const { id = '' } = useParams();
-  const { data: event, isLoading } = useQuery(['event', id], () => api.getEvent({ id }), {
-    retry: false,
+  const { data: event, isLoading } = useQuery({
+    queryKey: ['event', id],
+    queryFn: () => api.getEvent({ id }),
   });
 
   if (isLoading || !event) {

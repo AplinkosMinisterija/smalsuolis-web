@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 import Button from '../components/buttons/Button';
 import TextField from '../components/fields/TextField';
@@ -42,14 +42,16 @@ const RemindPassword = () => {
     }
   };
 
-  const { mutateAsync, isLoading, data } = useMutation(
-    (params: { email: string }) => handleRemindPassword(params),
-    {
-      onError: handleError,
-      onSuccess: handleSuccess,
-      retry: false,
-    },
-  );
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    data,
+  } = useMutation({
+    mutationFn: (params: { email: string }) => handleRemindPassword(params),
+
+    onError: handleError,
+    onSuccess: handleSuccess,
+  });
 
   const isSuccess = !!data;
 

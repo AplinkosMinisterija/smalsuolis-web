@@ -67,6 +67,7 @@ export enum Resources {
   SUBSCRIPTIONS = 'subscriptions',
   APPS = 'apps',
   USERS = 'users',
+  SUBSCRIPTIONS_COUNT = 'subscriptions/count',
 }
 class Api {
   private AuthApiAxios: AxiosInstance;
@@ -144,10 +145,10 @@ class Api {
     });
   };
 
-  refreshToken = async () => {
+  refreshToken = async (refreshToken: string) => {
     return this.post({
       resource: Resources.REFRESH_TOKEN,
-      params: { token: cookies.get('refreshToken') },
+      params: { token: refreshToken },
     });
   };
 
@@ -246,6 +247,12 @@ class Api {
     return this.patch({
       resource: Resources.SUBSCRIPTIONS,
       ...params,
+    });
+  };
+
+  getSubscriptionsCount = async (): Promise<number> => {
+    return this.get({
+      resource: Resources.SUBSCRIPTIONS_COUNT,
     });
   };
 

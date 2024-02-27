@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import ContentLayout from '../components/layouts/ContentLayout';
@@ -13,7 +13,7 @@ import { slugs } from '../utils/routes';
 import { Event } from '../utils/types';
 import EmptyState from '../components/other/EmptyState';
 
-const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
+const Events = ({ apiEndpoint, queryKey }: { apiEndpoint: any; queryKey: string }) => {
   const navigate = useNavigate();
   const getEvents = async (page: number) => {
     const events = await apiEndpoint({
@@ -21,15 +21,21 @@ const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
     });
 
     return {
+      ...events,
       data: events.rows,
-      page: events.page < events.totalPages ? events.page + 1 : undefined,
     };
   };
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, isLoading } =
-    useInfiniteQuery([key], ({ pageParam }) => getEvents(pageParam), {
-      getNextPageParam: (lastPage) => lastPage.page,
-      cacheTime: 60000,
+    useInfiniteQuery({
+      queryKey: [queryKey],
+      initialPageParam: 1,
+      queryFn: ({ pageParam }: any) => getEvents(pageParam),
+      getNextPageParam: (lastPage) => {
+        const { page, totalPages } = lastPage;
+        return page < totalPages ? page + 1 : undefined;
+      },
+      gcTime: 60000,
     });
 
   const observerRef = useRef<any>(null);
@@ -72,7 +78,11 @@ const Events = ({ apiEndpoint, key }: { apiEndpoint: any; key: string }) => {
           return (
             <React.Fragment key={pageIndex}>
               {page.data.map((event: Event) => (
-                <EventCard event={event} onClick={() => navigate(slugs.event(event?.id))} />
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  onClick={() => navigate(slugs.event(event?.id))}
+                />
               ))}
             </React.Fragment>
           );
