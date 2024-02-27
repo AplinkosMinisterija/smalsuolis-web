@@ -11,7 +11,7 @@ import { handleToastSuccess, buttonsTitles, inputLabels, validationTexts } from 
 import api from '../utils/api';
 import { UserContext, UserContextType } from '../components/UserProvider';
 
-interface ProfileForm {
+interface Profile {
   password: string;
   repeatPassword: string;
   email: string;
@@ -23,7 +23,7 @@ const Profile = () => {
   const { data: user } = useContext<UserContextType>(UserContext);
 
   const { mutateAsync, isPending: isLoading } = useMutation({
-    mutationFn: (values: Partial<ProfileForm>) => {
+    mutationFn: (values: Partial<Profile>) => {
       return api.updateProfile(values);
     },
 
@@ -38,9 +38,9 @@ const Profile = () => {
       password: '',
       repeatPassword: '',
       email: user?.email || '',
-    } as ProfileForm,
+    } as Profile,
     onSubmit: (values) => {
-      const form: Partial<ProfileForm> = { ...values };
+      const form: Partial<Profile> = { ...values };
       delete form.email;
       mutateAsync(form);
     },
