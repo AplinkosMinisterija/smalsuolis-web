@@ -1,26 +1,28 @@
 import styled from 'styled-components';
 import { device } from '../../styles';
-import { appKeyToIconName, appKeyToName, Event, getTimeDifference } from '../../utils';
-import Icon from './Icons';
+import { Event, getIconUrl, getTimeLabel } from '../../utils';
+import Tag from './Tag';
 
 const EventCard = ({ event, onClick }: { event: Event; onClick?: () => void }) => {
-  const { startAt, app } = event;
-
+  const { app } = event;
+  const appIcon = getIconUrl(app.icon);
   return (
     <Container onClick={onClick}>
-      <IconContainer>
-        <EventIcon name={appKeyToIconName[app.key]} />
-      </IconContainer>
-      <Content>
-        <Name>{appKeyToName[app.key]}</Name>
+      <Row>
+        <Name>{event.name}</Name>
+        <Time>{getTimeLabel(event)}</Time>
+      </Row>
 
-        <Time>{getTimeDifference(startAt)}</Time>
-      </Content>
+      <Tag text={app.name} icon={<AppIcon src={appIcon} />} />
     </Container>
   );
 };
 
 export default EventCard;
+
+const AppIcon = styled.img`
+  height: 16px;
+`;
 
 const Container = styled.a`
   background: ${({ theme }) => theme.colors.largeButton.GREY};
@@ -29,7 +31,6 @@ const Container = styled.a`
   border-radius: 8px;
   width: 100%;
   display: grid;
-  grid-template-columns: 48px 1fr;
   padding: 16px;
   gap: 12px;
 
@@ -44,27 +45,18 @@ const Container = styled.a`
   }
 `;
 
-const EventIcon = styled(Icon)``;
-
-const IconContainer = styled.div`
-  background-color: white;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
+const Row = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
+  gap: 12px;
+  @media ${device.mobileL} {
+    gap: 4px;
+    flex-wrap: wrap-reverse;
+  }
 `;
 
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 4px;
+const Time = styled.div`
+  white-space: nowrap;
 `;
-
-const Time = styled.div``;
 
 const Name = styled.div`
   font-size: 2rem;

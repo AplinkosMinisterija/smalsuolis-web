@@ -1,7 +1,8 @@
-import { differenceInHours, differenceInMinutes, differenceInSeconds, format } from 'date-fns';
+import { format, isToday, parseISO } from 'date-fns';
 import { toast } from 'react-toastify';
-import { validationTexts } from './texts';
 import { routes } from './routes';
+import { validationTexts } from './texts';
+import { Event } from './types';
 
 export const getErrorMessage = (error?: string) =>
   validationTexts[error as keyof typeof validationTexts] || validationTexts.error;
@@ -29,27 +30,28 @@ export const handleToastSuccess = (message: string) => {
 export const formatDate = (date?: Date | string) =>
   date ? format(new Date(date), 'yyyy-MM-dd') : '';
 
-export const getTimeDifference = (date: Date) => {
-  const inputDate = new Date(date);
-  const currentDate = new Date();
+export const formatDateAndTime = (date?: Date | string) =>
+  date ? format(new Date(date), 'yyyy-MM-dd HH:MM') : '';
 
-  const seconds = differenceInSeconds(currentDate, inputDate);
-  const minutes = differenceInMinutes(currentDate, inputDate);
-  const hours = differenceInHours(currentDate, inputDate);
+export const formatTime = (date?: Date | string) => (date ? format(new Date(date), 'HH:MM') : '');
 
-  if (hours > 23) {
-    return formatDate(inputDate);
+export const getTimeLabel = (event: Event) => {
+  const { startAt, endAt, isFullDay } = event;
+
+  const startAtParsed = parseISO(startAt);
+
+  if (endAt) {
+    const endAtParsed = parseISO(endAt);
+    return `${formatDateAndTime(startAtParsed)} - ${formatDateAndTime(endAtParsed)}`;
   }
 
-  if (minutes > 59) {
-    return `${hours} val.`;
+  const todayLabel = isToday(startAtParsed) ? `Šiandien` : '';
+
+  if (isFullDay) {
+    return todayLabel || formatDate(startAt);
   }
 
-  if (seconds > 59) {
-    return `${minutes} min.`;
-  }
-
-  return `${seconds} s.`;
+  return todayLabel ? `${todayLabel} ${formatTime(startAt)}` : formatDateAndTime(startAt);
 };
 
 export const isEmpty = (value: any) => {
@@ -73,4 +75,9 @@ export const filterRoutes = (loggedIn: boolean) => {
 
 export const filterMenuRoutes = (loggedIn: boolean) => {
   return filterRoutes(loggedIn).filter((route) => !!route.iconName);
+};
+
+export const getIconUrl = (icon: string) => {
+  const base64SVG = window.btoa(icon);
+  return `data:image/svg+xml;base64,${base64SVG}`;
 };

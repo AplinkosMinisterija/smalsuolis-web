@@ -4,12 +4,12 @@ import Event from '../pages/Event';
 import Events from '../pages/Events';
 import RemindPassword from '../pages/ForgotPassword';
 import Login from '../pages/Login';
+import MyEvents from '../pages/MyEvents';
 import Profile from '../pages/Profile';
 import Registration from '../pages/Registration';
 import ResetPassword from '../pages/ResetPassword';
 import Subscription from '../pages/Subscription';
 import Subscriptions from '../pages/Subscriptions';
-import api from './api';
 import { IconName } from './constants';
 import { titles } from './texts';
 
@@ -26,7 +26,7 @@ export const slugs = {
   subscription: (id?: string) => `/prenumeratos/${id}`,
   newSubscription: `/prenumeratos/nauja`,
   event: (id?: string) => `/ivykis/${id}`,
-  about: '/aie-mus',
+  about: '/apie-mus',
 };
 
 export const routes = [
@@ -81,13 +81,13 @@ export const routes = [
     description: 'Visos atrinktos naujienos',
     iconName: IconName.list,
     loggedIn: true,
-    component: <Events apiEndpoint={api.getNewsfeed} queryKey={'newsfeed'} />,
+    component: <MyEvents />,
     slug: slugs.myEvents,
   },
   {
     title: titles.allEvents,
     iconName: IconName.fourSquares,
-    component: <Events apiEndpoint={api.getEvents} queryKey={'events'} />,
+    component: <Events />,
     slug: slugs.events,
   },
   {

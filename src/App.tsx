@@ -1,16 +1,16 @@
+import { useContext } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DefaultLayout from './components/layouts/DefaultLayout';
 import LoaderComponent from './components/other/LoaderComponent';
-import { slugs } from './utils/routes';
-import { filterRoutes } from './utils';
-import { useContext } from 'react';
 import { UserContext, UserContextType } from './components/UserProvider';
+import { filterRoutes } from './utils';
+import { slugs } from './utils/routes';
 
 function App() {
-  const { data, isLoading, loggedIn, subscriptionsCount } =
-    useContext<UserContextType>(UserContext);
+  const { isLoading, loggedIn, subscriptionsCount } = useContext<UserContextType>(UserContext);
+
   if (isLoading) return <LoaderComponent />;
 
   const routes = filterRoutes(loggedIn);

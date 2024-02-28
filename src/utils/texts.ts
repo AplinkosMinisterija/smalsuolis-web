@@ -58,7 +58,8 @@ export const titles = {
   resetPassword: 'Atkurti slaptažodį',
   passwordCreated: 'Slaptažodis sukurtas',
   newPassword: 'Nustatyti naują slaptažodį',
-  emptyState: 'Jūsų naujienų srautas yra tuščias',
+  myEventsEmptyState: 'Jūsų naujienų srautas yra tuščias',
+  eventsEmptyState: 'Naujienų srautas yra tuščias',
 };
 
 export const monthShorthands = [
@@ -77,7 +78,7 @@ export const monthShorthands = [
 ];
 
 export const descriptions = {
-  emptyState:
+  myEventsEmptyState:
     'Jūsų pasirinktos temos ar šaltiniai šiuo metu neturi naujienų, galite palaukti arba pakoreguoti savo prenumeratos nustatymus',
   forgotPassword:
     'Jeigu pamiršote slaptažodį, įrašykite savo el. pašto adresą ir mes padėsime jį atkurti',

@@ -1,10 +1,8 @@
 import styled from 'styled-components';
-import React from 'react';
-import { App } from '../../utils';
+import { App, getIconUrl } from '../../utils';
 
 const AppItem = ({ id, checked, onChange, app }: any) => {
-  const base64SVG = window.btoa(app.icon);
-  const appIcon = `data:image/svg+xml;base64,${base64SVG}`;
+  const appIcon = getIconUrl(app.icon);
   return (
     <Button>
       <InputRadio type="checkbox" id={id} checked={checked} onChange={onChange} />

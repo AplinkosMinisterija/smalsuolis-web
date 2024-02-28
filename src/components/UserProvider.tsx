@@ -1,5 +1,5 @@
-import React, { createContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { createContext } from 'react';
 import api from '../utils/api';
 
 export type UserContextType = {

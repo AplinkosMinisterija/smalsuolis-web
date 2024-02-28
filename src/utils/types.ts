@@ -33,8 +33,8 @@ export interface Event {
   body?: any;
   createdAt: Date;
   geom: any;
-  startAt: Date;
-  endAt?: Date;
+  startAt: string;
+  endAt?: string;
   isFullDay: boolean;
   name: string;
   url?: string;
