@@ -46,9 +46,19 @@ export interface User {
   email?: string;
 }
 
-export interface PasswordReset {
+export interface PasswordForm {
   password: string;
   repeatPassword: string;
+  oldPassword?: string;
+}
+
+export interface UpdatePassword {
+  password: string;
+  oldPassword: string;
+}
+
+export interface SetPassword {
+  password: string;
 }
 
 export interface ReactQueryError {

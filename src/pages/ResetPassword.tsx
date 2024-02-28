@@ -6,6 +6,7 @@ import { useSetPassword, useVerifyUser } from '../utils/hooks';
 import { slugs } from '../utils/routes';
 import { buttonsTitles, descriptions } from '../utils/texts';
 import UserForm from '../components/forms/UserForm';
+import { PasswordForm } from '../utils';
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -20,8 +21,23 @@ const ResetPassword = () => {
     return <LoaderComponent />;
   }
 
+  const handleSubmit = (form: PasswordForm) => {
+    const props = {
+      password: form.password,
+    };
+    return setPasswordMutation(props);
+  };
+
   return !isSuccess ? (
-    <UserForm user={data?.user} onSubmit={setPasswordMutation} isLoading={isSubmitLoading} />
+    <UserForm
+      user={data?.user}
+      onSubmit={handleSubmit}
+      isLoading={isSubmitLoading}
+      initialValues={{
+        password: '',
+        repeatPassword: '',
+      }}
+    />
   ) : (
     <SuccessContainer>
       <Description>{descriptions.passwordChanged}</Description>

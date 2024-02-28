@@ -1,8 +1,6 @@
 import { useContext } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import styled from 'styled-components';
-import Button from '../components/buttons/Button';
-import { handleToastSuccess, PasswordReset, validationTexts } from '../utils';
+import { handleToastSuccess, PasswordForm, validationTexts, UpdatePassword } from '../utils';
 import api from '../utils/api';
 import { UserContext, UserContextType } from '../components/UserProvider';
 import UserForm from '../components/forms/UserForm';
@@ -13,7 +11,7 @@ const Profile = () => {
   const { data: user } = useContext<UserContextType>(UserContext);
 
   const { mutateAsync, isPending: isLoading } = useMutation({
-    mutationFn: (values: PasswordReset) => {
+    mutationFn: (values: UpdatePassword) => {
       return api.updateProfile(values);
     },
     onSuccess: () => {
@@ -22,7 +20,26 @@ const Profile = () => {
     },
   });
 
-  return <UserForm user={user} onSubmit={mutateAsync} isLoading={isLoading} />;
+  const handleSubmit = (form: PasswordForm) => {
+    const props: any = {
+      password: form.password,
+      oldPassword: form.oldPassword,
+    };
+    return mutateAsync(props);
+  };
+
+  return (
+    <UserForm
+      user={user}
+      onSubmit={handleSubmit}
+      isLoading={isLoading}
+      initialValues={{
+        password: '',
+        repeatPassword: '',
+        oldPassword: '',
+      }}
+    />
+  );
 };
 
 export default Profile;

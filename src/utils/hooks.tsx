@@ -1,9 +1,8 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { matchPath, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { LoginForm, routes, slugs } from '.';
+import { LoginForm, SetPassword, routes, slugs } from '.';
 import api from './api';
-import { handleAlert } from './functions';
 import { clearCookies, updateTokens } from './loginFunctions';
 import { intersectionObserverConfig } from './configs';
 import { UserContext, UserContextType } from '../components/UserProvider';
@@ -71,7 +70,7 @@ export const useSetPassword = () => {
   const [searchParams] = useSearchParams();
   const { h, s } = Object.fromEntries([...Array.from(searchParams)]);
   const { data, mutateAsync, isPending } = useMutation({
-    mutationFn: ({ password }: { password: string }) => {
+    mutationFn: ({ password }: SetPassword) => {
       return api.setPassword({ h, s, password });
     },
   });
