@@ -35,9 +35,10 @@ const UserForm = ({
     setErrors({});
   };
   const { repeatPassword, password } = values;
-  const disableSubmit = isLoading || ((!!password || !!repeatPassword) && !allValid);
 
-  const setPassword = values.oldPassword === undefined;
+  const updatingPassword = values.oldPassword !== undefined;
+
+  const disableSubmit = isLoading || !allValid || (updatingPassword && !values.oldPassword);
 
   return (
     <ContentLayout>
@@ -48,7 +49,7 @@ const UserForm = ({
           name="email"
           disabled={true}
         />
-        {!setPassword && (
+        {updatingPassword && (
           <PasswordField
             value={values.oldPassword}
             name="oldPassword"
@@ -60,13 +61,13 @@ const UserForm = ({
           value={password}
           name="password"
           onChange={(value) => handleType('password', value)}
-          label={setPassword ? inputLabels.password : inputLabels.newPassword}
+          label={updatingPassword ? inputLabels.newPassword : inputLabels.password}
         />
         <PasswordField
           value={repeatPassword}
           name="repeatPassword"
           onChange={(value) => handleType('repeatPassword', value)}
-          label={setPassword ? inputLabels.repeatPassword : inputLabels.repeatNewPassword}
+          label={updatingPassword ? inputLabels.repeatNewPassword : inputLabels.repeatPassword}
         />
         <PasswordCheckListContainer
           setAllValid={setAllValid}
