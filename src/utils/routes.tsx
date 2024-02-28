@@ -4,14 +4,14 @@ import Event from '../pages/Event';
 import Events from '../pages/Events';
 import RemindPassword from '../pages/ForgotPassword';
 import Login from '../pages/Login';
+import MyEvents from '../pages/MyEvents';
 import Profile from '../pages/Profile';
 import Registration from '../pages/Registration';
 import ResetPassword from '../pages/ResetPassword';
 import Subscription from '../pages/Subscription';
 import Subscriptions from '../pages/Subscriptions';
-import api from './api';
 import { IconName } from './constants';
-import { descriptions, titles } from './texts';
+import { titles } from './texts';
 
 export const slugs = {
   login: '/prisijungimas',
@@ -81,26 +81,13 @@ export const routes = [
     description: 'Visos atrinktos naujienos',
     iconName: IconName.list,
     loggedIn: true,
-    component: (
-      <Events
-        apiEndpoint={api.getNewsfeed}
-        queryKey={'newsfeed'}
-        emptyStateTitle={titles.myEventsEmptyState}
-        emptyStateDescription={descriptions.myEventsEmptyState}
-      />
-    ),
+    component: <MyEvents />,
     slug: slugs.myEvents,
   },
   {
     title: titles.allEvents,
     iconName: IconName.fourSquares,
-    component: (
-      <Events
-        apiEndpoint={api.getEvents}
-        queryKey={'events'}
-        emptyStateTitle={titles.eventsEmptyState}
-      />
-    ),
+    component: <Events />,
     slug: slugs.events,
   },
   {
