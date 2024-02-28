@@ -1,15 +1,15 @@
-import ReactDOM from 'react-dom/client';
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { AxiosError } from 'axios';
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
+import Cookies from 'universal-cookie';
 import App from './App';
-import { GlobalStyle, theme } from './styles/index';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { UserProvider } from './components/UserProvider';
-import { AxiosError } from 'axios';
+import { GlobalStyle, theme } from './styles/index';
 import { handleAlert } from './utils';
 import api from './utils/api';
-import Cookies from 'universal-cookie';
 import { updateTokens } from './utils/loginFunctions';
 const cookies = new Cookies();
 
@@ -20,6 +20,7 @@ const handleGlobalError = async (queryClient: QueryClient, error: Error, query: 
   if (code == 401) {
     // Try to refresh token if any query fails with 401
     const refreshToken = cookies.get('refreshToken');
+
     if (refreshToken) {
       try {
         const response = await api.refreshToken(refreshToken);
@@ -29,6 +30,7 @@ const handleGlobalError = async (queryClient: QueryClient, error: Error, query: 
         handleAlert();
       }
     }
+
     // Invalidate user query in order to rerender page (only for non users queries)
     if (!(query.queryKey.includes('user') && query.queryKey.length === 1)) {
       await queryClient.invalidateQueries({ queryKey: ['user'] });
@@ -58,19 +60,17 @@ const queryClient: any = new QueryClient({
 });
 
 root.render(
-  <>
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <BrowserRouter>
-          <UserProvider>
-            <App />
-          </UserProvider>
-        </BrowserRouter>
-      </ThemeProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
-  </>,
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <BrowserRouter>
+        <UserProvider>
+          <App />
+        </UserProvider>
+      </BrowserRouter>
+    </ThemeProvider>
+    <ReactQueryDevtools initialIsOpen={false} />
+  </QueryClientProvider>,
 );
 
 // If you want your app to work offline and load faster, you can change

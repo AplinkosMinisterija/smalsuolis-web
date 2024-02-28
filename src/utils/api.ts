@@ -193,18 +193,32 @@ class Api {
     });
   };
 
-  getEvents = async ({ page }: { page: number }): Promise<GetAllResponse<Event>> => {
+  getEvents = async ({
+    page,
+    filter,
+  }: {
+    page: number;
+    filter: any;
+  }): Promise<GetAllResponse<Event>> => {
     return this.get({
       resource: Resources.EVENTS,
+      filter,
       populate: ['geom', 'app'],
       sort: ['-startAt'],
       page,
     });
   };
 
-  getNewsfeed = async ({ page }: { page: number }): Promise<GetAllResponse<Event>> => {
+  getNewsfeed = async ({
+    page,
+    filter,
+  }: {
+    page: number;
+    filter: any;
+  }): Promise<GetAllResponse<Event>> => {
     return this.get({
       resource: Resources.NEWSFEED,
+      filter,
       populate: ['geom', 'app'],
       sort: ['-startAt'],
       page,

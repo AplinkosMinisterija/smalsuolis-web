@@ -1,4 +1,6 @@
+import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/buttons/Button';
@@ -6,14 +8,12 @@ import CheckBox from '../components/buttons/Checkbox';
 import PasswordField from '../components/fields/PasswordField';
 import TextField from '../components/fields/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';
+import { UserContext, UserContextType } from '../components/UserProvider';
+import { handleAlert } from '../utils';
 import { useLogin } from '../utils/hooks';
 import { slugs } from '../utils/routes';
 import { buttonsTitles, inputLabels, titles, validationTexts } from '../utils/texts';
 import { loginSchema } from '../utils/validations';
-import { useContext, useEffect } from 'react';
-import { UserContext, UserContextType } from '../components/UserProvider';
-import { AxiosError } from 'axios';
-import { handleAlert } from '../utils';
 const Login = () => {
   const env: any = import.meta.env;
 
@@ -38,6 +38,8 @@ const Login = () => {
   const invalidLoginData = (error as AxiosError)?.response?.status === 400;
 
   useEffect(() => {
+    if (!error) return;
+
     if ((error as any)?.response?.data?.type === 'WRONG_PASSWORD') {
       setErrors({
         email: validationTexts.invalidUserNameOrPassword,

@@ -30,7 +30,7 @@ const Container = styled.div`
   min-height: 100%;
   align-self: center;
   align-items: center;
-  padding: 0 40px;
+  padding: 0 12px;
   background-color: white;
   @media ${device.desktop} {
     max-width: 700px;

@@ -1,12 +1,11 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useEffect, useState } from 'react';
 import { matchPath, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { LoginForm, routes, slugs } from '.';
 import api from './api';
+import { intersectionObserverConfig } from './configs';
 import { handleAlert } from './functions';
 import { clearCookies, updateTokens } from './loginFunctions';
-import { intersectionObserverConfig } from './configs';
-import { UserContext, UserContextType } from '../components/UserProvider';
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
@@ -26,7 +25,6 @@ export const useLogin = () => {
     },
   });
 };
-
 export const useLogout = () => {
   const queryClient = useQueryClient();
   const { mutateAsync } = useMutation({
@@ -115,10 +113,11 @@ export const useInfinityLoad = (
   queryKey: string,
   fn: (params: { page: number }) => any,
   observerRef: any,
+  filters = {},
 ) => {
-  const { isLoading, loggedIn } = useContext<UserContextType>(UserContext);
   const queryFn = async (page: number) => {
     const data = await fn({
+      ...filters,
       page,
     });
     return {
@@ -130,11 +129,9 @@ export const useInfinityLoad = (
   const result = useInfiniteQuery({
     queryKey: [queryKey],
     initialPageParam: 1,
-    queryFn: ({ pageParam }: any) =>
-      !isLoading && loggedIn ? queryFn(pageParam) : Promise.resolve(),
+    queryFn: ({ pageParam }: any) => queryFn(pageParam),
     getNextPageParam: (lastPage: any) => {
-      const { page, totalPages } = lastPage;
-      return page < totalPages ? page + 1 : undefined;
+      return lastPage?.page < lastPage?.totalPages ? lastPage.page + 1 : undefined;
     },
     gcTime: 60000,
   });

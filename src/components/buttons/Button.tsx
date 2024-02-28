@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles';
-import Loader from '../other/Loader';
 import { ButtonColors } from '../../utils';
+import Loader from '../other/Loader';
 
 const buttonColors = {
   [ButtonColors.PRIMARY]: theme.colors.primary,
@@ -62,10 +62,10 @@ const Button = ({
   return (
     <StyledButton
       className={className}
-      padding={padding}
-      fontWeight={fontWeight}
-      variant={variant}
-      height={height || 40}
+      $padding={padding}
+      $fontWeight={fontWeight}
+      $variant={variant}
+      $height={height || 40}
       type={type}
       disabled={disabled}
       $radius={radius}
@@ -79,27 +79,28 @@ const Button = ({
 };
 
 const StyledButton = styled.button<{
-  variant: ButtonColors;
-  height: number;
-  padding?: string;
-  fontWeight?: string;
+  $variant: ButtonColors;
+  $height: number;
+  $padding?: string;
+  $fontWeight?: string;
   $radius?: string;
 }>`
   display: flex;
   justify-content: center;
   gap: 12px;
   align-items: center;
-  height: ${({ height }) => `${height}px`};
+  height: ${({ $height }) => `${$height}px`};
   border-radius: ${({ $radius }) => $radius};
-  padding: ${({ padding }) => padding};
-  background-color: ${({ variant }) => buttonColors[variant]};
-  color: ${({ variant }) => buttonTextColors[variant]};
-  border: ${({ variant }) => (variant === ButtonColors.TRANSPARENT ? '0' : '1px')} solid
-    ${({ variant }) => (variant !== ButtonColors.TRANSPARENT ? 'transparent' : ' rgb(35, 31, 32)')};
-  font-weight: ${({ fontWeight }) => fontWeight};
+  padding: ${({ $padding }) => $padding};
+  background-color: ${({ $variant }) => buttonColors[$variant]};
+  color: ${({ $variant }) => buttonTextColors[$variant]};
+  border: ${({ $variant }) => ($variant === ButtonColors.TRANSPARENT ? '0' : '1px')} solid
+    ${({ $variant }) =>
+      $variant !== ButtonColors.TRANSPARENT ? 'transparent' : ' rgb(35, 31, 32)'};
+  font-weight: ${({ $fontWeight }) => $fontWeight};
   font-size: 1.8rem;
   :hover {
-    background-color: ${({ variant, theme }) => theme.colors.hover[variant]};
+    background-color: ${({ $variant, theme }) => theme.colors.hover[$variant]};
   }
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};

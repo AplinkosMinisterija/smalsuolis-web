@@ -12,7 +12,6 @@ interface UpdateTokenProps {
 export const clearCookies = () => {
   cookies.remove('token', { path: '/' });
   cookies.remove('refreshToken', { path: '/' });
-  cookies.remove('module', { path: '/' });
 };
 
 export const updateTokens = (data: UpdateTokenProps) => {

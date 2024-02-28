@@ -1,6 +1,5 @@
-import { descriptions, IconName, titles } from '../../utils';
-import React from 'react';
 import styled from 'styled-components';
+import { IconName } from '../../utils';
 import Icon from './Icons';
 
 const EmptyState = ({
@@ -9,14 +8,14 @@ const EmptyState = ({
   icon = IconName.airBallon,
 }: {
   title: string;
-  description: string;
+  description?: string;
   icon: IconName;
 }) => {
   return (
     <Container>
       <StyledIcon name={icon} />
       <Title>{title}</Title>
-      <Description>{description}</Description>
+      {description && <Description>{description}</Description>}
     </Container>
   );
 };

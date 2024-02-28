@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { App, Frequency, Subscription, subscriptionFrequencyTitles } from '../../utils';
+import { App, Frequency, getIconUrl, Subscription, subscriptionFrequencyTitles } from '../../utils';
 import Tag from '../other/Tag';
 import Checkbox from '../buttons/Checkbox';
 import optionsContainer from '../fields/components/OptionsContainer';
@@ -40,8 +40,7 @@ const SubscriptionCard = ({
           </Name>
           <AppsContainer>
             {subscription.apps?.map((app) => {
-              const base64SVG = window.btoa(app.icon);
-              const appIcon = `data:image/svg+xml;base64,${base64SVG}`;
+              const appIcon = getIconUrl(app.icon);
               return (
                 <Tag
                   icon={<AppIcon src={appIcon} />}

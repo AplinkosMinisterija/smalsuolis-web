@@ -6,9 +6,9 @@ import Icon from '../components/other/Icons';
 import LoaderComponent from '../components/other/LoaderComponent';
 import PreviewMap from '../components/other/PreviewMap';
 import Tag from '../components/other/Tag';
-import { appKeyToIconName, appKeyToName, buttonLabels, IconName } from '../utils';
+import { buttonLabels, IconName } from '../utils';
 import api from '../utils/api';
-import { getTimeDifference } from '../utils/functions';
+import { getIconUrl, getTimeLabel } from '../utils/functions';
 
 const Event = () => {
   const { id = '' } = useParams();
@@ -21,19 +21,19 @@ const Event = () => {
     return <LoaderComponent />;
   }
 
-  const appKey = event.app.key;
+  const app = event.app;
+
+  const appIcon = getIconUrl(app.icon);
 
   return (
     <ContentLayout
       title={event?.name}
-      customSubTitle={
-        <Tag icon={<EventIcon name={appKeyToIconName[appKey]} />} text={appKeyToName[appKey]} />
-      }
+      customSubTitle={<Tag icon={<SvgIcon src={appIcon} />} text={app.name} />}
     >
       <Line>
         <Time>
           <TimeIcon name={IconName.time} />
-          {getTimeDifference(event.startAt)}
+          {getTimeLabel(event)}
         </Time>
         {event.url && (
           <Button onClick={() => window.open(event.url)}>
@@ -47,6 +47,10 @@ const Event = () => {
     </ContentLayout>
   );
 };
+
+const SvgIcon = styled.img`
+  width: 16px;
+`;
 
 const EventIcon = styled(Icon)`
   width: 15px;
