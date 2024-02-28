@@ -77,7 +77,7 @@ const InnerContainer = styled.div<{
     checked || intermediate
       ? theme.colors.primary
       : error
-        ? theme.colors.error
+        ? theme.colors.danger
         : theme.colors.border};
   opacity: ${({ disabled }) => (disabled ? 0.48 : 1)};
 `;

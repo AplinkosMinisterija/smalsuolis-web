@@ -7,7 +7,7 @@ import LoaderComponent from '../components/other/LoaderComponent';
 import { device } from '../styles';
 import { useNavigate } from 'react-router';
 import SubscriptionCard from '../components/cards/SubscriptionCard';
-import Button from '../components/buttons/Button';
+import Button from 'design-system/components/Button';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import EmptyState from '../components/other/EmptyState';
 
@@ -170,7 +170,7 @@ const NewSubscriptionButton = styled.a`
 `;
 
 const DeleteSubscriptionButton = styled.a`
-  color: ${({ theme }) => theme.colors.error};
+  color: ${({ theme }) => theme.colors.danger};
   text-decoration: underline;
   float: right;
   cursor: pointer;

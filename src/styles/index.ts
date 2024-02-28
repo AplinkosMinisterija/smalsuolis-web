@@ -1,38 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-
-interface ThemeColors {
-  primary: string;
-  secondary: string;
-  tertiary: string;
-  transparent: string;
-  label: string;
-  error: string;
-  success: string;
-  hover: {
-    primary: string;
-    secondary: string;
-    tertiary: string;
-    transparent: string;
-    danger: string;
-    success: string;
-    [key: string]: string;
-  };
-  text: {
-    primary: string;
-    secondary: string;
-    tertiary: string;
-    labels: string;
-    accent: string;
-    error: string;
-    input: string;
-    [key: string]: string;
-  };
-  border: string;
-  background: string;
-}
-interface Theme<T> {
-  colors: T & ThemeColors;
-}
+import { Theme } from 'design-system/types';
 
 export const theme: Theme<{
   powder: string;
@@ -55,10 +22,10 @@ export const theme: Theme<{
   colors: {
     primary: '#73DC8C',
     secondary: '#121A55',
-    tertiary: '#101010',
+    tertiary: '#73DC8C',
     transparent: 'transparent',
     label: '#4B5565',
-    error: '#FE5B78',
+    danger: '#FE5B78',
     success: '#258800',
     powder: '#FFFFFFCC',
     purple: '#8a33fe',
@@ -67,6 +34,22 @@ export const theme: Theme<{
     yellowDarker: '#ffd399',
     greyDarker: '#d4d5de',
     lightSteelBlue: '#cdd5df',
+    buttonBackground: {
+      primary: '#73DC8C',
+      secondary: 'white',
+      tertiary: '#73DC8C',
+      success: '#258800',
+      danger: '#FE5B78',
+      transparent: 'transparent',
+    },
+    buttonText: {
+      primary: '#101010',
+      secondary: '#101010',
+      tertiary: 'white',
+      danger: 'white',
+      success: 'white',
+      transparent: '#101010',
+    },
     hover: {
       primary: '#73DC8C',
       secondary: '#121A55',
@@ -79,10 +62,11 @@ export const theme: Theme<{
       primary: '#101010',
       secondary: '#525252',
       tertiary: '#4B5565',
-      labels: '#697586',
-      accent: '#102EB1',
+      label: '#697586',
       error: '#FE5B78',
+      labels: '#697586',
       input: '#231f20',
+      accent: '#102EB1',
       powder: '#FFFFFFCC',
       retroBlack: '#101010',
       royalBlue: '#1121DA',

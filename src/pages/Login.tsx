@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from '../components/buttons/Button';
+import Button from 'design-system/components/Button';
 import CheckBox from '../components/buttons/Checkbox';
 import PasswordField from '../components/fields/PasswordField';
 import TextField from '../components/fields/TextField';

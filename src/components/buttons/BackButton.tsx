@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { ButtonColors } from '../../utils/constants';
 import { buttonsTitles } from '../../utils/texts';
 import Icon from '../other/Icons';
-import Button from './Button';
+import Button from 'design-system/components/Button';
 
 const BackButton = () => {
   return (

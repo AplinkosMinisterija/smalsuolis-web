@@ -109,7 +109,7 @@ const Container = styled.div`
   overflow-y: auto;
   align-items: center;
   flex-direction: column;
-  padding: 32 0px;
+  padding: 32px 0px;
   width: 100%;
 
   @media ${device.mobileL} {

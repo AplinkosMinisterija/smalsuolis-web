@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Switch from '../components/buttons/Switch';
 import RadioFrequency from '../components/other/RadioFrequency';
 import { Frequency, slugs, SubscriptionForm, validateSubscriptionForm } from '../utils';
-import Button from '../components/buttons/Button';
+import Button from 'design-system/components/Button';
 import { Form, Formik } from 'formik';
 import LoaderComponent from '../components/other/LoaderComponent';
 import Apps from '../components/other/Apps';

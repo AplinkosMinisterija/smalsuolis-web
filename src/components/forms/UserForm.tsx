@@ -4,7 +4,7 @@ import { buttonsTitles, inputLabels, PasswordForm, User } from '../../utils';
 import PasswordField from '../fields/PasswordField';
 import PasswordCheckListContainer from '../other/PasswordCheckListContainer';
 import styled from 'styled-components';
-import Button from '../buttons/Button';
+import Button from 'design-system/components/Button';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 
@@ -74,7 +74,12 @@ const UserForm = ({
           password={password}
           repeatPassword={repeatPassword}
         />
-        <StyledButton loading={isLoading} disabled={disableSubmit} type="submit">
+        <StyledButton
+          variant={Button.colors.PRIMARY}
+          loading={isLoading}
+          disabled={disableSubmit}
+          type="submit"
+        >
           {buttonsTitles.update}
         </StyledButton>
       </PasswordContainer>

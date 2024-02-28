@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import { useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
-import Button from '../components/buttons/Button';
+import Button from 'design-system/components/Button';
 import TextField from '../components/fields/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
