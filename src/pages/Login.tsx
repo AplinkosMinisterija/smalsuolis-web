@@ -4,7 +4,7 @@ import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from 'design-system/components/Button';
-import CheckBox from '../components/buttons/Checkbox';
+import CheckBox from 'design-system/components/Checkbox';
 import PasswordField from '../components/fields/PasswordField';
 import TextField from '../components/fields/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';

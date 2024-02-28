@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import Switch from '../components/buttons/Switch';
+import Switch from 'design-system/components/Switch';
 import RadioFrequency from '../components/other/RadioFrequency';
 import { Frequency, slugs, SubscriptionForm, validateSubscriptionForm } from '../utils';
 import Button from 'design-system/components/Button';
