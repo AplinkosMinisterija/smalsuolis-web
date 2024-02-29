@@ -5,7 +5,7 @@ import { device } from '../../styles';
 import { IconName, isEmpty, useInfinityLoad } from '../../utils';
 import { slugs } from '../../utils/routes';
 import { Event } from '../../utils/types';
-import Tabs from '../buttons/Tabs';
+import Tabs from 'design-system/components/Tabs';
 import ContentLayout from '../layouts/ContentLayout';
 import EmptyState from '../other/EmptyState';
 import EventCard from '../other/EventCard';
