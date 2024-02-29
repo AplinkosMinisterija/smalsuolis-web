@@ -2,8 +2,6 @@ import { AppType } from './constants';
 
 import { Frequency } from './constants';
 
-export type ChildrenType = string | JSX.Element | JSX.Element[] | any;
-
 export interface App {
   id: number;
   key: AppType;
@@ -69,40 +67,6 @@ export interface ReactQueryError {
     };
   };
 }
-
-export type FeatureCollection = {
-  type: 'FeatureCollection';
-  features: Feature[];
-};
-
-type GenericObject = {
-  [key: string]: any;
-};
-
-type Feature = {
-  type: 'Feature';
-  geometry: Geometry;
-  properties?: GenericObject;
-};
-
-type Geometry = {
-  type: string;
-  coordinates: CoordinatesTypes;
-};
-type CoordinatesPoint = number[];
-type CoordinatesMultiPoint = CoordinatesPoint[];
-type CoordinatesLineString = CoordinatesPoint[];
-type CoordinatesMultiLineString = CoordinatesLineString[];
-type CoordinatesPolygon = CoordinatesLineString[];
-type CoordinatesMultiPolygon = CoordinatesPolygon[];
-
-type CoordinatesTypes =
-  | CoordinatesPoint
-  | CoordinatesLineString
-  | CoordinatesPolygon
-  | CoordinatesMultiPoint
-  | CoordinatesMultiLineString
-  | CoordinatesMultiPolygon;
 
 export interface LoginForm {
   email: string;
