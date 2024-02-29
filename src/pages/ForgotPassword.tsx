@@ -2,7 +2,7 @@ import { useFormik } from 'formik';
 import { useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 import Button from 'design-system/components/Button';
-import TextField from '../components/fields/TextField';
+import TextField from 'design-system/components/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
 import { getErrorMessage } from '../utils/functions';

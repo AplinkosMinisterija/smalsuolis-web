@@ -11,7 +11,9 @@ import Button from 'design-system/components/Button';
 import { Form, Formik } from 'formik';
 import LoaderComponent from '../components/other/LoaderComponent';
 import Apps from '../components/other/Apps';
-import MapField from '../components/fields/MapField';
+import MapField from 'design-system/components/MapField';
+
+const mapHost = import.meta.env.VITE_MAPS_HOST || 'https://dev.maps.biip.lt';
 
 const Subscriptions = () => {
   const queryClient = useQueryClient();
@@ -117,7 +119,12 @@ const Subscriptions = () => {
                 <SectionLabel>
                   Padėkite tašką, kur norite stebėti ir nustatykite spindulį
                 </SectionLabel>
-                <MapField value={values.geom} onChange={(value) => setFieldValue('geom', value)} />
+                <MapField
+                  mapHost={mapHost}
+                  mapPath={'/edit?types[]=point&buffer=xl'}
+                  value={values.geom}
+                  onChange={(value) => setFieldValue('geom', value)}
+                />
               </SubscriptionFormContainer>
               <SubscriptionFormContainer>
                 <SectionLabel>Kokiu dažnumu jums siųsti informaciją</SectionLabel>

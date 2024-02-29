@@ -3009,7 +3009,7 @@ dequal@^2.0.2:
 
 "design-system@git+ssh://git@github.com:AplinkosMinisterija/design-system.git":
   version "0.0.0"
-  resolved "git+ssh://git@github.com:AplinkosMinisterija/design-system.git#db6f29ce1334aaaff9cc0da477efdd6e220d6d21"
+  resolved "git+ssh://git@github.com:AplinkosMinisterija/design-system.git#3e95cb7abcfaa987780b0cd57760a90f051c65a3"
   dependencies:
     "@storybook/addon-styling" "^1.3.6"
     date-fns "^2.30.0"
