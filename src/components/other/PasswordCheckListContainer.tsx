@@ -47,10 +47,10 @@ const PasswordCheckListContainer = ({
 
   return (
     <Container>
-      {checkList.map((column) => (
-        <InnerContainer>
-          {column.map((item) => (
-            <Row>
+      {checkList.map((column, index) => (
+        <InnerContainer key={`checklist_column_${index}`}>
+          {column.map((item, index) => (
+            <Row key={`checklist_row_${index}`}>
               <StyledIcon checked={item.value} name="active" />
               <Text checked={item.value}>{item.label}</Text>
             </Row>

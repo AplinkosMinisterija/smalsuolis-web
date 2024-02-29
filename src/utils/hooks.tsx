@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 import { matchPath, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { LoginForm, routes, slugs } from '.';
+import { LoginForm, SetPassword, routes, slugs } from '.';
 import api from './api';
 import { intersectionObserverConfig } from './configs';
 import { handleAlert } from './functions';
@@ -30,7 +30,6 @@ export const useLogout = () => {
   const { mutateAsync } = useMutation({
     mutationFn: api.logout,
     onError: async () => {
-      handleAlert();
       clearCookies();
       await queryClient.invalidateQueries();
     },
@@ -70,11 +69,8 @@ export const useSetPassword = () => {
   const [searchParams] = useSearchParams();
   const { h, s } = Object.fromEntries([...Array.from(searchParams)]);
   const { data, mutateAsync, isPending } = useMutation({
-    mutationFn: ({ password }: { password: string }) => {
+    mutationFn: ({ password }: SetPassword) => {
       return api.setPassword({ h, s, password });
-    },
-    onError: () => {
-      handleAlert();
     },
   });
 

@@ -22,6 +22,8 @@ export const validationTexts = {
 
 export const inputLabels = {
   password: 'Slaptažodis',
+  repeatPassword: 'Pakartokite slaptažodį',
+  oldPassword: 'Dabartinis slaptažodis',
   phone: 'Telefono numeris',
   rememberMe: 'Likti prisijungus',
   newPassword: 'Naujas slaptažodis',

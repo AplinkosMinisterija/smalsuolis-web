@@ -43,10 +43,22 @@ export interface Event {
 
 export interface User {
   id?: string;
-  firstName?: string;
-  phone?: string;
-  lastName?: string;
   email?: string;
+}
+
+export interface PasswordForm {
+  password: string;
+  repeatPassword: string;
+  oldPassword?: string;
+}
+
+export interface UpdatePassword {
+  password: string;
+  oldPassword: string;
+}
+
+export interface SetPassword {
+  password: string;
 }
 
 export interface ReactQueryError {

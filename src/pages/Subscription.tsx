@@ -189,6 +189,7 @@ const SubscriptionAppsButton = styled.a`
   color: #1f5c2e;
   text-decoration: underline;
   float: right;
+  cursor: pointer;
 `;
 
 const Iframe = styled.iframe`

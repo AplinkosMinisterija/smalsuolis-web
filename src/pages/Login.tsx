@@ -45,8 +45,6 @@ const Login = () => {
         email: validationTexts.invalidUserNameOrPassword,
         password: validationTexts.invalidUserNameOrPassword,
       });
-    } else {
-      handleAlert();
     }
   }, [error]);
 
