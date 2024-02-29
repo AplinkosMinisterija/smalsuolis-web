@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { Button } from 'design-system';
+import { Button } from 'design-system/lib';
 import ContentLayout from '../components/layouts/ContentLayout';
 import LoaderComponent from '../components/LoaderComponent';
 import { useSetPassword, useVerifyUser } from '../utils/hooks';

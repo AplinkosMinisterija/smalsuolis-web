@@ -7,7 +7,7 @@ import LoaderComponent from '../components/LoaderComponent';
 import { device } from '../styles';
 import { useNavigate } from 'react-router';
 import SubscriptionCard from '../components/SubscriptionCard';
-import { Button } from 'design-system';
+import { Button } from 'design-system/lib';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import EmptyState from '../components/EmptyState';
 

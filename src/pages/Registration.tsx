@@ -1,8 +1,8 @@
 import { useFormik } from 'formik';
 import { useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
-import { Button } from 'design-system';
-import TextField from 'design-system/components/TextField';
+import { Button } from 'design-system/lib';
+import TextField from 'design-system/lib/components/TextField';
 import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
 import { getErrorMessage, handleToastSuccess } from '../utils/functions';
