@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DefaultLayout from './components/layouts/DefaultLayout';
 import LoaderComponent from './components/LoaderComponent';
