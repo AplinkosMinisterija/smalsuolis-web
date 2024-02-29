@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { device } from '../styles';
-import { ButtonColors } from '../utils/constants';
-import Button from 'design-system/components/Button';
+import Button from 'design-system/lib/components/Button';
 import Icon from './Icons';
 import Modal from './Modal';
 export interface DeleteCardProps {
@@ -57,7 +56,7 @@ const DeleteCard = ({
           <StyledButton
             type="button"
             onClick={() => handleDelete()}
-            variant={ButtonColors.DANGER}
+            variant={Button.colors.DANGER}
             loading={deleteInProgress}
           >
             {agreeLabel}
@@ -65,7 +64,7 @@ const DeleteCard = ({
           <StyledButton
             type="button"
             onClick={() => onSetClose(false)}
-            variant={ButtonColors.TRANSPARENT}
+            variant={Button.colors.TRANSPARENT}
           >
             {declineLabel}
           </StyledButton>
