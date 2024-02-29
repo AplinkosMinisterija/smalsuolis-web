@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import Icon from '../other/Icons';
-import { IconName } from '../../utils';
+import Icon from '../Icons';
+import { IconName } from '../../../utils';
 interface MenuButtonProps {
   label: string;
   icon?: string;

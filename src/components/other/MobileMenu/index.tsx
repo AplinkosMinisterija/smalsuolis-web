@@ -1,13 +1,13 @@
 import Div100vh from 'react-div-100vh';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { device } from '../../styles';
-import { filterMenuRoutes, IconName, slugs, useLogout } from '../../utils';
-import MenuButton from '../buttons/MenuButton';
-import Icon from './Icons';
-import Modal from './Modal';
+import { device } from '../../../styles';
+import { filterMenuRoutes, IconName, slugs, useLogout } from '../../../utils';
+import MenuButton from './MenuButton';
+import Icon from './../Icons';
+import Modal from './../Modal';
 import { useContext } from 'react';
-import { UserContext, UserContextType } from '../UserProvider';
+import { UserContext, UserContextType } from '../../UserProvider';
 
 const MobileMenu = ({ onClose, visible = true }: any) => {
   const navigate = useNavigate();
