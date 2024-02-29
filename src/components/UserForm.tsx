@@ -1,8 +1,8 @@
-import ContentLayout from '../layouts/ContentLayout';
+import ContentLayout from './layouts/ContentLayout';
 import TextField from 'design-system/components/TextField';
-import { buttonsTitles, inputLabels, PasswordForm, User } from '../../utils';
+import { buttonsTitles, inputLabels, PasswordForm, User } from '../utils';
 import PasswordField from 'design-system/components/PasswordField';
-import PasswordCheckListContainer from '../other/PasswordCheckListContainer';
+import PasswordCheckListContainer from './PasswordCheckListContainer';
 import styled from 'styled-components';
 import Button from 'design-system/components/Button';
 import { useFormik } from 'formik';

@@ -2,11 +2,11 @@ import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import Button from 'design-system/components/Button';
 import ContentLayout from '../components/layouts/ContentLayout';
-import LoaderComponent from '../components/other/LoaderComponent';
+import LoaderComponent from '../components/LoaderComponent';
 import { useSetPassword, useVerifyUser } from '../utils/hooks';
 import { slugs } from '../utils/routes';
 import { buttonsTitles, descriptions } from '../utils/texts';
-import UserForm from '../components/forms/UserForm';
+import UserForm from '../components/UserForm';
 import { PasswordForm } from '../utils';
 
 const CreatePassword = () => {

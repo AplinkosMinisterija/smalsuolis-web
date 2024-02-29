@@ -5,12 +5,12 @@ import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Switch from 'design-system/components/Switch';
-import RadioFrequency from '../components/other/RadioFrequency';
+import RadioFrequency from '../components/RadioFrequency';
 import { Frequency, slugs, SubscriptionForm, validateSubscriptionForm } from '../utils';
 import Button from 'design-system/components/Button';
 import { Form, Formik } from 'formik';
-import LoaderComponent from '../components/other/LoaderComponent';
-import Apps from '../components/other/Apps';
+import LoaderComponent from '../components/LoaderComponent';
+import Apps from '../components/Apps';
 import MapField from 'design-system/components/MapField';
 
 const mapHost = import.meta.env.VITE_MAPS_HOST || 'https://dev.maps.biip.lt';

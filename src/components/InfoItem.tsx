@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Size } from '../../utils/constants';
+import { Size } from '../utils/constants';
 import Icon from './Icons';
 
 interface InfoItemProps {

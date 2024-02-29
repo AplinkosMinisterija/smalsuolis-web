@@ -1,9 +1,9 @@
 import { matchPath, useLocation, useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { buttonLabels, filterMenuRoutes, IconName, slugs, useLogout } from '../../utils';
+import { buttonLabels, filterMenuRoutes, IconName, slugs, useLogout } from '../utils';
 import Icon from './Icons';
 import { useContext } from 'react';
-import { UserContext, UserContextType } from '../UserProvider';
+import { UserContext, UserContextType } from './UserProvider';
 
 const SideBar = () => {
   const navigate = useNavigate();

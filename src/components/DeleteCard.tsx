@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { device } from '../../styles';
-import { ButtonColors } from '../../utils/constants';
+import { device } from '../styles';
+import { ButtonColors } from '../utils/constants';
 import Button from 'design-system/components/Button';
 import Icon from './Icons';
 import Modal from './Modal';

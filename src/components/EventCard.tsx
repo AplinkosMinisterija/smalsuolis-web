@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { device } from '../../styles';
-import { Event, getIconUrl, getTimeLabel } from '../../utils';
+import { device } from '../styles';
+import { Event, getIconUrl, getTimeLabel } from '../utils';
 import Tag from './Tag';
 
 const EventCard = ({ event, onClick }: { event: Event; onClick?: () => void }) => {

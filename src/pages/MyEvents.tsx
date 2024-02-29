@@ -1,4 +1,4 @@
-import EventsContainer from '../components/containers/EventsContainer';
+import EventsContainer from '../components/EventsContainer';
 import { descriptions, titles } from '../utils';
 import api from '../utils/api';
 

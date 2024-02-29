@@ -3,13 +3,13 @@ import api from '../utils/api';
 import { App, IconName, slugs, Subscription, useInfinityLoad } from '../utils';
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import LoaderComponent from '../components/other/LoaderComponent';
+import LoaderComponent from '../components/LoaderComponent';
 import { device } from '../styles';
 import { useNavigate } from 'react-router';
-import SubscriptionCard from '../components/cards/SubscriptionCard';
+import SubscriptionCard from '../components/SubscriptionCard';
 import Button from 'design-system/components/Button';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import EmptyState from '../components/other/EmptyState';
+import EmptyState from '../components/EmptyState';
 
 const Subscriptions = () => {
   const queryClient = useQueryClient();

@@ -1,15 +1,15 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { device } from '../../styles';
-import { IconName, isEmpty, useInfinityLoad } from '../../utils';
-import { slugs } from '../../utils/routes';
-import { Event } from '../../utils/types';
+import { device } from '../styles';
+import { IconName, isEmpty, useInfinityLoad } from '../utils';
+import { slugs } from '../utils/routes';
+import { Event } from '../utils/types';
 import Tabs from 'design-system/components/Tabs';
-import ContentLayout from '../layouts/ContentLayout';
-import EmptyState from '../other/EmptyState';
-import EventCard from '../other/EventCard';
-import LoaderComponent from '../other/LoaderComponent';
+import ContentLayout from './layouts/ContentLayout';
+import EmptyState from './EmptyState';
+import EventCard from './EventCard';
+import LoaderComponent from './LoaderComponent';
 
 enum EventFilter {
   HAPPENED = 'HAPPENED',

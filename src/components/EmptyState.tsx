@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { IconName } from '../../utils';
+import { IconName } from '../utils';
 import Icon from './Icons';
 
 const EmptyState = ({

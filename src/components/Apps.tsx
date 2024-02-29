@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { App, getIconUrl } from '../../utils';
+import { App, getIconUrl } from '../utils';
 
 const AppItem = ({ id, checked, onChange, app }: any) => {
   const appIcon = getIconUrl(app.icon);

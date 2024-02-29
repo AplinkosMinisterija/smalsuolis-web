@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { App, Frequency, getIconUrl, Subscription, subscriptionFrequencyTitles } from '../../utils';
-import Tag from '../other/Tag';
+import { App, Frequency, getIconUrl, Subscription, subscriptionFrequencyTitles } from '../utils';
+import Tag from './Tag';
 import Checkbox from 'design-system/components/Checkbox';
 import Switch from 'design-system/components/Switch';
 

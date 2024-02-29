@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import styled from 'styled-components';
-import { device } from '../../styles';
+import { device } from '../styles';
 import FieldWrapper from 'design-system/common/FieldWrapper';
-import { FeatureCollection } from '../../utils';
+import { FeatureCollection } from '../utils';
 
 const mapsHost = import.meta.env.VITE_MAPS_HOST || 'https://dev.maps.biip.lt';
 

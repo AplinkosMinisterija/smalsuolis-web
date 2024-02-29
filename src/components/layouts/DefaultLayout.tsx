@@ -4,7 +4,7 @@ import { device } from '../../styles';
 import { useGetCurrentRoute, useWindowSize } from '../../utils';
 import BackHeader from '../headers/BackHeader';
 import LogoHeader from '../headers/LogoHeader';
-import SideBar from '../other/SideBar';
+import SideBar from '../SideBar';
 
 const DefaultLayout = ({ children, onScroll = () => {} }: any) => {
   const isMobile = useWindowSize(device.mobileL);

@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { device } from '../../styles';
-import Icon from '../other/Icons';
-import MobileMenu from '../other/MobileMenu';
+import Icon from '../Icons';
+import MobileMenu from '../MobileMenu';
 import { IconName } from '../../utils';
 
 const BackHeader = () => {
