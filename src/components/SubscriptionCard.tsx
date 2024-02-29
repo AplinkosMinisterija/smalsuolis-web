@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { App, Frequency, getIconUrl, Subscription, subscriptionFrequencyTitles } from '../utils';
 import Tag from './Tag';
-import Checkbox from 'design-system/lib/components/Checkbox';
-import Switch from 'design-system/lib/components/Switch';
+import Checkbox from 'design-system/components/Checkbox';
+import Switch from 'design-system/components/Switch';
 
 const frequencyLabels = {
   [Frequency.DAY]: 'kasdieninė',
