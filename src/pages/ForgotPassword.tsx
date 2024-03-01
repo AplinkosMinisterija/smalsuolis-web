@@ -1,15 +1,16 @@
 import { useFormik } from 'formik';
 import { useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
-import { Button, TextField } from 'design-system';
-import ContentLayout from '../components/layouts/ContentLayout';
+import { Button, ContentLayout, TextField } from 'design-system';
 import api from '../utils/api';
 import { getErrorMessage } from '../utils/functions';
 import { buttonsTitles, descriptions, inputLabels, validationTexts } from '../utils/texts';
 import { ReactQueryError } from '../utils/types';
 import { forgotPasswordSchema } from '../utils/validations';
+import { useGetCurrentRoute } from '../utils';
 
 const RemindPassword = () => {
+  const currentRoute = useGetCurrentRoute();
   const handleRemindPassword = async (values: { email: string }) => {
     const { email } = values;
     const params = { email: email.toLocaleLowerCase() };
@@ -68,7 +69,7 @@ const RemindPassword = () => {
   };
 
   return (
-    <ContentLayout>
+    <ContentLayout currentRoute={currentRoute}>
       {!isSuccess ? (
         <Container noValidate onSubmit={handleSubmit}>
           <InfoContainer>

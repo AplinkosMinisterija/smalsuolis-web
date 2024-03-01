@@ -2,11 +2,10 @@ import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { device } from '../styles';
-import { IconName, isEmpty, useInfinityLoad } from '../utils';
+import { IconName, isEmpty, useGetCurrentRoute, useInfinityLoad } from '../utils';
 import { slugs } from '../utils/routes';
 import { Event } from '../utils/types';
-import { Tabs } from 'design-system';
-import ContentLayout from './layouts/ContentLayout';
+import { ContentLayout, Tabs } from 'design-system';
 import EmptyState from './EmptyState';
 import EventCard from './EventCard';
 import LoaderComponent from './LoaderComponent';
@@ -27,6 +26,7 @@ const EventsContainer = ({
   emptyStateDescription?: string;
   emptyStateTitle: string;
 }) => {
+  const currentRoute = useGetCurrentRoute();
   const navigate = useNavigate();
   const observerRef = useRef<any>(null);
   const [filter, setFilter] = useState(EventFilter.HAPPENED);
@@ -83,7 +83,7 @@ const EventsContainer = ({
   };
 
   return (
-    <ContentLayout>
+    <ContentLayout currentRoute={currentRoute}>
       <Tabs
         options={[
           { label: 'Įvykę įvykiai', value: EventFilter.HAPPENED },

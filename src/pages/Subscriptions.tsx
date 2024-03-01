@@ -1,17 +1,17 @@
-import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
-import { App, IconName, slugs, Subscription, useInfinityLoad } from '../utils';
+import { App, IconName, slugs, Subscription, useGetCurrentRoute, useInfinityLoad } from '../utils';
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import LoaderComponent from '../components/LoaderComponent';
 import { device } from '../styles';
 import { useNavigate } from 'react-router';
 import SubscriptionCard from '../components/SubscriptionCard';
-import { Button } from 'design-system';
+import { Button, ContentLayout } from 'design-system';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import EmptyState from '../components/EmptyState';
 
 const Subscriptions = () => {
+  const currentRoute = useGetCurrentRoute();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const observerRef = useRef<any>(null);
@@ -68,7 +68,7 @@ const Subscriptions = () => {
   const emptySubscriptions = !!subscriptions?.pages[0]?.data?.length;
 
   return (
-    <ContentLayout>
+    <ContentLayout currentRoute={currentRoute}>
       <Container>
         <ButtonsContainer>
           {emptySubscriptions && (

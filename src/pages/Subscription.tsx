@@ -1,12 +1,17 @@
-import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import RadioFrequency from '../components/RadioFrequency';
-import { Frequency, slugs, SubscriptionForm, validateSubscriptionForm } from '../utils';
-import { Button, Switch, MapField } from 'design-system';
+import {
+  Frequency,
+  slugs,
+  SubscriptionForm,
+  useGetCurrentRoute,
+  validateSubscriptionForm,
+} from '../utils';
+import { Button, Switch, MapField, ContentLayout } from 'design-system';
 import { Form, Formik } from 'formik';
 import LoaderComponent from '../components/LoaderComponent';
 import Apps from '../components/Apps';
@@ -14,6 +19,7 @@ import Apps from '../components/Apps';
 const mapHost = import.meta.env.VITE_MAPS_HOST || 'https://dev.maps.biip.lt';
 
 const Subscriptions = () => {
+  const currentRoute = useGetCurrentRoute();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -63,6 +69,7 @@ const Subscriptions = () => {
 
   return (
     <ContentLayout
+      currentRoute={currentRoute}
       customSubTitle={
         <Subtitle>
           Norėdami gauti el. paštu naujus skelbimus, atitinkančius Jūsų paieškos kriterijus,

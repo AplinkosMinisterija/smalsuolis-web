@@ -1,17 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
-import ContentLayout from '../components/layouts/ContentLayout';
 import Icon from '../components/Icons';
 import LoaderComponent from '../components/LoaderComponent';
 import PreviewMap from '../components/PreviewMap';
 import Tag from '../components/Tag';
-import { buttonLabels, IconName } from '../utils';
+import { buttonLabels, IconName, useGetCurrentRoute } from '../utils';
 import api from '../utils/api';
 import { getIconUrl, getTimeLabel } from '../utils/functions';
+import { ContentLayout } from 'design-system';
 
 const Event = () => {
   const { id = '' } = useParams();
+  const currentRoute = useGetCurrentRoute();
   const { data: event, isLoading } = useQuery({
     queryKey: ['event', id],
     queryFn: () => api.getEvent({ id }),
@@ -27,6 +28,7 @@ const Event = () => {
 
   return (
     <ContentLayout
+      currentRoute={currentRoute}
       title={event?.name}
       customSubTitle={<Tag icon={<SvgIcon src={appIcon} />} text={app.name} />}
     >

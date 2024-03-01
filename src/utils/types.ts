@@ -1,6 +1,7 @@
 import { AppType } from './constants';
 
 import { Frequency } from './constants';
+import { JSX } from 'react';
 
 export interface App {
   id: number;

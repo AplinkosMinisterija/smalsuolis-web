@@ -1,9 +1,8 @@
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { Button } from 'design-system';
-import ContentLayout from '../components/layouts/ContentLayout';
+import { Button, ContentLayout } from 'design-system';
 import LoaderComponent from '../components/LoaderComponent';
-import { useSetPassword, useVerifyUser } from '../utils/hooks';
+import { useGetCurrentRoute, useSetPassword, useVerifyUser } from '../utils/hooks';
 import { slugs } from '../utils/routes';
 import { buttonsTitles, descriptions } from '../utils/texts';
 import UserForm from '../components/UserForm';
@@ -12,6 +11,7 @@ import { PasswordForm } from '../utils';
 const CreatePassword = () => {
   const navigate = useNavigate();
   const { isLoading, data } = useVerifyUser();
+  const currentRoute = useGetCurrentRoute();
   const {
     mutateAsync: setPasswordMutation,
     isSuccess,
@@ -30,7 +30,7 @@ const CreatePassword = () => {
   };
 
   return (
-    <ContentLayout>
+    <ContentLayout currentRoute={currentRoute}>
       {!isSuccess ? (
         <UserForm
           user={data?.user}

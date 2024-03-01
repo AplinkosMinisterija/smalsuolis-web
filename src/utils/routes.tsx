@@ -12,6 +12,7 @@ import Subscription from '../pages/Subscription';
 import Subscriptions from '../pages/Subscriptions';
 import { IconName } from './constants';
 import { titles } from './texts';
+import { AppRoute } from 'design-system';
 
 export const slugs = {
   login: '/prisijungimas',
@@ -29,7 +30,7 @@ export const slugs = {
   about: '/apie-mus',
 };
 
-export const routes = [
+export const routes: AppRoute[] = [
   {
     component: <Login />,
     loggedIn: false,

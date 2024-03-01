@@ -1,14 +1,18 @@
 import { useContext } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import DefaultLayout from './components/layouts/DefaultLayout';
+import { DefaultLayout } from 'design-system';
 import LoaderComponent from './components/LoaderComponent';
 import { UserContext, UserContextType } from './components/UserProvider';
-import { filterRoutes } from './utils';
+import { filterMenuRoutes, filterRoutes, IconName, useGetCurrentRoute, useLogout } from './utils';
 import { slugs } from './utils/routes';
+import Icon from './components/Icons';
 
 function App() {
+  const navigate = useNavigate();
   const { isLoading, loggedIn, subscriptionsCount } = useContext<UserContextType>(UserContext);
+  const currentRoute = useGetCurrentRoute();
+  const { mutateAsync: logout } = useLogout();
 
   if (isLoading) return <LoaderComponent />;
 
@@ -21,7 +25,18 @@ function App() {
     : slugs.events;
 
   return (
-    <DefaultLayout>
+    <DefaultLayout
+      loggedIn={loggedIn}
+      currentRoute={currentRoute}
+      routes={filterMenuRoutes(loggedIn) || []}
+      logo={<Icon name={IconName.sidebarLogo} />}
+      loginSlug={slugs.login}
+      onGoBack={() => navigate(-1)}
+      onGoHome={() => navigate('/')}
+      onLogin={() => navigate(slugs.login)}
+      onLogout={() => logout()}
+      onRouteSelected={(slug) => navigate(slug)}
+    >
       <Routes>
         <Route>
           {routes.map((route, index) => (

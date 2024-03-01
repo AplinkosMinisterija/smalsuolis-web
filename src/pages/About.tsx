@@ -1,15 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import ContentLayout from '../components/layouts/ContentLayout';
 import { device } from '../styles';
-import { buttonsTitles, descriptions, slugs, subtitle, titles } from '../utils';
+import { buttonsTitles, descriptions, slugs, subtitle, titles, useGetCurrentRoute } from '../utils';
+import { ContentLayout } from 'design-system';
 const imageUrls = ['/about1.jpeg', '/about2.jpeg', '/about3.webp'];
 
 const About = () => {
+  const currentRoute = useGetCurrentRoute();
   const navigate = useNavigate();
 
   return (
-    <ContentLayout customTitle={<Title>{titles.about}</Title>}>
+    <ContentLayout customTitle={<Title>{titles.about}</Title>} currentRoute={currentRoute}>
       <SubTitle>{subtitle.about}</SubTitle>
       <Description>{descriptions.about}</Description>
       <ImagesContainer>

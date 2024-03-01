@@ -3,17 +3,15 @@ import { useFormik } from 'formik';
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button, CheckBox, PasswordField, TextField } from 'design-system';
-
-import ContentLayout from '../components/layouts/ContentLayout';
+import { Button, CheckBox, ContentLayout, PasswordField, TextField } from 'design-system';
 import { UserContext, UserContextType } from '../components/UserProvider';
-import { useLogin } from '../utils/hooks';
+import { useGetCurrentRoute, useLogin } from '../utils/hooks';
 import { slugs } from '../utils/routes';
 import { buttonsTitles, inputLabels, titles, validationTexts } from '../utils/texts';
 import { loginSchema } from '../utils/validations';
 const Login = () => {
   const env: any = import.meta.env;
-
+  const currentRoute = useGetCurrentRoute();
   const navigate = useNavigate();
 
   const { isLoading: userLoading } = useContext<UserContextType>(UserContext);
@@ -51,7 +49,7 @@ const Login = () => {
   };
 
   return (
-    <ContentLayout>
+    <ContentLayout currentRoute={currentRoute}>
       <Container noValidate onSubmit={handleSubmit}>
         <TextField
           value={values.email}
