@@ -5,14 +5,13 @@ import { buttonsTitles } from '../../utils/texts';
 import Icon from '../other/Icons';
 import Button from './Button';
 
-const BackButton = ({ backUrl }: { backUrl?: string }) => {
-  const navigateUrl = backUrl || -1;
+const BackButton = ({ backUrl }: { backUrl: string }) => {
   const navigate = useNavigate();
   return (
     <StyledButton
       leftIcon={<StyledBackIcon name={IconName.back} />}
       variant={ButtonColors.TRANSPARENT}
-      onClick={() => navigate(navigateUrl as string)}
+      onClick={() => navigate(backUrl)}
       type="button"
       height={32}
       color="black"
