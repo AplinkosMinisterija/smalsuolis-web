@@ -4,14 +4,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import Switch from 'design-system/lib/components/Switch';
 import RadioFrequency from '../components/RadioFrequency';
 import { Frequency, slugs, SubscriptionForm, validateSubscriptionForm } from '../utils';
-import { Button } from 'design-system/lib';
+import { Button, Switch, MapField } from 'design-system';
 import { Form, Formik } from 'formik';
 import LoaderComponent from '../components/LoaderComponent';
 import Apps from '../components/Apps';
-import MapField from 'design-system/lib/components/MapField';
 
 const mapHost = import.meta.env.VITE_MAPS_HOST || 'https://dev.maps.biip.lt';
 
@@ -123,7 +121,7 @@ const Subscriptions = () => {
                   mapHost={mapHost}
                   mapPath={'/edit?types[]=point&buffer=xl'}
                   value={values.geom}
-                  onChange={(value) => setFieldValue('geom', value)}
+                  onChange={(value: any) => setFieldValue('geom', value)}
                 />
               </SubscriptionFormContainer>
               <SubscriptionFormContainer>

@@ -1,10 +1,9 @@
 import ContentLayout from './layouts/ContentLayout';
-import TextField from 'design-system/lib/components/TextField';
+import { TextField } from 'design-system';
 import { buttonsTitles, inputLabels, PasswordForm, User } from '../utils';
-import PasswordField from 'design-system/lib/components/PasswordField';
 import PasswordCheckListContainer from './PasswordCheckListContainer';
 import styled from 'styled-components';
-import { Button } from 'design-system/lib';
+import { Button, PasswordField } from 'design-system';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 

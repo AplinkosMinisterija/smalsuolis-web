@@ -3,10 +3,8 @@ import { useFormik } from 'formik';
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button } from 'design-system/lib';
-import CheckBox from 'design-system/lib/components/Checkbox';
-import PasswordField from 'design-system/lib/components/PasswordField';
-import TextField from 'design-system/lib/components/TextField';
+import { Button, CheckBox, PasswordField, TextField } from 'design-system';
+
 import ContentLayout from '../components/layouts/ContentLayout';
 import { UserContext, UserContextType } from '../components/UserProvider';
 import { useLogin } from '../utils/hooks';
@@ -78,7 +76,7 @@ const Login = () => {
         {invalidLoginData && <Error>{validationTexts.invalidUserNameOrPassword}</Error>}
         <Row>
           <StyledSingleCheckbox
-            onChange={(value) => handleType('refresh', value)}
+            onChange={(value: any) => handleType('refresh', value)}
             value={values.refresh}
             label={inputLabels.rememberMe}
           />

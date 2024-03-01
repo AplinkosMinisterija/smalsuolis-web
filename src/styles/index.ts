@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { Theme } from 'design-system/lib/types';
+import { Theme } from 'design-system';
 
 export const theme: Theme<{
   powder: string;

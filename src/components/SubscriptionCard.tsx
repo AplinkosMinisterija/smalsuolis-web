@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-import { App, Frequency, getIconUrl, Subscription, subscriptionFrequencyTitles } from '../utils';
+import { App, Frequency, getIconUrl, Subscription } from '../utils';
 import Tag from './Tag';
-import Checkbox from 'design-system/lib/components/Checkbox';
-import Switch from 'design-system/lib/components/Switch';
+import { CheckBox, Switch } from 'design-system';
 
 const frequencyLabels = {
   [Frequency.DAY]: 'kasdieninė',
@@ -30,7 +29,7 @@ const SubscriptionCard = ({
       <InnerContainer>
         {canDelete && (
           <CheckboxWrapper>
-            <Checkbox onChange={onDelete} value={deleteChecked} />
+            <CheckBox onChange={onDelete} value={deleteChecked} />
           </CheckboxWrapper>
         )}
         <Content onClick={onClick}>
