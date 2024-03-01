@@ -34,14 +34,12 @@ export const routes = [
     component: <Login />,
     loggedIn: false,
     title: titles.login,
-    back: false,
     slug: slugs.login,
   },
   {
     component: <ResetPassword />,
     loggedIn: false,
     title: titles.resetPassword,
-    back: false,
     slug: slugs.resetPassword,
   },
   {
@@ -49,24 +47,25 @@ export const routes = [
     title: titles.subscriptions,
     loggedIn: true,
     iconName: IconName.settings,
-    back: false,
     slug: slugs.subscriptions,
   },
   {
     component: <Subscription />,
     title: titles.subscription,
+    backUrl: slugs.subscriptions,
     loggedIn: true,
-    back: true,
     slug: slugs.subscription(':id'),
   },
   {
     component: <RemindPassword />,
     title: titles.forgotPassword,
+    backUrl: slugs.login,
     slug: slugs.forgotPassword,
   },
   {
     component: <Registration />,
     title: titles.registration,
+    backUrl: slugs.login,
     loggedIn: false,
     slug: slugs.registration,
   },
@@ -98,7 +97,6 @@ export const routes = [
     component: <About />,
     title: titles.about,
     iconName: IconName.book,
-    back: false,
     slug: slugs.about,
   },
   {
@@ -106,7 +104,6 @@ export const routes = [
     title: titles.profile,
     loggedIn: true,
     iconName: IconName.profile,
-    back: false,
     slug: slugs.profile,
   },
 ];

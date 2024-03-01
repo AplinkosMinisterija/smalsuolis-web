@@ -1,17 +1,20 @@
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { ButtonColors } from '../../utils/constants';
+import { ButtonColors, IconName } from '../../utils/constants';
 import { buttonsTitles } from '../../utils/texts';
 import Icon from '../other/Icons';
 import Button from './Button';
 
-const BackButton = () => {
+const BackButton = ({ backUrl }: { backUrl?: string }) => {
+  const navigateUrl = backUrl || -1;
+  const navigate = useNavigate();
   return (
     <StyledButton
-      leftIcon={<StyledBackIcon name="back" />}
+      leftIcon={<StyledBackIcon name={IconName.back} />}
       variant={ButtonColors.TRANSPARENT}
+      onClick={() => navigate(navigateUrl as string)}
       type="button"
       height={32}
-      buttonPadding="0"
       color="black"
     >
       {buttonsTitles.back}
@@ -22,13 +25,11 @@ const BackButton = () => {
 const StyledButton = styled(Button)`
   min-width: 0px;
   margin-top: 20px;
+  padding-left: 0;
   width: fit-content;
-  button {
-    padding-right: 16px;
-    border: none;
-    font-size: 1.6rem;
-    color: #121926;
-  }
+  border: none;
+  font-size: 1.6rem;
+  color: rgb(20, 83, 45);
 `;
 
 const StyledBackIcon = styled(Icon)`
@@ -36,7 +37,7 @@ const StyledBackIcon = styled(Icon)`
   margin-right: 4px;
   font-size: 2rem;
   align-self: center;
-  color: #000000;
+  color: rgb(20, 83, 45);
 `;
 
 export default BackButton;
