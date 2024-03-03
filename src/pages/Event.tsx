@@ -82,7 +82,7 @@ const MapContainer = styled.div`
 `;
 
 const Button = styled.div`
-  background-color: ${({ theme }) => theme.colors.largeButton.GREY};
+  background-color: ${({ theme }) => theme.colors.GREY};
   border-radius: 4px;
   padding: 8px 12px;
   color: ${({ theme }) => theme.colors.text.primary};

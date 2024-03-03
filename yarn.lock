@@ -2071,7 +2071,7 @@ delayed-stream@~1.0.0:
 
 "design-system@github:AplinkosMinisterija/design-system":
   version "0.0.0"
-  resolved "https://codeload.github.com/AplinkosMinisterija/design-system/tar.gz/44cff7197c35b06d382419ab8d155deb6818948f"
+  resolved "https://codeload.github.com/AplinkosMinisterija/design-system/tar.gz/a4bfbd59d4d17643c5ac1f1c8f5fb0db1dd5f5ae"
   dependencies:
     react-div-100vh "^0.7.0"
     react-dom "^18.2.0"

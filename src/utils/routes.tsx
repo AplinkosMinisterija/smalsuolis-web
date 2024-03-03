@@ -13,6 +13,7 @@ import Subscriptions from '../pages/Subscriptions';
 import { IconName } from './constants';
 import { titles } from './texts';
 import { AppRoute } from 'design-system';
+import Icon from '../components/Icons';
 
 export const slugs = {
   login: '/prisijungimas',
@@ -50,6 +51,7 @@ export const routes: AppRoute[] = [
     title: titles.subscriptions,
     loggedIn: true,
     iconName: IconName.settings,
+    icon: <Icon name={IconName.settings} />,
     back: false,
     slug: slugs.subscriptions,
   },
@@ -81,6 +83,7 @@ export const routes: AppRoute[] = [
     title: titles.myEvents,
     description: 'Visos atrinktos naujienos',
     iconName: IconName.list,
+    icon: <Icon name={IconName.list} />,
     loggedIn: true,
     component: <MyEvents />,
     slug: slugs.myEvents,
@@ -88,6 +91,7 @@ export const routes: AppRoute[] = [
   {
     title: titles.allEvents,
     iconName: IconName.fourSquares,
+    icon: <Icon name={IconName.fourSquares} />,
     component: <Events />,
     slug: slugs.events,
   },
@@ -99,6 +103,8 @@ export const routes: AppRoute[] = [
     component: <About />,
     title: titles.about,
     iconName: IconName.book,
+    icon: <Icon name={IconName.book} />,
+
     back: false,
     slug: slugs.about,
   },
@@ -107,6 +113,7 @@ export const routes: AppRoute[] = [
     title: titles.profile,
     loggedIn: true,
     iconName: IconName.profile,
+    icon: <Icon name={IconName.profile} />,
     back: false,
     slug: slugs.profile,
   },

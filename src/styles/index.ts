@@ -10,14 +10,6 @@ export const theme: Theme<{
   greyDarker: string;
   lightSteelBlue: string;
   cardBackground: { primary: string; success: string };
-  largeButton: {
-    FLORAL_WHITE: string;
-    GHOST_WHITE: string;
-    AZURE: string;
-    HONEY_DEW: string;
-    ALICE_BLUE: string;
-    GREY: string;
-  };
 }> = {
   colors: {
     primary: '#73DC8C',
@@ -74,14 +66,7 @@ export const theme: Theme<{
     border: '#CDD5DF',
     background: '#f7f7f7',
     cardBackground: { primary: '#f7f7f7', success: '#eafbf6' },
-    largeButton: {
-      FLORAL_WHITE: '#FFF5E8',
-      GHOST_WHITE: '#EBEDFD', //'#F0F0FF'
-      AZURE: '#EAFBF6',
-      HONEY_DEW: '#E3F5E1',
-      ALICE_BLUE: '#E6F4FF',
-      GREY: '#f7f7f7',
-    },
+    GREY: '#f7f7f7',
   },
 };
 
