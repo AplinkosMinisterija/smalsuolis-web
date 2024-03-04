@@ -1,6 +1,5 @@
 import About from '../pages/About';
 import { default as CreatePassword } from '../pages/CreatePassword';
-import Event from '../pages/Event';
 import Events from '../pages/Events';
 import RemindPassword from '../pages/ForgotPassword';
 import Login from '../pages/Login';
@@ -27,7 +26,6 @@ export const slugs = {
   subscriptions: '/prenumeratos',
   subscription: (id?: string) => `/prenumeratos/${id}`,
   newSubscription: `/prenumeratos/nauja`,
-  event: (id?: string) => `/ivykis/${id}`,
   about: '/apie-mus',
 };
 
@@ -36,14 +34,12 @@ export const routes: AppRoute[] = [
     component: <Login />,
     loggedIn: false,
     title: titles.login,
-    back: false,
     slug: slugs.login,
   },
   {
     component: <ResetPassword />,
     loggedIn: false,
     title: titles.resetPassword,
-    back: false,
     slug: slugs.resetPassword,
   },
   {
@@ -52,24 +48,25 @@ export const routes: AppRoute[] = [
     loggedIn: true,
     iconName: IconName.settings,
     icon: <Icon name={IconName.settings} />,
-    back: false,
     slug: slugs.subscriptions,
   },
   {
     component: <Subscription />,
     title: titles.subscription,
+    backUrl: slugs.subscriptions,
     loggedIn: true,
-    back: true,
     slug: slugs.subscription(':id'),
   },
   {
     component: <RemindPassword />,
     title: titles.forgotPassword,
+    backUrl: slugs.login,
     slug: slugs.forgotPassword,
   },
   {
     component: <Registration />,
     title: titles.registration,
+    backUrl: slugs.login,
     loggedIn: false,
     slug: slugs.registration,
   },
@@ -95,17 +92,12 @@ export const routes: AppRoute[] = [
     component: <Events />,
     slug: slugs.events,
   },
-  {
-    component: <Event />,
-    slug: slugs.event(':id'),
-  },
+
   {
     component: <About />,
     title: titles.about,
     iconName: IconName.book,
     icon: <Icon name={IconName.book} />,
-
-    back: false,
     slug: slugs.about,
   },
   {
@@ -114,7 +106,6 @@ export const routes: AppRoute[] = [
     loggedIn: true,
     iconName: IconName.profile,
     icon: <Icon name={IconName.profile} />,
-    back: false,
     slug: slugs.profile,
   },
 ];

@@ -1,24 +1,79 @@
+import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components';
-import { device } from '../styles';
-import { Event, getIconUrl, getTimeLabel } from '../utils';
+import { device } from '../../styles';
+import { buttonLabels, Event, getIconUrl, getTimeLabel, IconName } from '../../utils';
+import Button from '../buttons/Button';
+import Icon from './Icons';
+import PreviewMap from './PreviewMap';
 import Tag from './Tag';
 
-const EventCard = ({ event, onClick }: { event: Event; onClick?: () => void }) => {
+const EventCard = ({ event }: { event: Event }) => {
+  const [open, setOpen] = useState(false);
   const { app } = event;
   const appIcon = getIconUrl(app.icon);
-  return (
-    <Container onClick={onClick}>
-      <Row>
-        <Name>{event.name}</Name>
-        <Time>{getTimeLabel(event)}</Time>
-      </Row>
 
-      <Tag text={app.name} icon={<AppIcon src={appIcon} />} />
+  return (
+    <Container onClick={() => setOpen(!open)}>
+      <Row>
+        <Column>
+          <InnerRow>
+            <Tag text={app.name} icon={<AppIcon src={appIcon} />} />
+            <Time>{getTimeLabel(event)}</Time>
+          </InnerRow>
+
+          <Name>{event.name}</Name>
+        </Column>
+        <div>
+          <Arrow expanded={open} name={IconName.dropdownArrow} />
+        </div>
+      </Row>
+      {open && (
+        <>
+          <MapContainer>
+            <PreviewMap value={event.geom} height={'200px'} />
+          </MapContainer>
+          <Body>
+            <ReactMarkdown>{event.body}</ReactMarkdown>
+          </Body>
+          {event.url && (
+            <Button onClick={() => window.open(event.url)}>
+              {buttonLabels.visitWebsite} <EventIcon name={IconName.openInNew} />
+            </Button>
+          )}
+        </>
+      )}
     </Container>
   );
 };
 
 export default EventCard;
+
+const EventIcon = styled(Icon)`
+  width: 20px;
+`;
+
+const Arrow = styled(Icon)<{ expanded?: boolean }>`
+  font-size: 2.8rem;
+  transform: ${({ expanded }) => !expanded && `rotate(-90deg)`};
+`;
+
+const MapContainer = styled.div`
+  width: 100%;
+  border-radius: 24px;
+  padding: 8px;
+  background-color: white;
+  iframe {
+    border-radius: 16px;
+  }
+`;
+
+const Body = styled.div`
+  padding: 24px;
+  border-radius: 24px;
+  background-color: white;
+  width: 100%;
+`;
 
 const AppIcon = styled.img`
   height: 16px;
@@ -37,21 +92,26 @@ const Container = styled.a`
   @media ${device.mobileL} {
     max-width: 100%;
   }
+`;
 
-  &:hover,
-  &:focus {
-    border: 1px solid ${({ theme }) => theme.colors.primary};
-    background-color: ${({ theme }) => `${theme.colors.primary}33`};
+const InnerRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  @media ${device.mobileL} {
+    flex-wrap: wrap;
   }
+`;
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 `;
 
 const Row = styled.div`
   display: flex;
-  gap: 12px;
-  @media ${device.mobileL} {
-    gap: 4px;
-    flex-wrap: wrap-reverse;
-  }
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const Time = styled.div`
