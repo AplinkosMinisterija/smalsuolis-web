@@ -100,7 +100,7 @@ const Subscriptions = (props: any) => {
           validateOnChange={false}
           validationSchema={validateSubscriptionForm}
         >
-          {({ values, errors, handleSubmit, setFieldValue }) => {
+          {({ values, setFieldValue }) => {
             return (
               <Container>
                 <SubscriptionFormContainer>
@@ -216,6 +216,7 @@ const SubscriptionActivation = styled.div`
 const SubscriptionActiveTitle = styled.div`
   font-weight: bold;
 `;
+
 const SubscriptionActiveDescription = styled.div`
   font-size: 14px;
   font-weight: 400;
@@ -226,9 +227,11 @@ const SubscriptionActiveDescription = styled.div`
 const SubscriptionFormContainer = styled.div`
   display: block;
 `;
+
 const SectionLabel = styled.label`
   font-weight: 600;
 `;
+
 const SubscriptionAppsButton = styled.a`
   color: #1f5c2e;
   text-decoration: underline;

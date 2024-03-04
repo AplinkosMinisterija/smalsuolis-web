@@ -49,7 +49,7 @@ interface UpdateOne<T = any> {
 
 interface DeleteOne {
   resource?: string;
-  id?: string;
+  id?: number | string;
 }
 
 interface Create {
@@ -273,10 +273,10 @@ class Api {
     });
   };
 
-  deleteSubscription = async (id: number): Promise<any> => {
+  deleteSubscription = async (id: number | string): Promise<any> => {
     return this.delete({
       resource: Resources.SUBSCRIPTIONS,
-      id: id.toString(),
+      id,
     });
   };
 
