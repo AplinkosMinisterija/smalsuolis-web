@@ -1,6 +1,5 @@
 import About from '../pages/About';
 import { default as CreatePassword } from '../pages/CreatePassword';
-import Event from '../pages/Event';
 import Events from '../pages/Events';
 import RemindPassword from '../pages/ForgotPassword';
 import Login from '../pages/Login';
@@ -25,7 +24,6 @@ export const slugs = {
   subscriptions: '/prenumeratos',
   subscription: (id?: string) => `/prenumeratos/${id}`,
   newSubscription: `/prenumeratos/nauja`,
-  event: (id?: string) => `/ivykis/${id}`,
   about: '/apie-mus',
 };
 
@@ -89,10 +87,7 @@ export const routes = [
     component: <Events />,
     slug: slugs.events,
   },
-  {
-    component: <Event />,
-    slug: slugs.event(':id'),
-  },
+
   {
     component: <About />,
     title: titles.about,
