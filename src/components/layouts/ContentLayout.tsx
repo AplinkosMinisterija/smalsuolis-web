@@ -1,16 +1,21 @@
 import styled from 'styled-components';
 import { device } from '../../styles';
 import { useGetCurrentRoute } from '../../utils';
-import BackButton from '../buttons/BackButton';
 
-const ContentLayout = ({ children, title, customSubTitle, customTitle }: any) => {
+const ContentLayout = ({
+  children,
+  title,
+  customSubTitle,
+  customTitle,
+  pageActions = null,
+}: any) => {
   const currentRoute = useGetCurrentRoute();
 
   const pageTitle = title || currentRoute?.title;
 
   return (
     <Container>
-      {currentRoute?.backUrl && <BackButton backUrl={currentRoute?.backUrl} />}
+      {pageActions}
       <InnerContainer>
         {customTitle || (pageTitle && <Title>{pageTitle}</Title>)}
         {customSubTitle ||

@@ -6,33 +6,26 @@ import { device } from '../styles';
 import { useNavigate } from 'react-router-dom';
 
 const PageActions = ({
+  onGoBack,
   action,
-  children,
 }: {
+  onGoBack: () => void;
   action?: { icon: IconName; label: string; destructive: boolean; onClick: () => void };
-  children: any;
 }) => {
-  const navigate = useNavigate();
-  const isMobile = useWindowSize(device.mobileL);
-
   return (
-    <div>
-      <ActionsContainer>
-        {!isMobile && (
-          <Action onClick={() => navigate(-1)}>
-            <GoBackIcon name={IconName.back} />
-            <ActionLabel>Grįžti atgal</ActionLabel>
-          </Action>
-        )}
-        {action && (
-          <Action $destructive={action.destructive} onClick={action.onClick}>
-            <DeleteIcon name={action.icon} />
-            <ActionLabel>{action.label}</ActionLabel>
-          </Action>
-        )}
-      </ActionsContainer>
-      {children}
-    </div>
+    <ActionsContainer>
+      <Action onClick={onGoBack}>
+        <StyledIcon name={IconName.back} />
+        <ActionLabel>Grįžti atgal</ActionLabel>
+      </Action>
+
+      {action ? (
+        <Action $destructive={action.destructive} onClick={action.onClick}>
+          <StyledIcon name={action.icon} />
+          <ActionLabel>{action.label}</ActionLabel>
+        </Action>
+      ) : null}
+    </ActionsContainer>
   );
 };
 
@@ -42,27 +35,21 @@ const ActionsContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  @media ${device.mobileL} {
-    padding: 0 16px;
-  }
 `;
 
 const Action = styled.div<{ $destructive?: boolean }>`
   color: ${({ theme, $destructive }) => ($destructive ? theme.colors.error : '#1f5c2e')};
-  font-size: 1.4rem;
+  font-size: 1.6rem;
+  font-weight: 500;
   align-items: center;
   cursor: pointer;
   display: flex;
-  padding: 16px 0;
+  padding: 20px 0 8px 0;
   margin-left: ${({ $destructive }) => ($destructive ? 'auto' : 0)};
 `;
 
-const GoBackIcon = styled(Icon)`
-  margin-right: 8px;
-`;
-
-const DeleteIcon = styled(Icon)`
-  margin-right: 8px;
+const StyledIcon = styled(Icon)`
+  margin-right: 4px;
 `;
 
 const ActionLabel = styled.div``;

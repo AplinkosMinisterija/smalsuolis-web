@@ -14,18 +14,17 @@ import Apps from '../components/other/Apps';
 import MapField from '../components/fields/MapField';
 import PageActions from '../components/PageActions';
 import Popup from '../components/Popup';
+import { device } from '../styles';
 
-const Subscriptions = () => {
+const Subscriptions = (props: any) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { id } = useParams();
   const [showDelete, setShowDelete] = useState(false);
-
   const { data: subscription, isLoading: subscriptionLoading } = useQuery({
     queryKey: ['subscription', id],
     queryFn: () => (id && !isNaN(Number(id)) ? api.getSubscription({ id }) : undefined),
   });
-
   const { data: apps, isLoading: appsLoading } = useQuery({
     queryKey: ['apps'],
     queryFn: () => api.getApps({ page: 1 }),
@@ -54,6 +53,7 @@ const Subscriptions = () => {
       navigate(slugs.subscriptions);
     },
   });
+
   if (subscriptionLoading || appsLoading) {
     return <LoaderComponent />;
   }
@@ -74,99 +74,109 @@ const Subscriptions = () => {
 
   return (
     <>
-      <PageActions
-        action={{
-          label: 'Ištrinti prenumeratą',
-          icon: IconName.remove,
-          onClick: () => setShowDelete(true),
-          destructive: true,
-        }}
-      >
-        <ContentLayout
-          customSubTitle={
-            <Subtitle>
-              Norėdami gauti el. paštu naujus skelbimus, atitinkančius Jūsų paieškos kriterijus,
-              užpildykite žemiau esančią formą.
-            </Subtitle>
-          }
-        >
-          <Formik
-            enableReinitialize={true}
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-            validateOnChange={false}
-            validationSchema={validateSubscriptionForm}
-          >
-            {({ values, errors, handleSubmit, setFieldValue }) => {
-              return (
-                <Container>
-                  <SubscriptionFormContainer>
-                    <SubscriptionActivation>
-                      <SubscriptionActiveTitle>
-                        {values.active ? 'Prenumerata aktyvi' : 'Prenumerata neaktyvi'}
-                      </SubscriptionActiveTitle>
-                      <Switch
-                        value={values.active}
-                        onChange={(e) => setFieldValue('active', e.target.checked)}
-                      />
-                      <SubscriptionActiveDescription>
-                        Esant aktyviai prenumeratai bus siunčiamos naujienos į el. paštą, kurį
-                        nurodėte registruodamiesi prie mūsų svetainės.
-                      </SubscriptionActiveDescription>
-                    </SubscriptionActivation>
-                  </SubscriptionFormContainer>
-                  <SubscriptionFormContainer>
-                    <SectionLabel>Pasirinkite dominančias sritis</SectionLabel>
-                    <SubscriptionAppsButton
-                      onClick={() =>
-                        setFieldValue(
-                          'apps',
-                          (apps?.rows || []).map((app) => app.id),
-                        )
-                      }
-                    >
-                      Esu smalsus domina viskas
-                    </SubscriptionAppsButton>
-                    <Apps
-                      options={apps?.rows || []}
-                      value={values.apps}
-                      onChange={(value) => setFieldValue('apps', value)}
-                    />
-                  </SubscriptionFormContainer>
-                  <SubscriptionFormContainer>
-                    <SectionLabel>
-                      Padėkite tašką, kur norite stebėti ir nustatykite spindulį
-                    </SectionLabel>
-                    <MapField
-                      value={values.geom}
-                      onChange={(value) => setFieldValue('geom', value)}
-                    />
-                  </SubscriptionFormContainer>
-                  <SubscriptionFormContainer>
-                    <SectionLabel>Kokiu dažnumu jums siųsti informaciją</SectionLabel>
-                    <RadioFrequency
-                      value={values.frequency}
-                      onChange={(value: Frequency) => setFieldValue('frequency', value)}
-                    />
-                  </SubscriptionFormContainer>
-                  <ButtonContainer>
-                    <Button type="submit">{subscription?.id ? 'Išsaugoti' : 'Prenumeruoti'}</Button>
-                  </ButtonContainer>
-                </Container>
-              );
+      <ContentLayout
+        customSubTitle={
+          <Subtitle>
+            Norėdami gauti el. paštu naujus skelbimus, atitinkančius Jūsų paieškos kriterijus,
+            užpildykite žemiau esančią formą.
+          </Subtitle>
+        }
+        pageActions={
+          <PageActions
+            onGoBack={() => navigate(slugs.subscriptions)}
+            action={{
+              label: 'Ištrinti prenumeratą',
+              icon: IconName.remove,
+              onClick: () => setShowDelete(true),
+              destructive: true,
             }}
-          </Formik>
-        </ContentLayout>
-      </PageActions>
+          />
+        }
+      >
+        <Formik
+          enableReinitialize={true}
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+          validateOnChange={false}
+          validationSchema={validateSubscriptionForm}
+        >
+          {({ values, errors, handleSubmit, setFieldValue }) => {
+            return (
+              <Container>
+                <SubscriptionFormContainer>
+                  <SubscriptionActivation>
+                    <SubscriptionActiveTitle>
+                      {values.active ? 'Prenumerata aktyvi' : 'Prenumerata neaktyvi'}
+                    </SubscriptionActiveTitle>
+                    <Switch
+                      value={values.active}
+                      onChange={(e) => setFieldValue('active', e.target.checked)}
+                    />
+                    <SubscriptionActiveDescription>
+                      Esant aktyviai prenumeratai bus siunčiamos naujienos į el. paštą, kurį
+                      nurodėte registruodamiesi prie mūsų svetainės.
+                    </SubscriptionActiveDescription>
+                  </SubscriptionActivation>
+                </SubscriptionFormContainer>
+                <SubscriptionFormContainer>
+                  <SectionLabel>Pasirinkite dominančias sritis</SectionLabel>
+                  <SubscriptionAppsButton
+                    onClick={() =>
+                      setFieldValue(
+                        'apps',
+                        (apps?.rows || []).map((app) => app.id),
+                      )
+                    }
+                  >
+                    Esu smalsus domina viskas
+                  </SubscriptionAppsButton>
+                  <Apps
+                    options={apps?.rows || []}
+                    value={values.apps}
+                    onChange={(value) => setFieldValue('apps', value)}
+                  />
+                </SubscriptionFormContainer>
+                <SubscriptionFormContainer>
+                  <SectionLabel>
+                    Padėkite tašką, kur norite stebėti ir nustatykite spindulį
+                  </SectionLabel>
+                  <MapField
+                    value={values.geom}
+                    onChange={(value) => setFieldValue('geom', value)}
+                  />
+                </SubscriptionFormContainer>
+                <SubscriptionFormContainer>
+                  <SectionLabel>Kokiu dažnumu jums siųsti informaciją</SectionLabel>
+                  <RadioFrequency
+                    value={values.frequency}
+                    onChange={(value: Frequency) => setFieldValue('frequency', value)}
+                  />
+                </SubscriptionFormContainer>
+                <ButtonContainer>
+                  <Button type="submit">{subscription?.id ? 'Išsaugoti' : 'Prenumeruoti'}</Button>
+                </ButtonContainer>
+              </Container>
+            );
+          }}
+        </Formik>
+      </ContentLayout>
       <Popup
         visible={showDelete}
         title="Ar tikrai norite ištrinti šią prenumeratą?"
         subTitle="Šio veiksmo nebus galima atšaukti ar redaguoti"
-        onSubmit={() => {
-          if (subscription?.id) deleteSubscription(subscription?.id);
-        }}
-        onClose={() => setShowDelete(false)}
-      />
+      >
+        <PopupActions>
+          <PopupButton variant={Button.colors.SECONDARY} onClick={() => setShowDelete(true)}>
+            Atšaukti
+          </PopupButton>
+          <PopupButton
+            variant={Button.colors.DANGER}
+            onClick={() => (subscription?.id ? deleteSubscription(subscription.id) : {})}
+          >
+            Išstrinti
+          </PopupButton>
+        </PopupActions>
+      </Popup>
     </>
   );
 };
@@ -224,4 +234,18 @@ const SubscriptionAppsButton = styled.a`
   text-decoration: underline;
   float: right;
   cursor: pointer;
+`;
+
+const PopupActions = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 16px;
+  @media ${device.mobileL} {
+    padding: 0 16px;
+  }
+`;
+
+const PopupButton = styled(Button)`
+  height: 40px;
 `;

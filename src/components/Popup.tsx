@@ -4,7 +4,7 @@ import Icon from './other/Icons';
 import Modal from './other/Modal';
 import Button from './buttons/Button';
 
-const Popup = ({ title, subTitle, onClose, onSubmit, visible = false }: any) => {
+const Popup = ({ title, subTitle, onClose, visible = false, children }: any) => {
   return (
     <Modal visible={visible} onClose={onClose}>
       <Container>
@@ -13,14 +13,7 @@ const Popup = ({ title, subTitle, onClose, onSubmit, visible = false }: any) => 
         </IconContainer>
         <Title>{title}</Title>
         {subTitle && <Subtitle>{subTitle}</Subtitle>}
-        <ActionsContainer>
-          <StyledButton variant={Button.colors.SECONDARY} onClick={onClose}>
-            Atšaukti
-          </StyledButton>
-          <StyledButton variant={Button.colors.DANGER} onClick={onSubmit}>
-            Išstrinti
-          </StyledButton>
-        </ActionsContainer>
+        {children}
       </Container>
     </Modal>
   );
@@ -81,20 +74,6 @@ const Title = styled.div`
 const Subtitle = styled.div`
   padding: 4px 0 32px 0;
   text-align: center;
-`;
-
-const ActionsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 16px;
-  @media ${device.mobileL} {
-    padding: 0 16px;
-  }
-`;
-
-const StyledButton = styled(Button)`
-  height: 40px;
 `;
 
 export default Popup;
