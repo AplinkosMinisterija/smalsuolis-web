@@ -27,7 +27,6 @@ const EventsContainer = ({
   emptyStateTitle: string;
 }) => {
   const currentRoute = useGetCurrentRoute();
-  const navigate = useNavigate();
   const observerRef = useRef<any>(null);
   const [filter, setFilter] = useState(EventFilter.HAPPENED);
 

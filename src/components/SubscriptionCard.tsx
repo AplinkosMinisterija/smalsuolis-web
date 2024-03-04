@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { App, Frequency, getIconUrl, Subscription } from '../utils';
 import Tag from './Tag';
-import { CheckBox, Switch } from '@aplinkosministerija/design-system';
+import { Switch } from '@aplinkosministerija/design-system';
 
 const frequencyLabels = {
   [Frequency.DAY]: 'kasdieninė',
@@ -21,11 +21,6 @@ const SubscriptionCard = ({
   return (
     <Container>
       <InnerContainer>
-        {canDelete && (
-          <CheckboxWrapper>
-            <CheckBox onChange={onDelete} value={deleteChecked} />
-          </CheckboxWrapper>
-        )}
         <Content onClick={onClick}>
           <Name>
             {`${subscription.active ? 'Aktyvi' : 'Neaktyvi'} ${frequencyLabels[subscription.frequency]} prenumerata`}{' '}
@@ -78,10 +73,6 @@ const InnerContainer = styled.div`
 const SwitchWrapper = styled.div`
   padding: 0 8px;
   align-self: flex-start;
-`;
-
-const CheckboxWrapper = styled.div`
-  padding: 0 8px;
 `;
 
 const Content = styled.div`
