@@ -1,4 +1,3 @@
-import { useMediaQuery } from '@material-ui/core';
 import { format } from 'date-fns';
 import lt from 'date-fns/locale/lt';
 import React, { useEffect, useState } from 'react';
@@ -8,6 +7,7 @@ import styled from 'styled-components';
 import { device } from '../../styles';
 import Icons from '../other/Icons';
 import TextField from './TextField';
+import { useWindowSize } from '../../utils';
 
 registerLocale('lt', lt);
 
@@ -41,7 +41,7 @@ const Datepicker = ({
   bottom = false,
 }: DatepickerProps) => {
   const daterRegex = /^\d{4}-\d{2}-\d{2}$/;
-  const isMobile = useMediaQuery(device.mobileL);
+  const isMobile = useWindowSize(device.mobileL);
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const handleBlur = (event: any) => {
