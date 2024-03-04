@@ -140,7 +140,7 @@ const Subscriptions = () => {
                   <Apps
                     options={apps?.rows || []}
                     value={values.apps}
-                    onChange={(value: any) => setFieldValue('apps', value)}
+                    onChange={(value) => setFieldValue('apps', value)}
                   />
                 </SubscriptionFormContainer>
                 <SubscriptionFormContainer>
@@ -151,7 +151,7 @@ const Subscriptions = () => {
                     mapHost={mapHost}
                     mapPath={'/edit?types[]=point&buffer=xl'}
                     value={values.geom}
-                    onChange={(value: any) => setFieldValue('geom', value)}
+                    onChange={(value) => setFieldValue('geom', value)}
                   />
                 </SubscriptionFormContainer>
                 <SubscriptionFormContainer>
