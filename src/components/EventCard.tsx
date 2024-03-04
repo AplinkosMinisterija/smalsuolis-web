@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components';
-import { device } from '../../styles';
-import { buttonLabels, Event, getIconUrl, getTimeLabel, IconName } from '../../utils';
-import Button from '../buttons/Button';
+import { buttonLabels, Event, getIconUrl, getTimeLabel, IconName } from '../utils';
+import { Button } from '@aplinkosministerija/design-system';
 import Icon from './Icons';
 import PreviewMap from './PreviewMap';
 import Tag from './Tag';
+import { device } from '../styles';
 
 const EventCard = ({ event }: { event: Event }) => {
   const [open, setOpen] = useState(false);
@@ -38,7 +38,9 @@ const EventCard = ({ event }: { event: Event }) => {
           </Body>
           {event.url && (
             <Button onClick={() => window.open(event.url)}>
-              {buttonLabels.visitWebsite} <EventIcon name={IconName.openInNew} />
+              <>
+                {buttonLabels.visitWebsite} <EventIcon name={IconName.openInNew} />
+              </>
             </Button>
           )}
         </>
