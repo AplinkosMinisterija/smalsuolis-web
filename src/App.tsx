@@ -31,7 +31,6 @@ function App() {
       routes={filterMenuRoutes(loggedIn) || []}
       logo={<Icon name={IconName.sidebarLogo} />}
       loginSlug={slugs.login}
-      onGoBack={() => navigate(-1)}
       onGoHome={() => navigate('/')}
       onLogin={() => navigate(slugs.login)}
       onLogout={() => logout()}
