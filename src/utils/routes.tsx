@@ -53,20 +53,17 @@ export const routes: AppRoute[] = [
   {
     component: <Subscription />,
     title: titles.subscription,
-    backUrl: slugs.subscriptions,
     loggedIn: true,
     slug: slugs.subscription(':id'),
   },
   {
     component: <RemindPassword />,
     title: titles.forgotPassword,
-    backUrl: slugs.login,
     slug: slugs.forgotPassword,
   },
   {
     component: <Registration />,
     title: titles.registration,
-    backUrl: slugs.login,
     loggedIn: false,
     slug: slugs.registration,
   },

@@ -7,9 +7,13 @@ import { getErrorMessage } from '../utils/functions';
 import { buttonsTitles, descriptions, inputLabels, validationTexts } from '../utils/texts';
 import { ReactQueryError } from '../utils/types';
 import { forgotPasswordSchema } from '../utils/validations';
+import PageActions from '../components/PageActions';
+import { useNavigate } from 'react-router';
+import { slugs } from '../utils';
 import { useGetCurrentRoute } from '../utils';
 
 const RemindPassword = () => {
+  const navigate = useNavigate();
   const currentRoute = useGetCurrentRoute();
   const handleRemindPassword = async (values: { email: string }) => {
     const { email } = values;
@@ -69,7 +73,10 @@ const RemindPassword = () => {
   };
 
   return (
-    <ContentLayout currentRoute={currentRoute}>
+    <ContentLayout
+      currentRoute={currentRoute}
+      pageActions={<PageActions onGoBack={() => navigate(slugs.login)} />}
+    >
       {!isSuccess ? (
         <Container noValidate onSubmit={handleSubmit}>
           <InfoContainer>

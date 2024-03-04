@@ -11,17 +11,11 @@ const frequencyLabels = {
 
 const SubscriptionCard = ({
   subscription,
-  canDelete,
-  deleteChecked,
   onClick,
-  onDelete,
   onActiveChange,
 }: {
   subscription: Subscription<App>;
-  canDelete: boolean;
-  deleteChecked: boolean;
   onClick: () => void;
-  onDelete: (e: boolean) => void;
   onActiveChange: (e: boolean) => void;
 }) => {
   return (
