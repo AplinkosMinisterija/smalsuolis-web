@@ -117,7 +117,7 @@ const Subscriptions = () => {
                     </SubscriptionActiveTitle>
                     <Switch
                       value={values.active}
-                      onChange={(e: any) => setFieldValue('active', e.target.checked)}
+                      onChange={(e) => setFieldValue('active', e.target.checked)}
                     />
                     <SubscriptionActiveDescription>
                       Esant aktyviai prenumeratai bus siunčiamos naujienos į el. paštą, kurį

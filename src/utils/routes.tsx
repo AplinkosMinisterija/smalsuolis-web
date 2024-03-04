@@ -46,7 +46,6 @@ export const routes: AppRoute[] = [
     component: <Subscriptions />,
     title: titles.subscriptions,
     loggedIn: true,
-    iconName: IconName.settings,
     icon: <Icon name={IconName.settings} />,
     slug: slugs.subscriptions,
   },
@@ -76,7 +75,6 @@ export const routes: AppRoute[] = [
   {
     title: titles.myEvents,
     description: 'Visos atrinktos naujienos',
-    iconName: IconName.list,
     icon: <Icon name={IconName.list} />,
     loggedIn: true,
     component: <MyEvents />,
@@ -84,7 +82,6 @@ export const routes: AppRoute[] = [
   },
   {
     title: titles.allEvents,
-    iconName: IconName.fourSquares,
     icon: <Icon name={IconName.fourSquares} />,
     component: <Events />,
     slug: slugs.events,
@@ -93,7 +90,6 @@ export const routes: AppRoute[] = [
   {
     component: <About />,
     title: titles.about,
-    iconName: IconName.book,
     icon: <Icon name={IconName.book} />,
     slug: slugs.about,
   },
@@ -101,7 +97,6 @@ export const routes: AppRoute[] = [
     component: <Profile />,
     title: titles.profile,
     loggedIn: true,
-    iconName: IconName.profile,
     icon: <Icon name={IconName.profile} />,
     slug: slugs.profile,
   },
