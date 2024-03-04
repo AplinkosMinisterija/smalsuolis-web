@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles';
-import { ButtonColors } from '../../utils';
+import { ButtonColors, ChildrenType } from '../../utils';
 import Loader from '../other/Loader';
 
 const buttonColors = {
@@ -26,7 +26,7 @@ const buttonTextColors = {
 export interface ButtonProps {
   variant?: ButtonColors;
   route?: string;
-  children?: JSX.Element | string;
+  children?: ChildrenType;
   leftIcon?: JSX.Element | string;
   rightIcon?: JSX.Element | string;
   height?: number;
@@ -56,7 +56,7 @@ const Button = ({
   loading = false,
   className,
   disabled = false,
-  fontWeight = '600',
+  fontWeight = '500',
   ...rest
 }: ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (

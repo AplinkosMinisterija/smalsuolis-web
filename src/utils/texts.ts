@@ -39,7 +39,7 @@ export const inputLabels = {
 export const buttonLabels = {
   login: 'Prisijungti',
   logout: 'Atsijungti',
-  website: 'Tinklalapis',
+  visitWebsite: 'Aplankykite svetainę',
 };
 
 export const titles = {

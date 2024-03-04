@@ -67,11 +67,7 @@ const EventsContainer = ({
           return (
             <React.Fragment key={pageIndex}>
               {page.data.map((event: Event) => (
-                <EventCard
-                  key={event.id}
-                  event={event}
-                  onClick={() => navigate(slugs.event(event?.id))}
-                />
+                <EventCard key={event.id} event={event} />
               ))}
             </React.Fragment>
           );

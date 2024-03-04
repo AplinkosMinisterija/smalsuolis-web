@@ -1,21 +1,19 @@
 import Div100vh from 'react-div-100vh';
 import styled from 'styled-components';
 import { device } from '../../styles';
-import { useGetCurrentRoute, useWindowSize } from '../../utils';
-import BackHeader from '../headers/BackHeader';
+import { useWindowSize } from '../../utils';
 import LogoHeader from '../headers/LogoHeader';
 import SideBar from '../other/SideBar';
 
 const DefaultLayout = ({ children, onScroll = () => {} }: any) => {
   const isMobile = useWindowSize(device.mobileL);
-  const currentRoute = useGetCurrentRoute();
 
   return (
     <Container>
       {!isMobile && <SideBar />}
       <ScrollableContainer onScroll={onScroll}>
         <InnerContainer>
-          {currentRoute?.back ? <BackHeader /> : <LogoHeader />}
+          <LogoHeader />
           {children}
         </InnerContainer>
       </ScrollableContainer>

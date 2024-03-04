@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { device } from '../../styles';
 import { useGetCurrentRoute } from '../../utils';
+import BackButton from '../buttons/BackButton';
 
 const ContentLayout = ({ children, title, customSubTitle, customTitle }: any) => {
   const currentRoute = useGetCurrentRoute();
@@ -9,10 +10,13 @@ const ContentLayout = ({ children, title, customSubTitle, customTitle }: any) =>
 
   return (
     <Container>
-      {customTitle || (pageTitle && <Title>{pageTitle}</Title>)}
-      {customSubTitle ||
-        (currentRoute?.description && <SubTitle>{currentRoute?.description}</SubTitle>)}
-      {children}
+      {currentRoute?.backUrl && <BackButton backUrl={currentRoute?.backUrl} />}
+      <InnerContainer>
+        {customTitle || (pageTitle && <Title>{pageTitle}</Title>)}
+        {customSubTitle ||
+          (currentRoute?.description && <SubTitle>{currentRoute?.description}</SubTitle>)}
+        {children}
+      </InnerContainer>
     </Container>
   );
 };
@@ -26,6 +30,18 @@ const SubTitle = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  min-height: 100%;
+  padding: 0 12px;
+  @media ${device.desktop} {
+    max-width: 700px;
+  }
+`;
+
+const InnerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   min-height: 100%;
   align-self: center;
@@ -33,7 +49,6 @@ const Container = styled.div`
   padding: 0 12px;
   background-color: white;
   @media ${device.desktop} {
-    max-width: 700px;
     border-radius: 16px;
     margin: 0 auto;
     padding: 40px;
