@@ -16,7 +16,7 @@ function App() {
 
   if (isLoading) return <LoaderComponent />;
 
-  // const routes = filterRoutes(loggedIn);
+  const routes = filterRoutes(loggedIn);
 
   const mainPage = loggedIn
     ? subscriptionsCount > 0
@@ -39,7 +39,7 @@ function App() {
     >
       <Routes>
         <Route>
-          {filterRoutes(loggedIn).map((route, index) => (
+          {routes.map((route, index) => (
             <Route key={`route-${index}`} path={route.slug} element={route.component} />
           ))}
         </Route>
