@@ -166,7 +166,7 @@ const Subscriptions = (props: any) => {
         subTitle="Šio veiksmo nebus galima atšaukti ar redaguoti"
       >
         <PopupActions>
-          <PopupButton variant={Button.colors.SECONDARY} onClick={() => setShowDelete(true)}>
+          <PopupButton variant={Button.colors.SECONDARY} onClick={() => setShowDelete(false)}>
             Atšaukti
           </PopupButton>
           <PopupButton

@@ -18,7 +18,6 @@ const PageActions = ({
         <StyledIcon name={IconName.back} />
         <ActionLabel>Grįžti atgal</ActionLabel>
       </Action>
-
       {action ? (
         <Action $destructive={action.destructive} onClick={action.onClick}>
           <StyledIcon name={action.icon} />
@@ -35,6 +34,7 @@ const ActionsContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-top: 20px;
 `;
 
 const Action = styled.div<{ $destructive?: boolean }>`
@@ -44,7 +44,7 @@ const Action = styled.div<{ $destructive?: boolean }>`
   align-items: center;
   cursor: pointer;
   display: flex;
-  padding: 20px 0 8px 0;
+  height: 30px;
   margin-left: ${({ $destructive }) => ($destructive ? 'auto' : 0)};
 `;
 
