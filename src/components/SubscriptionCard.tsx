@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { App, Frequency, getIconUrl, Subscription } from '../utils';
 import Tag from './Tag';
-import { CheckBox, Switch } from 'design-system';
+import { CheckBox, Switch } from '@aplinkosministerija/design-system';
 
 const frequencyLabels = {
   [Frequency.DAY]: 'kasdieninė',

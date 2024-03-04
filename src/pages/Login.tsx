@@ -3,7 +3,13 @@ import { useFormik } from 'formik';
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button, CheckBox, ContentLayout, PasswordField, TextField } from 'design-system';
+import {
+  Button,
+  CheckBox,
+  ContentLayout,
+  PasswordField,
+  TextField,
+} from '@aplinkosministerija/design-system';
 import { UserContext, UserContextType } from '../components/UserProvider';
 import { useGetCurrentRoute, useLogin } from '../utils/hooks';
 import { slugs } from '../utils/routes';

@@ -1,8 +1,8 @@
-import { ContentLayout, TextField } from 'design-system';
+import { ContentLayout, TextField } from '@aplinkosministerija/design-system';
 import { buttonsTitles, inputLabels, PasswordForm, useGetCurrentRoute, User } from '../utils';
 import PasswordCheckListContainer from './PasswordCheckListContainer';
 import styled from 'styled-components';
-import { Button, PasswordField } from 'design-system';
+import { Button, PasswordField } from '@aplinkosministerija/design-system';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 

@@ -12,7 +12,7 @@ import Subscription from '../pages/Subscription';
 import Subscriptions from '../pages/Subscriptions';
 import { IconName } from './constants';
 import { titles } from './texts';
-import { AppRoute } from 'design-system';
+import { AppRoute } from '@aplinkosministerija/design-system';
 import Icon from '../components/Icons';
 
 export const slugs = {

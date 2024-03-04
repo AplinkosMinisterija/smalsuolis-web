@@ -10,6 +10,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@aplinkosministerija/design-system": "^0.0.2",
     "@tanstack/react-query": "^5.20.5",
     "@tanstack/react-query-devtools": "^5.20.5",
     "@types/react": "^18.0.33",
@@ -20,7 +21,6 @@
     "axios": "^1.3.5",
     "date-fns": "^2.29.3",
     "date-fns-tz": "^2.0.0",
-    "design-system": "github:AplinkosMinisterija/design-system",
     "eslint-plugin-react-hooks": "^4.6.0",
     "formik": "^2.4.5",
     "leaflet": "^1.9.4",

@@ -5,7 +5,7 @@ import { device } from '../styles';
 import { IconName, isEmpty, useGetCurrentRoute, useInfinityLoad } from '../utils';
 import { slugs } from '../utils/routes';
 import { Event } from '../utils/types';
-import { ContentLayout, Tabs } from 'design-system';
+import { ContentLayout, Tabs } from '@aplinkosministerija/design-system';
 import EmptyState from './EmptyState';
 import EventCard from './EventCard';
 import LoaderComponent from './LoaderComponent';

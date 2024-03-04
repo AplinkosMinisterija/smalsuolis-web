@@ -11,7 +11,7 @@ import {
   useGetCurrentRoute,
   validateSubscriptionForm,
 } from '../utils';
-import { Button, Switch, MapField, ContentLayout } from 'design-system';
+import { Button, Switch, MapField, ContentLayout } from '@aplinkosministerija/design-system';
 import { Form, Formik } from 'formik';
 import LoaderComponent from '../components/LoaderComponent';
 import Apps from '../components/Apps';

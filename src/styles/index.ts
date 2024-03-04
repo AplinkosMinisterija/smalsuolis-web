@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { Theme } from 'design-system';
+import { Theme } from '@aplinkosministerija/design-system';
 
 export const theme: Theme<{
   powder: string;

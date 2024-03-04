@@ -8,7 +8,7 @@ import Tag from '../components/Tag';
 import { buttonLabels, IconName, useGetCurrentRoute } from '../utils';
 import api from '../utils/api';
 import { getIconUrl, getTimeLabel } from '../utils/functions';
-import { ContentLayout } from 'design-system';
+import { ContentLayout } from '@aplinkosministerija/design-system';
 
 const Event = () => {
   const { id = '' } = useParams();

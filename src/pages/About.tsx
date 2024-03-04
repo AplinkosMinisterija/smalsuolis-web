@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { device } from '../styles';
 import { buttonsTitles, descriptions, slugs, subtitle, titles, useGetCurrentRoute } from '../utils';
-import { ContentLayout } from 'design-system';
+import { ContentLayout } from '@aplinkosministerija/design-system';
 const imageUrls = ['/about1.jpeg', '/about2.jpeg', '/about3.webp'];
 
 const About = () => {

@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import { useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
-import { Button, ContentLayout, TextField } from 'design-system';
+import { Button, ContentLayout, TextField } from '@aplinkosministerija/design-system';
 import api from '../utils/api';
 import { getErrorMessage } from '../utils/functions';
 import { buttonsTitles, descriptions, inputLabels, validationTexts } from '../utils/texts';

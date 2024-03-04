@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import { DefaultLayout } from 'design-system';
+import { DefaultLayout } from '@aplinkosministerija/design-system';
 import LoaderComponent from './components/LoaderComponent';
 import { UserContext, UserContextType } from './components/UserProvider';
 import { filterMenuRoutes, filterRoutes, IconName, useGetCurrentRoute, useLogout } from './utils';

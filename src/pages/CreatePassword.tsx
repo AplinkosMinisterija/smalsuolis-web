@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { Button, ContentLayout } from 'design-system';
+import { Button, ContentLayout } from '@aplinkosministerija/design-system';
 import LoaderComponent from '../components/LoaderComponent';
 import { useGetCurrentRoute, useSetPassword, useVerifyUser } from '../utils/hooks';
 import { slugs } from '../utils/routes';
