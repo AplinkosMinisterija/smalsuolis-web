@@ -47,6 +47,11 @@ interface UpdateOne<T = any> {
   params?: T;
 }
 
+interface DeleteOne {
+  resource?: string;
+  id?: number | string;
+}
+
 interface Create {
   resource: string;
   params?: any;
@@ -122,6 +127,10 @@ class Api {
     return this.errorWrapper(() =>
       this.AuthApiAxios.patch(`/${resource}/${id ? `/${id}` : ''}`, params),
     );
+  };
+
+  delete = async ({ resource, id }: DeleteOne) => {
+    return this.errorWrapper(() => this.AuthApiAxios.delete(`/${resource}/${id ? `/${id}` : ''}`));
   };
 
   post = async ({ resource, id, params, config = {} }: Create) => {
@@ -261,6 +270,13 @@ class Api {
     return this.patch({
       resource: Resources.SUBSCRIPTIONS,
       ...params,
+    });
+  };
+
+  deleteSubscription = async (id: number | string): Promise<any> => {
+    return this.delete({
+      resource: Resources.SUBSCRIPTIONS,
+      id,
     });
   };
 

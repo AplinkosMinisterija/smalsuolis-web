@@ -1,5 +1,5 @@
 import { CgClose } from 'react-icons/cg';
-import { FaAnchor, FaCheck, FaTrash } from 'react-icons/fa';
+import { FaAnchor, FaCheck, FaRegTrashAlt, FaTrash } from 'react-icons/fa';
 import { FaChevronRight } from 'react-icons/fa6';
 import { FiArrowLeft, FiClock, FiDownload, FiMail, FiMenu } from 'react-icons/fi';
 import { HiOutlineUsers } from 'react-icons/hi';
@@ -621,7 +621,7 @@ V12l3,3"
     case IconName.download:
       return <FiDownload className={className} />;
     case IconName.remove:
-      return <FaTrash className={className} />;
+      return <FaRegTrashAlt className={className} />;
 
     case IconName.finishFishing:
       return (

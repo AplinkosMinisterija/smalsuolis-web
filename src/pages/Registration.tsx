@@ -9,8 +9,12 @@ import { getErrorMessage, handleAlert, handleToastSuccess } from '../utils/funct
 import { buttonsTitles, inputLabels, validationTexts } from '../utils/texts';
 import { ReactQueryError } from '../utils/types';
 import { forgotPasswordSchema } from '../utils/validations';
+import PageActions from '../components/PageActions';
+import { useNavigate } from 'react-router-dom';
+import { slugs } from '../utils';
 
 const Registration = () => {
+  const navigate = useNavigate();
   const handleRemindPassword = async (values: { email: string }) => {
     const { email } = values;
     const params = { ...values, email: email.toLocaleLowerCase() };
@@ -69,7 +73,7 @@ const Registration = () => {
   };
 
   return (
-    <ContentLayout>
+    <ContentLayout pageActions={<PageActions onGoBack={() => navigate(slugs.login)} />}>
       {!isSuccess ? (
         <Container noValidate onSubmit={handleSubmit}>
           <FormContainer>

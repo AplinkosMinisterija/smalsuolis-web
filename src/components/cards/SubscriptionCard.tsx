@@ -13,27 +13,16 @@ const frequencyLabels = {
 
 const SubscriptionCard = ({
   subscription,
-  canDelete,
-  deleteChecked,
   onClick,
-  onDelete,
   onActiveChange,
 }: {
   subscription: Subscription<App>;
-  canDelete: boolean;
-  deleteChecked: boolean;
   onClick: () => void;
-  onDelete: (e: boolean) => void;
   onActiveChange: (e: boolean) => void;
 }) => {
   return (
     <Container>
       <InnerContainer>
-        {canDelete && (
-          <CheckboxWrapper>
-            <Checkbox onChange={onDelete} value={deleteChecked} />
-          </CheckboxWrapper>
-        )}
         <Content onClick={onClick}>
           <Name>
             {`${subscription.active ? 'Aktyvi' : 'Neaktyvi'} ${frequencyLabels[subscription.frequency]} prenumerata`}{' '}

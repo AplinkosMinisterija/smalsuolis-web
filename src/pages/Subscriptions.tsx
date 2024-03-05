@@ -15,8 +15,6 @@ const Subscriptions = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const observerRef = useRef<any>(null);
-  const [deleteEnabled, setDeleteEnabled] = useState(false);
-  const [selectedSubscriptions, setSelectedSubscriptions] = useState<number[]>([]);
 
   const { data: subscriptions, isFetching } = useInfinityLoad(
     'subscriptions',
@@ -34,33 +32,6 @@ const Subscriptions = () => {
     onSuccess,
   });
 
-  const { mutateAsync: deleteSubscriptions } = useMutation({
-    mutationFn: (params: number[]) => api.deleteSubscriptions(params),
-    onSuccess,
-  });
-
-  const handleEnableDelete = (enabled: boolean) => {
-    if (!enabled) {
-      setSelectedSubscriptions([]);
-    }
-    setDeleteEnabled(enabled);
-  };
-
-  const updateSelectedSubscriptions = (checked: boolean, id: number) => {
-    let updatedSubscriptions = selectedSubscriptions;
-    if (checked) {
-      updatedSubscriptions = [...selectedSubscriptions, id];
-    } else {
-      updatedSubscriptions = selectedSubscriptions.filter((sub) => sub !== id);
-    }
-    setSelectedSubscriptions(updatedSubscriptions);
-  };
-
-  const handleDeleteSubscriptions = () => {
-    deleteSubscriptions(selectedSubscriptions);
-    setDeleteEnabled(false);
-  };
-
   const handleSubscriptionActive = (id: number, active: boolean) => {
     updateSubscription({ id: id.toString(), params: { active } });
   };
@@ -71,11 +42,6 @@ const Subscriptions = () => {
     <ContentLayout>
       <Container>
         <ButtonsContainer>
-          {emptySubscriptions && (
-            <DeleteSubscriptionButton onClick={() => handleEnableDelete(!deleteEnabled)}>
-              Ištrinti prenumeratą
-            </DeleteSubscriptionButton>
-          )}
           <NewSubscriptionButton onClick={() => navigate(slugs.subscription('nauja'))}>
             Nauja prenumerata
           </NewSubscriptionButton>
@@ -94,10 +60,7 @@ const Subscriptions = () => {
                   {page?.data.map((subscription) => (
                     <SubscriptionCard
                       subscription={subscription}
-                      canDelete={deleteEnabled}
-                      deleteChecked={selectedSubscriptions.includes(subscription.id)}
                       onClick={() => navigate(slugs.subscription(subscription?.id?.toString()))}
-                      onDelete={(e) => updateSelectedSubscriptions(e, subscription.id)}
                       onActiveChange={(e) => handleSubscriptionActive(subscription.id, e)}
                     />
                   ))}
@@ -106,11 +69,6 @@ const Subscriptions = () => {
             })}
             {observerRef && <Invisible ref={observerRef} />}
             {isFetching && <LoaderComponent />}
-            {deleteEnabled && (
-              <Button variant={Button.colors.DANGER} onClick={handleDeleteSubscriptions}>
-                Ištrinti pažymėtas prenumeratas
-              </Button>
-            )}
           </SubscriptionsContainer>
         )}
       </Container>
