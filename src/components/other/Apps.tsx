@@ -1,17 +1,20 @@
 import styled from 'styled-components';
 import { App, getIconUrl } from '../../utils';
 
-const AppItem = ({ id, checked, onChange, app }: any) => {
-  const appIcon = getIconUrl(app.icon);
+const AppItem = ({
+  app,
+  onClick,
+  selected,
+}: {
+  app: App;
+  onClick: () => void;
+  selected: boolean;
+}) => {
   return (
-    <Button>
-      <InputRadio type="checkbox" id={id} checked={checked} onChange={onChange} />
-      <Label htmlFor={id}>
-        <Logo src={appIcon} />
-        <Title>{app.name}</Title>
-        <Description>{app.description || 'Aprašymas'}</Description>
-      </Label>
-    </Button>
+    <AppContainer onClick={onClick} $selected={selected}>
+      <AppIcon src={getIconUrl(app.icon)} $selected={selected} />
+      <Text>{app.name}</Text>
+    </AppContainer>
   );
 };
 
@@ -33,18 +36,19 @@ const Apps = ({
   };
   return (
     <Container>
-      {options.map((option) => (
-        <AppItem
-          key={option.id}
-          id={option.id}
-          checked={value.includes(option.id)}
-          onChange={(e: any) => {
-            const updatedValues = updateValue(option.id, e.target.checked);
-            onChange(updatedValues);
-          }}
-          app={option}
-        />
-      ))}
+      {options.map((option) => {
+        const selected = value.includes(option.id);
+        return (
+          <AppItem
+            app={option}
+            onClick={() => {
+              const updatedValues = updateValue(option.id, !selected);
+              onChange(updatedValues);
+            }}
+            selected={selected}
+          />
+        );
+      })}
     </Container>
   );
 };
@@ -57,8 +61,6 @@ const Container = styled.div`
   gap: 16px;
   margin-top: 16px;
 `;
-
-const Button = styled.div``;
 
 const InputRadio = styled.input`
   z-index: 100;
@@ -100,7 +102,29 @@ const Description = styled.div`
   font-size: 12px;
 `;
 
-const Logo = styled.img`
-  height: 24px;
-  filter: invert(100%) sepia(17%) saturate(5026%) hue-rotate(56deg) brightness(89%) contrast(99%);
+const AppIcon = styled.img<{ $selected: boolean }>`
+  height: 16px;
+  filter: ${({ $selected }) =>
+    $selected
+      ? 'invert(20%) sepia(37%) saturate(900%) hue-rotate(83deg) brightness(94%) contrast(86%)'
+      : 'invert(26%) sepia(13%) saturate(0%) hue-rotate(263deg) brightness(110%) contrast(86%)'};
+`;
+
+const AppContainer = styled.div<{ $selected: boolean }>`
+  background-color: ${({ $selected }) => ($selected ? '#E8F9EC' : 'white')};
+  border: 1px solid ${({ $selected, theme }) => ($selected ? '#73DC8C' : '#D4D5DE')};
+  border-radius: 17px;
+  padding: 4px 12px;
+  display: flex;
+  width: fit-content;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  gap: 6px;
+  cursor: pointer;
+  color: ${({ $selected }) => ($selected ? '#1B4C28' : '#525252')};
+`;
+
+const Text = styled.div`
+  font-size: 1.4rem;
 `;

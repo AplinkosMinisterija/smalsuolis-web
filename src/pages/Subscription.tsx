@@ -119,17 +119,19 @@ const Subscriptions = (props: any) => {
                   </SubscriptionActivation>
                 </SubscriptionFormContainer>
                 <SubscriptionFormContainer>
-                  <SectionLabel>Pasirinkite dominančias sritis</SectionLabel>
-                  <SubscriptionAppsButton
-                    onClick={() =>
-                      setFieldValue(
-                        'apps',
-                        (apps?.rows || []).map((app) => app.id),
-                      )
-                    }
-                  >
-                    Esu smalsus domina viskas
-                  </SubscriptionAppsButton>
+                  <AppsHeadingRow>
+                    <SectionLabel>Pasirinkite dominančias sritis</SectionLabel>
+                    <SelectAllAppsButton
+                      onClick={() =>
+                        setFieldValue(
+                          'apps',
+                          (apps?.rows || []).map((app) => app.id),
+                        )
+                      }
+                    >
+                      Esu smalsus domina viskas
+                    </SelectAllAppsButton>
+                  </AppsHeadingRow>
                   <Apps
                     options={apps?.rows || []}
                     value={values.apps}
@@ -203,13 +205,18 @@ const Subtitle = styled.div`
   font-weight: 500;
 `;
 
+const SubscriptionFormContainer = styled.div`
+  display: block;
+  background: #fafafa;
+  padding: 24px;
+  border-radius: 16px;
+`;
+
 const SubscriptionActivation = styled.div`
   display: grid;
   grid-template-columns: 1fr 48px;
   gap: 8px;
   align-items: center;
-  background: #fafafa;
-  padding: 24px;
   border-radius: 16px;
 `;
 
@@ -224,19 +231,22 @@ const SubscriptionActiveDescription = styled.div`
   grid-column: 1 / span 2;
 `;
 
-const SubscriptionFormContainer = styled.div`
-  display: block;
+const AppsHeadingRow = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
 `;
 
 const SectionLabel = styled.label`
   font-weight: 600;
+  align-self: flex-start;
 `;
 
-const SubscriptionAppsButton = styled.a`
+const SelectAllAppsButton = styled.a`
   color: #1f5c2e;
   text-decoration: underline;
-  float: right;
   cursor: pointer;
+  text-align: end;
 `;
 
 const PopupActions = styled.div`
