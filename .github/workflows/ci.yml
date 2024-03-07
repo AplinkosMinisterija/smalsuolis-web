@@ -16,4 +16,5 @@ jobs:
         uses: AplinkosMinisterija/reusable-workflows/.github/actions/docker-build-tag-push@main
         with:
           environment: test
+          runs-on: biip-workflows
           push: false
