@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import { DefaultLayout } from '@aplinkosministerija/design-system';
+import { DefaultLayout, filterMenuRoutes, filterRoutes } from '@aplinkosministerija/design-system';
 import LoaderComponent from './components/LoaderComponent';
 import { UserContext, UserContextType } from './components/UserProvider';
-import { filterMenuRoutes, filterRoutes, IconName, useGetCurrentRoute, useLogout } from './utils';
-import { slugs } from './utils/routes';
+import { IconName, useGetCurrentRoute, useLogout } from './utils';
+import { slugs, routes } from './utils/routes';
 import Icon from './components/Icons';
 
 function App() {
@@ -16,7 +16,8 @@ function App() {
 
   if (isLoading) return <LoaderComponent />;
 
-  const routes = filterRoutes(loggedIn);
+  const authRoutes = filterRoutes(routes, loggedIn);
+  const menuRoutes = filterMenuRoutes(routes, loggedIn);
 
   const mainPage = loggedIn
     ? subscriptionsCount > 0
@@ -28,7 +29,7 @@ function App() {
     <DefaultLayout
       loggedIn={loggedIn}
       currentRoute={currentRoute}
-      routes={filterMenuRoutes(loggedIn) || []}
+      menuRoutes={menuRoutes || []}
       logo={<Icon name={IconName.sidebarLogo} />}
       loginSlug={slugs.login}
       onGoHome={() => navigate('/')}
@@ -38,7 +39,7 @@ function App() {
     >
       <Routes>
         <Route>
-          {routes.map((route, index) => (
+          {authRoutes.map((route, index) => (
             <Route key={`route-${index}`} path={route.slug} element={route.component} />
           ))}
         </Route>

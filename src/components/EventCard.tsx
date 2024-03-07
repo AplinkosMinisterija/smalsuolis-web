@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components';
-import { buttonLabels, Event, getIconUrl, getTimeLabel, IconName } from '../utils';
-import { Button } from '@aplinkosministerija/design-system';
+import { buttonLabels, Event, getTimeLabel, IconName } from '../utils';
+import { Button, swgToUrl } from '@aplinkosministerija/design-system';
 import Icon from './Icons';
 import PreviewMap from './PreviewMap';
 import Tag from './Tag';
@@ -11,7 +11,7 @@ import { device } from '../styles';
 const EventCard = ({ event }: { event: Event }) => {
   const [open, setOpen] = useState(false);
   const { app } = event;
-  const appIcon = getIconUrl(app.icon);
+  const appIcon = swgToUrl(app.icon);
 
   return (
     <Container onClick={() => setOpen(!open)}>
