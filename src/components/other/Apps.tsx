@@ -56,10 +56,9 @@ const Apps = ({
 export default Apps;
 
 const Container = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 16px;
-  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 `;
 
 const InputRadio = styled.input`

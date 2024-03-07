@@ -41,7 +41,6 @@ export default RadioFrequency;
 const Container = styled.div`
   display: flex;
   gap: 8px;
-  margin-top: 16px;
 `;
 
 const Button = styled.div``;
