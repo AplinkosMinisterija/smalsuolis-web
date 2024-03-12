@@ -73,10 +73,10 @@ const Subscriptions = (props: any) => {
 
   const initialValues: SubscriptionForm = {
     active: typeof subscription?.active === 'boolean' ? subscription?.active : true,
-    apps: futureApps ? allApps : subscription?.apps || allApps || [],
+    apps: subscription?.id ? subscription?.apps : allApps,
     geom: subscription?.geom,
     frequency: subscription?.frequency || Frequency.DAY,
-    futureApps: subscription?.id ? (subscription?.apps || []).length === 0 : false,
+    futureApps: subscription?.id ? (subscription?.apps || []).length === 0 : true,
   };
 
   const handleSubmit = (values: SubscriptionForm) => {
