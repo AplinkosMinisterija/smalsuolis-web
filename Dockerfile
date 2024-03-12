@@ -21,7 +21,6 @@ ARG VITE_SENTRY_DSN=
 ARG NODE_ENV=production
 
 # Set NODE_OPTIONS to increase memory size
-ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 RUN yarn build
 

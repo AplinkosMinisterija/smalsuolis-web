@@ -73,11 +73,7 @@ const Registration = () => {
   };
 
   return (
-    <ContentLayout
-      pageActions={
-        <PageActions onGoBack={() => navigate(slugs.login)} currentRoute={currentRoute} />
-      }
-    >
+    <ContentLayout pageActions={<PageActions onGoBack={() => navigate(slugs.login)} />}>
       {!isSuccess ? (
         <Container noValidate onSubmit={handleSubmit}>
           <FormContainer>

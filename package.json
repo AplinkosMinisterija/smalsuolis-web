@@ -10,7 +10,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@aplinkosministerija/design-system": "^0.0.7",
+    "@aplinkosministerija/design-system": "^0.0.8",
     "@tanstack/react-query": "^5.20.5",
     "@tanstack/react-query-devtools": "^5.20.5",
     "@types/react": "^18.0.33",
