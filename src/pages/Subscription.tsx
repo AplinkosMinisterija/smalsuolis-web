@@ -22,7 +22,6 @@ import MapField from '../components/fields/MapField';
 import PageActions from '../components/PageActions';
 import Popup from '../components/Popup';
 import { device } from '../styles';
-import app from '../App';
 
 const Subscriptions = (props: any) => {
   const queryClient = useQueryClient();
@@ -33,6 +32,8 @@ const Subscriptions = (props: any) => {
     queryKey: ['subscription', id],
     queryFn: () => (id && !isNaN(Number(id)) ? api.getSubscription({ id }) : undefined),
   });
+  const futureApps = subscription?.id && subscription?.apps?.length === 0;
+
   const { data: appsResponse, isLoading: appsLoading } = useQuery({
     queryKey: ['apps'],
     queryFn: () => api.getApps({ page: 1 }),
@@ -70,17 +71,22 @@ const Subscriptions = (props: any) => {
 
   const initialValues: SubscriptionForm = {
     active: typeof subscription?.active === 'boolean' ? subscription?.active : true,
-    apps: subscription?.apps || [],
+    apps: futureApps ? apps.map((app) => app.id) : subscription?.apps || [],
     geom: subscription?.geom,
     frequency: subscription?.frequency || Frequency.DAY,
-    futureApps: subscription?.futureApps || false,
+    futureApps: subscription?.id ? (subscription?.apps || []).length === 0 : false,
   };
 
   const handleSubmit = (values: SubscriptionForm) => {
-    if (subscription?.id) {
-      return updateSubscription({ id: subscription?.id?.toString(), params: values });
+    const params: SubscriptionForm = { ...values };
+    if (values.futureApps) {
+      params.apps = [];
     }
-    return createSubscription(values);
+    delete params.futureApps;
+    if (subscription?.id) {
+      return updateSubscription({ id: subscription?.id?.toString(), params });
+    }
+    return createSubscription(params);
   };
 
   return (

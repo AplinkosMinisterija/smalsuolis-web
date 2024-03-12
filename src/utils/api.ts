@@ -1,7 +1,7 @@
 import Axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 import Cookies from 'universal-cookie';
-import { App, Event, Subscription, SubscriptionForm } from './types';
+import { App, Event, Subscription, SubscriptionPayload } from './types';
 const cookies = new Cookies();
 
 interface Delete {
@@ -257,7 +257,7 @@ class Api {
     });
   };
 
-  createSubscription = async (params: SubscriptionForm): Promise<Subscription> => {
+  createSubscription = async (params: SubscriptionPayload): Promise<Subscription> => {
     return this.post({
       resource: Resources.SUBSCRIPTIONS,
       params,
@@ -265,7 +265,7 @@ class Api {
   };
 
   updateSubscription = async (
-    params: UpdateOne<Partial<SubscriptionForm>>,
+    params: UpdateOne<Partial<SubscriptionPayload>>,
   ): Promise<Subscription> => {
     return this.patch({
       resource: Resources.SUBSCRIPTIONS,

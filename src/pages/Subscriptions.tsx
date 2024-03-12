@@ -8,7 +8,7 @@ import { device } from '../styles';
 import { useNavigate } from 'react-router';
 import SubscriptionCard from '../components/cards/SubscriptionCard';
 import Button from '../components/buttons/Button';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import EmptyState from '../components/other/EmptyState';
 
 const Subscriptions = () => {
@@ -21,6 +21,11 @@ const Subscriptions = () => {
     api.getSubscriptions,
     observerRef,
   );
+
+  const { data: appsResponse, isLoading: appsLoading } = useQuery({
+    queryKey: ['apps'],
+    queryFn: () => api.getApps({ page: 1 }),
+  });
 
   const onSuccess = () => {
     queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
@@ -57,13 +62,19 @@ const Subscriptions = () => {
             {subscriptions?.pages.map((page: { data: Subscription<App>[] }, pageIndex: number) => {
               return (
                 <React.Fragment key={pageIndex}>
-                  {page?.data.map((subscription) => (
-                    <SubscriptionCard
-                      subscription={subscription}
-                      onClick={() => navigate(slugs.subscription(subscription?.id?.toString()))}
-                      onActiveChange={(e) => handleSubscriptionActive(subscription.id, e)}
-                    />
-                  ))}
+                  {page?.data.map((subscription) => {
+                    const sub: Subscription<App> = { ...subscription };
+                    if (sub.apps.length === 0) {
+                      sub.apps = appsResponse?.rows || [];
+                    }
+                    return (
+                      <SubscriptionCard
+                        subscription={sub}
+                        onClick={() => navigate(slugs.subscription(subscription?.id?.toString()))}
+                        onActiveChange={(e) => handleSubscriptionActive(subscription.id, e)}
+                      />
+                    );
+                  })}
                 </React.Fragment>
               );
             })}

@@ -19,10 +19,16 @@ export interface Subscription<T = number> {
   geom: any;
   frequency: Frequency;
   active: boolean;
-  futureApps: boolean;
 }
 
 export type SubscriptionForm = Omit<Subscription, 'id' | 'geom' | 'user'> & {
+  id?: number;
+  geom?: any;
+  user?: number;
+  futureApps?: boolean;
+};
+
+export type SubscriptionPayload = Omit<Subscription, 'id' | 'geom' | 'user'> & {
   id?: number;
   geom?: any;
   user?: number;
