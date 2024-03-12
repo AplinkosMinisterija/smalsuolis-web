@@ -20,8 +20,6 @@ ARG VITE_VERSION=${VERSION}
 ARG VITE_SENTRY_DSN=
 ARG NODE_ENV=production
 
-# Set NODE_OPTIONS to increase memory size
-
 RUN yarn build
 
 # Caddy stage
