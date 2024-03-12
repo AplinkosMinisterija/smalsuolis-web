@@ -32,7 +32,6 @@ const Subscriptions = (props: any) => {
     queryKey: ['subscription', id],
     queryFn: () => (id && !isNaN(Number(id)) ? api.getSubscription({ id }) : undefined),
   });
-  const futureApps = subscription?.id && subscription?.apps?.length === 0;
 
   const { data: appsResponse, isLoading: appsLoading } = useQuery({
     queryKey: ['apps'],
@@ -73,7 +72,7 @@ const Subscriptions = (props: any) => {
 
   const initialValues: SubscriptionForm = {
     active: typeof subscription?.active === 'boolean' ? subscription?.active : true,
-    apps: subscription?.id ? subscription?.apps : allApps,
+    apps: subscription?.apps?.length === 0 || !subscription?.id ? allApps : subscription?.apps,
     geom: subscription?.geom,
     frequency: subscription?.frequency || Frequency.DAY,
     futureApps: subscription?.id ? (subscription?.apps || []).length === 0 : true,

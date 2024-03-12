@@ -62,15 +62,12 @@ const Subscriptions = () => {
               return (
                 <React.Fragment key={pageIndex}>
                   {page?.data.map((subscription) => {
-                    const sub: Subscription<App> = { ...subscription };
-                    if (sub.apps.length === 0) {
-                      sub.apps = appsResponse?.rows || [];
-                    }
                     return (
                       <SubscriptionCard
-                        subscription={sub}
+                        subscription={subscription}
                         onClick={() => navigate(slugs.subscription(subscription?.id?.toString()))}
                         onActiveChange={(e) => handleSubscriptionActive(subscription.id, e)}
+                        apps={appsResponse?.rows}
                       />
                     );
                   })}
@@ -92,7 +89,7 @@ const Container = styled.div`
   display: flex;
   overflow-y: auto;
   flex-direction: column;
-  padding: 32px;
+  padding: 32px 0;
   width: 100%;
 
   @media ${device.mobileL} {

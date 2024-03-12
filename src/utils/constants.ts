@@ -58,6 +58,7 @@ export enum IconName {
   exitFullScreen = 'exitFullScreen',
   list = 'list',
   openInNew = 'openInNew',
+  search = 'search',
 }
 export enum ServerErrorCodes {
   NOT_FOUND = '404',

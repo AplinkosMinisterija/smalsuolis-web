@@ -1,44 +1,55 @@
 import styled from 'styled-components';
-import { App, Frequency, getIconUrl, Subscription, subscriptionFrequencyTitles } from '../../utils';
-import Tag from '../other/Tag';
-import Checkbox from '../buttons/Checkbox';
-import optionsContainer from '../fields/components/OptionsContainer';
+import { App, Frequency, getIconUrl, IconName, Subscription } from '../../utils';
 import Switch from '../buttons/Switch';
+import Icon from '../other/Icons';
+import AppItem from '../other/AppsItem';
 
 const frequencyLabels = {
-  [Frequency.DAY]: 'kasdieninė',
-  [Frequency.WEEK]: 'savaitinė',
-  [Frequency.MONTH]: 'mėnesinė',
+  [Frequency.DAY]: 'Naujienos kasdien',
+  [Frequency.WEEK]: 'Naujienos kas savaitę',
+  [Frequency.MONTH]: 'Naujienos kas mėnesį',
 };
 
 const SubscriptionCard = ({
   subscription,
   onClick,
   onActiveChange,
+  apps = [],
 }: {
   subscription: Subscription<App>;
   onClick: () => void;
   onActiveChange: (e: boolean) => void;
+  apps?: App[];
 }) => {
+  const futureApps = subscription.apps.length === 0;
+  const allApps = !futureApps && subscription.apps.length === apps?.length;
+  const showApps = !futureApps && !allApps;
+
   return (
     <Container>
       <InnerContainer>
         <Content onClick={onClick}>
-          <Name>
-            {`${subscription.active ? 'Aktyvi' : 'Neaktyvi'} ${frequencyLabels[subscription.frequency]} prenumerata`}{' '}
-          </Name>
+          <Name>{`${frequencyLabels[subscription.frequency]}`} </Name>
           <AppsContainer>
-            {subscription.apps?.map((app) => {
-              const appIcon = getIconUrl(app.icon);
-              return (
-                <Tag
-                  icon={<AppIcon src={appIcon} />}
-                  text={app.name}
-                  color={'#101010'}
-                  backgroundColor={'#f7f7f7'}
-                />
-              );
-            })}
+            {futureApps && (
+              <AppItem
+                icon={<Icon name={IconName.search} />}
+                text={'Automatinis naujų sričių pridėjimas'}
+                selected={true}
+              />
+            )}
+            {allApps && (
+              <AppItem
+                icon={<Icon name={IconName.search} />}
+                text={'Esu smalsus domina viskas'}
+                selected={true}
+              />
+            )}
+            {showApps &&
+              subscription.apps?.map((app) => {
+                const appIcon = getIconUrl(app.icon);
+                return <AppItem app={app} selected={true} />;
+              })}
           </AppsContainer>
         </Content>
         <SwitchWrapper>
@@ -56,29 +67,18 @@ const Container = styled.div`
   cursor: pointer;
 `;
 
-const AppIcon = styled.img`
-  height: 16px;
-  margin-right: 4px;
-`;
-
 const InnerContainer = styled.div`
   display: flex;
   box-sizing: border-box;
-  padding: 12px;
+  padding: 16px;
   border-radius: 8px;
-  background-color: #fff;
-  border: 1px solid #d4ddde;
-  box-shadow: 0px 8px 16px #00465014;
+  background: ${({ theme }) => theme.colors.largeButton.GREY};
   align-items: center;
 `;
 
 const SwitchWrapper = styled.div`
   padding: 0 8px;
   align-self: flex-start;
-`;
-
-const CheckboxWrapper = styled.div`
-  padding: 0 8px;
 `;
 
 const Content = styled.div`
@@ -89,7 +89,7 @@ const Content = styled.div`
 `;
 
 const Name = styled.div`
-  font-size: 1.7rem;
+  font-size: 2rem;
   font-weight: bold;
 `;
 
