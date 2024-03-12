@@ -69,9 +69,11 @@ const Subscriptions = (props: any) => {
     return <LoaderComponent />;
   }
 
+  const allApps = apps.map((app) => app.id);
+
   const initialValues: SubscriptionForm = {
     active: typeof subscription?.active === 'boolean' ? subscription?.active : true,
-    apps: futureApps ? apps.map((app) => app.id) : subscription?.apps || [],
+    apps: futureApps ? allApps : subscription?.apps || allApps || [],
     geom: subscription?.geom,
     frequency: subscription?.frequency || Frequency.DAY,
     futureApps: subscription?.id ? (subscription?.apps || []).length === 0 : false,
@@ -117,7 +119,7 @@ const Subscriptions = (props: any) => {
           validateOnChange={false}
           validationSchema={validateSubscriptionForm}
         >
-          {({ values, setFieldValue }) => {
+          {({ values, setFieldValue, errors }) => {
             return (
               <Container>
                 <Section>
@@ -176,13 +178,12 @@ const Subscriptions = (props: any) => {
                     </Description>
                   </FutureAppsContainer>
                 </Section>
-                <Section>
-                  <Label>Padėkite tašką, kur norite stebėti ir nustatykite spindulį</Label>
-                  <MapField
-                    value={values.geom}
-                    onChange={(value) => setFieldValue('geom', value)}
-                  />
-                </Section>
+                <MapField
+                  value={values.geom}
+                  label={'Padėkite tašką, kur norite stebėti ir nustatykite spindulį'}
+                  error={errors?.geom as string}
+                  onChange={(value) => setFieldValue('geom', value)}
+                />
                 <Section>
                   <Label>Kokiu dažnumu jums siųsti informaciją</Label>
                   <RadioFrequency
