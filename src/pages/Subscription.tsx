@@ -23,7 +23,7 @@ import PageActions from '../components/PageActions';
 import Popup from '../components/Popup';
 import { device } from '../styles';
 
-const Subscriptions = (props: any) => {
+const Subscriptions = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { id } = useParams();
