@@ -43,7 +43,7 @@ interface GetOne {
 }
 interface UpdateOne<T = any> {
   resource?: string;
-  id?: string;
+  id?: number | string;
   params?: T;
 }
 
@@ -264,12 +264,17 @@ class Api {
     });
   };
 
-  updateSubscription = async (
-    params: UpdateOne<Partial<SubscriptionPayload>>,
-  ): Promise<Subscription> => {
+  updateSubscription = async ({
+    id,
+    params,
+  }: {
+    id: number | string;
+    params: SubscriptionPayload;
+  }): Promise<Subscription> => {
     return this.patch({
       resource: Resources.SUBSCRIPTIONS,
-      ...params,
+      id,
+      params,
     });
   };
 

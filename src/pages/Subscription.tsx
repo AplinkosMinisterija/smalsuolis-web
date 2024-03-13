@@ -85,7 +85,7 @@ const Subscriptions = (props: any) => {
     }
     delete params.futureApps;
     if (subscription?.id) {
-      return updateSubscription({ id: subscription?.id?.toString(), params });
+      return updateSubscription({ id: subscription?.id, params });
     }
     return createSubscription(params);
   };

@@ -29,7 +29,7 @@ export type SubscriptionForm = Omit<Subscription, 'id' | 'geom' | 'user'> & {
 };
 
 export type SubscriptionPayload = Omit<Subscription, 'id' | 'geom' | 'user'> & {
-  id?: number;
+  id?: number | string;
   geom?: any;
   user?: number;
 };
