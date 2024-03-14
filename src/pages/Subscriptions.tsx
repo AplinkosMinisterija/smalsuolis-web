@@ -37,7 +37,7 @@ const Subscriptions = () => {
   });
 
   const handleSubscriptionActive = (id: number, active: boolean) => {
-    updateSubscription({ id: id.toString(), params: { active } });
+    updateSubscription({ id, params: { active } });
   };
 
   const emptySubscriptions = !!subscriptions?.pages[0]?.data?.length;
@@ -66,7 +66,9 @@ const Subscriptions = () => {
                       <SubscriptionCard
                         subscription={subscription}
                         onClick={() => navigate(slugs.subscription(subscription?.id?.toString()))}
-                        onActiveChange={(e) => handleSubscriptionActive(subscription.id, e)}
+                        onActiveChange={(e) =>
+                          subscription?.id ? handleSubscriptionActive(subscription.id, e) : {}
+                        }
                         apps={appsResponse?.rows}
                       />
                     );

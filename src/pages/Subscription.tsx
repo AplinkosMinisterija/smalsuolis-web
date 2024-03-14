@@ -70,9 +70,12 @@ const Subscriptions = () => {
 
   const allApps = apps.map((app) => app.id);
 
+  const noSubscription = !subscription?.id;
+  const futureApps = subscription?.apps && subscription.apps?.length === 0;
+
   const initialValues: SubscriptionForm = {
     active: typeof subscription?.active === 'boolean' ? subscription?.active : true,
-    apps: subscription?.apps?.length === 0 || !subscription?.id ? allApps : subscription?.apps,
+    apps: noSubscription || futureApps ? allApps : subscription?.apps || [],
     geom: subscription?.geom,
     frequency: subscription?.frequency || Frequency.DAY,
     futureApps: subscription?.id ? (subscription?.apps || []).length === 0 : true,
@@ -83,7 +86,6 @@ const Subscriptions = () => {
     if (values.futureApps) {
       params.apps = [];
     }
-    delete params.futureApps;
     if (subscription?.id) {
       return updateSubscription({ id: subscription?.id, params });
     }
