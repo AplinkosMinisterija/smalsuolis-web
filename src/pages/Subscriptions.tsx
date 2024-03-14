@@ -1,16 +1,18 @@
-import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
-import { App, IconName, slugs, Subscription, useInfinityLoad } from '../utils';
-import React, { useRef, useState } from 'react';
+import { App, IconName, slugs, Subscription, useGetCurrentRoute, useInfinityLoad } from '../utils';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
-import LoaderComponent from '../components/other/LoaderComponent';
+import LoaderComponent from '../components/LoaderComponent';
 import { device } from '../styles';
 import { useNavigate } from 'react-router';
-import SubscriptionCard from '../components/cards/SubscriptionCard';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import EmptyState from '../components/other/EmptyState';
+import { useQuery } from '@tanstack/react-query';
+import { ContentLayout } from '@aplinkosministerija/design-system';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import EmptyState from '../components/EmptyState';
+import SubscriptionCard from '../components/SubscriptionCard';
 
 const Subscriptions = () => {
+  const currentRoute = useGetCurrentRoute();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const observerRef = useRef<any>(null);
@@ -43,7 +45,7 @@ const Subscriptions = () => {
   const emptySubscriptions = !!subscriptions?.pages[0]?.data?.length;
 
   return (
-    <ContentLayout>
+    <ContentLayout currentRoute={currentRoute}>
       <Container>
         <ButtonsContainer>
           <NewSubscriptionButton onClick={() => navigate(slugs.subscription('nauja'))}>
@@ -137,7 +139,7 @@ const NewSubscriptionButton = styled.a`
 `;
 
 const DeleteSubscriptionButton = styled.a`
-  color: ${({ theme }) => theme.colors.error};
+  color: ${({ theme }) => theme.colors.danger};
   text-decoration: underline;
   float: right;
   cursor: pointer;

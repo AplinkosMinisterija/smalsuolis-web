@@ -65,12 +65,6 @@ export enum ServerErrorCodes {
   NO_PERMISSION = '401',
 }
 
-export enum Size {
-  SMALL = 'SMALL',
-  MEDIUM = 'MEDIUM',
-  LARGE = 'LARGE',
-}
-
 export enum EventStatusTypes {
   UPCOMING = 'UPCOMING',
   FINISHED = 'FINISHED',
@@ -90,16 +84,6 @@ export enum AppType {
   INFO_CONSTRUCTION = 'infostatyba',
   FISH_STOCKING = 'zuvinimas',
 }
-
-export const appKeyToIconName = {
-  [AppType.INFO_CONSTRUCTION]: IconName.home,
-  [AppType.FISH_STOCKING]: IconName.fish,
-};
-
-export const appKeyToName = {
-  [AppType.INFO_CONSTRUCTION]: 'Statybos leidimas',
-  [AppType.FISH_STOCKING]: 'Planuojamas Žuvinimas',
-};
 
 export enum Frequency {
   DAY = 'DAY',

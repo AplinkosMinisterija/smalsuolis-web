@@ -21,7 +21,7 @@ import {
   MdUnfoldMore,
 } from 'react-icons/md';
 import { PiArrowBendDownLeftBold } from 'react-icons/pi';
-import { IconName } from '../../utils';
+import { IconName } from '../utils';
 
 export interface IconProps {
   name: IconName | string;

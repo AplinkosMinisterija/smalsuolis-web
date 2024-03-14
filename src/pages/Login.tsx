@@ -3,20 +3,21 @@ import { useFormik } from 'formik';
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from '../components/buttons/Button';
-import CheckBox from '../components/buttons/Checkbox';
-import PasswordField from '../components/fields/PasswordField';
-import TextField from '../components/fields/TextField';
-import ContentLayout from '../components/layouts/ContentLayout';
+import {
+  Button,
+  CheckBox,
+  ContentLayout,
+  PasswordField,
+  TextField,
+} from '@aplinkosministerija/design-system';
 import { UserContext, UserContextType } from '../components/UserProvider';
-import { handleAlert } from '../utils';
-import { useLogin } from '../utils/hooks';
+import { useGetCurrentRoute, useLogin } from '../utils/hooks';
 import { slugs } from '../utils/routes';
 import { buttonsTitles, inputLabels, titles, validationTexts } from '../utils/texts';
 import { loginSchema } from '../utils/validations';
 const Login = () => {
   const env: any = import.meta.env;
-
+  const currentRoute = useGetCurrentRoute();
   const navigate = useNavigate();
 
   const { isLoading: userLoading } = useContext<UserContextType>(UserContext);
@@ -54,7 +55,7 @@ const Login = () => {
   };
 
   return (
-    <ContentLayout>
+    <ContentLayout currentRoute={currentRoute}>
       <Container noValidate onSubmit={handleSubmit}>
         <TextField
           value={values.email}
@@ -79,7 +80,7 @@ const Login = () => {
         {invalidLoginData && <Error>{validationTexts.invalidUserNameOrPassword}</Error>}
         <Row>
           <StyledSingleCheckbox
-            onChange={(value) => handleType('refresh', value)}
+            onChange={(value: any) => handleType('refresh', value)}
             value={values.refresh}
             label={inputLabels.rememberMe}
           />

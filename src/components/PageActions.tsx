@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import { IconName, useWindowSize } from '../utils';
 import React from 'react';
-import Icon from './other/Icons';
-import { device } from '../styles';
-import { useNavigate } from 'react-router-dom';
+import Icon from './Icons';
 
 const PageActions = ({
   onGoBack,
@@ -38,7 +36,7 @@ const ActionsContainer = styled.div`
 `;
 
 const Action = styled.div<{ $destructive?: boolean }>`
-  color: ${({ theme, $destructive }) => ($destructive ? theme.colors.error : '#1f5c2e')};
+  color: ${({ theme, $destructive }) => ($destructive ? theme.colors.danger : '#1f5c2e')};
   font-size: 1.6rem;
   font-weight: 500;
   align-items: center;

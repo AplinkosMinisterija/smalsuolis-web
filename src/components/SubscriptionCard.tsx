@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { App, Frequency, getIconUrl, IconName, Subscription } from '../../utils';
-import Switch from '../buttons/Switch';
-import Icon from '../other/Icons';
-import AppItem from '../other/AppsItem';
+import { svgToUrl, Switch } from '@aplinkosministerija/design-system';
+import AppItem from './AppsItem';
+import Icon from './Icons';
+import { App, Frequency, IconName, Subscription } from '../utils';
 
 const frequencyLabels = {
   [Frequency.DAY]: 'Naujienos kasdien',
@@ -21,15 +21,17 @@ const SubscriptionCard = ({
   onActiveChange: (e: boolean) => void;
   apps?: App[];
 }) => {
-  const futureApps = subscription.apps.length === 0;
-  const allApps = !futureApps && subscription.apps.length === apps?.length;
+  const futureApps = subscription?.apps?.length === 0;
+  const allApps = !futureApps && subscription?.apps?.length === apps?.length;
   const showApps = !futureApps && !allApps;
 
   return (
     <Container>
       <InnerContainer>
         <Content onClick={onClick}>
-          <Name>{`${frequencyLabels[subscription.frequency]}`} </Name>
+          <Name>
+            {`${subscription?.frequency ? frequencyLabels[subscription?.frequency] : ''}`}{' '}
+          </Name>
           <AppsContainer>
             {futureApps && (
               <AppItem
@@ -46,9 +48,9 @@ const SubscriptionCard = ({
               />
             )}
             {showApps &&
-              subscription.apps?.map((app) => {
-                const appIcon = getIconUrl(app.icon);
-                return <AppItem app={app} selected={true} />;
+              subscription.apps?.map((app: App) => {
+                const appIcon = svgToUrl(app.icon);
+                return <AppItem key={`app_${app.id}`} app={app} selected={true} />;
               })}
           </AppsContainer>
         </Content>
@@ -72,7 +74,7 @@ const InnerContainer = styled.div`
   box-sizing: border-box;
   padding: 16px;
   border-radius: 8px;
-  background: ${({ theme }) => theme.colors.largeButton.GREY};
+  background: ${({ theme }) => theme.colors.GREY};
   align-items: center;
 `;
 

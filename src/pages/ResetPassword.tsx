@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import Button from '../components/buttons/Button';
-import LoaderComponent from '../components/other/LoaderComponent';
+import { Button } from '@aplinkosministerija/design-system';
+import LoaderComponent from '../components/LoaderComponent';
 import { useSetPassword, useVerifyUser } from '../utils/hooks';
 import { slugs } from '../utils/routes';
 import { buttonsTitles, descriptions } from '../utils/texts';
-import UserForm from '../components/forms/UserForm';
+import UserForm from '../components/UserForm';
 import { PasswordForm } from '../utils';
 
 const ResetPassword = () => {

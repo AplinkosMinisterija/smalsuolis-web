@@ -1,29 +1,29 @@
-import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import Switch from '../components/buttons/Switch';
-import RadioFrequency from '../components/other/RadioFrequency';
+import { App } from '../utils';
+import { Button, Switch, MapField, ContentLayout } from '@aplinkosministerija/design-system';
+import { Form, Formik } from 'formik';
+import PageActions from '../components/PageActions';
+import Popup from '../components/Popup';
+import { device } from '../styles';
 import {
-  App,
   Frequency,
   IconName,
   slugs,
   SubscriptionForm,
+  useGetCurrentRoute,
   validateSubscriptionForm,
 } from '../utils';
-import Button from '../components/buttons/Button';
-import { Form, Formik } from 'formik';
-import LoaderComponent from '../components/other/LoaderComponent';
-import Apps from '../components/other/Apps';
-import MapField from '../components/fields/MapField';
-import PageActions from '../components/PageActions';
-import Popup from '../components/Popup';
-import { device } from '../styles';
+import LoaderComponent from '../components/LoaderComponent';
+import Apps from '../components/Apps';
+import RadioFrequency from '../components/RadioFrequency';
 
 const Subscriptions = () => {
+  const mapHost = import.meta.env.VITE_MAPS_HOST || 'https://dev.maps.biip.lt';
+  const currentRoute = useGetCurrentRoute();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -95,6 +95,7 @@ const Subscriptions = () => {
   return (
     <>
       <ContentLayout
+        currentRoute={currentRoute}
         customSubTitle={
           <Subtitle>
             Norėdami gauti el. paštu naujus skelbimus, atitinkančius Jūsų paieškos kriterijus,
@@ -180,9 +181,11 @@ const Subscriptions = () => {
                   </FutureAppsContainer>
                 </Section>
                 <MapField
+                  mapHost={mapHost}
+                  mapPath={'/edit?types[]=point&buffer=xl'}
                   value={values.geom}
-                  label={'Padėkite tašką, kur norite stebėti ir nustatykite spindulį'}
-                  error={errors?.geom as string}
+                  // label={'Padėkite tašką, kur norite stebėti ir nustatykite spindulį'}
+                  // error={errors?.geom as string}
                   onChange={(value) => setFieldValue('geom', value)}
                 />
                 <Section>

@@ -1,20 +1,20 @@
 import { useFormik } from 'formik';
 import { useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
-import Button from '../components/buttons/Button';
-import TextField from '../components/fields/TextField';
-import ContentLayout from '../components/layouts/ContentLayout';
+import { Button, ContentLayout, TextField } from '@aplinkosministerija/design-system';
 import api from '../utils/api';
-import { getErrorMessage, handleAlert, handleToastSuccess } from '../utils/functions';
+import { getErrorMessage, handleToastSuccess } from '../utils/functions';
 import { buttonsTitles, inputLabels, validationTexts } from '../utils/texts';
 import { ReactQueryError } from '../utils/types';
 import { forgotPasswordSchema } from '../utils/validations';
 import PageActions from '../components/PageActions';
 import { useNavigate } from 'react-router-dom';
 import { slugs } from '../utils';
+import { useGetCurrentRoute } from '../utils';
 
 const Registration = () => {
   const navigate = useNavigate();
+  const currentRoute = useGetCurrentRoute();
   const handleRemindPassword = async (values: { email: string }) => {
     const { email } = values;
     const params = { ...values, email: email.toLocaleLowerCase() };

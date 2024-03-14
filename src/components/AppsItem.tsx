@@ -1,5 +1,6 @@
-import { App, getIconUrl } from '../../utils';
 import styled from 'styled-components';
+import { svgToUrl } from '@aplinkosministerija/design-system';
+import { App } from '../utils';
 
 const AppItem = ({
   app,
@@ -16,7 +17,7 @@ const AppItem = ({
 }) => {
   return (
     <AppContainer onClick={onClick} $selected={selected}>
-      {icon ? icon : app ? <AppIcon src={getIconUrl(app.icon)} $selected={selected} /> : null}
+      {icon ? icon : app ? <AppIcon src={svgToUrl(app.icon)} $selected={selected} /> : null}
       <Text>{text ? text : app?.name || ''}</Text>
     </AppContainer>
   );

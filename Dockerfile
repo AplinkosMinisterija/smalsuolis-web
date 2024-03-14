@@ -20,7 +20,6 @@ ARG VITE_VERSION=${VERSION}
 ARG VITE_SENTRY_DSN=
 ARG NODE_ENV=production
 
-# Build and cleanup
 RUN yarn build
 
 # Caddy stage
