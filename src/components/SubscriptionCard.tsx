@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { App, Frequency, Subscription } from '../utils';
 import Tag from './Tag';
-import { swgToUrl, Switch } from '@aplinkosministerija/design-system';
+import { svgToUrl, Switch } from '@aplinkosministerija/design-system';
 
 const frequencyLabels = {
   [Frequency.DAY]: 'kasdieninė',
@@ -23,11 +23,11 @@ const SubscriptionCard = ({
       <InnerContainer>
         <Content onClick={onClick}>
           <Name>
-            {`${subscription.active ? 'Aktyvi' : 'Neaktyvi'} ${frequencyLabels[subscription.frequency]} prenumerata`}{' '}
+            {`${subscription.active ? 'Aktyvi' : 'Neaktyvi'} ${subscription.frequency ? frequencyLabels[subscription.frequency] : ''} prenumerata`}{' '}
           </Name>
           <AppsContainer>
             {subscription.apps?.map((app) => {
-              const appIcon = swgToUrl(app.icon);
+              const appIcon = svgToUrl(app.icon);
               return (
                 <Tag
                   icon={<AppIcon src={appIcon} />}
