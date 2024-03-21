@@ -21,3 +21,4 @@ jobs:
         VITE_SENTRY_ENV=staging
         VITE_SENTRY_DSN=https://868f3858116e484e838dc4f966bbd5f8@sentry.biip.lt/48
         VITE_MAPS_HOST=https://staging-maps.biip.lt
+        VITE_PROXY_URL=https://staging-smalsuolis.biip.lt/api

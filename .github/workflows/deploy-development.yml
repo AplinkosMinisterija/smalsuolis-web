@@ -20,3 +20,5 @@ jobs:
         VITE_SENTRY_ENV=development
         VITE_SENTRY_DSN=https://868f3858116e484e838dc4f966bbd5f8@sentry.biip.lt/48
         VITE_MAPS_HOST=https://dev-maps.biip.lt
+        VITE_PROXY_URL=https://dev-smalsuolis.biip.lt/api
+
