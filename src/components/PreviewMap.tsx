@@ -2,7 +2,9 @@ import { useRef } from 'react';
 import styled from 'styled-components';
 import { device } from '../styles';
 import { FieldWrapper, FeatureCollection } from '@aplinkosministerija/design-system';
+
 const mapsHost = import.meta.env.VITE_MAPS_HOST || 'https://dev.maps.biip.lt';
+const mapsHost = import.meta.env.VITE_MAPS_HOST || 'https://dev-maps.biip.lt';
 
 interface MapProps {
   height?: string;
