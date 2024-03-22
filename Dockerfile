@@ -19,9 +19,9 @@ ARG VITE_VERSION=${VERSION}
 # Set env variables
 ARG NODE_ENV=production
 ARG VITE_SENTRY_DSN=
-ARG VITE_SENTRY_ENV=production
-ARG VITE_PROXY_URL=https://smalsuolis.biip.lt/api
-ARG VITE_MAPS_HOST=https://maps.biip.lt
+ARG VITE_SENTRY_ENV=
+ARG VITE_PROXY_URL=
+ARG VITE_MAPS_HOST=
 
 
 # Build and cleanup

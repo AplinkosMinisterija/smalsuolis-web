@@ -4,7 +4,7 @@ import { device } from '../../styles';
 import FieldWrapper from '../fields/components/FieldWrapper';
 import { FeatureCollection } from '../../utils';
 
-const mapsHost = import.meta.env.VITE_MAPS_HOST || 'https://dev-maps.biip.lt';
+const mapsHost = import.meta.env.VITE_MAPS_HOST;
 
 interface MapProps {
   height?: string;
