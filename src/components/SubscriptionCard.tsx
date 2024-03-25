@@ -22,6 +22,7 @@ const SubscriptionCard = ({
   onActiveChange: (e: boolean) => void;
   apps?: App[];
 }) => {
+  console.log('APPS', apps);
   const futureApps = subscription?.apps?.length === 0;
   const allApps = !futureApps && subscription?.apps?.length === apps?.length;
   const showApps = !futureApps && !allApps;
@@ -34,17 +35,6 @@ const SubscriptionCard = ({
             {`${subscription?.frequency ? frequencyLabels[subscription?.frequency] : ''}`}{' '}
           </Name>
           <AppsContainer>
-            {subscription.apps?.map((app) => {
-              const appIcon = svgToUrl(app.icon);
-              return (
-                <Tag
-                  icon={<AppIcon src={appIcon} />}
-                  text={app.name}
-                  color={'#101010'}
-                  backgroundColor={'#f7f7f7'}
-                />
-              );
-            })}
             {futureApps && (
               <AppItem
                 icon={<Icon name={IconName.search} />}
@@ -113,4 +103,9 @@ const AppsContainer = styled.div`
   width: 100%;
   gap: 8px;
   margin-top: 16px;
+`;
+
+const AppIcon = styled.img`
+  height: 16px;
+  margin-right: 4px;
 `;

@@ -180,14 +180,16 @@ const Subscriptions = () => {
                     </Description>
                   </FutureAppsContainer>
                 </Section>
-                <MapField
-                  mapHost={mapHost}
-                  mapPath={'/edit?types[]=point&buffer=xl'}
-                  value={values.geom}
-                  // label={'Padėkite tašką, kur norite stebėti ir nustatykite spindulį'}
-                  // error={errors?.geom as string}
-                  onChange={(value) => setFieldValue('geom', value)}
-                />
+                <Section>
+                  <MapField
+                    mapHost={mapHost}
+                    mapPath={'/edit?types[]=point&buffer=xl'}
+                    value={values.geom}
+                    label={'Padėkite tašką, kur norite stebėti ir nustatykite spindulį'}
+                    error={errors?.geom as string}
+                    onChange={(value) => setFieldValue('geom', value)}
+                  />
+                </Section>
                 <Section>
                   <Label>Kokiu dažnumu jums siųsti informaciją</Label>
                   <RadioFrequency
