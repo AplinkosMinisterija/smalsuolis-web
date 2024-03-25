@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Tag from './Tag';
 import { svgToUrl, Switch } from '@aplinkosministerija/design-system';
 import AppItem from './AppsItem';
 import Icon from './Icons';
@@ -33,6 +34,17 @@ const SubscriptionCard = ({
             {`${subscription?.frequency ? frequencyLabels[subscription?.frequency] : ''}`}{' '}
           </Name>
           <AppsContainer>
+            {subscription.apps?.map((app) => {
+              const appIcon = svgToUrl(app.icon);
+              return (
+                <Tag
+                  icon={<AppIcon src={appIcon} />}
+                  text={app.name}
+                  color={'#101010'}
+                  backgroundColor={'#f7f7f7'}
+                />
+              );
+            })}
             {futureApps && (
               <AppItem
                 icon={<Icon name={IconName.search} />}

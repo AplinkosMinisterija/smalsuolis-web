@@ -47,6 +47,7 @@ const Login = () => {
         password: validationTexts.invalidUserNameOrPassword,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
   const handleType = (field: string, value: string | boolean) => {
