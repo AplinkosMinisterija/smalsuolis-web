@@ -1,11 +1,12 @@
 import { CgClose } from 'react-icons/cg';
-import { FaAnchor, FaCheck, FaRegTrashAlt, FaTrash } from 'react-icons/fa';
+import { FaAnchor, FaCheck, FaRegTrashAlt } from 'react-icons/fa';
 import { FaChevronRight } from 'react-icons/fa6';
 import { FiArrowLeft, FiClock, FiDownload, FiMail, FiMenu } from 'react-icons/fi';
 import { HiOutlineUsers } from 'react-icons/hi';
 import { IoMdCalendar } from 'react-icons/io';
-import { IoLocationOutline, IoPersonOutline } from 'react-icons/io5';
+import { IoLocationOutline, IoPersonOutline, IoSearch } from 'react-icons/io5';
 import { LiaBalanceScaleSolid } from 'react-icons/lia';
+
 import {
   MdDone,
   MdExitToApp,
@@ -661,6 +662,8 @@ V12l3,3"
           <path d="M1.5,16.8C1.8,15,2.6,13.4,3.7,12"></path>
         </svg>
       );
+    case IconName.search:
+      return <IoSearch className={className} />;
 
     case IconName.locationOutline:
       return <IoLocationOutline className={className} />;

@@ -12,19 +12,20 @@ export interface App {
 }
 
 export interface Subscription<T = number> {
-  id: number;
-  user: number;
-  apps: T[];
-  geom: any;
+  id?: number;
+  user?: number;
+  apps?: T[];
+  geom?: any;
+  frequency?: Frequency;
+  active?: boolean;
+}
+
+export interface SubscriptionForm extends Subscription {
+  futureApps: boolean;
+  apps: number[];
   frequency: Frequency;
   active: boolean;
 }
-
-export type SubscriptionForm = Omit<Subscription, 'id' | 'geom' | 'user'> & {
-  id?: number;
-  geom?: any; //TODO: should not be omitted
-  user?: number;
-};
 
 export interface Event {
   id?: string;

@@ -1,14 +1,15 @@
 import api from '../utils/api';
 import { App, IconName, slugs, Subscription, useGetCurrentRoute, useInfinityLoad } from '../utils';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import LoaderComponent from '../components/LoaderComponent';
 import { device } from '../styles';
 import { useNavigate } from 'react-router';
-import SubscriptionCard from '../components/SubscriptionCard';
-import { Button, ContentLayout } from '@aplinkosministerija/design-system';
+import { useQuery } from '@tanstack/react-query';
+import { ContentLayout } from '@aplinkosministerija/design-system';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import EmptyState from '../components/EmptyState';
+import SubscriptionCard from '../components/SubscriptionCard';
 
 const Subscriptions = () => {
   const currentRoute = useGetCurrentRoute();
@@ -22,6 +23,11 @@ const Subscriptions = () => {
     observerRef,
   );
 
+  const { data: appsResponse, isLoading: appsLoading } = useQuery({
+    queryKey: ['apps'],
+    queryFn: () => api.getApps({ page: 1 }),
+  });
+
   const onSuccess = () => {
     queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
     queryClient.invalidateQueries({ queryKey: ['user'] });
@@ -33,7 +39,7 @@ const Subscriptions = () => {
   });
 
   const handleSubscriptionActive = (id: number, active: boolean) => {
-    updateSubscription({ id: id.toString(), params: { active } });
+    updateSubscription({ id, params: { active } });
   };
 
   const emptySubscriptions = !!subscriptions?.pages[0]?.data?.length;
@@ -57,13 +63,18 @@ const Subscriptions = () => {
             {subscriptions?.pages.map((page: { data: Subscription<App>[] }, pageIndex: number) => {
               return (
                 <React.Fragment key={pageIndex}>
-                  {page?.data.map((subscription) => (
-                    <SubscriptionCard
-                      subscription={subscription}
-                      onClick={() => navigate(slugs.subscription(subscription?.id?.toString()))}
-                      onActiveChange={(e) => handleSubscriptionActive(subscription.id, e)}
-                    />
-                  ))}
+                  {page?.data.map((subscription) => {
+                    return (
+                      <SubscriptionCard
+                        subscription={subscription}
+                        onClick={() => navigate(slugs.subscription(subscription?.id?.toString()))}
+                        onActiveChange={(e) =>
+                          subscription?.id ? handleSubscriptionActive(subscription.id, e) : {}
+                        }
+                        apps={appsResponse?.rows}
+                      />
+                    );
+                  })}
                 </React.Fragment>
               );
             })}
@@ -82,7 +93,7 @@ const Container = styled.div`
   display: flex;
   overflow-y: auto;
   flex-direction: column;
-  padding: 32px;
+  padding: 32px 0;
   width: 100%;
 
   @media ${device.mobileL} {
