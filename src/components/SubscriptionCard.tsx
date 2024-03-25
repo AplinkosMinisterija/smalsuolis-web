@@ -1,9 +1,7 @@
 import styled from 'styled-components';
-import { App, Frequency, getIconUrl, Subscription, subscriptionFrequencyTitles } from '../../utils';
-import Tag from '../other/Tag';
-import Checkbox from '../buttons/Checkbox';
-import optionsContainer from '../fields/components/OptionsContainer';
-import Switch from '../buttons/Switch';
+import { App, Frequency, Subscription } from '../utils';
+import Tag from './Tag';
+import { svgToUrl, Switch } from '@aplinkosministerija/design-system';
 
 const frequencyLabels = {
   [Frequency.DAY]: 'kasdieninė',
@@ -25,11 +23,11 @@ const SubscriptionCard = ({
       <InnerContainer>
         <Content onClick={onClick}>
           <Name>
-            {`${subscription.active ? 'Aktyvi' : 'Neaktyvi'} ${frequencyLabels[subscription.frequency]} prenumerata`}{' '}
+            {`${subscription.active ? 'Aktyvi' : 'Neaktyvi'} ${subscription.frequency ? frequencyLabels[subscription.frequency] : ''} prenumerata`}{' '}
           </Name>
           <AppsContainer>
             {subscription.apps?.map((app) => {
-              const appIcon = getIconUrl(app.icon);
+              const appIcon = svgToUrl(app.icon);
               return (
                 <Tag
                   icon={<AppIcon src={appIcon} />}
@@ -75,10 +73,6 @@ const InnerContainer = styled.div`
 const SwitchWrapper = styled.div`
   padding: 0 8px;
   align-self: flex-start;
-`;
-
-const CheckboxWrapper = styled.div`
-  padding: 0 8px;
 `;
 
 const Content = styled.div`

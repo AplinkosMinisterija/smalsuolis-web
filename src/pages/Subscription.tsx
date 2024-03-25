@@ -1,22 +1,28 @@
-import ContentLayout from '../components/layouts/ContentLayout';
 import api from '../utils/api';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import Switch from '../components/buttons/Switch';
-import RadioFrequency from '../components/other/RadioFrequency';
-import { Frequency, IconName, slugs, SubscriptionForm, validateSubscriptionForm } from '../utils';
-import Button from '../components/buttons/Button';
+import { Button, Switch, MapField, ContentLayout } from '@aplinkosministerija/design-system';
 import { Form, Formik } from 'formik';
-import LoaderComponent from '../components/other/LoaderComponent';
-import Apps from '../components/other/Apps';
-import MapField from '../components/fields/MapField';
 import PageActions from '../components/PageActions';
 import Popup from '../components/Popup';
 import { device } from '../styles';
+import {
+  Frequency,
+  IconName,
+  slugs,
+  SubscriptionForm,
+  useGetCurrentRoute,
+  validateSubscriptionForm,
+} from '../utils';
+import LoaderComponent from '../components/LoaderComponent';
+import Apps from '../components/Apps';
+import RadioFrequency from '../components/RadioFrequency';
 
-const Subscriptions = (props: any) => {
+const mapHost = import.meta.env.VITE_MAPS_HOST || 'https://dev.maps.biip.lt';
+const Subscriptions = () => {
+  const currentRoute = useGetCurrentRoute();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -75,6 +81,7 @@ const Subscriptions = (props: any) => {
   return (
     <>
       <ContentLayout
+        currentRoute={currentRoute}
         customSubTitle={
           <Subtitle>
             Norėdami gauti el. paštu naujus skelbimus, atitinkančius Jūsų paieškos kriterijus,
@@ -100,7 +107,7 @@ const Subscriptions = (props: any) => {
           validateOnChange={false}
           validationSchema={validateSubscriptionForm}
         >
-          {({ values, setFieldValue }) => {
+          {({ values, errors, handleSubmit, setFieldValue }) => {
             return (
               <Container>
                 <SubscriptionFormContainer>
@@ -141,6 +148,8 @@ const Subscriptions = (props: any) => {
                     Padėkite tašką, kur norite stebėti ir nustatykite spindulį
                   </SectionLabel>
                   <MapField
+                    mapHost={mapHost}
+                    mapPath={'/edit?types[]=point&buffer=xl'}
                     value={values.geom}
                     onChange={(value) => setFieldValue('geom', value)}
                   />

@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import { App, getIconUrl } from '../../utils';
+import { App } from '../utils';
+import { svgToUrl } from '@aplinkosministerija/design-system';
 
 const AppItem = ({ id, checked, onChange, app }: any) => {
-  const appIcon = getIconUrl(app.icon);
+  const appIcon = svgToUrl(app.icon);
   return (
     <Button>
       <InputRadio type="checkbox" id={id} checked={checked} onChange={onChange} />

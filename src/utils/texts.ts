@@ -62,21 +62,6 @@ export const titles = {
   eventsEmptyState: 'Naujienų srautas yra tuščias',
 };
 
-export const monthShorthands = [
-  'SAU',
-  'VAS',
-  'KOV',
-  'BAL',
-  'GEG',
-  'BIR',
-  'LIE',
-  'RGP',
-  'RGS',
-  'SPL',
-  'LAP',
-  'GRD',
-];
-
 export const descriptions = {
   myEventsEmptyState:
     'Jūsų pasirinktos temos ar šaltiniai šiuo metu neturi naujienų, galite palaukti arba pakoreguoti savo prenumeratos nustatymus',
@@ -112,31 +97,6 @@ export const buttonsTitles = {
 
 export const subtitle = {
   about: 'Domina, kas vyksta aplinkui tave?',
-};
-
-export const toasts = {
-  profileUpdated: 'Profilis atnaujintas',
-};
-
-export const formLabels = {
-  selectProfile: 'Pasirinkite paskyrą',
-  login: 'Prisijungti',
-  inActiveProfile: 'Anketa neaktyvi',
-  tripDeclined: 'Pavėžėjimas atšauktas',
-  tripEnded: 'Pavėžėjimas pabaigtas',
-};
-
-export const stateLabels = {
-  start: 'Atvykau paimti',
-  tripStart: 'Pradedu kelionę',
-  tripEnd: 'Atvykau į tikslą',
-  end: 'Išlaipinau pacientą',
-  decline: 'Atšaukti pavėžėjimą',
-};
-
-export const eventStatusLabels = {
-  [EventStatusTypes.UPCOMING]: 'Būsimi',
-  [EventStatusTypes.FINISHED]: 'Įvykę',
 };
 
 export const subscriptionFrequencyTitles = {

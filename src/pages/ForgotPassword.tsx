@@ -1,9 +1,7 @@
 import { useFormik } from 'formik';
 import { useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
-import Button from '../components/buttons/Button';
-import TextField from '../components/fields/TextField';
-import ContentLayout from '../components/layouts/ContentLayout';
+import { Button, ContentLayout, TextField } from '@aplinkosministerija/design-system';
 import api from '../utils/api';
 import { getErrorMessage } from '../utils/functions';
 import { buttonsTitles, descriptions, inputLabels, validationTexts } from '../utils/texts';
@@ -12,9 +10,11 @@ import { forgotPasswordSchema } from '../utils/validations';
 import PageActions from '../components/PageActions';
 import { useNavigate } from 'react-router';
 import { slugs } from '../utils';
+import { useGetCurrentRoute } from '../utils';
 
 const RemindPassword = () => {
   const navigate = useNavigate();
+  const currentRoute = useGetCurrentRoute();
   const handleRemindPassword = async (values: { email: string }) => {
     const { email } = values;
     const params = { email: email.toLocaleLowerCase() };
@@ -73,7 +73,10 @@ const RemindPassword = () => {
   };
 
   return (
-    <ContentLayout pageActions={<PageActions onGoBack={() => navigate(slugs.login)} />}>
+    <ContentLayout
+      currentRoute={currentRoute}
+      pageActions={<PageActions onGoBack={() => navigate(slugs.login)} />}
+    >
       {!isSuccess ? (
         <Container noValidate onSubmit={handleSubmit}>
           <InfoContainer>

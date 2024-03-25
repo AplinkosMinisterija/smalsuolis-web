@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
-import { Simulate } from 'react-dom/test-utils';
-import change = Simulate.change;
-import { Frequency, subscriptionFrequencyTitles } from '../../utils';
+import { Frequency, subscriptionFrequencyTitles } from '../utils';
 
 const RadioButton = ({ id, checked, onChange, option }: any) => {
   return (
