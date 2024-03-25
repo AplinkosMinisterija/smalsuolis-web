@@ -24,7 +24,6 @@ ARG VITE_PROXY_URL=
 ARG VITE_MAPS_HOST=
 
 
-# Build and cleanup
 RUN yarn build
 
 # Caddy stage

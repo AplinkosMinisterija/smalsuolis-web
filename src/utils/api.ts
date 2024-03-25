@@ -1,7 +1,7 @@
 import Axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 import Cookies from 'universal-cookie';
-import { App, Event, Subscription, SubscriptionForm } from './types';
+import { App, Event, Subscription } from './types';
 const cookies = new Cookies();
 
 interface Delete {
@@ -43,7 +43,7 @@ interface GetOne {
 }
 interface UpdateOne<T = any> {
   resource?: string;
-  id?: string;
+  id?: number | string;
   params?: T;
 }
 
@@ -66,7 +66,7 @@ export enum Resources {
   SET_PASSWORD = 'auth/change/accept',
   REMIND_PASSWORD = 'auth/change/remind',
   LOG_OUT = 'auth/logout',
-  ME = 'users/me',
+  ME = 'auth/me',
   EVENTS = 'events',
   NEWSFEED = 'newsfeed',
   SUBSCRIPTIONS = 'subscriptions',
@@ -257,19 +257,24 @@ class Api {
     });
   };
 
-  createSubscription = async (params: SubscriptionForm): Promise<Subscription> => {
+  createSubscription = async (params: Subscription): Promise<Subscription> => {
     return this.post({
       resource: Resources.SUBSCRIPTIONS,
       params,
     });
   };
 
-  updateSubscription = async (
-    params: UpdateOne<Partial<SubscriptionForm>>,
-  ): Promise<Subscription> => {
+  updateSubscription = async ({
+    id,
+    params,
+  }: {
+    id: number | string;
+    params: Subscription;
+  }): Promise<Subscription> => {
     return this.patch({
       resource: Resources.SUBSCRIPTIONS,
-      ...params,
+      id,
+      params,
     });
   };
 

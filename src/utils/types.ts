@@ -1,8 +1,7 @@
 import { AppType } from './constants';
 
 import { Frequency } from './constants';
-
-export type ChildrenType = string | JSX.Element | JSX.Element[] | any;
+import { JSX } from 'react';
 
 export interface App {
   id: number;
@@ -13,19 +12,20 @@ export interface App {
 }
 
 export interface Subscription<T = number> {
-  id: number;
-  user: number;
-  apps: T[];
-  geom: any;
+  id?: number;
+  user?: number;
+  apps?: T[];
+  geom?: any;
+  frequency?: Frequency;
+  active?: boolean;
+}
+
+export interface SubscriptionForm extends Subscription {
+  futureApps: boolean;
+  apps: number[];
   frequency: Frequency;
   active: boolean;
 }
-
-export type SubscriptionForm = Omit<Subscription, 'id' | 'geom' | 'user'> & {
-  id?: number;
-  geom?: any; //TODO: should not be omitted
-  user?: number;
-};
 
 export interface Event {
   id?: string;
@@ -69,40 +69,6 @@ export interface ReactQueryError {
     };
   };
 }
-
-export type FeatureCollection = {
-  type: 'FeatureCollection';
-  features: Feature[];
-};
-
-type GenericObject = {
-  [key: string]: any;
-};
-
-type Feature = {
-  type: 'Feature';
-  geometry: Geometry;
-  properties?: GenericObject;
-};
-
-type Geometry = {
-  type: string;
-  coordinates: CoordinatesTypes;
-};
-type CoordinatesPoint = number[];
-type CoordinatesMultiPoint = CoordinatesPoint[];
-type CoordinatesLineString = CoordinatesPoint[];
-type CoordinatesMultiLineString = CoordinatesLineString[];
-type CoordinatesPolygon = CoordinatesLineString[];
-type CoordinatesMultiPolygon = CoordinatesPolygon[];
-
-type CoordinatesTypes =
-  | CoordinatesPoint
-  | CoordinatesLineString
-  | CoordinatesPolygon
-  | CoordinatesMultiPoint
-  | CoordinatesMultiLineString
-  | CoordinatesMultiPolygon;
 
 export interface LoginForm {
   email: string;

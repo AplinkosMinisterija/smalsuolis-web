@@ -4,7 +4,6 @@ import { matchPath, useLocation, useNavigate, useSearchParams } from 'react-rout
 import { LoginForm, SetPassword, routes, slugs } from '.';
 import api from './api';
 import { intersectionObserverConfig } from './configs';
-import { handleAlert } from './functions';
 import { clearCookies, updateTokens } from './loginFunctions';
 
 export const useLogin = () => {

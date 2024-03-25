@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { device } from '../styles';
-import Icon from './other/Icons';
-import Modal from './other/Modal';
-import Button from './buttons/Button';
+import Icon from './Icons';
+import { Modal } from '@aplinkosministerija/design-system';
 
 const Popup = ({ title, subTitle, onClose, visible = false, children }: any) => {
   return (

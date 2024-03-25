@@ -62,22 +62,3 @@ export const isEmpty = (value: any) => {
     (typeof value === 'string' && value.trim().length === 0)
   );
 };
-
-export const filterRoutes = (loggedIn: boolean) => {
-  return routes.filter((route) => {
-    if (!route?.slug) return false;
-    if (Object.prototype.hasOwnProperty.call(route, 'loggedIn')) {
-      return route.loggedIn === loggedIn;
-    }
-    return true;
-  });
-};
-
-export const filterMenuRoutes = (loggedIn: boolean) => {
-  return filterRoutes(loggedIn).filter((route) => !!route.iconName);
-};
-
-export const getIconUrl = (icon: string) => {
-  const base64SVG = window.btoa(icon);
-  return `data:image/svg+xml;base64,${base64SVG}`;
-};

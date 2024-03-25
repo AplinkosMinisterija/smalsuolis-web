@@ -1,19 +1,6 @@
 import styled from 'styled-components';
-import { App, getIconUrl } from '../../utils';
-
-const AppItem = ({ id, checked, onChange, app }: any) => {
-  const appIcon = getIconUrl(app.icon);
-  return (
-    <Button>
-      <InputRadio type="checkbox" id={id} checked={checked} onChange={onChange} />
-      <Label htmlFor={id}>
-        <Logo src={appIcon} />
-        <Title>{app.name}</Title>
-        <Description>{app.description || 'Aprašymas'}</Description>
-      </Label>
-    </Button>
-  );
-};
+import { App } from '../utils';
+import AppItem from './AppsItem';
 
 const Apps = ({
   options,
@@ -33,18 +20,19 @@ const Apps = ({
   };
   return (
     <Container>
-      {options.map((option) => (
-        <AppItem
-          key={option.id}
-          id={option.id}
-          checked={value.includes(option.id)}
-          onChange={(e: any) => {
-            const updatedValues = updateValue(option.id, e.target.checked);
-            onChange(updatedValues);
-          }}
-          app={option}
-        />
-      ))}
+      {options.map((option) => {
+        const selected = value.includes(option.id);
+        return (
+          <AppItem
+            app={option}
+            onClick={() => {
+              const updatedValues = updateValue(option.id, !selected);
+              onChange(updatedValues);
+            }}
+            selected={selected}
+          />
+        );
+      })}
     </Container>
   );
 };
@@ -52,8 +40,9 @@ const Apps = ({
 export default Apps;
 
 const Container = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 16px;
   margin-top: 16px;
 `;

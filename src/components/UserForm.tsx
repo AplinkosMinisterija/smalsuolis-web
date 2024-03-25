@@ -1,10 +1,8 @@
-import ContentLayout from '../layouts/ContentLayout';
-import TextField from '../fields/TextField';
-import { buttonsTitles, inputLabels, PasswordForm, User } from '../../utils';
-import PasswordField from '../fields/PasswordField';
-import PasswordCheckListContainer from '../other/PasswordCheckListContainer';
+import { ContentLayout, TextField } from '@aplinkosministerija/design-system';
+import { buttonsTitles, inputLabels, PasswordForm, useGetCurrentRoute, User } from '../utils';
+import PasswordCheckListContainer from './PasswordCheckListContainer';
 import styled from 'styled-components';
-import Button from '../buttons/Button';
+import { Button, PasswordField } from '@aplinkosministerija/design-system';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 
@@ -23,6 +21,7 @@ const UserForm = ({
     oldPassword?: string;
   };
 }) => {
+  const currentRoute = useGetCurrentRoute();
   const [allValid, setAllValid] = useState(false);
   const { values, setFieldValue, handleSubmit, setErrors } = useFormik({
     initialValues,
@@ -41,7 +40,7 @@ const UserForm = ({
   const disableSubmit = isLoading || !allValid || (updatingPassword && !values.oldPassword);
 
   return (
-    <ContentLayout>
+    <ContentLayout currentRoute={currentRoute}>
       <PasswordContainer noValidate onSubmit={handleSubmit}>
         <TextField
           label={inputLabels.email}
@@ -74,7 +73,12 @@ const UserForm = ({
           password={password}
           repeatPassword={repeatPassword}
         />
-        <StyledButton loading={isLoading} disabled={disableSubmit} type="submit">
+        <StyledButton
+          variant={Button.colors.PRIMARY}
+          loading={isLoading}
+          disabled={disableSubmit}
+          type="submit"
+        >
           {buttonsTitles.update}
         </StyledButton>
       </PasswordContainer>

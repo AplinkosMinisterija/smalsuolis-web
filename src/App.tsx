@@ -1,19 +1,23 @@
 import { useContext } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import DefaultLayout from './components/layouts/DefaultLayout';
-import LoaderComponent from './components/other/LoaderComponent';
+import { DefaultLayout, filterMenuRoutes, filterRoutes } from '@aplinkosministerija/design-system';
+import LoaderComponent from './components/LoaderComponent';
 import { UserContext, UserContextType } from './components/UserProvider';
-import { filterRoutes } from './utils';
-import { slugs } from './utils/routes';
+import { IconName, useGetCurrentRoute, useLogout } from './utils';
+import { slugs, routes } from './utils/routes';
+import Icon from './components/Icons';
 
 function App() {
+  const navigate = useNavigate();
   const { isLoading, loggedIn, subscriptionsCount } = useContext<UserContextType>(UserContext);
+  const currentRoute = useGetCurrentRoute();
+  const { mutateAsync: logout } = useLogout();
 
   if (isLoading) return <LoaderComponent />;
 
-  const routes = filterRoutes(loggedIn);
+  const authRoutes = filterRoutes(routes, loggedIn);
+  const menuRoutes = filterMenuRoutes(routes, loggedIn);
 
   const mainPage = loggedIn
     ? subscriptionsCount > 0
@@ -22,10 +26,20 @@ function App() {
     : slugs.events;
 
   return (
-    <DefaultLayout>
+    <DefaultLayout
+      loggedIn={loggedIn}
+      currentRoute={currentRoute}
+      menuRoutes={menuRoutes || []}
+      logo={<Icon name={IconName.sidebarLogo} />}
+      loginSlug={slugs.login}
+      onGoHome={() => navigate('/')}
+      onLogin={() => navigate(slugs.login)}
+      onLogout={() => logout()}
+      onRouteSelected={(slug) => navigate(slug)}
+    >
       <Routes>
         <Route>
-          {routes.map((route, index) => (
+          {authRoutes.map((route, index) => (
             <Route key={`route-${index}`} path={route.slug} element={route.component} />
           ))}
         </Route>
