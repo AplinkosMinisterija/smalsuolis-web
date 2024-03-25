@@ -1,16 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 import { Theme } from '@aplinkosministerija/design-system';
 
-export const theme: Theme<{
-  powder: string;
-  purple: string;
-  purpleBrighter: string;
-  yellow: string;
-  yellowDarker: string;
-  greyDarker: string;
-  lightSteelBlue: string;
-  cardBackground: { primary: string; success: string };
-}> = {
+export const theme: Theme = {
   colors: {
     primary: '#73DC8C',
     secondary: '#121A55',
