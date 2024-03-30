@@ -1,16 +1,17 @@
+import { Button, ContentLayout } from '@aplinkosministerija/design-system';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { Button } from '@aplinkosministerija/design-system';
 import LoaderComponent from '../components/LoaderComponent';
-import { useSetPassword, useVerifyUser } from '../utils/hooks';
-import { slugs } from '../utils/routes';
-import { buttonsTitles, descriptions } from '../utils/texts';
 import UserForm from '../components/UserForm';
 import { PasswordForm } from '../utils';
+import { useGetCurrentRoute, useSetPassword, useVerifyUser } from '../utils/hooks';
+import { slugs } from '../utils/routes';
+import { buttonsTitles, descriptions } from '../utils/texts';
 
 const ResetPassword = () => {
   const navigate = useNavigate();
   const { isLoading, data } = useVerifyUser();
+  const currentRoute = useGetCurrentRoute();
   const {
     mutateAsync: setPasswordMutation,
     isSuccess,
@@ -39,10 +40,12 @@ const ResetPassword = () => {
       }}
     />
   ) : (
-    <SuccessContainer>
-      <Description>{descriptions.passwordChanged}</Description>
-      <Button onClick={() => navigate(slugs.login)}>{buttonsTitles.login}</Button>
-    </SuccessContainer>
+    <ContentLayout currentRoute={currentRoute}>
+      <SuccessContainer>
+        <Description>{descriptions.passwordChanged}</Description>
+        <Button onClick={() => navigate(slugs.login)}>{buttonsTitles.login}</Button>
+      </SuccessContainer>
+    </ContentLayout>
   );
 };
 

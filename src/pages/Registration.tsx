@@ -1,16 +1,15 @@
-import { useFormik } from 'formik';
-import { useMutation } from '@tanstack/react-query';
-import styled from 'styled-components';
 import { Button, ContentLayout, TextField } from '@aplinkosministerija/design-system';
+import { useMutation } from '@tanstack/react-query';
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import PageActions from '../components/PageActions';
+import { slugs, useGetCurrentRoute } from '../utils';
 import api from '../utils/api';
 import { getErrorMessage, handleToastSuccess } from '../utils/functions';
 import { buttonsTitles, inputLabels, validationTexts } from '../utils/texts';
 import { ReactQueryError } from '../utils/types';
 import { forgotPasswordSchema } from '../utils/validations';
-import PageActions from '../components/PageActions';
-import { useNavigate } from 'react-router-dom';
-import { slugs } from '../utils';
-import { useGetCurrentRoute } from '../utils';
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -73,7 +72,10 @@ const Registration = () => {
   };
 
   return (
-    <ContentLayout pageActions={<PageActions onGoBack={() => navigate(slugs.login)} />}>
+    <ContentLayout
+      currentRoute={currentRoute}
+      pageActions={<PageActions onGoBack={() => navigate(slugs.login)} />}
+    >
       {!isSuccess ? (
         <Container noValidate onSubmit={handleSubmit}>
           <FormContainer>

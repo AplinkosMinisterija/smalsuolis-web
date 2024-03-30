@@ -1,13 +1,16 @@
+import { ContentLayout } from '@aplinkosministerija/design-system';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { UserContext, UserContextType } from '../components/UserProvider';
 import { device } from '../styles';
 import { buttonsTitles, descriptions, slugs, subtitle, titles, useGetCurrentRoute } from '../utils';
-import { ContentLayout } from '@aplinkosministerija/design-system';
 const imageUrls = ['/about1.jpeg', '/about2.jpeg', '/about3.webp'];
 
 const About = () => {
   const currentRoute = useGetCurrentRoute();
   const navigate = useNavigate();
+  const { loggedIn } = useContext<UserContextType>(UserContext);
 
   return (
     <ContentLayout customTitle={<Title>{titles.about}</Title>} currentRoute={currentRoute}>
@@ -17,7 +20,9 @@ const About = () => {
         {imageUrls.map((url, index) => (
           <Image key={`image-${index}`} src={url} />
         ))}
-        <NavigateContainer onClick={() => navigate(slugs.newSubscription)}>
+        <NavigateContainer
+          onClick={() => navigate(loggedIn ? slugs.newSubscription : slugs.registration)}
+        >
           {buttonsTitles.subscribeNews}{' '}
         </NavigateContainer>
       </ImagesContainer>

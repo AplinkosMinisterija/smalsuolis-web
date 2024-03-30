@@ -1,15 +1,17 @@
-import api from '../utils/api';
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useNavigate, useParams } from 'react-router';
+import { Button, ContentLayout, MapField, Switch } from '@aplinkosministerija/design-system';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { App } from '../utils';
-import { Button, Switch, MapField, ContentLayout } from '@aplinkosministerija/design-system';
 import { Form, Formik } from 'formik';
+import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
+import styled from 'styled-components';
+import Apps from '../components/Apps';
+import LoaderComponent from '../components/LoaderComponent';
 import PageActions from '../components/PageActions';
 import Popup from '../components/Popup';
+import RadioFrequency from '../components/RadioFrequency';
 import { device } from '../styles';
 import {
+  App,
   Frequency,
   IconName,
   slugs,
@@ -17,9 +19,7 @@ import {
   useGetCurrentRoute,
   validateSubscriptionForm,
 } from '../utils';
-import LoaderComponent from '../components/LoaderComponent';
-import Apps from '../components/Apps';
-import RadioFrequency from '../components/RadioFrequency';
+import api from '../utils/api';
 
 const Subscriptions = () => {
   const mapHost = import.meta.env.VITE_MAPS_HOST || 'https://dev.maps.biip.lt';
@@ -103,15 +103,17 @@ const Subscriptions = () => {
           </Subtitle>
         }
         pageActions={
-          <PageActions
-            onGoBack={() => navigate(slugs.subscriptions)}
-            action={{
-              label: 'Ištrinti prenumeratą',
-              icon: IconName.remove,
-              onClick: () => setShowDelete(true),
-              destructive: true,
-            }}
-          />
+          subscription?.id ? (
+            <PageActions
+              onGoBack={() => navigate(slugs.subscriptions)}
+              action={{
+                label: 'Ištrinti prenumeratą',
+                icon: IconName.remove,
+                onClick: () => setShowDelete(true),
+                destructive: true,
+              }}
+            />
+          ) : undefined
         }
       >
         <Formik
@@ -207,6 +209,7 @@ const Subscriptions = () => {
       </ContentLayout>
       <Popup
         visible={showDelete}
+        onClose={() => setShowDelete(false)}
         title="Ar tikrai norite ištrinti šią prenumeratą?"
         subTitle="Šio veiksmo nebus galima atšaukti ar redaguoti"
       >
@@ -218,7 +221,7 @@ const Subscriptions = () => {
             variant={Button.colors.DANGER}
             onClick={() => (subscription?.id ? deleteSubscription(subscription.id) : {})}
           >
-            Išstrinti
+            Ištrinti
           </PopupButton>
         </PopupActions>
       </Popup>
