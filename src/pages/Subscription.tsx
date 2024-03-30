@@ -103,17 +103,17 @@ const Subscriptions = () => {
           </Subtitle>
         }
         pageActions={
-          subscription?.id ? (
-            <PageActions
-              onGoBack={() => navigate(slugs.subscriptions)}
-              action={{
+          <PageActions
+            onGoBack={() => navigate(slugs.subscriptions)}
+            {...(subscription?.id && {
+              action: {
                 label: 'Ištrinti prenumeratą',
                 icon: IconName.remove,
                 onClick: () => setShowDelete(true),
                 destructive: true,
-              }}
-            />
-          ) : undefined
+              },
+            })}
+          />
         }
       >
         <Formik
