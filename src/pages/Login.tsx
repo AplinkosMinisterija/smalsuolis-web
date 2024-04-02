@@ -5,6 +5,7 @@ import {
   PasswordField,
   TextField,
 } from '@aplinkosministerija/design-system';
+import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
