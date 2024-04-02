@@ -1,8 +1,3 @@
-import { AxiosError } from 'axios';
-import { useFormik } from 'formik';
-import { useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import {
   Button,
   CheckBox,
@@ -10,6 +5,11 @@ import {
   PasswordField,
   TextField,
 } from '@aplinkosministerija/design-system';
+import { AxiosError } from 'axios';
+import { useFormik } from 'formik';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { UserContext, UserContextType } from '../components/UserProvider';
 import { useGetCurrentRoute, useLogin } from '../utils/hooks';
 import { slugs } from '../utils/routes';
@@ -38,18 +38,6 @@ const Login = () => {
 
   const invalidLoginData = (error as AxiosError)?.response?.status === 400;
 
-  useEffect(() => {
-    if (!error) return;
-
-    if ((error as any)?.response?.data?.type === 'WRONG_PASSWORD') {
-      setErrors({
-        email: validationTexts.invalidUserNameOrPassword,
-        password: validationTexts.invalidUserNameOrPassword,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
-
   const handleType = (field: string, value: string | boolean) => {
     setFieldValue(field, value);
     setErrors({});
@@ -62,7 +50,6 @@ const Login = () => {
           value={values.email}
           type="email"
           name="email"
-          showError={!invalidLoginData}
           error={errors.email as string}
           onChange={(value) => handleType('email', value)}
           label={inputLabels.email}
@@ -70,10 +57,9 @@ const Login = () => {
         <PasswordField
           value={values.password}
           name="password"
-          showError={!invalidLoginData}
-          error={errors.password as string}
           onChange={(value) => handleType('password', value)}
           label={inputLabels.password}
+          error={errors.password as string}
           secondLabel={
             <Url onClick={() => navigate(slugs.forgotPassword)}>{titles.forgotPassword}</Url>
           }
@@ -138,7 +124,7 @@ const Url = styled.div`
 `;
 
 const Error = styled.div`
-  color: ${({ theme }) => theme.colors.error};
+  color: ${({ theme }) => theme.colors.text.error};
   font-size: 1.4rem;
 `;
 

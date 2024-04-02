@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
-import { validationTexts } from './texts';
 import { Frequency } from './constants';
+import { validationTexts } from './texts';
 
 export const loginSchema = Yup.object().shape({
   email: Yup.string().required(validationTexts.requireText).email(validationTexts.badEmailFormat),
@@ -8,6 +8,7 @@ export const loginSchema = Yup.object().shape({
 });
 export const forgotPasswordSchema = Yup.object().shape({
   email: Yup.string().required(validationTexts.requireText).email(validationTexts.badEmailFormat),
+  agree: Yup.bool().oneOf([true]),
 });
 export const validateSubscriptionForm = Yup.object().shape({
   active: Yup.boolean().required(validationTexts.requireText),

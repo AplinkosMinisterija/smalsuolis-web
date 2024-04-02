@@ -1,4 +1,4 @@
-import { Button, ContentLayout, TextField } from '@aplinkosministerija/design-system';
+import { Button, CheckBox, ContentLayout, TextField } from '@aplinkosministerija/design-system';
 import { useMutation } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
@@ -60,6 +60,7 @@ const Registration = () => {
   const { values, errors, setFieldValue, handleSubmit, setErrors } = useFormik({
     initialValues: {
       email: '',
+      agree: false,
     },
     validateOnChange: false,
     validationSchema: forgotPasswordSchema,
@@ -86,6 +87,14 @@ const Registration = () => {
               error={errors.email}
               onChange={(value) => handleType('email', value)}
               label={inputLabels.email}
+            />
+            <CheckBox
+              label={
+                'Registruojantis sutinku, kad man būtų siunčiama aktuali informacija apie tai, kas įdomaus vyksta valstybėje'
+              }
+              value={values.agree}
+              error={!!errors?.agree}
+              onChange={(value) => handleType('agree', value)}
             />
             <Button loading={isLoading} disabled={isLoading} type="submit">
               {buttonsTitles.createAccount}

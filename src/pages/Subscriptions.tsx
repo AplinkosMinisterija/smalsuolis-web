@@ -1,15 +1,14 @@
-import api from '../utils/api';
-import { App, IconName, slugs, Subscription, useGetCurrentRoute, useInfinityLoad } from '../utils';
-import React, { useRef } from 'react';
-import styled from 'styled-components';
-import LoaderComponent from '../components/LoaderComponent';
-import { device } from '../styles';
-import { useNavigate } from 'react-router';
-import { useQuery } from '@tanstack/react-query';
 import { ContentLayout } from '@aplinkosministerija/design-system';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import React, { useRef } from 'react';
+import { useNavigate } from 'react-router';
+import styled from 'styled-components';
 import EmptyState from '../components/EmptyState';
+import LoaderComponent from '../components/LoaderComponent';
 import SubscriptionCard from '../components/SubscriptionCard';
+import { device } from '../styles';
+import { App, IconName, slugs, Subscription, useGetCurrentRoute, useInfinityLoad } from '../utils';
+import api from '../utils/api';
 
 const Subscriptions = () => {
   const currentRoute = useGetCurrentRoute();
@@ -17,13 +16,13 @@ const Subscriptions = () => {
   const navigate = useNavigate();
   const observerRef = useRef<any>(null);
 
-  const { data: subscriptions, isFetching } = useInfinityLoad(
-    'subscriptions',
-    api.getSubscriptions,
-    observerRef,
-  );
+  const {
+    data: subscriptions,
+    isFetching,
+    isLoading,
+  } = useInfinityLoad('subscriptions', api.getSubscriptions, observerRef);
 
-  const { data: appsResponse, isLoading: appsLoading } = useQuery({
+  const { data: appsResponse } = useQuery({
     queryKey: ['apps'],
     queryFn: () => api.getApps({ page: 1 }),
   });
@@ -43,6 +42,8 @@ const Subscriptions = () => {
   };
 
   const emptySubscriptions = !!subscriptions?.pages[0]?.data?.length;
+
+  if (isLoading) return <LoaderComponent />;
 
   return (
     <ContentLayout currentRoute={currentRoute}>

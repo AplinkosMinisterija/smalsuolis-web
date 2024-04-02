@@ -43,6 +43,7 @@ const Subscriptions = () => {
   const onSuccess = () => {
     navigate(slugs.subscriptions);
     queryClient.invalidateQueries({ queryKey: ['user'] });
+    queryClient.invalidateQueries({ queryKey: ['subscription', id] });
   };
 
   const { mutateAsync: createSubscription } = useMutation({
@@ -98,8 +99,8 @@ const Subscriptions = () => {
         currentRoute={currentRoute}
         customSubTitle={
           <Subtitle>
-            Norėdami gauti el. paštu naujus skelbimus, atitinkančius Jūsų paieškos kriterijus,
-            užpildykite žemiau esančią formą.
+            Norėdami gauti el. paštu naujus įvykius, pasirinkite norimą teritoriją ir siuntimo
+            kriterijus.
           </Subtitle>
         }
         pageActions={

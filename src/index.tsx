@@ -2,6 +2,7 @@ import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@ta
 import { AxiosError } from 'axios';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import { ThemeProvider } from 'styled-components';
 import Cookies from 'universal-cookie';
 import App from './App';
@@ -10,13 +11,13 @@ import { GlobalStyle, theme } from './styles/index';
 import { handleAlert } from './utils';
 import api from './utils/api';
 import { updateTokens } from './utils/loginFunctions';
-import { ToastContainer } from 'react-toastify';
 const cookies = new Cookies();
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 const handleGlobalError = async (queryClient: QueryClient, error: Error, query?: any) => {
   const code = (error as AxiosError)?.response?.status;
+
   if (code == 401) {
     // Try to refresh token if any query fails with 401
     const refreshToken = cookies.get('refreshToken');
@@ -36,8 +37,12 @@ const handleGlobalError = async (queryClient: QueryClient, error: Error, query?:
       await queryClient.invalidateQueries({ queryKey: ['user'] });
     }
   } else {
-    if (error.name === 'AxiosError') {
-      handleAlert();
+    const method = (error as AxiosError).config?.method;
+
+    // Display an error toast only if the request method was "GET" .
+    if (method === 'get' && error.name === 'AxiosError') {
+      const errType = (error as any).response?.data?.type;
+      handleAlert(errType);
     }
   }
 };
