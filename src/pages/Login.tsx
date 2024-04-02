@@ -35,7 +35,7 @@ const Login = () => {
   const { mutateAsync: login, isPending: loginLoading, error } = useLogin();
   const loading = loginLoading || userLoading;
 
-  const invalidLoginData = (error as any)?.response?.data?.type === 'WRONG_PASSWORD';
+  const invalidLoginData = (error as AxiosError)?.response?.status === 400;
 
   const handleType = (field: string, value: string | boolean) => {
     setFieldValue(field, value);
