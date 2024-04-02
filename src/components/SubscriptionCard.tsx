@@ -22,7 +22,6 @@ const SubscriptionCard = ({
   onActiveChange: (e: boolean) => void;
   apps?: App[];
 }) => {
-  console.log('APPS', apps);
   const futureApps = subscription?.apps?.length === 0;
   const allApps = !futureApps && subscription?.apps?.length === apps?.length;
   const showApps = !futureApps && !allApps;
