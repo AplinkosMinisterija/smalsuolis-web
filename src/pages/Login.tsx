@@ -5,7 +5,6 @@ import {
   PasswordField,
   TextField,
 } from '@aplinkosministerija/design-system';
-import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -36,7 +35,7 @@ const Login = () => {
   const { mutateAsync: login, isPending: loginLoading, error } = useLogin();
   const loading = loginLoading || userLoading;
 
-  const invalidLoginData = (error as AxiosError)?.response?.status === 400;
+  const invalidLoginData = (error as any)?.response?.data?.type === 'WRONG_PASSWORD';
 
   const handleType = (field: string, value: string | boolean) => {
     setFieldValue(field, value);

@@ -1,4 +1,4 @@
-import { EventStatusTypes, Frequency } from './constants';
+import { Frequency } from './constants';
 
 export const validationTexts = {
   requireText: 'Privalote įvesti',
