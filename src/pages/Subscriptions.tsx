@@ -41,9 +41,46 @@ const Subscriptions = () => {
     updateSubscription({ id, params: { active } });
   };
 
-  const emptySubscriptions = !!subscriptions?.pages[0]?.data?.length;
+  const emptySubscriptions = !subscriptions?.pages[0]?.data?.length;
 
-  if (isLoading) return <LoaderComponent />;
+  const renderContent = () => {
+    if (isLoading) return <LoaderComponent />;
+
+    if (emptySubscriptions) {
+      return (
+        <EmptyState
+          title="Jūs neturite prenumeratų"
+          description="Kad galėtumėte matyti naujienas jūsų pasirinktomis temomis bei gautumėte naujienlaiškius elektroniniu paštu, sukurkite naują prenumeratą."
+          icon={IconName.airBallon}
+        />
+      );
+    }
+
+    return (
+      <SubscriptionsContainer>
+        {subscriptions?.pages.map((page: { data: Subscription<App>[] }, pageIndex: number) => {
+          return (
+            <React.Fragment key={pageIndex}>
+              {page?.data.map((subscription) => {
+                return (
+                  <SubscriptionCard
+                    subscription={subscription}
+                    onClick={() => navigate(slugs.subscription(subscription?.id?.toString()))}
+                    onActiveChange={(e) =>
+                      subscription?.id ? handleSubscriptionActive(subscription.id, e) : {}
+                    }
+                    apps={appsResponse?.rows}
+                  />
+                );
+              })}
+            </React.Fragment>
+          );
+        })}
+        {observerRef && <Invisible ref={observerRef} />}
+        {isFetching && <LoaderComponent />}
+      </SubscriptionsContainer>
+    );
+  };
 
   return (
     <ContentLayout currentRoute={currentRoute}>
@@ -53,36 +90,7 @@ const Subscriptions = () => {
             Nauja prenumerata
           </NewSubscriptionButton>
         </ButtonsContainer>
-        {!emptySubscriptions ? (
-          <EmptyState
-            title="Jūs neturite prenumeratų"
-            description="Kad galėtumėte matyti naujienas jūsų pasirinktomis temomis bei gautumėte naujienlaiškius elektroniniu paštu, sukurkite naują prenumeratą."
-            icon={IconName.airBallon}
-          />
-        ) : (
-          <SubscriptionsContainer>
-            {subscriptions?.pages.map((page: { data: Subscription<App>[] }, pageIndex: number) => {
-              return (
-                <React.Fragment key={pageIndex}>
-                  {page?.data.map((subscription) => {
-                    return (
-                      <SubscriptionCard
-                        subscription={subscription}
-                        onClick={() => navigate(slugs.subscription(subscription?.id?.toString()))}
-                        onActiveChange={(e) =>
-                          subscription?.id ? handleSubscriptionActive(subscription.id, e) : {}
-                        }
-                        apps={appsResponse?.rows}
-                      />
-                    );
-                  })}
-                </React.Fragment>
-              );
-            })}
-            {observerRef && <Invisible ref={observerRef} />}
-            {isFetching && <LoaderComponent />}
-          </SubscriptionsContainer>
-        )}
+        {renderContent()}
       </Container>
     </ContentLayout>
   );
