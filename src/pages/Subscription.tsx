@@ -185,6 +185,7 @@ const Subscriptions = () => {
                 </Section>
                 <Section>
                   <MapField
+                    allow="geolocation *"
                     mapHost={mapHost}
                     mapPath={'/edit?types[]=point&buffer=xl'}
                     value={values.geom}
@@ -213,6 +214,7 @@ const Subscriptions = () => {
         onClose={() => setShowDelete(false)}
         title="Ar tikrai norite ištrinti šią prenumeratą?"
         subTitle="Šio veiksmo nebus galima atšaukti ar redaguoti"
+        allow
       >
         <PopupActions>
           <PopupButton variant={Button.colors.SECONDARY} onClick={() => setShowDelete(false)}>
