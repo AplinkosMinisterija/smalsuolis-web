@@ -29,10 +29,10 @@
   resolved "https://registry.yarnpkg.com/@aplinkosministerija/biip-prettier-config/-/biip-prettier-config-1.1.0.tgz#f62b0dde76107ab3f646cce2d54d02bd783ce388"
   integrity sha512-DxWGfBY2KuK8OgP2KUb96ieGlqE5gYuxI22Yt1FfoIldlDENW5I8kXj+YFB4iG65i7e1neXPZd9RGHmxxDxxSQ==
 
-"@aplinkosministerija/design-system@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@aplinkosministerija/design-system/-/design-system-0.0.11.tgz#21e97a0950bb52e3b28d513d85b3aa1935ae6c9e"
-  integrity sha512-2vQAkBqvo7xgXvNHmw2EusKIJCk+NcBBi7fikTtTaAJkNDHUgn6coC1GL/wgupldxzZPBArWd09EHHrSsbZ6WA==
+"@aplinkosministerija/design-system@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@aplinkosministerija/design-system/-/design-system-0.0.12.tgz#b0b0538c8f8b70567c12665227dc4a37545b90a9"
+  integrity sha512-5aioJiJ/WEqyiUWX9UR7ve0ZHQ2dmhdA5YCpiwwqK5KL11EDxN5EiLWDsjLM/LVh7E5ocDOAVCD6iFTfhTL/Aw==
   dependencies:
     react-div-100vh "^0.7.0"
     react-icons "^4.10.1"

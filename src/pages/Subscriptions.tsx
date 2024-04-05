@@ -1,15 +1,14 @@
-import api from '../utils/api';
-import { App, IconName, slugs, Subscription, useGetCurrentRoute, useInfinityLoad } from '../utils';
-import React, { useRef } from 'react';
-import styled from 'styled-components';
-import LoaderComponent from '../components/LoaderComponent';
-import { device } from '../styles';
-import { useNavigate } from 'react-router';
-import { useQuery } from '@tanstack/react-query';
 import { ContentLayout } from '@aplinkosministerija/design-system';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import React, { useRef } from 'react';
+import { useNavigate } from 'react-router';
+import styled from 'styled-components';
 import EmptyState from '../components/EmptyState';
+import LoaderComponent from '../components/LoaderComponent';
 import SubscriptionCard from '../components/SubscriptionCard';
+import { device } from '../styles';
+import { App, IconName, slugs, Subscription, useGetCurrentRoute, useInfinityLoad } from '../utils';
+import api from '../utils/api';
 
 const Subscriptions = () => {
   const currentRoute = useGetCurrentRoute();
@@ -17,13 +16,13 @@ const Subscriptions = () => {
   const navigate = useNavigate();
   const observerRef = useRef<any>(null);
 
-  const { data: subscriptions, isFetching } = useInfinityLoad(
-    'subscriptions',
-    api.getSubscriptions,
-    observerRef,
-  );
+  const {
+    data: subscriptions,
+    isFetching,
+    isLoading,
+  } = useInfinityLoad('subscriptions', api.getSubscriptions, observerRef);
 
-  const { data: appsResponse, isLoading: appsLoading } = useQuery({
+  const { data: appsResponse } = useQuery({
     queryKey: ['apps'],
     queryFn: () => api.getApps({ page: 1 }),
   });
@@ -42,7 +41,46 @@ const Subscriptions = () => {
     updateSubscription({ id, params: { active } });
   };
 
-  const emptySubscriptions = !!subscriptions?.pages[0]?.data?.length;
+  const emptySubscriptions = !subscriptions?.pages[0]?.data?.length;
+
+  const renderContent = () => {
+    if (isLoading) return <LoaderComponent />;
+
+    if (emptySubscriptions) {
+      return (
+        <EmptyState
+          title="Jūs neturite prenumeratų"
+          description="Kad galėtumėte matyti naujienas jūsų pasirinktomis temomis bei gautumėte naujienlaiškius elektroniniu paštu, sukurkite naują prenumeratą."
+          icon={IconName.airBallon}
+        />
+      );
+    }
+
+    return (
+      <SubscriptionsContainer>
+        {subscriptions?.pages.map((page: { data: Subscription<App>[] }, pageIndex: number) => {
+          return (
+            <React.Fragment key={pageIndex}>
+              {page?.data.map((subscription) => {
+                return (
+                  <SubscriptionCard
+                    subscription={subscription}
+                    onClick={() => navigate(slugs.subscription(subscription?.id?.toString()))}
+                    onActiveChange={(e) =>
+                      subscription?.id ? handleSubscriptionActive(subscription.id, e) : {}
+                    }
+                    apps={appsResponse?.rows}
+                  />
+                );
+              })}
+            </React.Fragment>
+          );
+        })}
+        {observerRef && <Invisible ref={observerRef} />}
+        {isFetching && <LoaderComponent />}
+      </SubscriptionsContainer>
+    );
+  };
 
   return (
     <ContentLayout currentRoute={currentRoute}>
@@ -52,36 +90,7 @@ const Subscriptions = () => {
             Nauja prenumerata
           </NewSubscriptionButton>
         </ButtonsContainer>
-        {!emptySubscriptions ? (
-          <EmptyState
-            title="Jūs neturite prenumeratų"
-            description="Kad galėtumėte matyti naujienas jūsų pasirinktomis temomis bei gautumėte naujienlaiškius elektroniniu paštu, sukurkite naują prenumeratą."
-            icon={IconName.airBallon}
-          />
-        ) : (
-          <SubscriptionsContainer>
-            {subscriptions?.pages.map((page: { data: Subscription<App>[] }, pageIndex: number) => {
-              return (
-                <React.Fragment key={pageIndex}>
-                  {page?.data.map((subscription) => {
-                    return (
-                      <SubscriptionCard
-                        subscription={subscription}
-                        onClick={() => navigate(slugs.subscription(subscription?.id?.toString()))}
-                        onActiveChange={(e) =>
-                          subscription?.id ? handleSubscriptionActive(subscription.id, e) : {}
-                        }
-                        apps={appsResponse?.rows}
-                      />
-                    );
-                  })}
-                </React.Fragment>
-              );
-            })}
-            {observerRef && <Invisible ref={observerRef} />}
-            {isFetching && <LoaderComponent />}
-          </SubscriptionsContainer>
-        )}
+        {renderContent()}
       </Container>
     </ContentLayout>
   );

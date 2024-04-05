@@ -43,6 +43,7 @@ const Subscriptions = () => {
   const onSuccess = () => {
     navigate(slugs.subscriptions);
     queryClient.invalidateQueries({ queryKey: ['user'] });
+    queryClient.invalidateQueries({ queryKey: ['subscription', id] });
   };
 
   const { mutateAsync: createSubscription } = useMutation({
@@ -98,8 +99,8 @@ const Subscriptions = () => {
         currentRoute={currentRoute}
         customSubTitle={
           <Subtitle>
-            Norėdami gauti el. paštu naujus skelbimus, atitinkančius Jūsų paieškos kriterijus,
-            užpildykite žemiau esančią formą.
+            Norėdami gauti el. paštu naujus įvykius, pasirinkite norimą teritoriją ir siuntimo
+            kriterijus.
           </Subtitle>
         }
         pageActions={
@@ -184,6 +185,7 @@ const Subscriptions = () => {
                 </Section>
                 <Section>
                   <MapField
+                    allow="geolocation *"
                     mapHost={mapHost}
                     mapPath={'/edit?types[]=point&buffer=xl'}
                     value={values.geom}
@@ -212,6 +214,7 @@ const Subscriptions = () => {
         onClose={() => setShowDelete(false)}
         title="Ar tikrai norite ištrinti šią prenumeratą?"
         subTitle="Šio veiksmo nebus galima atšaukti ar redaguoti"
+        allow
       >
         <PopupActions>
           <PopupButton variant={Button.colors.SECONDARY} onClick={() => setShowDelete(false)}>
