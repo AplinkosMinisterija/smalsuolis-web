@@ -22,6 +22,7 @@ const SubscriptionCard = ({
   const futureApps = subscription?.apps?.length === 0;
   const allApps = !futureApps && subscription?.apps?.length === apps?.length;
   const showApps = !futureApps && !allApps;
+  const { eventsCount } = subscription;
 
   return (
     <Container>
@@ -53,8 +54,10 @@ const SubscriptionCard = ({
         </Content>
         <EventsCount>
           <EventsCountLabel>{'Įvykių skaičius'}</EventsCountLabel>
-          <EventsCountTotal>{subscription.eventsCount?.total}</EventsCountTotal>
-          <EventsCountLatest>{`+ ${subscription.eventsCount?.latest}`}</EventsCountLatest>
+          <EventsCountTotal>{eventsCount?.total}</EventsCountTotal>
+          {eventsCount?.latest && (
+            <EventsCountLatest>{`+ ${eventsCount.latest}`}</EventsCountLatest>
+          )}
         </EventsCount>
       </InnerContainer>
     </Container>
