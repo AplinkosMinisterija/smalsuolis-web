@@ -17,7 +17,7 @@ export interface Subscription<T = number> {
   geom?: any;
   frequency?: Frequency;
   active?: boolean;
-  eventsCount: { total: number; latest: number };
+  eventsCount?: { total: number; latest: number };
 }
 
 export interface SubscriptionForm extends Subscription {
