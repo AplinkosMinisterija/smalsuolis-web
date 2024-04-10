@@ -1,9 +1,8 @@
+import { device } from '@aplinkosministerija/design-system';
 import styled from 'styled-components';
-import Tag from './Tag';
-import { svgToUrl, Switch } from '@aplinkosministerija/design-system';
+import { App, Frequency, IconName, Subscription } from '../utils';
 import AppItem from './AppsItem';
 import Icon from './Icons';
-import { App, Frequency, IconName, Subscription } from '../utils';
 
 const frequencyLabels = {
   [Frequency.DAY]: 'Naujienos kasdien',
@@ -14,12 +13,10 @@ const frequencyLabels = {
 const SubscriptionCard = ({
   subscription,
   onClick,
-  onActiveChange,
   apps = [],
 }: {
   subscription: Subscription<App>;
   onClick: () => void;
-  onActiveChange: (e: boolean) => void;
   apps?: App[];
 }) => {
   const futureApps = subscription?.apps?.length === 0;
@@ -50,14 +47,15 @@ const SubscriptionCard = ({
             )}
             {showApps &&
               subscription.apps?.map((app: App) => {
-                const appIcon = svgToUrl(app.icon);
                 return <AppItem key={`app_${app.id}`} app={app} selected={true} />;
               })}
           </AppsContainer>
         </Content>
-        <SwitchWrapper>
-          <Switch value={subscription.active} onChange={(e) => onActiveChange(e.target.checked)} />
-        </SwitchWrapper>
+        <EventsCount>
+          <EventsCountLabel>{'Įvykių skaičius'}</EventsCountLabel>
+          <EventsCountTotal>{subscription.eventsCount?.total}</EventsCountTotal>
+          <EventsCountLatest>{`+ ${subscription.eventsCount?.latest}`}</EventsCountLatest>
+        </EventsCount>
       </InnerContainer>
     </Container>
   );
@@ -70,18 +68,49 @@ const Container = styled.div`
   cursor: pointer;
 `;
 
+const EventsCountLabel = styled.div`
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 10.08px;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  @media ${device.mobileS} {
+    font-size: 0.8rem;
+  }
+`;
+
+const EventsCountTotal = styled.div`
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 22.68px;
+  color: black;
+  @media ${device.mobileS} {
+    font-size: 1.8rem;
+  }
+`;
+
+const EventsCountLatest = styled.div`
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 15.12px;
+  color: #1b4c28;
+  @media ${device.mobileS} {
+    font-size: 1.2rem;
+  }
+`;
+
+const EventsCount = styled.div`
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 3px;
+`;
+
 const InnerContainer = styled.div`
   display: flex;
   box-sizing: border-box;
   padding: 16px;
   border-radius: 8px;
   background: ${({ theme }) => theme.colors.GREY};
-  align-items: center;
-`;
-
-const SwitchWrapper = styled.div`
-  padding: 0 8px;
-  align-self: flex-start;
 `;
 
 const Content = styled.div`
@@ -94,6 +123,9 @@ const Content = styled.div`
 const Name = styled.div`
   font-size: 2rem;
   font-weight: bold;
+  @media ${device.mobileS} {
+    font-size: 1.8rem;
+  }
 `;
 
 const AppsContainer = styled.div`
@@ -102,9 +134,4 @@ const AppsContainer = styled.div`
   width: 100%;
   gap: 8px;
   margin-top: 16px;
-`;
-
-const AppIcon = styled.img`
-  height: 16px;
-  margin-right: 4px;
 `;

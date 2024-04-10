@@ -245,7 +245,7 @@ class Api {
   getSubscriptions = async ({ page }: { page: number }): Promise<GetAllResponse<Subscription>> => {
     return this.get({
       resource: Resources.SUBSCRIPTIONS,
-      populate: ['apps'],
+      populate: ['apps', 'eventsCount'],
       page,
     });
   };

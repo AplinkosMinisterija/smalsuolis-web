@@ -1,11 +1,9 @@
+import { ContentLayout, Tabs } from '@aplinkosministerija/design-system';
 import React, { useRef, useState } from 'react';
-import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { device } from '../styles';
 import { IconName, isEmpty, useGetCurrentRoute, useInfinityLoad } from '../utils';
-import { slugs } from '../utils/routes';
 import { Event } from '../utils/types';
-import { ContentLayout, Tabs } from '@aplinkosministerija/design-system';
 import EmptyState from './EmptyState';
 import EventCard from './EventCard';
 import LoaderComponent from './LoaderComponent';
@@ -120,7 +118,4 @@ const InnerContainer = styled.div`
   width: 100%;
   gap: 12px;
   flex-direction: column;
-  @media ${device.mobileL} {
-    padding: 12px;
-  }
 `;
