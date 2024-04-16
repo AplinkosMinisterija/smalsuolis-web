@@ -12,7 +12,7 @@ jobs:
       contents: read
       packages: write
     with:
-      environment: Development
+      environment: development
       docker-image: ghcr.io/AplinkosMinisterija/smalsuolis-web
       runs-on: biip-workflows
       build-args: |
