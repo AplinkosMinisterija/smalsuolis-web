@@ -13,7 +13,7 @@ jobs:
       contents: read
       packages: write
     with:
-      environment: Staging
+      environment: staging
       docker-image: ghcr.io/AplinkosMinisterija/smalsuolis-web
       runs-on: biip-workflows
       build-args: |
