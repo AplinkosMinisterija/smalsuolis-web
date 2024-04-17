@@ -32,7 +32,7 @@ export const manifestForPlugIn = {
       },
     ],
     theme_color: '#171717',
-    background_color: '#0a1353',
+    background_color: '#14532d',
     display: 'standalone',
     scope: '/',
     start_url: '/',
