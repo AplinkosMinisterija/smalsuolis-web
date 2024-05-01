@@ -1,17 +1,17 @@
+import { Button, svgToUrl } from '@aplinkosministerija/design-system';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import styled, { useTheme } from 'styled-components';
 import { buttonLabels, Event, getTimeLabel, IconName, subtitle } from '../utils';
-import { Button, svgToUrl } from '@aplinkosministerija/design-system';
+import { isFuture } from 'date-fns';
+import { device } from '../styles';
 import Icon from './Icons';
 import PreviewMap from './PreviewMap';
 import Tag from './Tag';
-import { device } from '../styles';
-import { isFuture } from 'date-fns';
 
-const EventCard = ({ event }: { event: Event }) => {
+const EventCard = ({ event, isOpen = false }: { event: Event; isOpen?: boolean }) => {
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(isOpen);
   const { app } = event;
   const appIcon = svgToUrl(app.icon.replace(/stroke=\S+/gm, `stroke="${theme.colors.primary}"`));
 

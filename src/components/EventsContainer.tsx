@@ -1,15 +1,11 @@
+import { ContentLayout } from '@aplinkosministerija/design-system';
 import React, { useRef, useState } from 'react';
-import { useNavigate } from 'react-router';
 import styled, { useTheme } from 'styled-components';
 import { device } from '../styles';
 import { IconName, isEmpty, subtitle, useGetCurrentRoute, useInfinityLoad } from '../utils';
-import { slugs } from '../utils/routes';
-import { Event } from '../utils/types';
-import { ContentLayout } from '@aplinkosministerija/design-system';
 import EmptyState from './EmptyState';
 import EventCard from './EventCard';
 import LoaderComponent from './LoaderComponent';
-import Icon from './Icons';
 
 enum EventFilter {
   HAPPENED = 'HAPPENED',
@@ -120,9 +116,6 @@ const InnerContainer = styled.div`
   width: 100%;
   gap: 12px;
   flex-direction: column;
-  @media ${device.mobileL} {
-    padding: 12px;
-  }
 `;
 
 const FilterRow = styled.div`

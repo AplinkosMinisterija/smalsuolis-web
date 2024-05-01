@@ -1,7 +1,6 @@
 import { AppType } from './constants';
 
 import { Frequency } from './constants';
-import { JSX } from 'react';
 
 export interface App {
   id: number;
@@ -18,6 +17,7 @@ export interface Subscription<T = number> {
   geom?: any;
   frequency?: Frequency;
   active?: boolean;
+  eventsCount?: { allTime: number; new: number };
 }
 
 export interface SubscriptionForm extends Subscription {
