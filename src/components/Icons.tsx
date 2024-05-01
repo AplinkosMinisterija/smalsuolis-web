@@ -4,7 +4,7 @@ import { FaChevronRight } from 'react-icons/fa6';
 import { FiArrowLeft, FiClock, FiDownload, FiMail, FiMenu } from 'react-icons/fi';
 import { HiOutlineUsers } from 'react-icons/hi';
 import { IoMdCalendar } from 'react-icons/io';
-import { IoLocationOutline, IoPersonOutline, IoSearch } from 'react-icons/io5';
+import { IoLocationOutline, IoPersonOutline, IoSearch, IoFilter } from 'react-icons/io5';
 import { LiaBalanceScaleSolid } from 'react-icons/lia';
 
 import {
@@ -22,13 +22,14 @@ import {
 } from 'react-icons/md';
 import { PiArrowBendDownLeftBold } from 'react-icons/pi';
 import { IconName } from '../utils';
+import { IconBaseProps } from 'react-icons/lib';
 
-export interface IconProps {
+export interface IconProps extends IconBaseProps {
   name: IconName | string;
   className?: string;
 }
 
-const Icon = ({ name, className }: IconProps) => {
+const Icon = ({ name, className, ...rest }: IconProps) => {
   switch (name) {
     case IconName.book:
       return (
@@ -667,6 +668,9 @@ V12l3,3"
 
     case IconName.locationOutline:
       return <IoLocationOutline className={className} />;
+
+    case IconName.filter:
+      return <IoFilter className={className} {...rest} />;
 
     default:
       return null;

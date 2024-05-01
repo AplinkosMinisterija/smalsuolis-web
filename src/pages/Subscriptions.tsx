@@ -1,5 +1,5 @@
 import { ContentLayout } from '@aplinkosministerija/design-system';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
@@ -12,7 +12,6 @@ import api from '../utils/api';
 
 const Subscriptions = () => {
   const currentRoute = useGetCurrentRoute();
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const observerRef = useRef<any>(null);
 
@@ -26,20 +25,6 @@ const Subscriptions = () => {
     queryKey: ['apps'],
     queryFn: () => api.getApps({ page: 1 }),
   });
-
-  const onSuccess = () => {
-    queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
-    queryClient.invalidateQueries({ queryKey: ['user'] });
-  };
-
-  const { mutateAsync: updateSubscription } = useMutation({
-    mutationFn: api.updateSubscription,
-    onSuccess,
-  });
-
-  const handleSubscriptionActive = (id: number, active: boolean) => {
-    updateSubscription({ id, params: { active } });
-  };
 
   const emptySubscriptions = !subscriptions?.pages[0]?.data?.length;
 
@@ -66,9 +51,6 @@ const Subscriptions = () => {
                   <SubscriptionCard
                     subscription={subscription}
                     onClick={() => navigate(slugs.subscription(subscription?.id?.toString()))}
-                    onActiveChange={(e) =>
-                      subscription?.id ? handleSubscriptionActive(subscription.id, e) : {}
-                    }
                     apps={appsResponse?.rows}
                   />
                 );
@@ -106,7 +88,7 @@ const Container = styled.div`
   width: 100%;
 
   @media ${device.mobileL} {
-    padding: 12px;
+    padding: 0;
   }
 `;
 
@@ -117,9 +99,6 @@ const SubscriptionsContainer = styled.div`
   width: 100%;
   gap: 12px;
   flex-direction: column;
-  @media ${device.mobileL} {
-    padding: 12px;
-  }
 `;
 
 const ButtonsContainer = styled.div`
@@ -128,9 +107,6 @@ const ButtonsContainer = styled.div`
   width: 100%;
   margin-bottom: 16px;
   margin-left: auto;
-  @media ${device.mobileL} {
-    padding: 0 12px;
-  }
 `;
 
 const Invisible = styled.div`
@@ -144,12 +120,5 @@ const NewSubscriptionButton = styled.a`
   float: right;
   width: fit-content;
   margin-left: auto;
-  cursor: pointer;
-`;
-
-const DeleteSubscriptionButton = styled.a`
-  color: ${({ theme }) => theme.colors.danger};
-  text-decoration: underline;
-  float: right;
   cursor: pointer;
 `;

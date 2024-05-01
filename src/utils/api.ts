@@ -218,6 +218,14 @@ class Api {
     });
   };
 
+  getEvent = async ({ id }: { id: any }): Promise<Event> => {
+    return this.getOne({
+      resource: Resources.EVENTS,
+      id,
+      populate: ['geom', 'app'],
+    });
+  };
+
   getNewsfeed = async ({
     page,
     filter,
@@ -234,18 +242,10 @@ class Api {
     });
   };
 
-  getEvent = async ({ id }: { id: string }): Promise<Event> => {
-    return this.getOne({
-      resource: Resources.EVENTS,
-      populate: ['geom', 'app'],
-      id,
-    });
-  };
-
   getSubscriptions = async ({ page }: { page: number }): Promise<GetAllResponse<Subscription>> => {
     return this.get({
       resource: Resources.SUBSCRIPTIONS,
-      populate: ['apps'],
+      populate: ['apps', 'eventsCount'],
       page,
     });
   };
