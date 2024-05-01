@@ -31,7 +31,7 @@ export const formatDate = (date?: Date | string) =>
   date ? format(new Date(date), 'yyyy-MM-dd') : '';
 
 export const formatDateAndTime = (date?: Date | string) =>
-  date ? format(new Date(date), 'yyyy-MM-dd HH:MM') : '';
+  date ? format(new Date(date), 'yyyy-MM-dd HH:mm') : '';
 
 export const formatTime = (date?: Date | string) => (date ? format(new Date(date), 'HH:MM') : '');
 
