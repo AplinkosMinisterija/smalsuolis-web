@@ -93,6 +93,7 @@ export const buttonsTitles = {
   logout: 'Atsijungti',
   profile: 'Profilis',
   edit: 'Redaguoti',
+  filter: 'Filtruoti',
 };
 
 export const subtitle = {

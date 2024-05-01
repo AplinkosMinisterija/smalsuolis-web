@@ -2,10 +2,19 @@ import { ContentLayout } from '@aplinkosministerija/design-system';
 import React, { useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { device } from '../styles';
-import { IconName, isEmpty, subtitle, useGetCurrentRoute, useInfinityLoad, Event } from '../utils';
+import {
+  IconName,
+  isEmpty,
+  subtitle,
+  useGetCurrentRoute,
+  useInfinityLoad,
+  Event,
+  buttonsTitles,
+} from '../utils';
 import EmptyState from './EmptyState';
 import EventCard from './EventCard';
 import LoaderComponent from './LoaderComponent';
+import Icon from './Icons';
 
 enum EventFilter {
   HAPPENED = 'HAPPENED',
@@ -75,9 +84,13 @@ const EventsContainer = ({
     <ContentLayout currentRoute={currentRoute}>
       <FilterRow>
         {events && <CountText>{`${subtitle.foundRecords} ${events.pages[0].total}`}</CountText>}
-        {/* <FilterIconWrapper>
-          <Icon name={IconName.filter} size={18} color={theme.colors.success} />
-        </FilterIconWrapper> */}
+        <FilterButton>
+          <FilterIconWrapper>
+            <FilterBadge />
+            <Icon name={IconName.filter} size={22} color={'#1B4C28'} />
+          </FilterIconWrapper>
+          <FilterText>{buttonsTitles.filter}</FilterText>
+        </FilterButton>
       </FilterRow>
       <Container>{renderContent()}</Container>
     </ContentLayout>
@@ -132,6 +145,36 @@ const CountText = styled.div`
   color: #4b5768;
 `;
 
-const FilterIconWrapper = styled.div``;
+const FilterButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  cursor: pointer;
+  gap: 5px;
+`;
 
-const Badge = styled.div``;
+const FilterText = styled.div`
+  font-family: Plus Jakarta Sans;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20.16px;
+  text-align: left;
+  user-select: none;
+  color: #1b4c28;
+`;
+
+const FilterIconWrapper = styled.div`
+  position: relative;
+`;
+
+const FilterBadge = styled.div`
+  position: absolute;
+  top: 2px;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  border: 1px solid #ffffff;
+  background-color: ${({ theme }) => theme.colors.primary};
+`;
