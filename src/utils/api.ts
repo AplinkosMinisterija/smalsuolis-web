@@ -218,6 +218,14 @@ class Api {
     });
   };
 
+  getEvent = async ({ id }: { id: any }): Promise<Event> => {
+    return this.getOne({
+      resource: Resources.EVENTS,
+      id,
+      populate: ['geom', 'app'],
+    });
+  };
+
   getNewsfeed = async ({
     page,
     filter,
@@ -231,14 +239,6 @@ class Api {
       populate: ['geom', 'app'],
       sort: ['-startAt'],
       page,
-    });
-  };
-
-  getEvent = async ({ id }: { id: string }): Promise<Event> => {
-    return this.getOne({
-      resource: Resources.EVENTS,
-      populate: ['geom', 'app'],
-      id,
     });
   };
 

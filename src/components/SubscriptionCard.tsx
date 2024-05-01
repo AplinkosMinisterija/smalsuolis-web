@@ -54,10 +54,8 @@ const SubscriptionCard = ({
         </Content>
         <EventsCount>
           <EventsCountLabel>{'Įvykių skaičius'}</EventsCountLabel>
-          <EventsCountTotal>{eventsCount?.total}</EventsCountTotal>
-          {eventsCount?.latest && (
-            <EventsCountLatest>{`+ ${eventsCount.latest}`}</EventsCountLatest>
-          )}
+          <EventsCountAllTime>{eventsCount?.allTime}</EventsCountAllTime>
+          {eventsCount?.new && <EventsCountNew>{`+ ${eventsCount.new}`}</EventsCountNew>}
         </EventsCount>
       </InnerContainer>
     </Container>
@@ -81,7 +79,7 @@ const EventsCountLabel = styled.div`
   }
 `;
 
-const EventsCountTotal = styled.div`
+const EventsCountAllTime = styled.div`
   font-size: 2rem;
   font-weight: 700;
   line-height: 22.68px;
@@ -91,7 +89,7 @@ const EventsCountTotal = styled.div`
   }
 `;
 
-const EventsCountLatest = styled.div`
+const EventsCountNew = styled.div`
   font-size: 1.4rem;
   font-weight: 400;
   line-height: 15.12px;

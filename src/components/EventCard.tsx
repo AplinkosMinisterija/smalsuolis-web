@@ -1,15 +1,15 @@
+import { Button, svgToUrl } from '@aplinkosministerija/design-system';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components';
+import { device } from '../styles';
 import { buttonLabels, Event, getTimeLabel, IconName } from '../utils';
-import { Button, svgToUrl } from '@aplinkosministerija/design-system';
 import Icon from './Icons';
 import PreviewMap from './PreviewMap';
 import Tag from './Tag';
-import { device } from '../styles';
 
-const EventCard = ({ event }: { event: Event }) => {
-  const [open, setOpen] = useState(false);
+const EventCard = ({ event, isOpen = false }: { event: Event; isOpen?: boolean }) => {
+  const [open, setOpen] = useState(isOpen);
   const { app } = event;
   const appIcon = svgToUrl(app.icon);
 
