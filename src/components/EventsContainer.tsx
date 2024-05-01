@@ -2,7 +2,7 @@ import { ContentLayout } from '@aplinkosministerija/design-system';
 import React, { useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { device } from '../styles';
-import { IconName, isEmpty, subtitle, useGetCurrentRoute, useInfinityLoad } from '../utils';
+import { IconName, isEmpty, subtitle, useGetCurrentRoute, useInfinityLoad, Event } from '../utils';
 import EmptyState from './EmptyState';
 import EventCard from './EventCard';
 import LoaderComponent from './LoaderComponent';
