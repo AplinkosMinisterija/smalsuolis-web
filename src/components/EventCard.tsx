@@ -26,14 +26,14 @@ const EventCard = ({ event, isOpen = false }: { event: Event; isOpen?: boolean }
               )}
             </InnerRow>
             <Name>{event.name}</Name>
+            <InnerRow>
+              <Tag text={app.name} icon={<AppIcon src={appIcon} />} />
+            </InnerRow>
           </Column>
           <div>
             <Arrow expanded={open} name={IconName.dropdownArrow} />
           </div>
         </Row>
-        <InnerRow>
-          <Tag text={app.name} icon={<AppIcon src={appIcon} />} />
-        </InnerRow>
       </PressableView>
       {open && (
         <>
@@ -105,6 +105,7 @@ const Container = styled.a`
 
 const InnerRow = styled.div`
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
@@ -115,6 +116,7 @@ const InnerRow = styled.div`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 12px;
 `;
 

@@ -32,6 +32,11 @@ const Container = styled.div<{ $color: string; $backgroundColor: string }>`
   opacity: 1;
   gap: 6px;
   cursor: pointer;
+  &:hover,
+  &:focus {
+    color: ${({ $color }) => $color};
+    cursor: pointer;
+  }
   color: ${({ $color }) => $color};
 `;
 

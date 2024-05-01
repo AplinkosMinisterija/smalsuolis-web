@@ -31,12 +31,8 @@ const EventsContainer = ({
   const getFilter = () => {
     const currentDate = new Date();
     const filterCondition = filter === EventFilter.HAPPENED ? '$lte' : '$gte';
-
-    return {
-      startAt: {
-        [filterCondition]: currentDate,
-      },
-    };
+    // add filters here
+    return {};
   };
 
   const {
