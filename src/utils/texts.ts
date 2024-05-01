@@ -97,6 +97,9 @@ export const buttonsTitles = {
 
 export const subtitle = {
   about: 'Domina, kas vyksta aplinkui tave?',
+  subscription: 'Prenumerata',
+  foundRecords: 'Rasta įrašų',
+  future: 'Būsimas',
 };
 
 export const subscriptionFrequencyTitles = {

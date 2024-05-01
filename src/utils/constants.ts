@@ -59,6 +59,7 @@ export enum IconName {
   list = 'list',
   openInNew = 'openInNew',
   search = 'search',
+  filter = 'filter',
 }
 export enum ServerErrorCodes {
   NOT_FOUND = '404',
