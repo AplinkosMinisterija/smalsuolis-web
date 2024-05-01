@@ -33,7 +33,7 @@ export const formatDate = (date?: Date | string) =>
 export const formatDateAndTime = (date?: Date | string) =>
   date ? format(new Date(date), 'yyyy-MM-dd HH:mm') : '';
 
-export const formatTime = (date?: Date | string) => (date ? format(new Date(date), 'HH:MM') : '');
+export const formatTime = (date?: Date | string) => (date ? format(new Date(date), 'HH:mm') : '');
 
 export const getTimeLabel = (event: Event) => {
   const { startAt, endAt, isFullDay } = event;
