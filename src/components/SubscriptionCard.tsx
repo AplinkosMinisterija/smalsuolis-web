@@ -29,7 +29,7 @@ const SubscriptionCard = ({
       <InnerContainer>
         <Content onClick={onClick}>
           <Name>
-            {`${subscription?.frequency ? frequencyLabels[subscription?.frequency] : ''}`}{' '}
+            {`${subscription?.name ?? (subscription?.frequency && frequencyLabels[subscription?.frequency])}`}{' '}
           </Name>
           <AppsContainer>
             {futureApps && (

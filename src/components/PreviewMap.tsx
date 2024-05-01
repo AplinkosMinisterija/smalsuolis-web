@@ -117,12 +117,12 @@ const StyledButton = styled.div<{ popup: boolean }>`
   position: absolute;
   z-index: 10;
   top: ${({ popup }) => (popup ? 30 : 15)}px;
-  right: ${({ popup }) => (popup ? 28 : 11)}px;
+  left: ${({ popup }) => (popup ? 28 : 11)}px;
   min-width: 28px;
   height: 28px;
   @media ${device.mobileL} {
-    top: 80px;
-    right: 10px;
+    top: 10px;
+    left: 10px;
   }
 
   border-color: #e5e7eb;

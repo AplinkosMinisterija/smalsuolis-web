@@ -78,7 +78,7 @@ const EventsContainer = ({
   return (
     <ContentLayout currentRoute={currentRoute}>
       <FilterRow>
-        <CountText>{`${subtitle.foundRecords} ${events && events.pages[0].total}`}</CountText>
+        {events && <CountText>{`${subtitle.foundRecords} ${events.pages[0].total}`}</CountText>}
         {/* <FilterIconWrapper>
           <Icon name={IconName.filter} size={18} color={theme.colors.success} />
         </FilterIconWrapper> */}

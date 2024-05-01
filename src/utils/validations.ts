@@ -11,6 +11,7 @@ export const forgotPasswordSchema = Yup.object().shape({
   agree: Yup.bool().oneOf([true]),
 });
 export const validateSubscriptionForm = Yup.object().shape({
+  name: Yup.string().required(validationTexts.requireText).min(1),
   active: Yup.boolean().required(validationTexts.requireText),
   apps: Yup.array()
     .min(1, validationTexts.appsNotSelected)

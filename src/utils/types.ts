@@ -12,6 +12,7 @@ export interface App {
 
 export interface Subscription<T = number> {
   id?: number;
+  name?: string;
   user?: number;
   apps?: T[];
   geom?: any;
