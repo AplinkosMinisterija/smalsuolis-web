@@ -18,7 +18,7 @@ const EventPage = () => {
 
   return (
     <ContentLayout>
-      <EventCard key={event.id} event={event} isOpen={true} />;
+      <EventCard key={event.id} event={event} isOpen={true} />
     </ContentLayout>
   );
 };
