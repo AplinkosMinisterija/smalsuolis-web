@@ -14,26 +14,27 @@ const EventCard = ({ event, isOpen = false }: { event: Event; isOpen?: boolean }
   const [open, setOpen] = useState(isOpen);
   const { app } = event;
   const appIcon = svgToUrl(app.icon.replace(/stroke=\S+/gm, `stroke="${theme.colors.primary}"`));
-
   return (
-    <Container onClick={() => setOpen(!open)}>
-      <Row>
-        <Column>
-          <InnerRow>
-            <Time>{getTimeLabel(event)}</Time>
-            {isFuture(new Date(event.startAt)) && (
-              <Tag text={subtitle.future} textColor={'white'} backgroundColor={'#1B4C28'} />
-            )}
-          </InnerRow>
-          <Name>{event.name}</Name>
-        </Column>
-        <div>
-          <Arrow expanded={open} name={IconName.dropdownArrow} />
-        </div>
-      </Row>
-      <InnerRow>
-        <Tag text={app.name} icon={<AppIcon src={appIcon} />} />
-      </InnerRow>
+    <Container>
+      <div onClick={() => setOpen(!open)}>
+        <Row>
+          <Column>
+            <InnerRow>
+              <Time>{getTimeLabel(event)}</Time>
+              {isFuture(new Date(event.startAt)) && (
+                <Tag text={subtitle.future} textColor={'white'} backgroundColor={'#1B4C28'} />
+              )}
+            </InnerRow>
+            <Name>{event.name}</Name>
+          </Column>
+          <div>
+            <Arrow expanded={open} name={IconName.dropdownArrow} />
+          </div>
+        </Row>
+        <InnerRow>
+          <Tag text={app.name} icon={<AppIcon src={appIcon} />} />
+        </InnerRow>
+      </div>
       {open && (
         <>
           <MapContainer>
