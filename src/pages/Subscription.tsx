@@ -1,4 +1,10 @@
-import { Button, ContentLayout, MapField, Switch } from '@aplinkosministerija/design-system';
+import {
+  Button,
+  ContentLayout,
+  MapField,
+  Switch,
+  TextField,
+} from '@aplinkosministerija/design-system';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Form, Formik } from 'formik';
 import { useState } from 'react';
@@ -75,6 +81,7 @@ const Subscriptions = () => {
   const futureApps = subscription?.apps && subscription.apps?.length === 0;
 
   const initialValues: SubscriptionForm = {
+    name: subscription?.name ?? '',
     active: typeof subscription?.active === 'boolean' ? subscription?.active : true,
     apps: noSubscription || futureApps ? allApps : subscription?.apps || [],
     geom: subscription?.geom,
@@ -127,6 +134,16 @@ const Subscriptions = () => {
           {({ values, setFieldValue, errors }) => {
             return (
               <Container>
+                <Section>
+                  <Label>{'Prenumeratos pavadinimas'}</Label>
+                  <TextField
+                    value={values.name}
+                    type="text"
+                    name="name"
+                    error={errors.name}
+                    onChange={(value) => setFieldValue('name', value)}
+                  />
+                </Section>
                 <Section>
                   <SubscriptionActivation>
                     <Label>{values.active ? 'Prenumerata aktyvi' : 'Prenumerata neaktyvi'}</Label>

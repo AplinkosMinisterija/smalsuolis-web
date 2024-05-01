@@ -16,7 +16,7 @@ const EventCard = ({ event, isOpen = false }: { event: Event; isOpen?: boolean }
   const appIcon = svgToUrl(app.icon.replace(/stroke=\S+/gm, `stroke="${theme.colors.primary}"`));
   return (
     <Container>
-      <div onClick={() => setOpen(!open)}>
+      <PressableView onClick={() => setOpen(!open)}>
         <Row>
           <Column>
             <InnerRow>
@@ -26,15 +26,15 @@ const EventCard = ({ event, isOpen = false }: { event: Event; isOpen?: boolean }
               )}
             </InnerRow>
             <Name>{event.name}</Name>
+            <InnerRow>
+              <Tag text={app.name} icon={<AppIcon src={appIcon} />} />
+            </InnerRow>
           </Column>
           <div>
             <Arrow expanded={open} name={IconName.dropdownArrow} />
           </div>
         </Row>
-        <InnerRow>
-          <Tag text={app.name} icon={<AppIcon src={appIcon} />} />
-        </InnerRow>
-      </div>
+      </PressableView>
       {open && (
         <>
           <MapContainer>
@@ -105,6 +105,7 @@ const Container = styled.a`
 
 const InnerRow = styled.div`
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
@@ -115,6 +116,7 @@ const InnerRow = styled.div`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 12px;
 `;
 
@@ -126,6 +128,12 @@ const Row = styled.div`
 
 const Time = styled.div`
   white-space: nowrap;
+`;
+
+const PressableView = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 `;
 
 const Name = styled.div`
