@@ -1,5 +1,8 @@
+import { AppRoute } from '@aplinkosministerija/design-system';
+import Icon from '../components/Icons';
 import About from '../pages/About';
 import { default as CreatePassword } from '../pages/CreatePassword';
+import EventPage from '../pages/Event';
 import Events from '../pages/Events';
 import RemindPassword from '../pages/ForgotPassword';
 import Login from '../pages/Login';
@@ -11,8 +14,6 @@ import Subscription from '../pages/Subscription';
 import Subscriptions from '../pages/Subscriptions';
 import { IconName } from './constants';
 import { titles } from './texts';
-import { AppRoute } from '@aplinkosministerija/design-system';
-import Icon from '../components/Icons';
 
 export const slugs = {
   login: '/prisijungimas',
@@ -22,6 +23,7 @@ export const slugs = {
   createAccount: '/pakvietimas',
   profile: '/profilis',
   events: '/visos-naujienos',
+  event: (id?: string) => `/visos-naujienos/${id}`,
   myEvents: '/mano-naujienos',
   subscriptions: '/prenumeratos',
   subscription: (id?: string) => `/prenumeratos/${id}`,
@@ -49,6 +51,12 @@ export const routes: AppRoute[] = [
     icon: <Icon name={IconName.settings} />,
     slug: slugs.subscriptions,
   },
+
+  {
+    component: <EventPage />,
+    slug: slugs.event(':id'),
+  },
+
   {
     component: <Subscription />,
     title: titles.subscription,
