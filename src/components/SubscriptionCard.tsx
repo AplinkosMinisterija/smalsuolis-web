@@ -55,7 +55,7 @@ const SubscriptionCard = ({
         <EventsCount>
           <EventsCountLabel>{'Įvykių skaičius'}</EventsCountLabel>
           <EventsCountAllTime>{eventsCount?.allTime}</EventsCountAllTime>
-          {eventsCount?.new && <EventsCountNew>{`+ ${eventsCount.new}`}</EventsCountNew>}
+          {!!eventsCount?.new && <EventsCountNew>{`+ ${eventsCount.new}`}</EventsCountNew>}
         </EventsCount>
       </InnerContainer>
     </Container>
