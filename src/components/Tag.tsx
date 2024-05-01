@@ -2,27 +2,28 @@ import styled from 'styled-components';
 
 const Tag = ({
   text,
-  backgroundColor = '#E8F9EC',
-  color = '#14532d',
+  backgroundColor = 'white',
+  textColor = 'inherit',
   icon,
   onClick,
 }: {
   text: string;
   backgroundColor?: string;
-  color?: string;
+  textColor?: string;
   icon?: any;
   onClick?: () => void;
 }) => {
   return (
-    <Container onClick={onClick} $color={color} $backgroundColor={backgroundColor}>
+    <Container onClick={onClick} $color={textColor} $backgroundColor={backgroundColor}>
       {icon}
       <Text>{text}</Text>
     </Container>
   );
 };
+
 const Container = styled.div<{ $color: string; $backgroundColor: string }>`
   background-color: ${({ $backgroundColor }) => $backgroundColor};
-  border-radius: 17px;
+  border-radius: 4px;
   padding: 4px 12px;
   display: flex;
   width: fit-content;

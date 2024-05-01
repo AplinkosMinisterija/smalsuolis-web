@@ -1,33 +1,39 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import styled from 'styled-components';
-import { buttonLabels, Event, getTimeLabel, IconName } from '../utils';
+import styled, { useTheme } from 'styled-components';
+import { buttonLabels, Event, getTimeLabel, IconName, subtitle } from '../utils';
 import { Button, svgToUrl } from '@aplinkosministerija/design-system';
 import Icon from './Icons';
 import PreviewMap from './PreviewMap';
 import Tag from './Tag';
 import { device } from '../styles';
+import { isFuture } from 'date-fns';
 
 const EventCard = ({ event }: { event: Event }) => {
+  const theme = useTheme();
   const [open, setOpen] = useState(false);
   const { app } = event;
-  const appIcon = svgToUrl(app.icon);
+  const appIcon = svgToUrl(app.icon.replace(/stroke=\S+/gm, `stroke="${theme.colors.primary}"`));
 
   return (
     <Container onClick={() => setOpen(!open)}>
       <Row>
         <Column>
           <InnerRow>
-            <Tag text={app.name} icon={<AppIcon src={appIcon} />} />
             <Time>{getTimeLabel(event)}</Time>
+            {isFuture(new Date(event.startAt)) && (
+              <Tag text={subtitle.future} textColor={'white'} backgroundColor={'#1B4C28'} />
+            )}
           </InnerRow>
-
           <Name>{event.name}</Name>
         </Column>
         <div>
           <Arrow expanded={open} name={IconName.dropdownArrow} />
         </div>
       </Row>
+      <InnerRow>
+        <Tag text={app.name} icon={<AppIcon src={appIcon} />} />
+      </InnerRow>
       {open && (
         <>
           <MapContainer>
@@ -99,6 +105,7 @@ const Container = styled.a`
 const InnerRow = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
   @media ${device.mobileL} {
     flex-wrap: wrap;
