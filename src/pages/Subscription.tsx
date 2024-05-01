@@ -187,7 +187,7 @@ const Subscriptions = () => {
                   <MapField
                     allow="geolocation *"
                     mapHost={mapHost}
-                    mapPath={'/edit?types[]=point&buffer=xl'}
+                    mapPath={'/edit?types[]=point&buffer=xl&autoZoom=true'}
                     value={values.geom}
                     label={'Padėkite tašką, kur norite stebėti ir nustatykite spindulį'}
                     error={errors?.geom as string}

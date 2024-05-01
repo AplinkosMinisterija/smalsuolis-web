@@ -13,8 +13,9 @@ jobs:
       contents: read
       packages: write
     with:
-      environment: Production
+      environment: production
       docker-image: ghcr.io/AplinkosMinisterija/smalsuolis-web
+      enable-sentry: true
       runs-on: biip-workflows
       build-args: |
         NODE_ENV=production
