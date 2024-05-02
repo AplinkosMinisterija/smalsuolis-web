@@ -15,6 +15,7 @@ import EmptyState from './EmptyState';
 import EventCard from './EventCard';
 import LoaderComponent from './LoaderComponent';
 import Icon from './Icons';
+import EventFilterModal from './EventFilterModal';
 
 enum EventFilter {
   HAPPENED = 'HAPPENED',
@@ -35,6 +36,7 @@ const EventsContainer = ({
   const theme = useTheme();
   const currentRoute = useGetCurrentRoute();
   const observerRef = useRef<any>(null);
+  const [showFilterModal, setShowFilterModal] = useState(false);
   const [filter, setFilter] = useState(EventFilter.HAPPENED);
 
   const getFilter = () => {
@@ -84,7 +86,7 @@ const EventsContainer = ({
     <ContentLayout currentRoute={currentRoute}>
       <FilterRow>
         {events && <CountText>{`${subtitle.foundRecords} ${events.pages[0].total}`}</CountText>}
-        <FilterButton>
+        <FilterButton onClick={() => setShowFilterModal(true)}>
           <FilterIconWrapper>
             <FilterBadge />
             <Icon name={IconName.filter} size={22} color={'#1B4C28'} />
@@ -93,6 +95,7 @@ const EventsContainer = ({
         </FilterButton>
       </FilterRow>
       <Container>{renderContent()}</Container>
+      <EventFilterModal visible={showFilterModal} onClose={() => setShowFilterModal(false)} />
     </ContentLayout>
   );
 };
