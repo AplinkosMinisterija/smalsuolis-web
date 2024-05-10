@@ -84,16 +84,18 @@ const EventsContainer = ({
 
   return (
     <ContentLayout currentRoute={currentRoute}>
-      <FilterRow>
-        {events && <CountText>{`${subtitle.foundRecords} ${events.pages[0].total}`}</CountText>}
-        <FilterButton onClick={() => setShowFilterModal(true)}>
-          <FilterIconWrapper>
-            {!isEmpty(filters) && <FilterBadge />}
-            <Icon name={IconName.filter} size={22} color={'#1B4C28'} />
-          </FilterIconWrapper>
-          <FilterText>{buttonsTitles.filter}</FilterText>
-        </FilterButton>
-      </FilterRow>
+      {!isLoading && (
+        <FilterRow>
+          <CountText>{events && `${subtitle.foundRecords} ${events.pages[0].total}`}</CountText>
+          <FilterButton onClick={() => setShowFilterModal(true)}>
+            <FilterIconWrapper>
+              {!isEmpty(filters) && <FilterBadge />}
+              <Icon name={IconName.filter} size={22} color={'#1B4C28'} />
+            </FilterIconWrapper>
+            <FilterText>{buttonsTitles.filter}</FilterText>
+          </FilterButton>
+        </FilterRow>
+      )}
       <Container>{renderContent()}</Container>
       <EventFilterModal visible={showFilterModal} onClose={() => setShowFilterModal(false)} />
     </ContentLayout>
