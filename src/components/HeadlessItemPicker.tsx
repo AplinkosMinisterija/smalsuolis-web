@@ -1,6 +1,6 @@
 import React from 'react';
 
-export interface ItemT {
+export interface HeadlessItemT {
   key: string;
 }
 
@@ -11,7 +11,7 @@ export interface RenderItemProps<T> {
   onClick: () => void;
 }
 
-export interface ItemPickerProps<T extends ItemT> {
+export interface HeadlessItemPickerProps<T extends HeadlessItemT> {
   className?: string;
   data: Array<T>;
   selectedItems: Array<T>;
@@ -21,13 +21,13 @@ export interface ItemPickerProps<T extends ItemT> {
 }
 
 // reusable headless component yra yra nera bus
-const ItemPicker = <T extends ItemT>({
+const ItemPicker = <T extends HeadlessItemT>({
   data,
   renderItem,
-  selectedItems,
+  selectedItems = [],
   setSelectedItems,
   allowMultipleSelection = false,
-}: ItemPickerProps<T>) => {
+}: HeadlessItemPickerProps<T>) => {
   const onItemPress = (item: T) => {
     if (allowMultipleSelection) {
       const foundSelectedIndex = selectedItems.findIndex((selected) => {

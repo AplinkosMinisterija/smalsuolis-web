@@ -19,7 +19,7 @@ const Subscriptions = () => {
     data: subscriptions,
     isFetching,
     isLoading,
-  } = useInfinityLoad('subscriptions', api.getSubscriptions, observerRef);
+  } = useInfinityLoad(['subscriptions'], api.getSubscriptions, observerRef);
 
   const { data: appsResponse } = useQuery({
     queryKey: ['apps'],

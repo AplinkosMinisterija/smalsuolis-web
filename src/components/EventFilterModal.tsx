@@ -2,62 +2,48 @@ import styled from 'styled-components';
 import { device } from '../styles';
 import Icon from './Icons';
 import { Button, Modal } from '@aplinkosministerija/design-system';
-import FilterPicker, { FilterItem } from './FilterPicker';
-import { useState } from 'react';
-import { IconName, buttonsTitles, subtitle } from '../utils';
-
-const category = [
-  {
-    key: '1',
-    text: 'Statinio statyba',
-  },
-  {
-    key: '2',
-    text: 'Statinio griovimas',
-  },
-  {
-    key: '3',
-    text: 'Statinio remontas/rekonstravimas',
-  },
-  {
-    key: '4',
-    text: 'Statinio/patalpų paskirties keitimas',
-  },
-  {
-    key: '5',
-    text: 'Žuvinimas',
-  },
-];
-
-const dates = [
-  {
-    key: '1',
-    text: 'Šios dienos',
-  },
-  {
-    key: '2',
-    text: 'Šios savaitės',
-  },
-  {
-    key: '3',
-    text: 'Šio mėnesio',
-  },
-  {
-    key: '4',
-    text: 'Būsimi',
-  },
-];
+import FilterPicker from './FilterPicker';
+import { useContext, useEffect, useState } from 'react';
+import { App, IconName, buttonsTitles, subtitle } from '../utils';
+import { useQuery } from '@tanstack/react-query';
+import api from '../utils/api';
+import { UserContext, UserContextType } from './UserProvider';
+import { EventFilterContext, EventFilterContextType, TimeRangeItem } from './EventFilterProvider';
 
 const EventFilterModal = ({ onClose, visible = false }: any) => {
-  const [selectedCategories, setSelectedCategories] = useState<FilterItem[]>([]);
-  const [selectedDate, setSelectedDate] = useState<FilterItem[]>([]);
+  const { loggedIn } = useContext<UserContextType>(UserContext);
+  const { timeRangeItems, setFilters, resetFilters, filters } =
+    useContext<EventFilterContextType>(EventFilterContext);
+
+  const [selectedApps, setSelectedApps] = useState<App[]>([]);
+  const [selectedTimeRange, setSelectedTimeRange] = useState<TimeRangeItem[]>([]);
+
+  const { data: appsResponse, isLoading: appsLoading } = useQuery({
+    queryKey: ['apps'],
+    queryFn: () => api.getApps({ page: 1 }),
+    enabled: loggedIn,
+  });
+  const apps: App[] = appsResponse?.rows || [];
 
   const clearFilter = () => {
-    setSelectedCategories([]);
-    setSelectedDate([]);
+    resetFilters();
+    onClose();
   };
 
-  const onFilterClick = () => {};
+  useEffect(() => {
+    if (visible) {
+      setSelectedApps(filters.apps || []);
+      setSelectedTimeRange(filters.timeRange ? [filters.timeRange] : []);
+    }
+  }, [visible]);
+
+  const onFilterClick = () => {
+    setFilters({
+      ...(selectedApps.length > 0 ? { apps: selectedApps } : null),
+      ...(selectedTimeRange ? { timeRange: selectedTimeRange[0] } : null),
+    });
+    onClose();
+  };
 
   return (
     <Modal visible={visible} onClose={onClose}>
@@ -70,23 +56,24 @@ const EventFilterModal = ({ onClose, visible = false }: any) => {
           </IconContainer>
         </HeaderWrapper>
         <Title>{buttonsTitles.filter}</Title>
-
-        <FilterGroup>
-          <Subtitle>{subtitle.category}</Subtitle>
-          <FilterPicker
-            allowMultipleSelection
-            data={category}
-            selectedItems={selectedCategories}
-            setSelectedItems={(items) => setSelectedCategories(items)}
-          />
-        </FilterGroup>
+        {apps.length > 0 && (
+          <FilterGroup>
+            <Subtitle>{subtitle.category}</Subtitle>
+            <FilterPicker
+              allowMultipleSelection
+              data={apps}
+              selectedItems={selectedApps}
+              setSelectedItems={(items) => setSelectedApps(items)}
+            />
+          </FilterGroup>
+        )}
 
         <FilterGroup>
           <Subtitle>{subtitle.date}</Subtitle>
           <FilterPicker
-            data={dates}
-            selectedItems={selectedDate}
-            setSelectedItems={(items) => setSelectedDate(items)}
+            data={timeRangeItems}
+            selectedItems={selectedTimeRange}
+            setSelectedItems={(items) => setSelectedTimeRange(items)}
           />
         </FilterGroup>
         <FilterButton onClick={onFilterClick}>{buttonsTitles.filter}</FilterButton>

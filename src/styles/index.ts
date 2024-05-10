@@ -17,29 +17,41 @@ export const theme: Theme = {
     yellowDarker: '#ffd399',
     greyDarker: '#d4d5de',
     lightSteelBlue: '#cdd5df',
-    buttonBackground: {
-      primary: '#73DC8C',
-      secondary: 'white',
-      tertiary: '#73DC8C',
-      success: '#258800',
-      danger: '#FE5B78',
-      transparent: 'transparent',
-    },
-    buttonText: {
-      primary: '#101010',
-      secondary: '#101010',
-      tertiary: 'white',
-      danger: 'white',
-      success: 'white',
-      transparent: '#101010',
-    },
-    hover: {
-      primary: '#73DC8C',
-      secondary: '#121A55',
-      tertiary: '#F7F7F7',
-      transparent: 'transparent',
-      danger: '#FE5B78E6',
-      success: '#4FB922B3',
+    buttons: {
+      primary: {
+        background: '#73DC8C',
+        text: '#101010',
+        border: '#73DC8C',
+      },
+      secondary: {
+        background: 'white',
+        text: '#101010',
+        border: 'white',
+        hover: '#121A55',
+      },
+      tertiary: {
+        background: '#73DC8C',
+        text: 'white',
+        border: '#73DC8C',
+        hover: '#F7F7F7',
+      },
+      success: {
+        background: '#258800',
+        text: 'white',
+        border: '#258800',
+        hover: '#4FB922B3',
+      },
+      danger: {
+        background: '#FE5B78',
+        text: 'white',
+        border: '#FE5B78',
+        hover: '#FE5B78E6',
+      },
+      transparent: {
+        background: 'transparent',
+        text: '#101010',
+        border: 'transparent',
+      },
     },
     text: {
       primary: '#101010',
@@ -58,6 +70,25 @@ export const theme: Theme = {
     background: '#f7f7f7',
     cardBackground: { primary: '#f7f7f7', success: '#eafbf6' },
     GREY: '#f7f7f7',
+  },
+  radius: {
+    buttons: 100,
+    fields: 0,
+    multiSelectFieldTag: 0,
+  },
+  height: {
+    fields: 0,
+    buttons: 0,
+  },
+  fontSize: {
+    fields: 0,
+    fieldLabels: 0,
+    buttons: 0,
+  },
+  fontWeight: {
+    fields: 0,
+    fieldLabels: 0,
+    buttons: 0,
   },
 };
 
