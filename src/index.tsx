@@ -11,7 +11,7 @@ import { GlobalStyle, theme } from './styles/index';
 import { handleAlert } from './utils';
 import api from './utils/api';
 import { updateTokens } from './utils/loginFunctions';
-import { EventFilterProvider } from './components/EventFilterProvider';
+
 const cookies = new Cookies();
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -71,10 +71,8 @@ root.render(
       <GlobalStyle />
       <BrowserRouter>
         <UserProvider>
-          <EventFilterProvider>
-            <App />
-            <ToastContainer />
-          </EventFilterProvider>
+          <App />
+          <ToastContainer />
         </UserProvider>
       </BrowserRouter>
     </ThemeProvider>

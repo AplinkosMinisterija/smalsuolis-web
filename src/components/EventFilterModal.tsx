@@ -1,24 +1,34 @@
 import styled from 'styled-components';
 import { device } from '../styles';
 import Icon from './Icons';
-import { Button, Modal } from '@aplinkosministerija/design-system';
+import { Button, Modal, useStorage } from '@aplinkosministerija/design-system';
 import FilterPicker from './FilterPicker';
 import { useContext, useEffect, useState } from 'react';
-import { App, IconName, buttonsTitles, subtitle } from '../utils';
+import {
+  App,
+  Filters,
+  IconName,
+  TimeRangeItem,
+  buttonsTitles,
+  subtitle,
+  timeRangeItems,
+} from '../utils';
 import { useQuery } from '@tanstack/react-query';
 import api from '../utils/api';
 import { UserContext, UserContextType } from './UserProvider';
-import { EventFilterContext, EventFilterContextType, TimeRangeItem } from './EventFilterProvider';
 
 const EventFilterModal = ({ onClose, visible = false }: any) => {
   const { loggedIn } = useContext<UserContextType>(UserContext);
-  const { timeRangeItems, setFilters, resetFilters, filters } =
-    useContext<EventFilterContextType>(EventFilterContext);
+  const {
+    value: filters,
+    setValue: setFilters,
+    resetValue: resetFilters,
+  } = useStorage<Filters>('filters', {}, true);
 
   const [selectedApps, setSelectedApps] = useState<App[]>([]);
   const [selectedTimeRange, setSelectedTimeRange] = useState<TimeRangeItem[]>([]);
 
-  const { data: appsResponse, isLoading: appsLoading } = useQuery({
+  const { data: appsResponse } = useQuery({
     queryKey: ['apps'],
     queryFn: () => api.getApps({ page: 1 }),
     enabled: loggedIn,

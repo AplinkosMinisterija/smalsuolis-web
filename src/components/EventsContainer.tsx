@@ -10,18 +10,13 @@ import {
   useInfinityLoad,
   Event,
   buttonsTitles,
+  Filters,
 } from '../utils';
 import EmptyState from './EmptyState';
 import EventCard from './EventCard';
 import LoaderComponent from './LoaderComponent';
 import Icon from './Icons';
 import EventFilterModal from './EventFilterModal';
-import { EventFilterContext, EventFilterContextType } from './EventFilterProvider';
-
-enum EventFilter {
-  HAPPENED = 'HAPPENED',
-  PLANNED = 'PLANNED',
-}
 
 const EventsContainer = ({
   apiEndpoint,
@@ -34,15 +29,17 @@ const EventsContainer = ({
   emptyStateDescription?: string;
   emptyStateTitle: string;
 }) => {
-  const { filters } = useContext<EventFilterContextType>(EventFilterContext);
+  const filters = useStorage<Filters>('filters', {}, true);
+
   const currentRoute = useGetCurrentRoute();
   const observerRef = useRef<any>(null);
   const [showFilterModal, setShowFilterModal] = useState(false);
 
   const getFilter = () => {
+    const { apps, timeRange } = filters.value;
     return {
-      ...(filters.apps ? { app: { $in: filters.apps.map((app) => app.id) } } : null),
-      ...(filters.timeRange ? { startAt: filters.timeRange.query } : null),
+      ...(apps ? { app: { $in: apps.map((app) => app.id) } } : null),
+      ...(timeRange ? { startAt: timeRange.query } : null),
     };
   };
 
@@ -89,7 +86,7 @@ const EventsContainer = ({
           <CountText>{events && `${subtitle.foundRecords} ${events.pages[0].total}`}</CountText>
           <FilterButton onClick={() => setShowFilterModal(true)}>
             <FilterIconWrapper>
-              {!isEmpty(filters) && <FilterBadge />}
+              {!isEmpty(filters.value) && <FilterBadge />}
               <Icon name={IconName.filter} size={22} color={'#1B4C28'} />
             </FilterIconWrapper>
             <FilterText>{buttonsTitles.filter}</FilterText>
