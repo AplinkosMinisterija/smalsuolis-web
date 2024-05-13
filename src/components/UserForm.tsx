@@ -1,4 +1,4 @@
-import { ContentLayout, TextField } from '@aplinkosministerija/design-system';
+import { ButtonVariants, ContentLayout, TextField } from '@aplinkosministerija/design-system';
 import { buttonsTitles, inputLabels, PasswordForm, useGetCurrentRoute, User } from '../utils';
 import PasswordCheckListContainer from './PasswordCheckListContainer';
 import styled from 'styled-components';
@@ -74,7 +74,7 @@ const UserForm = ({
           repeatPassword={repeatPassword}
         />
         <StyledButton
-          variant={Button.colors.PRIMARY}
+          variant={ButtonVariants.PRIMARY}
           loading={isLoading}
           disabled={disableSubmit}
           type="submit"
