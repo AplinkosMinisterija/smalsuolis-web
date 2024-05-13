@@ -3,7 +3,7 @@ import { device } from '../styles';
 import Icon from './Icons';
 import { Button, Modal, useStorage } from '@aplinkosministerija/design-system';
 import FilterPicker from './FilterPicker';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   App,
   Filters,
@@ -15,10 +15,8 @@ import {
 } from '../utils';
 import { useQuery } from '@tanstack/react-query';
 import api from '../utils/api';
-import { UserContext, UserContextType } from './UserProvider';
 
 const EventFilterModal = ({ onClose, visible = false }: any) => {
-  const { loggedIn } = useContext<UserContextType>(UserContext);
   const {
     value: filters,
     setValue: setFilters,
@@ -30,10 +28,9 @@ const EventFilterModal = ({ onClose, visible = false }: any) => {
 
   const { data: appsResponse } = useQuery({
     queryKey: ['apps'],
-    queryFn: () => api.getApps({ page: 1 }),
-    enabled: loggedIn,
+    queryFn: () => api.getAllApps(),
   });
-  const apps: App[] = appsResponse?.rows || [];
+  const apps = appsResponse ?? [];
 
   const clearFilter = () => {
     resetFilters();

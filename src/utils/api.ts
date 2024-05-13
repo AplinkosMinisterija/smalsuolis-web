@@ -306,6 +306,12 @@ class Api {
       page,
     });
   };
+
+  getAllApps = async (): Promise<App[]> => {
+    return this.get({
+      resource: Resources.APPS + '/all',
+    });
+  };
 }
 
 const api = new Api();

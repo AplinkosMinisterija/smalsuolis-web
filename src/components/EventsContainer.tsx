@@ -1,6 +1,11 @@
-import { ContentLayout, useStorage } from '@aplinkosministerija/design-system';
-import React, { useContext, useRef, useState } from 'react';
-import styled, { useTheme } from 'styled-components';
+import {
+  Button,
+  ButtonVariants,
+  ContentLayout,
+  useStorage,
+} from '@aplinkosministerija/design-system';
+import React, { useRef, useState } from 'react';
+import styled from 'styled-components';
 import { device } from '../styles';
 import {
   IconName,
@@ -17,6 +22,8 @@ import EventCard from './EventCard';
 import LoaderComponent from './LoaderComponent';
 import Icon from './Icons';
 import EventFilterModal from './EventFilterModal';
+import PreviewMap from './PreviewMap';
+import MapView from './MapView';
 
 const EventsContainer = ({
   apiEndpoint,
@@ -30,6 +37,8 @@ const EventsContainer = ({
   emptyStateTitle: string;
 }) => {
   const filters = useStorage<Filters>('filters', {}, true);
+
+  const [showingListNotMap, setShowingListNotMap] = useState(true);
 
   const currentRoute = useGetCurrentRoute();
   const observerRef = useRef<any>(null);
@@ -61,22 +70,25 @@ const EventsContainer = ({
         />
       );
     }
-
-    return (
-      <InnerContainer>
-        {events?.pages.map((page, pageIndex) => {
-          return (
-            <React.Fragment key={pageIndex}>
-              {page.data.map((event: Event) => (
-                <EventCard key={event.id} event={event} />
-              ))}
-            </React.Fragment>
-          );
-        })}
-        {observerRef && <Invisible ref={observerRef} />}
-        {isFetching && <LoaderComponent />}
-      </InnerContainer>
-    );
+    if (showingListNotMap) {
+      return (
+        <InnerContainer>
+          {events?.pages.map((page, pageIndex) => {
+            return (
+              <React.Fragment key={pageIndex}>
+                {page.data.map((event: Event) => (
+                  <EventCard key={event.id} event={event} />
+                ))}
+              </React.Fragment>
+            );
+          })}
+          {observerRef && <Invisible ref={observerRef} />}
+          {isFetching && <LoaderComponent />}
+        </InnerContainer>
+      );
+    } else {
+      return <MapView filters={getFilter()} />;
+    }
   };
 
   return (
@@ -94,6 +106,24 @@ const EventsContainer = ({
         </FilterRow>
       )}
       <Container>{renderContent()}</Container>
+      <MapAndListButton
+        variant={ButtonVariants.TERTIARY}
+        onClick={() => {
+          setShowingListNotMap((view) => !view);
+        }}
+      >
+        {showingListNotMap ? (
+          <>
+            {buttonsTitles.showMap}
+            <Icon name={IconName.map} size={22} color={'white'} />
+          </>
+        ) : (
+          <>
+            {buttonsTitles.showList}
+            <Icon name={IconName.list} size={22} color={'white'} />
+          </>
+        )}
+      </MapAndListButton>
       <EventFilterModal visible={showFilterModal} onClose={() => setShowFilterModal(false)} />
     </ContentLayout>
   );
@@ -108,6 +138,7 @@ const Invisible = styled.div`
 
 const Container = styled.div`
   display: flex;
+  position: relative;
   overflow-y: auto;
   align-items: center;
   flex-direction: column;
@@ -122,7 +153,6 @@ const Container = styled.div`
 const InnerContainer = styled.div`
   display: flex;
   max-width: 800px;
-
   margin: auto;
   width: 100%;
   gap: 12px;
@@ -179,4 +209,15 @@ const FilterBadge = styled.div`
   border-radius: 10px;
   border: 1px solid #ffffff;
   background-color: ${({ theme }) => theme.colors.primary};
+`;
+
+const MapAndListButton = styled(Button)`
+  position: absolute;
+  z-index: 10;
+  bottom: 30px;
+  width: auto;
+  @media ${device.mobileL} {
+    top: 10px;
+    left: 10px;
+  }
 `;

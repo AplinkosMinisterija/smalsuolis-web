@@ -96,6 +96,8 @@ export const buttonsTitles = {
   filter: 'Filtruoti',
   close: 'Uždaryti',
   clearFilter: 'Išvalyti filtrą',
+  showMap: 'Rodyti žemėlapį',
+  showList: 'Rodyti sąrašą',
 };
 
 export const subtitle = {
