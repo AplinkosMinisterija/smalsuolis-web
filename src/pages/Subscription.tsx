@@ -1,5 +1,6 @@
 import {
   Button,
+  ButtonVariants,
   ContentLayout,
   MapField,
   Switch,
@@ -234,11 +235,11 @@ const Subscriptions = () => {
         allow
       >
         <PopupActions>
-          <PopupButton variant={Button.colors.SECONDARY} onClick={() => setShowDelete(false)}>
+          <PopupButton variant={ButtonVariants.SECONDARY} onClick={() => setShowDelete(false)}>
             Atšaukti
           </PopupButton>
           <PopupButton
-            variant={Button.colors.DANGER}
+            variant={ButtonVariants.DANGER}
             onClick={() => (subscription?.id ? deleteSubscription(subscription.id) : {})}
           >
             Ištrinti

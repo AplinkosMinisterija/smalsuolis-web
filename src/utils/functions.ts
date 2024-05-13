@@ -1,4 +1,5 @@
-import { format, isToday, parseISO } from 'date-fns';
+import { format, isToday, parseISO, endOfDay, startOfDay } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
 import { toast } from 'react-toastify';
 import { routes } from './routes';
 import { validationTexts } from './texts';
@@ -61,4 +62,16 @@ export const isEmpty = (value: any) => {
     (typeof value === 'object' && Object.keys(value).length === 0) ||
     (typeof value === 'string' && value.trim().length === 0)
   );
+};
+
+export const formatDateTo = (date: Date) => {
+  return toZonedTime(endOfDay(date), 'Europe/Vilnius');
+};
+
+export const formatDateFrom = (date: Date) => {
+  return toZonedTime(startOfDay(new Date(date)), 'Europe/Vilnius');
+};
+
+export const formatToZonedDate = (date: Date) => {
+  return toZonedTime(new Date(date), 'Europe/Vilnius');
 };

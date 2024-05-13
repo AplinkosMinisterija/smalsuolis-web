@@ -302,7 +302,7 @@ const Icon = ({ name, className, ...rest }: IconProps) => {
     case IconName.dropdownArrow:
       return <MdKeyboardArrowDown className={className} />;
     case IconName.close:
-      return <CgClose className={className} />;
+      return <CgClose className={className} {...rest} />;
     case IconName.person:
       return <IoPersonOutline className={className} />;
     case IconName.anchor:

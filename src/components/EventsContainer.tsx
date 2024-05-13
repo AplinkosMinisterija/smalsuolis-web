@@ -1,16 +1,22 @@
-import { ContentLayout } from '@aplinkosministerija/design-system';
-import React, { useRef, useState } from 'react';
+import { ContentLayout, useStorage } from '@aplinkosministerija/design-system';
+import React, { useContext, useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { device } from '../styles';
-import { IconName, isEmpty, subtitle, useGetCurrentRoute, useInfinityLoad, Event } from '../utils';
+import {
+  IconName,
+  isEmpty,
+  subtitle,
+  useGetCurrentRoute,
+  useInfinityLoad,
+  Event,
+  buttonsTitles,
+  Filters,
+} from '../utils';
 import EmptyState from './EmptyState';
 import EventCard from './EventCard';
 import LoaderComponent from './LoaderComponent';
-
-enum EventFilter {
-  HAPPENED = 'HAPPENED',
-  PLANNED = 'PLANNED',
-}
+import Icon from './Icons';
+import EventFilterModal from './EventFilterModal';
 
 const EventsContainer = ({
   apiEndpoint,
@@ -23,23 +29,25 @@ const EventsContainer = ({
   emptyStateDescription?: string;
   emptyStateTitle: string;
 }) => {
-  const theme = useTheme();
+  const filters = useStorage<Filters>('filters', {}, true);
+
   const currentRoute = useGetCurrentRoute();
   const observerRef = useRef<any>(null);
-  const [filter, setFilter] = useState(EventFilter.HAPPENED);
+  const [showFilterModal, setShowFilterModal] = useState(false);
 
   const getFilter = () => {
-    const currentDate = new Date();
-    const filterCondition = filter === EventFilter.HAPPENED ? '$lte' : '$gte';
-    // add filters here
-    return {};
+    const { apps, timeRange } = filters.value;
+    return {
+      ...(apps ? { app: { $in: apps.map((app) => app.id) } } : null),
+      ...(timeRange ? { startAt: timeRange.query } : null),
+    };
   };
 
   const {
     data: events,
     isFetching,
     isLoading,
-  } = useInfinityLoad(`${queryKey}-${filter}`, apiEndpoint, observerRef, { filter: getFilter() });
+  } = useInfinityLoad([queryKey, filters], apiEndpoint, observerRef, { filter: getFilter() });
 
   const renderContent = () => {
     if (isLoading) return <LoaderComponent />;
@@ -73,13 +81,20 @@ const EventsContainer = ({
 
   return (
     <ContentLayout currentRoute={currentRoute}>
-      <FilterRow>
-        {events && <CountText>{`${subtitle.foundRecords} ${events.pages[0].total}`}</CountText>}
-        {/* <FilterIconWrapper>
-          <Icon name={IconName.filter} size={18} color={theme.colors.success} />
-        </FilterIconWrapper> */}
-      </FilterRow>
+      {!isLoading && (
+        <FilterRow>
+          <CountText>{events && `${subtitle.foundRecords} ${events.pages[0].total}`}</CountText>
+          <FilterButton onClick={() => setShowFilterModal(true)}>
+            <FilterIconWrapper>
+              {!isEmpty(filters.value) && <FilterBadge />}
+              <Icon name={IconName.filter} size={22} color={'#1B4C28'} />
+            </FilterIconWrapper>
+            <FilterText>{buttonsTitles.filter}</FilterText>
+          </FilterButton>
+        </FilterRow>
+      )}
       <Container>{renderContent()}</Container>
+      <EventFilterModal visible={showFilterModal} onClose={() => setShowFilterModal(false)} />
     </ContentLayout>
   );
 };
@@ -132,6 +147,36 @@ const CountText = styled.div`
   color: #4b5768;
 `;
 
-const FilterIconWrapper = styled.div``;
+const FilterButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  cursor: pointer;
+  gap: 5px;
+`;
 
-const Badge = styled.div``;
+const FilterText = styled.div`
+  font-family: Plus Jakarta Sans;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20.16px;
+  text-align: left;
+  user-select: none;
+  color: #1b4c28;
+`;
+
+const FilterIconWrapper = styled.div`
+  position: relative;
+`;
+
+const FilterBadge = styled.div`
+  position: absolute;
+  top: 2px;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  border: 1px solid #ffffff;
+  background-color: ${({ theme }) => theme.colors.primary};
+`;

@@ -93,13 +93,19 @@ export const buttonsTitles = {
   logout: 'Atsijungti',
   profile: 'Profilis',
   edit: 'Redaguoti',
+  filter: 'Filtruoti',
+  close: 'Uždaryti',
+  clearFilter: 'Išvalyti filtrą',
 };
 
 export const subtitle = {
   about: 'Domina, kas vyksta aplinkui tave?',
   subscription: 'Prenumerata',
+  subscriptions: 'Prenumeratos',
   foundRecords: 'Rasta įrašų',
   future: 'Būsimas',
+  category: 'Kategorijos',
+  date: 'Data',
 };
 
 export const subscriptionFrequencyTitles = {

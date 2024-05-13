@@ -11,6 +11,7 @@ import { GlobalStyle, theme } from './styles/index';
 import { handleAlert } from './utils';
 import api from './utils/api';
 import { updateTokens } from './utils/loginFunctions';
+
 const cookies = new Cookies();
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);

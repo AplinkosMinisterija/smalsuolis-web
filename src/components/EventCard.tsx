@@ -89,7 +89,7 @@ const AppIcon = styled.img`
 `;
 
 const Container = styled.a`
-  background: ${({ theme }) => theme.colors.GREY};
+  background-color: ${({ theme }) => theme.colors.GREY};
   cursor: pointer;
   border: 1px solid transparent;
   border-radius: 8px;
