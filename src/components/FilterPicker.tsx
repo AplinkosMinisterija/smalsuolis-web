@@ -6,7 +6,7 @@ import HeadlessItemPicker, {
 } from './HeadlessItemPicker';
 import styled from 'styled-components';
 
-export interface FilterItem extends HeadlessItemT {
+export interface FilterItem {
   name: string;
 }
 
@@ -19,10 +19,10 @@ export type PodcastPickerProps<T extends FilterItem = FilterItem> = Omit<
 
 const FilterPicker = <T extends FilterItem = FilterItem>(props: PodcastPickerProps<T>) => {
   const renderItem = (item: RenderItemProps<T>) => {
-    const { name, key } = item.item;
+    const { name } = item.item;
     const { isActive, onClick } = item;
     return (
-      <FilterPickerItem key={key} $isActive={isActive} onClick={onClick}>
+      <FilterPickerItem key={props.getItemKey(item.item)} $isActive={isActive} onClick={onClick}>
         <FilterPickerItemText>{name}</FilterPickerItemText>
       </FilterPickerItem>
     );

@@ -5,6 +5,7 @@ import api from '../utils/api';
 const MyEvents = () => {
   return (
     <EventsContainer
+      isMyEvents
       apiEndpoint={api.getNewsfeed}
       queryKey={'newsfeed'}
       emptyStateTitle={titles.myEventsEmptyState}

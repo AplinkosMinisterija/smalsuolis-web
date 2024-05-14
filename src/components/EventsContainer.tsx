@@ -4,7 +4,7 @@ import {
   ContentLayout,
   useStorage,
 } from '@aplinkosministerija/design-system';
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { device } from '../styles';
 import {
@@ -16,21 +16,27 @@ import {
   Event,
   buttonsTitles,
   Filters,
+  Subscription,
 } from '../utils';
 import EmptyState from './EmptyState';
 import EventCard from './EventCard';
 import LoaderComponent from './LoaderComponent';
 import Icon from './Icons';
 import EventFilterModal from './EventFilterModal';
-import PreviewMap from './PreviewMap';
 import MapView from './MapView';
+import CopiedFromDSContentLayout from './CopiedFromDSContentLayout';
+import { useQuery } from '@tanstack/react-query';
+import api from '../utils/api';
+import { UserContext, UserContextType } from './UserProvider';
 
 const EventsContainer = ({
+  isMyEvents = false,
   apiEndpoint,
   queryKey,
   emptyStateDescription,
   emptyStateTitle,
 }: {
+  isMyEvents?: boolean;
   apiEndpoint: any;
   queryKey: string;
   emptyStateDescription?: string;
@@ -39,15 +45,28 @@ const EventsContainer = ({
   const filters = useStorage<Filters>('filters', {}, true);
 
   const [showingListNotMap, setShowingListNotMap] = useState(true);
-
-  const currentRoute = useGetCurrentRoute();
-  const observerRef = useRef<any>(null);
   const [showFilterModal, setShowFilterModal] = useState(false);
 
+  const { loggedIn } = useContext<UserContextType>(UserContext);
+  const currentRoute = useGetCurrentRoute();
+  const observerRef = useRef<any>(null);
+
+  const { data: subsResponse } = useQuery({
+    queryKey: ['allSubscriptions'],
+    queryFn: () => api.getAllSubscriptions(),
+    enabled: loggedIn && isMyEvents,
+  });
+  const allSubscriptions = subsResponse ?? [];
+
   const getFilter = () => {
-    const { apps, timeRange } = filters.value;
+    const { apps, timeRange, subscriptions } = filters.value;
+    let filterSubs: Subscription[] = [];
+    if (isMyEvents) {
+      filterSubs = subscriptions && subscriptions.length ? subscriptions : allSubscriptions;
+    }
     return {
       ...(apps ? { app: { $in: apps.map((app) => app.id) } } : null),
+      ...(filterSubs.length ? { subscription: { $in: filterSubs.map((sub) => sub.id) } } : null),
       ...(timeRange ? { startAt: timeRange.query } : null),
     };
   };
@@ -92,7 +111,7 @@ const EventsContainer = ({
   };
 
   return (
-    <ContentLayout currentRoute={currentRoute}>
+    <CopiedFromDSContentLayout currentRoute={currentRoute} limitWidth={showingListNotMap}>
       {!isLoading && (
         <FilterRow>
           <CountText>{events && `${subtitle.foundRecords} ${events.pages[0].total}`}</CountText>
@@ -124,8 +143,12 @@ const EventsContainer = ({
           </>
         )}
       </MapAndListButton>
-      <EventFilterModal visible={showFilterModal} onClose={() => setShowFilterModal(false)} />
-    </ContentLayout>
+      <EventFilterModal
+        isMyEvents={isMyEvents}
+        visible={showFilterModal}
+        onClose={() => setShowFilterModal(false)}
+      />
+    </CopiedFromDSContentLayout>
   );
 };
 
@@ -138,13 +161,14 @@ const Invisible = styled.div`
 
 const Container = styled.div`
   display: flex;
+  flex-grow: 1;
   position: relative;
   overflow-y: auto;
   align-items: center;
   flex-direction: column;
   padding: 20px 0px;
   width: 100%;
-
+  height: 100%;
   @media ${device.mobileL} {
     padding: 12px 0px;
   }
@@ -217,7 +241,6 @@ const MapAndListButton = styled(Button)`
   bottom: 30px;
   width: auto;
   @media ${device.mobileL} {
-    top: 10px;
-    left: 10px;
+    bottom: 15px;
   }
 `;

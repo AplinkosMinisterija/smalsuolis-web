@@ -1,8 +1,6 @@
 import React from 'react';
 
-export interface HeadlessItemT {
-  key: string;
-}
+export interface HeadlessItemT {}
 
 export interface RenderItemProps<T> {
   item: T;
@@ -17,6 +15,7 @@ export interface HeadlessItemPickerProps<T extends HeadlessItemT> {
   selectedItems: Array<T>;
   setSelectedItems: (items: Array<T>) => void;
   renderItem: (props: RenderItemProps<T>) => React.ReactNode;
+  getItemKey: (item: T) => string | number;
   allowMultipleSelection?: boolean;
 }
 
@@ -27,11 +26,12 @@ const ItemPicker = <T extends HeadlessItemT>({
   selectedItems = [],
   setSelectedItems,
   allowMultipleSelection = false,
+  getItemKey,
 }: HeadlessItemPickerProps<T>) => {
   const onItemPress = (item: T) => {
     if (allowMultipleSelection) {
       const foundSelectedIndex = selectedItems.findIndex((selected) => {
-        return selected.key === item.key;
+        return getItemKey(selected) === getItemKey(item);
       });
       const newSelected = [...selectedItems];
       if (foundSelectedIndex !== -1) {
@@ -47,7 +47,7 @@ const ItemPicker = <T extends HeadlessItemT>({
   };
 
   const renderPickerItem = ({ item, index }) => {
-    const isActive = !!selectedItems.find((selected) => selected.key === item.key);
+    const isActive = !!selectedItems.find((selected) => getItemKey(selected) === getItemKey(item));
 
     return renderItem({ item, isActive, index, onClick: () => onItemPress(item) });
   };

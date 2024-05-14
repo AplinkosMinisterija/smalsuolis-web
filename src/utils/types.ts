@@ -14,8 +14,8 @@ export interface App {
 }
 
 export interface Subscription<T = number> {
-  id?: number;
-  name?: string;
+  id: number;
+  name: string;
   user?: number;
   apps?: T[];
   geom?: any;
@@ -138,5 +138,6 @@ export const timeRangeItems: TimeRangeItem[] = [
 
 export interface Filters {
   apps?: App[];
+  subscriptions?: Subscription[];
   timeRange?: TimeRangeItem;
 }

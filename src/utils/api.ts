@@ -249,6 +249,13 @@ class Api {
       page,
     });
   };
+
+  getAllSubscriptions = async (): Promise<Subscription[]> => {
+    return this.get({
+      resource: Resources.SUBSCRIPTIONS + '/all',
+    });
+  };
+
   getSubscription = async ({ id }: { id: string }): Promise<Subscription> => {
     return this.getOne({
       resource: Resources.SUBSCRIPTIONS,

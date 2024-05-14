@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { device } from '../styles';
-import { FeatureCollection } from '@aplinkosministerija/design-system';
 import Icon from './Icons';
 import { IconName } from '../utils';
 
@@ -10,20 +9,19 @@ const mapsHost = import.meta.env.VITE_MAPS_HOST;
 interface MapProps {
   onSave?: (data: any) => void;
   error?: string;
-  value?: FeatureCollection;
   preview?: boolean;
   filters?: any;
 }
 
-const MapView = ({ error, value, filters }: MapProps) => {
+const MapView = ({ error, filters }: MapProps) => {
   const iframeRef = useRef<any>(null);
   const [showModal, setShowModal] = useState(false);
 
-  const src = `${mapsHost}/edit?preview=true`;
+  const src = `${mapsHost}/smalsuolis?preview=1`;
 
   const handleLoadMap = () => {
-    if (!value) return;
-    iframeRef?.current?.contentWindow?.postMessage({ geom: value }, '*');
+    if (!filters) return;
+    iframeRef?.current?.contentWindow?.postMessage({ filters }, '*');
   };
 
   useEffect(() => {
@@ -50,7 +48,9 @@ const MapView = ({ error, value, filters }: MapProps) => {
           ref={iframeRef}
           src={src}
           $width={'100%'}
-          $height={'100%'}
+          // nebauskit stipriai uz sita, nezinojau kaip kitaip padaryt height
+          // jei turit tips tai padekit
+          $height={showModal ? '100%' : `${window.innerHeight - 365}px`}
           style={{ border: 0 }}
           allowFullScreen={true}
           onLoad={handleLoadMap}
@@ -67,7 +67,6 @@ const Container = styled.div<{
   $error: boolean;
 }>`
   width: 100%;
-  height: 100%;
   ${({ $showModal }) =>
     $showModal &&
     `
