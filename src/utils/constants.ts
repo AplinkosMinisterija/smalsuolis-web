@@ -61,9 +61,17 @@ export enum IconName {
   search = 'search',
   filter = 'filter',
 }
+
+export enum ServerErrors {
+  USER_NOT_FOUND = `NOT_FOUND`,
+  WRONG_PASSWORD = 'WRONG_PASSWORD',
+  USER_EXISTS = 'USER_EXISTS',
+  WRONG_OLD_PASSWORD = 'WRONG_OLD_PASSWORD',
+}
+
 export enum ServerErrorCodes {
-  NOT_FOUND = '404',
-  NO_PERMISSION = '401',
+  NOT_FOUND = 404,
+  NO_PERMISSION = 401,
 }
 
 export enum EventStatusTypes {

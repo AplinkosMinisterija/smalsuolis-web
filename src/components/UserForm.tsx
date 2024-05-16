@@ -11,6 +11,7 @@ const UserForm = ({
   onSubmit,
   isLoading,
   initialValues,
+  error,
 }: {
   user?: User;
   onSubmit: (values: PasswordForm) => Promise<void>;
@@ -20,6 +21,7 @@ const UserForm = ({
     repeatPassword: string;
     oldPassword?: string;
   };
+  error?: string | null;
 }) => {
   const currentRoute = useGetCurrentRoute();
   const [allValid, setAllValid] = useState(false);
@@ -73,6 +75,7 @@ const UserForm = ({
           password={password}
           repeatPassword={repeatPassword}
         />
+        {!!error && <Error>{error}</Error>}
         <StyledButton
           variant={ButtonVariants.PRIMARY}
           loading={isLoading}
@@ -99,4 +102,10 @@ const PasswordContainer = styled.form`
 
 const StyledButton = styled(Button)`
   margin-top: 32px;
+`;
+
+const Error = styled.div`
+  margin-top: 16px;
+  color: ${({ theme }) => theme.colors.text.error};
+  font-size: 1.4rem;
 `;

@@ -8,9 +8,10 @@ import Cookies from 'universal-cookie';
 import App from './App';
 import { UserProvider } from './components/UserProvider';
 import { GlobalStyle, theme } from './styles/index';
-import { handleAlert } from './utils';
+import { ServerErrorCodes, handleAlert } from './utils';
 import api from './utils/api';
 import { updateTokens } from './utils/loginFunctions';
+import { isEqual } from 'lodash';
 
 const cookies = new Cookies();
 
@@ -19,7 +20,7 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const handleGlobalError = async (queryClient: QueryClient, error: Error, query?: any) => {
   const code = (error as AxiosError)?.response?.status;
 
-  if (code == 401) {
+  if (isEqual(code, ServerErrorCodes.NO_PERMISSION)) {
     // Try to refresh token if any query fails with 401
     const refreshToken = cookies.get('refreshToken');
 

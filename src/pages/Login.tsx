@@ -5,7 +5,6 @@ import {
   PasswordField,
   TextField,
 } from '@aplinkosministerija/design-system';
-import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -13,8 +12,9 @@ import styled from 'styled-components';
 import { UserContext, UserContextType } from '../components/UserProvider';
 import { useGetCurrentRoute, useLogin } from '../utils/hooks';
 import { slugs } from '../utils/routes';
-import { buttonsTitles, inputLabels, titles, validationTexts } from '../utils/texts';
+import { buttonsTitles, inputLabels, subtitle, titles } from '../utils/texts';
 import { loginSchema } from '../utils/validations';
+import { getErrorMessage } from '../utils';
 const Login = () => {
   const env: any = import.meta.env;
   const currentRoute = useGetCurrentRoute();
@@ -36,7 +36,7 @@ const Login = () => {
   const { mutateAsync: login, isPending: loginLoading, error } = useLogin();
   const loading = loginLoading || userLoading;
 
-  const invalidLoginData = (error as AxiosError)?.response?.status === 400;
+  const errorMessage = error ? getErrorMessage((error as any)?.response?.data?.type) : null;
 
   const handleType = (field: string, value: string | boolean) => {
     setFieldValue(field, value);
@@ -64,11 +64,7 @@ const Login = () => {
             <Url onClick={() => navigate(slugs.forgotPassword)}>{titles.forgotPassword}</Url>
           }
         />
-        {!!error && (
-          <Error>
-            {!invalidLoginData ? validationTexts.error : validationTexts.invalidUserNameOrPassword}
-          </Error>
-        )}
+        {!!error && <Error>{errorMessage}</Error>}
         <Row>
           <StyledSingleCheckbox
             onChange={(value: any) => handleType('refresh', value)}
@@ -82,8 +78,8 @@ const Login = () => {
       </Container>
 
       <BottomInnerContainer>
-        Neturite paskyros?
-        <Url onClick={() => navigate(slugs.registration)}>Registruotis</Url>
+        {subtitle.hasNotRegistered}
+        <Url onClick={() => navigate(slugs.registration)}>{buttonsTitles.register}</Url>
       </BottomInnerContainer>
     </ContentLayout>
   );
