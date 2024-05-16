@@ -1,6 +1,12 @@
 import { useContext } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { handleToastSuccess, PasswordForm, validationTexts, UpdatePassword } from '../utils';
+import {
+  handleToastSuccess,
+  PasswordForm,
+  validationTexts,
+  UpdatePassword,
+  getErrorMessage,
+} from '../utils';
 import api from '../utils/api';
 import { UserContext, UserContextType } from '../components/UserProvider';
 import UserForm from '../components/UserForm';
@@ -10,7 +16,11 @@ const Profile = () => {
 
   const { data: user } = useContext<UserContextType>(UserContext);
 
-  const { mutateAsync, isPending: isLoading } = useMutation({
+  const {
+    mutateAsync,
+    isPending: isLoading,
+    error,
+  } = useMutation({
     mutationFn: (values: UpdatePassword) => {
       return api.updateProfile(values);
     },
@@ -28,6 +38,8 @@ const Profile = () => {
     return mutateAsync(props);
   };
 
+  const errorMessage = error ? getErrorMessage((error as any)?.response?.data?.type) : null;
+
   return (
     <UserForm
       user={user}
@@ -38,6 +50,7 @@ const Profile = () => {
         repeatPassword: '',
         oldPassword: '',
       }}
+      error={errorMessage}
     />
   );
 };

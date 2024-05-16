@@ -1,9 +1,8 @@
-import { Frequency } from './constants';
+import { Frequency, ServerErrors } from './constants';
 
 export const validationTexts = {
   requireText: 'Privalote įvesti',
   tooFrequentRequest: 'Nepavyko, per dažna užklausa prašome pabandyti veliau ',
-  emailExist: 'Naudotojas su tokiu el. paštu egzistuoja',
   error: 'Įvyko nenumatyta klaida, prašome pabandyti vėliau',
   validFirstName: 'Įveskite taisyklingą vardą',
   validLastName: 'Įveskite taisyklingą pavardę',
@@ -17,7 +16,10 @@ export const validationTexts = {
   profileUpdated: 'Profilis atnaujintas',
   registration: 'Registracija sėkminga',
   appsNotSelected: 'Pasirinkite bent vieną sritį',
-  invalidUserNameOrPassword: 'Neteisingai įvestas el. paštas arba slaptažodis',
+  [ServerErrors.WRONG_PASSWORD]: 'Neteisingai įvestas el. paštas arba slaptažodis',
+  [ServerErrors.USER_NOT_FOUND]: 'Naudotojo su tokiu el. paštu nėra',
+  [ServerErrors.WRONG_OLD_PASSWORD]: 'Neteisingai įvestas senas slaptažodis',
+  [ServerErrors.USER_EXISTS]: 'Naudotojas su tokiu el. paštu egzistuoja',
 };
 
 export const inputLabels = {
@@ -34,12 +36,6 @@ export const inputLabels = {
   firstName: 'Vardas',
   email: 'Elektroninis paštas',
   noOptions: 'Nėra pasirinkimų',
-};
-
-export const buttonLabels = {
-  login: 'Prisijungti',
-  logout: 'Atsijungti',
-  visitWebsite: 'Aplankykite svetainę',
 };
 
 export const titles = {
@@ -96,6 +92,8 @@ export const buttonsTitles = {
   filter: 'Filtruoti',
   close: 'Uždaryti',
   clearFilter: 'Išvalyti filtrą',
+  visitWebsite: 'Aplankykite svetainę',
+  register: 'Registruotis',
 };
 
 export const subtitle = {
@@ -106,6 +104,7 @@ export const subtitle = {
   future: 'Būsimas',
   category: 'Kategorijos',
   date: 'Data',
+  hasNotRegistered: 'Neturite paskyros?',
 };
 
 export const subscriptionFrequencyTitles = {
