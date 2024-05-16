@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { device } from '../styles';
 import Icon from './Icons';
-import { IconName } from '../utils';
+import { GeoMapFeatureCollection, IconName } from '../utils';
 
 const mapsHost = import.meta.env.VITE_MAPS_HOST;
 
@@ -11,28 +11,37 @@ interface MapProps {
   error?: string;
   preview?: boolean;
   filters?: any;
+  geom?: any;
 }
 
-const MapView = ({ error, filters }: MapProps) => {
+const MapView = ({ error, filters, geom }: MapProps) => {
   const iframeRef = useRef<any>(null);
   const [showModal, setShowModal] = useState(false);
 
   const src = `${mapsHost}/smalsuolis?preview=1`;
 
   const handleLoadMap = () => {
-    if (!filters) return;
-    iframeRef?.current?.contentWindow?.postMessage({ filters }, '*');
+    if (filters || geom) {
+      // smalsuolio maps negaudo geom jei paduot is karto
+      setTimeout(() => {
+        iframeRef?.current?.contentWindow?.postMessage({ filters, geom }, '*');
+      }, 100);
+    }
   };
 
   useEffect(() => {
     iframeRef?.current?.contentWindow?.postMessage({ filters }, '*');
   }, [filters]);
 
+  useEffect(() => {
+    iframeRef?.current?.contentWindow?.postMessage({ geom }, '*');
+  }, [geom]);
+
   return (
     <Container $showModal={showModal} $error={!!error}>
       <InnerContainer $showModal={showModal}>
         <StyledButton
-          popup={showModal}
+          $popup={showModal}
           onClick={(e) => {
             e.preventDefault();
 
@@ -113,11 +122,11 @@ const StyledIframe = styled.iframe<{
   height: ${({ $height }) => $height};
 `;
 
-const StyledButton = styled.div<{ popup: boolean }>`
+const StyledButton = styled.div<{ $popup: boolean }>`
   position: absolute;
   z-index: 10;
-  top: ${({ popup }) => (popup ? 30 : 15)}px;
-  left: ${({ popup }) => (popup ? 28 : 11)}px;
+  top: ${({ $popup }) => ($popup ? 30 : 15)}px;
+  left: ${({ $popup }) => ($popup ? 28 : 11)}px;
   min-width: 28px;
   height: 28px;
   @media ${device.mobileL} {

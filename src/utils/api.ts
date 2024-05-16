@@ -40,6 +40,7 @@ interface GetOne {
   id?: string | any;
   populate?: string[];
   scope?: string;
+  filter?: string | any;
 }
 interface UpdateOne<T = any> {
   resource?: string;
@@ -113,9 +114,9 @@ class Api {
     );
   };
 
-  getOne = async ({ resource, id, populate }: GetOne) => {
+  getOne = async ({ resource, id, populate, ...rest }: GetOne) => {
     const config = {
-      params: { ...(!!populate && { populate }) },
+      params: { ...(!!populate && { populate }), ...rest },
     };
 
     return this.errorWrapper(() =>
@@ -218,6 +219,13 @@ class Api {
     });
   };
 
+  getEventsCount = async ({ filter }: { filter: any }): Promise<GetAllResponse<Event>> => {
+    return this.getOne({
+      resource: Resources.EVENTS + '/count',
+      filter,
+    });
+  };
+
   getEvent = async ({ id }: { id: any }): Promise<Event> => {
     return this.getOne({
       resource: Resources.EVENTS,
@@ -242,6 +250,13 @@ class Api {
     });
   };
 
+  getNewsfeedCount = async ({ filter }: { filter: any }): Promise<GetAllResponse<Event>> => {
+    return this.getOne({
+      resource: Resources.NEWSFEED,
+      filter,
+    });
+  };
+
   getSubscriptions = async ({ page }: { page: number }): Promise<GetAllResponse<Subscription>> => {
     return this.get({
       resource: Resources.SUBSCRIPTIONS,
@@ -251,8 +266,9 @@ class Api {
   };
 
   getAllSubscriptions = async (): Promise<Subscription[]> => {
-    return this.get({
+    return this.getOne({
       resource: Resources.SUBSCRIPTIONS + '/all',
+      populate: ['geom'],
     });
   };
 
@@ -315,7 +331,7 @@ class Api {
   };
 
   getAllApps = async (): Promise<App[]> => {
-    return this.get({
+    return this.getOne({
       resource: Resources.APPS + '/all',
     });
   };

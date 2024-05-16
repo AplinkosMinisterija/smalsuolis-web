@@ -18,7 +18,7 @@ export interface Subscription<T = number> {
   name: string;
   user?: number;
   apps?: T[];
-  geom?: any;
+  geom?: GeoMapFeatureCollection;
   frequency?: Frequency;
   active?: boolean;
   eventsCount?: { allTime: number; new: number };
@@ -140,4 +140,20 @@ export interface Filters {
   apps?: App[];
   subscriptions?: Subscription[];
   timeRange?: TimeRangeItem;
+}
+
+// GeoMap TODO move to and use from design-system
+
+export interface GeoMapFeatureCollection {
+  type: string;
+  features: GeoFeature[];
+}
+
+export interface GeoFeature {
+  type: string;
+  geometry: {
+    type: string;
+    coordinates: number[];
+  };
+  properties?: any;
 }

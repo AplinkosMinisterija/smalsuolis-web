@@ -33,7 +33,7 @@ const PreviewMap = ({ height = '230px', error, value, showError = true, label }:
       <Container $showModal={showModal} $error={!!error}>
         <InnerContainer $showModal={showModal}>
           <StyledButton
-            popup={showModal}
+            $popup={showModal}
             onClick={(e) => {
               e.preventDefault();
 
@@ -113,11 +113,11 @@ const StyledIframe = styled.iframe<{
   height: ${({ $height }) => $height};
 `;
 
-const StyledButton = styled.div<{ popup: boolean }>`
+const StyledButton = styled.div<{ $popup: boolean }>`
   position: absolute;
   z-index: 10;
-  top: ${({ popup }) => (popup ? 30 : 15)}px;
-  left: ${({ popup }) => (popup ? 28 : 11)}px;
+  top: ${({ $popup }) => ($popup ? 30 : 15)}px;
+  left: ${({ $popup }) => ($popup ? 28 : 11)}px;
   min-width: 28px;
   height: 28px;
   @media ${device.mobileL} {

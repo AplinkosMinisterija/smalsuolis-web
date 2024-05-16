@@ -6,6 +6,7 @@ const MyEvents = () => {
   return (
     <EventsContainer
       isMyEvents
+      countEndpoint={api.getNewsfeedCount}
       apiEndpoint={api.getNewsfeed}
       queryKey={'newsfeed'}
       emptyStateTitle={titles.myEventsEmptyState}

@@ -31,13 +31,13 @@ const EventFilterModal = ({ isMyEvents = false, onClose, visible = false }: any)
   const { loggedIn } = useContext<UserContextType>(UserContext);
 
   const { data: appsResponse } = useQuery({
-    queryKey: ['allApps'],
+    queryKey: ['apps', 'all'],
     queryFn: () => api.getAllApps(),
   });
   const apps = appsResponse ?? [];
 
   const { data: subsResponse } = useQuery({
-    queryKey: ['allSubscriptions'],
+    queryKey: ['subscriptions', 'all'],
     queryFn: () => api.getAllSubscriptions(),
     enabled: loggedIn,
   });

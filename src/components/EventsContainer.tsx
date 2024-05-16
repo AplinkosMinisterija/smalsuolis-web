@@ -32,12 +32,14 @@ import { UserContext, UserContextType } from './UserProvider';
 const EventsContainer = ({
   isMyEvents = false,
   apiEndpoint,
+  countEndpoint,
   queryKey,
   emptyStateDescription,
   emptyStateTitle,
 }: {
   isMyEvents?: boolean;
   apiEndpoint: any;
+  countEndpoint: any;
   queryKey: string;
   emptyStateDescription?: string;
   emptyStateTitle: string;
@@ -58,6 +60,15 @@ const EventsContainer = ({
   });
   const allSubscriptions = subsResponse ?? [];
 
+  const {
+    data: eventsCount,
+    isLoading: isLoadingCount,
+    isError: isCountError,
+  } = useQuery({
+    queryKey: [queryKey, 'count'],
+    queryFn: () => countEndpoint(getFilter()),
+  });
+
   const getFilter = () => {
     const { apps, timeRange, subscriptions } = filters.value;
     let filterSubs: Subscription[] = [];
@@ -71,13 +82,28 @@ const EventsContainer = ({
     };
   };
 
+  const getMapGeom = () => {
+    if (!allSubscriptions.length) return null;
+
+    return {
+      type: 'FeatureCollection',
+      features: allSubscriptions.map((sub) => sub?.geom?.features[0]),
+    };
+  };
+
   const {
     data: events,
     isFetching,
     isLoading,
-  } = useInfinityLoad([queryKey, filters], apiEndpoint, observerRef, { filter: getFilter() });
+  } = useInfinityLoad(
+    [queryKey, filters],
+    apiEndpoint,
+    observerRef,
+    { filter: getFilter() },
+    showingListNotMap,
+  );
 
-  const renderContent = () => {
+  const renderListContent = () => {
     if (isLoading) return <LoaderComponent />;
 
     if (isEmpty(events?.pages?.[0]?.data)) {
@@ -89,24 +115,28 @@ const EventsContainer = ({
         />
       );
     }
+    return (
+      <InnerContainer>
+        {events?.pages.map((page, pageIndex) => {
+          return (
+            <React.Fragment key={pageIndex}>
+              {page.data.map((event: Event) => (
+                <EventCard key={event.id} event={event} />
+              ))}
+            </React.Fragment>
+          );
+        })}
+        {observerRef && <Invisible ref={observerRef} />}
+        {isFetching && <LoaderComponent />}
+      </InnerContainer>
+    );
+  };
+
+  const renderListOrMap = () => {
     if (showingListNotMap) {
-      return (
-        <InnerContainer>
-          {events?.pages.map((page, pageIndex) => {
-            return (
-              <React.Fragment key={pageIndex}>
-                {page.data.map((event: Event) => (
-                  <EventCard key={event.id} event={event} />
-                ))}
-              </React.Fragment>
-            );
-          })}
-          {observerRef && <Invisible ref={observerRef} />}
-          {isFetching && <LoaderComponent />}
-        </InnerContainer>
-      );
+      return renderListContent();
     } else {
-      return <MapView filters={getFilter()} />;
+      return <MapView filters={getFilter()} geom={getMapGeom()} />;
     }
   };
 
@@ -124,7 +154,7 @@ const EventsContainer = ({
           </FilterButton>
         </FilterRow>
       )}
-      <Container>{renderContent()}</Container>
+      <Container>{renderListOrMap()}</Container>
       <MapAndListButton
         variant={ButtonVariants.TERTIARY}
         onClick={() => {
