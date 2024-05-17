@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { device } from '../styles';
 import Icon from './Icons';
-import { GeoMapFeatureCollection, IconName } from '../utils';
+import { IconName } from '../utils';
 
 const mapsHost = import.meta.env.VITE_MAPS_HOST;
 
