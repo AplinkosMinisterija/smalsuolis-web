@@ -60,15 +60,6 @@ const EventsContainer = ({
   });
   const allSubscriptions = subsResponse ?? [];
 
-  const {
-    data: eventsCount,
-    isLoading: isLoadingCount,
-    isError: isCountError,
-  } = useQuery({
-    queryKey: [queryKey, 'count'],
-    queryFn: () => countEndpoint(getFilter()),
-  });
-
   const getFilter = () => {
     const { apps, timeRange, subscriptions } = filters.value;
     let filterSubs: Subscription[] = [];
@@ -81,6 +72,11 @@ const EventsContainer = ({
       ...(timeRange ? { startAt: timeRange.query } : null),
     };
   };
+
+  const { data: eventsCount } = useQuery({
+    queryKey: [queryKey, 'count', getFilter()],
+    queryFn: () => countEndpoint({ filter: getFilter() }),
+  });
 
   const getMapGeom = () => {
     if (!allSubscriptions.length) return null;
@@ -144,7 +140,9 @@ const EventsContainer = ({
     <CopiedFromDSContentLayout currentRoute={currentRoute} limitWidth={showingListNotMap}>
       {!isLoading && (
         <FilterRow>
-          <CountText>{events && `${subtitle.foundRecords} ${events.pages[0].total}`}</CountText>
+          <CountText>
+            {`${subtitle.foundRecords} ${Number.isInteger(eventsCount) ? eventsCount : ''}`}
+          </CountText>
           <FilterButton onClick={() => setShowFilterModal(true)}>
             <FilterIconWrapper>
               {!isEmpty(filters.value) && <FilterBadge />}

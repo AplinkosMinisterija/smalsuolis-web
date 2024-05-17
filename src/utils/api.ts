@@ -219,7 +219,7 @@ class Api {
     });
   };
 
-  getEventsCount = async ({ filter }: { filter: any }): Promise<GetAllResponse<Event>> => {
+  getEventsCount = async ({ filter }: { filter: any }): Promise<number> => {
     return this.getOne({
       resource: Resources.EVENTS + '/count',
       filter,
@@ -250,9 +250,9 @@ class Api {
     });
   };
 
-  getNewsfeedCount = async ({ filter }: { filter: any }): Promise<GetAllResponse<Event>> => {
+  getNewsfeedCount = async ({ filter }: { filter: any }): Promise<number> => {
     return this.getOne({
-      resource: Resources.NEWSFEED,
+      resource: Resources.NEWSFEED + '/count',
       filter,
     });
   };
