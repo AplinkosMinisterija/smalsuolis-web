@@ -23,7 +23,7 @@ const RemindPassword = () => {
   };
 
   const handleError = ({ response }: ReactQueryError): any => {
-    const text = getErrorMessage(response?.data?.message);
+    const text = getErrorMessage(response?.data?.type);
     if (text) {
       return setErrors({ email: text });
     }

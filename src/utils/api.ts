@@ -67,7 +67,7 @@ export enum Resources {
   SET_PASSWORD = 'auth/change/accept',
   REMIND_PASSWORD = 'auth/change/remind',
   LOG_OUT = 'auth/logout',
-  ME = 'auth/me',
+  ME = 'users/me',
   EVENTS = 'events',
   NEWSFEED = 'newsfeed',
   SUBSCRIPTIONS = 'subscriptions',

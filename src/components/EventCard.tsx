@@ -2,7 +2,7 @@ import { Button, svgToUrl } from '@aplinkosministerija/design-system';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import styled, { useTheme } from 'styled-components';
-import { buttonLabels, Event, getTimeLabel, IconName, subtitle } from '../utils';
+import { buttonsTitles, Event, getTimeLabel, IconName, subtitle } from '../utils';
 import { isFuture } from 'date-fns';
 import { device } from '../styles';
 import Icon from './Icons';
@@ -46,7 +46,7 @@ const EventCard = ({ event, isOpen = false }: { event: Event; isOpen?: boolean }
           {event.url && (
             <Button onClick={() => window.open(event.url)}>
               <>
-                {buttonLabels.visitWebsite} <EventIcon name={IconName.openInNew} />
+                {buttonsTitles.visitWebsite} <EventIcon name={IconName.openInNew} />
               </>
             </Button>
           )}
