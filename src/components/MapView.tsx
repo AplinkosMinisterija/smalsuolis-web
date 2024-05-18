@@ -57,9 +57,7 @@ const MapView = ({ error, filters, geom }: MapProps) => {
           ref={iframeRef}
           src={src}
           $width={'100%'}
-          // nebauskit stipriai uz sita, nezinojau kaip kitaip padaryt height
-          // jei turit tips tai padekit
-          $height={showModal ? '100%' : `${window.innerHeight - 365}px`}
+          $height={showModal ? '100%' : '60vh'}
           style={{ border: 0 }}
           allowFullScreen={true}
           onLoad={handleLoadMap}

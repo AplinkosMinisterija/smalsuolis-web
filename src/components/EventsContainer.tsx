@@ -46,7 +46,7 @@ const EventsContainer = ({
 }) => {
   const filters = useStorage<Filters>('filters', {}, true);
 
-  const [showingListNotMap, setShowingListNotMap] = useState(true);
+  const [isListView, setIsListView] = useState(true);
   const [showFilterModal, setShowFilterModal] = useState(false);
 
   const { loggedIn } = useContext<UserContextType>(UserContext);
@@ -96,7 +96,7 @@ const EventsContainer = ({
     apiEndpoint,
     observerRef,
     { filter: getFilter() },
-    showingListNotMap,
+    isListView,
   );
 
   const renderListContent = () => {
@@ -129,7 +129,7 @@ const EventsContainer = ({
   };
 
   const renderListOrMap = () => {
-    if (showingListNotMap) {
+    if (isListView) {
       return renderListContent();
     } else {
       return <MapView filters={getFilter()} geom={getMapGeom()} />;
@@ -137,7 +137,7 @@ const EventsContainer = ({
   };
 
   return (
-    <CopiedFromDSContentLayout currentRoute={currentRoute} limitWidth={showingListNotMap}>
+    <CopiedFromDSContentLayout currentRoute={currentRoute} limitWidth={isListView}>
       {!isLoading && (
         <FilterRow>
           <CountText>
@@ -156,10 +156,10 @@ const EventsContainer = ({
       <MapAndListButton
         variant={ButtonVariants.TERTIARY}
         onClick={() => {
-          setShowingListNotMap((view) => !view);
+          setIsListView((view) => !view);
         }}
       >
-        {showingListNotMap ? (
+        {isListView ? (
           <>
             {buttonsTitles.showMap}
             <Icon name={IconName.map} size={22} color={'white'} />
