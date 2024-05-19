@@ -6,7 +6,7 @@ import { HiOutlineUsers } from 'react-icons/hi';
 import { IoMdCalendar } from 'react-icons/io';
 import { IoLocationOutline, IoPersonOutline, IoSearch, IoFilter } from 'react-icons/io5';
 import { LiaBalanceScaleSolid } from 'react-icons/lia';
-
+import { PiMapTrifoldBold } from 'react-icons/pi';
 import {
   MdDone,
   MdExitToApp,
@@ -112,7 +112,6 @@ const Icon = ({ name, className, ...rest }: IconProps) => {
           <line x1="3" x2="3.01" y1="18" y2="18" />
         </svg>
       );
-
     case IconName.sidebarLogo:
       return (
         <svg
@@ -672,6 +671,8 @@ V12l3,3"
     case IconName.filter:
       return <IoFilter className={className} {...rest} />;
 
+    case IconName.map:
+      return <PiMapTrifoldBold className={className} {...rest} />;
     default:
       return null;
   }

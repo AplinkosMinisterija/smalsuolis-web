@@ -5,7 +5,7 @@ export const theme: Theme = {
   colors: {
     primary: '#73DC8C',
     secondary: '#121A55',
-    tertiary: '#73DC8C',
+    tertiary: '#1B4C28',
     transparent: 'transparent',
     label: '#4B5565',
     danger: '#FE5B78',
@@ -30,10 +30,10 @@ export const theme: Theme = {
         hover: '#121A55',
       },
       tertiary: {
-        background: '#73DC8C',
+        background: '#14532D',
         text: 'white',
-        border: '#73DC8C',
-        hover: '#F7F7F7',
+        border: '#14532D',
+        hover: '#14532D',
       },
       success: {
         background: '#258800',

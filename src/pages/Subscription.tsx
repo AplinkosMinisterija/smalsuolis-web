@@ -82,6 +82,7 @@ const Subscriptions = () => {
   const futureApps = subscription?.apps && subscription.apps?.length === 0;
 
   const initialValues: SubscriptionForm = {
+    id: subscription?.id ?? 0,
     name: subscription?.name ?? '',
     active: typeof subscription?.active === 'boolean' ? subscription?.active : true,
     apps: noSubscription || futureApps ? allApps : subscription?.apps || [],

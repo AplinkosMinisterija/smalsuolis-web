@@ -8,6 +8,7 @@ import {
   App,
   Filters,
   IconName,
+  Subscription,
   TimeRangeItem,
   buttonsTitles,
   subtitle,
@@ -16,9 +17,9 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import api from '../utils/api';
 import { UserContext, UserContextType } from './UserProvider';
+import Loader from './Loader';
 
-const EventFilterModal = ({ onClose, visible = false }: any) => {
-  const { loggedIn } = useContext<UserContextType>(UserContext);
+const EventFilterModal = ({ isMyEvents = false, onClose, visible = false }: any) => {
   const {
     value: filters,
     setValue: setFilters,
@@ -26,14 +27,22 @@ const EventFilterModal = ({ onClose, visible = false }: any) => {
   } = useStorage<Filters>('filters', {}, true);
 
   const [selectedApps, setSelectedApps] = useState<App[]>([]);
+  const [selectedSubs, setSelectedSubs] = useState<Subscription[]>([]);
   const [selectedTimeRange, setSelectedTimeRange] = useState<TimeRangeItem[]>([]);
+  const { loggedIn } = useContext<UserContextType>(UserContext);
 
-  const { data: appsResponse } = useQuery({
-    queryKey: ['apps'],
-    queryFn: () => api.getApps({ page: 1 }),
+  const { data: appsResponse, isLoading: loadingApps } = useQuery({
+    queryKey: ['apps', 'all'],
+    queryFn: () => api.getAllApps(),
+  });
+  const apps = appsResponse ?? [];
+
+  const { data: subsResponse, isLoading: loadingSubs } = useQuery({
+    queryKey: ['subscriptions', 'all'],
+    queryFn: () => api.getAllSubscriptions(),
     enabled: loggedIn,
   });
-  const apps: App[] = appsResponse?.rows || [];
+  const subs = subsResponse ?? [];
 
   const clearFilter = () => {
     resetFilters();
@@ -43,6 +52,7 @@ const EventFilterModal = ({ onClose, visible = false }: any) => {
   useEffect(() => {
     if (visible) {
       setSelectedApps(filters.apps || []);
+      setSelectedSubs(filters.subscriptions || []);
       setSelectedTimeRange(filters.timeRange ? [filters.timeRange] : []);
     }
   }, [visible]);
@@ -50,9 +60,50 @@ const EventFilterModal = ({ onClose, visible = false }: any) => {
   const onFilterClick = () => {
     setFilters({
       ...(selectedApps.length > 0 ? { apps: selectedApps } : null),
+      ...(selectedSubs.length > 0 ? { subscriptions: selectedSubs } : null),
       ...(selectedTimeRange ? { timeRange: selectedTimeRange[0] } : null),
     });
     onClose();
+  };
+
+  const renderSubs = () => {
+    if (loadingSubs) {
+      return <Loader />;
+    }
+    if (isMyEvents && subs?.length > 0) {
+      return (
+        <FilterGroup>
+          <Subtitle>{subtitle.subscriptions}</Subtitle>
+          <FilterPicker
+            allowMultipleSelection
+            getItemKey={(item) => item.id}
+            data={subs}
+            selectedItems={selectedSubs}
+            setSelectedItems={(items) => setSelectedSubs(items)}
+          />
+        </FilterGroup>
+      );
+    }
+  };
+
+  const renderApps = () => {
+    if (loadingApps) {
+      return <Loader />;
+    }
+    if (apps?.length > 0) {
+      return (
+        <FilterGroup>
+          <Subtitle>{subtitle.category}</Subtitle>
+          <FilterPicker
+            allowMultipleSelection
+            getItemKey={(item) => item.key}
+            data={apps}
+            selectedItems={selectedApps}
+            setSelectedItems={(items) => setSelectedApps(items)}
+          />
+        </FilterGroup>
+      );
+    }
   };
 
   return (
@@ -66,21 +117,14 @@ const EventFilterModal = ({ onClose, visible = false }: any) => {
           </IconContainer>
         </HeaderWrapper>
         <Title>{buttonsTitles.filter}</Title>
-        {apps.length > 0 && (
-          <FilterGroup>
-            <Subtitle>{subtitle.category}</Subtitle>
-            <FilterPicker
-              allowMultipleSelection
-              data={apps}
-              selectedItems={selectedApps}
-              setSelectedItems={(items) => setSelectedApps(items)}
-            />
-          </FilterGroup>
-        )}
+
+        {renderSubs()}
+        {renderApps()}
 
         <FilterGroup>
           <Subtitle>{subtitle.date}</Subtitle>
           <FilterPicker
+            getItemKey={(item) => item.key}
             data={timeRangeItems}
             selectedItems={selectedTimeRange}
             setSelectedItems={(items) => setSelectedTimeRange(items)}

@@ -1,64 +1,71 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { device } from '../styles';
-import { FieldWrapper, FeatureCollection } from '@aplinkosministerija/design-system';
 import Icon from './Icons';
 import { IconName } from '../utils';
 
 const mapsHost = import.meta.env.VITE_MAPS_HOST;
 
 interface MapProps {
-  height?: string;
   onSave?: (data: any) => void;
   error?: string;
-  value?: FeatureCollection;
-  label?: string;
-  showError?: boolean;
   preview?: boolean;
+  filters?: any;
+  geom?: any;
 }
 
-const PreviewMap = ({ height = '230px', error, value, showError = true, label }: MapProps) => {
+const MapView = ({ error, filters, geom }: MapProps) => {
   const iframeRef = useRef<any>(null);
   const [showModal, setShowModal] = useState(false);
 
-  const src = `${mapsHost}/edit?preview=true`;
+  const src = `${mapsHost}/smalsuolis?preview=1`;
 
   const handleLoadMap = () => {
-    if (!value) return;
-    iframeRef?.current?.contentWindow?.postMessage({ geom: value }, '*');
+    if (filters || geom) {
+      // smalsuolio maps negaudo geom jei paduot is karto
+      setTimeout(() => {
+        iframeRef?.current?.contentWindow?.postMessage({ filters, geom }, '*');
+      }, 100);
+    }
   };
 
-  return (
-    <FieldWrapper showError={showError} error={error} label={label}>
-      <Container $showModal={showModal} $error={!!error}>
-        <InnerContainer $showModal={showModal}>
-          <StyledButton
-            $popup={showModal}
-            onClick={(e) => {
-              e.preventDefault();
+  useEffect(() => {
+    iframeRef?.current?.contentWindow?.postMessage({ filters }, '*');
+  }, [filters]);
 
-              setShowModal(!showModal);
-            }}
-          >
-            <StyledIconContainer>
-              <StyledIcon name={showModal ? IconName.exitFullScreen : IconName.fullscreen} />
-            </StyledIconContainer>
-          </StyledButton>
-          <StyledIframe
-            allow="geolocation *"
-            ref={iframeRef}
-            src={src}
-            $width={'100%'}
-            $height={showModal ? '100%' : `${height || '230px'}`}
-            style={{ border: 0 }}
-            allowFullScreen={true}
-            onLoad={handleLoadMap}
-            aria-hidden="false"
-            tabIndex={1}
-          />
-        </InnerContainer>
-      </Container>
-    </FieldWrapper>
+  useEffect(() => {
+    iframeRef?.current?.contentWindow?.postMessage({ geom }, '*');
+  }, [geom]);
+
+  return (
+    <Container $showModal={showModal} $error={!!error}>
+      <InnerContainer $showModal={showModal}>
+        <StyledButton
+          $popup={showModal}
+          onClick={(e) => {
+            e.preventDefault();
+
+            setShowModal(!showModal);
+          }}
+        >
+          <StyledIconContainer>
+            <StyledIcon name={showModal ? IconName.exitFullScreen : IconName.fullscreen} />
+          </StyledIconContainer>
+        </StyledButton>
+        <StyledIframe
+          allow="geolocation *"
+          ref={iframeRef}
+          src={src}
+          $width={'100%'}
+          $height={showModal ? '100%' : '60vh'}
+          style={{ border: 0 }}
+          allowFullScreen={true}
+          onLoad={handleLoadMap}
+          aria-hidden="false"
+          tabIndex={1}
+        />
+      </InnerContainer>
+    </Container>
   );
 };
 
@@ -70,17 +77,17 @@ const Container = styled.div<{
   ${({ $showModal }) =>
     $showModal &&
     `
-  display: flex;
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  justify-content: center;
-  align-items: center;
-  overflow-y: auto;
-  z-index: 1001;
+      display: flex;
+      position: fixed;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.4);
+      justify-content: center;
+      align-items: center;
+      overflow-y: auto;
+      z-index: 1001;
   `}
   ${({ theme, $error }) => $error && `border: 1px solid ${theme.colors.error};`}
 `;
@@ -144,4 +151,4 @@ const StyledIconContainer = styled.div`
   align-items: center;
 `;
 
-export default PreviewMap;
+export default MapView;

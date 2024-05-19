@@ -4,6 +4,7 @@ import { AppType } from './constants';
 import { Frequency } from './constants';
 import { subMonths, subWeeks } from 'date-fns/fp';
 import { formatDateAndTime, formatDateFrom, formatDateTo, formatToZonedDate } from './functions';
+import { FeatureCollection } from '@aplinkosministerija/design-system';
 
 export interface App {
   id: number;
@@ -14,11 +15,11 @@ export interface App {
 }
 
 export interface Subscription<T = number> {
-  id?: number;
-  name?: string;
+  id: number;
+  name: string;
   user?: number;
   apps?: T[];
-  geom?: any;
+  geom?: FeatureCollection;
   frequency?: Frequency;
   active?: boolean;
   eventsCount?: { allTime: number; new: number };
@@ -138,5 +139,6 @@ export const timeRangeItems: TimeRangeItem[] = [
 
 export interface Filters {
   apps?: App[];
+  subscriptions?: Subscription[];
   timeRange?: TimeRangeItem;
 }

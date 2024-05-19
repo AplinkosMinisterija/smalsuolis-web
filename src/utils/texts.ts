@@ -92,6 +92,8 @@ export const buttonsTitles = {
   filter: 'Filtruoti',
   close: 'Uždaryti',
   clearFilter: 'Išvalyti filtrą',
+  showMap: 'Rodyti žemėlapį',
+  showList: 'Rodyti sąrašą',
   visitWebsite: 'Aplankykite svetainę',
   register: 'Registruotis',
 };

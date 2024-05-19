@@ -109,6 +109,7 @@ export const useInfinityLoad = (
   fn: (params: { page: number }) => any,
   observerRef: any,
   filters = {},
+  enabled = true,
 ) => {
   const queryFn = async (page: number) => {
     const data = await fn({
@@ -122,6 +123,7 @@ export const useInfinityLoad = (
   };
 
   const result = useInfiniteQuery({
+    enabled,
     queryKey: queryKeys,
     initialPageParam: 1,
     queryFn: ({ pageParam }: any) => queryFn(pageParam),
