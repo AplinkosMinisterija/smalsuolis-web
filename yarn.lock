@@ -71,7 +71,7 @@
   resolved "https://registry.yarnpkg.com/@aplinkosministerija/biip-prettier-config/-/biip-prettier-config-1.1.0.tgz#f62b0dde76107ab3f646cce2d54d02bd783ce388"
   integrity sha512-DxWGfBY2KuK8OgP2KUb96ieGlqE5gYuxI22Yt1FfoIldlDENW5I8kXj+YFB4iG65i7e1neXPZd9RGHmxxDxxSQ==
 
-"@aplinkosministerija/design-system@^0.0.30np":
+"@aplinkosministerija/design-system@^0.0.30":
   version "0.0.30"
   resolved "https://registry.yarnpkg.com/@aplinkosministerija/design-system/-/design-system-0.0.30.tgz#93a77b6a630f085fd547201d711bc5d5396a1798"
   integrity sha512-UKBhlgpAQZVFhcU3x7XX9fozvd/0IbzQJ9JM9CBPNI+/1WNX6RMdIc+AHL1Ciu5Pf/gIqvx9E9jegH54Uu5sLw==
