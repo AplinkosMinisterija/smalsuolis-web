@@ -5,6 +5,7 @@ import api from '../utils/api';
 const Events = () => {
   return (
     <EventsContainer
+      isMyEvents={false}
       apiEndpoint={api.getEvents}
       countEndpoint={api.getEventsCount}
       queryKey={'events'}

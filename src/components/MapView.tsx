@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { device } from '../styles';
-import Icon from './Icons';
 import { IconName } from '../utils';
+import Icon from './Icons';
 
 const mapsHost = import.meta.env.VITE_MAPS_HOST;
 
@@ -14,29 +14,30 @@ interface MapProps {
   geom?: any;
 }
 
+const src = `${mapsHost}/smalsuolis?preview=1`;
+
 const MapView = ({ error, filters, geom }: MapProps) => {
   const iframeRef = useRef<any>(null);
   const [showModal, setShowModal] = useState(false);
+  const [isIframeLoaded, setIsIframeLoaded] = useState(false);
 
-  const src = `${mapsHost}/smalsuolis?preview=1`;
-
-  const handleLoadMap = () => {
-    if (filters || geom) {
-      // smalsuolio maps negaudo geom jei paduot is karto
-      setTimeout(() => {
-        iframeRef?.current?.contentWindow?.postMessage({ filters, geom }, '*');
-      }, 100);
-    }
+  const handleLoad = () => {
+    setIsIframeLoaded(true);
   };
 
   useEffect(() => {
-    iframeRef?.current?.contentWindow?.postMessage({ filters }, '*');
-  }, [filters]);
+    if (!iframeRef?.current || !isIframeLoaded) return;
 
-  useEffect(() => {
-    iframeRef?.current?.contentWindow?.postMessage({ geom }, '*');
-  }, [geom]);
+    const iframe = iframeRef.current;
 
+    const message: any = {};
+    if (geom) message.geom = geom;
+    if (filters) message.filters = filters;
+
+    if (Object.keys(message).length > 0) {
+      iframe.contentWindow?.postMessage(message, '*');
+    }
+  }, [geom, iframeRef, filters, isIframeLoaded]);
   return (
     <Container $showModal={showModal} $error={!!error}>
       <InnerContainer $showModal={showModal}>
@@ -60,9 +61,9 @@ const MapView = ({ error, filters, geom }: MapProps) => {
           $height={showModal ? '100%' : '60vh'}
           style={{ border: 0 }}
           allowFullScreen={true}
-          onLoad={handleLoadMap}
           aria-hidden="false"
           tabIndex={1}
+          onLoad={handleLoad}
         />
       </InnerContainer>
     </Container>

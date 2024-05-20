@@ -1,11 +1,11 @@
+import { DefaultLayout, filterMenuRoutes, filterRoutes } from '@aplinkosministerija/design-system';
 import { useContext } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import { DefaultLayout, filterMenuRoutes, filterRoutes } from '@aplinkosministerija/design-system';
 import LoaderComponent from './components/LoaderComponent';
 import { UserContext, UserContextType } from './components/UserProvider';
 import { IconName, useGetCurrentRoute, useLogout } from './utils';
-import { slugs, routes } from './utils/routes';
+import { routes, slugs } from './utils/routes';
 import Icon from './components/Icons';
 
 function App() {

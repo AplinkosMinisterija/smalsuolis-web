@@ -1,32 +1,27 @@
-import {
-  Button,
-  ButtonVariants,
-  ContentLayout,
-  useStorage,
-} from '@aplinkosministerija/design-system';
+import { Button, ButtonVariants, useStorage } from '@aplinkosministerija/design-system';
+import { useQuery } from '@tanstack/react-query';
 import React, { useContext, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { device } from '../styles';
 import {
+  buttonsTitles,
+  Event,
+  Filters,
   IconName,
   isEmpty,
+  Subscription,
   subtitle,
   useGetCurrentRoute,
   useInfinityLoad,
-  Event,
-  buttonsTitles,
-  Filters,
-  Subscription,
 } from '../utils';
+import api from '../utils/api';
+import CopiedFromDSContentLayout from './CopiedFromDSContentLayout';
 import EmptyState from './EmptyState';
 import EventCard from './EventCard';
-import LoaderComponent from './LoaderComponent';
-import Icon from './Icons';
 import EventFilterModal from './EventFilterModal';
+import Icon from './Icons';
+import LoaderComponent from './LoaderComponent';
 import MapView from './MapView';
-import CopiedFromDSContentLayout from './CopiedFromDSContentLayout';
-import { useQuery } from '@tanstack/react-query';
-import api from '../utils/api';
 import { UserContext, UserContextType } from './UserProvider';
 
 const EventsContainer = ({
@@ -45,15 +40,14 @@ const EventsContainer = ({
   emptyStateTitle: string;
 }) => {
   const filters = useStorage<Filters>('filters', {}, true);
-
-  const [isListView, setIsListView] = useState(true);
+  const { value: isListView, setValue } = useStorage<boolean>('isListView', false, true);
   const [showFilterModal, setShowFilterModal] = useState(false);
 
   const { loggedIn } = useContext<UserContextType>(UserContext);
   const currentRoute = useGetCurrentRoute();
   const observerRef = useRef<any>(null);
 
-  const { data: subsResponse } = useQuery({
+  const { data: subsResponse, isFetching: subResponseLoading } = useQuery({
     queryKey: ['allSubscriptions'],
     queryFn: () => api.getAllSubscriptions(),
     enabled: loggedIn && isMyEvents,
@@ -79,7 +73,7 @@ const EventsContainer = ({
   });
 
   const getMapGeom = () => {
-    if (!allSubscriptions.length) return null;
+    if (!allSubscriptions.length || !isMyEvents) return null;
 
     return {
       type: 'FeatureCollection',
@@ -100,8 +94,6 @@ const EventsContainer = ({
   );
 
   const renderListContent = () => {
-    if (isLoading) return <LoaderComponent />;
-
     if (isEmpty(events?.pages?.[0]?.data)) {
       return (
         <EmptyState
@@ -129,10 +121,15 @@ const EventsContainer = ({
   };
 
   const renderListOrMap = () => {
+    if (isLoading || subResponseLoading) return <LoaderComponent />;
+
     if (isListView) {
       return renderListContent();
     } else {
-      return <MapView filters={getFilter()} geom={getMapGeom()} />;
+      const filters = getFilter();
+      const geom = getMapGeom();
+
+      return <MapView filters={filters} geom={geom} />;
     }
   };
 
@@ -156,7 +153,7 @@ const EventsContainer = ({
       <MapAndListButton
         variant={ButtonVariants.TERTIARY}
         onClick={() => {
-          setIsListView((view) => !view);
+          setValue(!isListView);
         }}
       >
         {isListView ? (
