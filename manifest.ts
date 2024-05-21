@@ -1,5 +1,5 @@
 export const manifestForPlugIn = {
-  registerType: 'prompt',
+  registerType: 'autoUpdate',
   includeAssests: ['favicon.ico', 'apple-touc-icon.png', 'masked-icon.svg'],
   manifest: {
     name: 'Smalsuolis',

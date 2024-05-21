@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext, UserContextType } from '../components/UserProvider';
 import { device } from '../styles';
-import { buttonsTitles, descriptions, slugs, subtitle, titles, useGetCurrentRoute } from '../utils';
+import { buttonsTitles, slugs, subtitle, titles, useGetCurrentRoute } from '../utils';
 const imageUrls = ['/about1.jpeg', '/about2.jpeg', '/about3.webp'];
 
 const About = () => {
@@ -15,7 +15,30 @@ const About = () => {
   return (
     <ContentLayout customTitle={<Title>{titles.about}</Title>} currentRoute={currentRoute}>
       <SubTitle>{subtitle.about}</SubTitle>
-      <Description>{descriptions.about}</Description>
+      <DescriptionContainer>
+        <Description>
+          {
+            'Mūsų valstybėje vyksta daug įvykių, tačiau apie juos nežinome arba sužinome per vėlai. Nusprendėme tą pakeisti - suteikti galimybę visiems piliečiams sekti kas vyksta šalyje realiu laiku.'
+          }
+        </Description>
+        <Description>
+          {
+            'Užsiregistruok, pažymėk tave dominančias įvykių kategorijas ir gauk elektroniniu paštu naujausią informaciją apie tai, kas įvyko. Šiuo metu galima sekti statybos leidimų išdavimą bei įžuvinimą, neužilgo pridėsime ir miško kirtimo leidimus, taip pat planuojame turėti želdynų ir želdinių šalinimo leidimus, poveikio aplinkai vertinimą, žemės paskirties keitimą ir daugelį kitų.'
+          }
+        </Description>
+        <Description>
+          <Description>{'Darome tą, nes esame smalsūs. Kaip ir tu.'}</Description>
+          <Description>
+            {'Smalsuolis.lt komanda - '}
+            <Link href="https://startupgov.lt">https://startupgov.lt</Link>
+          </Description>
+        </Description>
+        <Description>
+          {'Jei turi komentarų ar pastabų - '}
+          <Link href="mailto:esu@smalsuolis.lt">esu@smalsuolis.lt</Link>
+        </Description>
+      </DescriptionContainer>
+
       <ImagesContainer>
         {imageUrls.map((url, index) => (
           <Image key={`image-${index}`} src={url} />
@@ -37,10 +60,22 @@ const Title = styled.div`
   margin: 16px 0;
   width: 100%;
 `;
+
+const Link = styled.a`
+  color: rgb(0, 0, 238);
+  text-decoration: underline;
+`;
+
 const Description = styled.div`
   color: ${({ theme }) => theme.colors.text.primary};
-  line-height: 28px;
+  line-height: 20px;
   width: 100%;
+`;
+
+const DescriptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 `;
 
 const SubTitle = styled.div`
