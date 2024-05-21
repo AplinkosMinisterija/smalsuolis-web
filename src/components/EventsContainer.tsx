@@ -75,9 +75,13 @@ const EventsContainer = ({
   const getMapGeom = () => {
     if (!allSubscriptions.length || !isMyEvents) return null;
 
+    const { subscriptions } = filters.value;
+
+    const currentSubscriptions = subscriptions ? subscriptions : allSubscriptions;
+
     return {
       type: 'FeatureCollection',
-      features: allSubscriptions.map((sub) => sub?.geom?.features[0]),
+      features: currentSubscriptions.map((sub) => sub?.geom?.features[0]),
     };
   };
 
@@ -140,7 +144,11 @@ const EventsContainer = ({
           <CountText>
             {`${subtitle.foundRecords} ${Number.isInteger(eventsCount) ? eventsCount : ''}`}
           </CountText>
-          <FilterButton onClick={() => setShowFilterModal(true)}>
+          <FilterButton
+            onClick={() => {
+              setShowFilterModal(true);
+            }}
+          >
             <FilterIconWrapper>
               {!isEmpty(filters.value) && <FilterBadge />}
               <Icon name={IconName.filter} size={22} color={'#1B4C28'} />
