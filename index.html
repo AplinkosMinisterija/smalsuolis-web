@@ -13,13 +13,15 @@
     />
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-93XVFPQQYB"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
+    <script type="module">
+      if (import.meta.env.VITE_NODE_ENV === 'production') {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-93XVFPQQYB');
       }
-      gtag('js', new Date());
-      gtag('config', 'G-93XVFPQQYB');
     </script>
     <title>Smalsuolis</title>
   </head>
