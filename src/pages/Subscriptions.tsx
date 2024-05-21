@@ -48,11 +48,13 @@ const Subscriptions = () => {
             <React.Fragment key={pageIndex}>
               {page?.data.map((subscription) => {
                 return (
-                  <SubscriptionCard
-                    subscription={subscription}
-                    onClick={() => navigate(slugs.subscription(subscription?.id?.toString()))}
-                    apps={appsResponse?.rows}
-                  />
+                  <React.Fragment key={`subscription-${subscription?.id}`}>
+                    <SubscriptionCard
+                      subscription={subscription}
+                      onClick={() => navigate(slugs.subscription(subscription?.id?.toString()))}
+                      apps={appsResponse?.rows}
+                    />
+                  </React.Fragment>
                 );
               })}
             </React.Fragment>
