@@ -17,7 +17,8 @@ jobs:
       enable-sentry: true
       runs-on: biip-workflows
       build-args: |
-        NODE_ENV=development
+        VITE_NODE_ENV=development
+        VITE_GA_ENV=development
         VITE_SENTRY_ENV=development
         VITE_SENTRY_DSN=https://868f3858116e484e838dc4f966bbd5f8@sentry.biip.lt/48
         VITE_MAPS_HOST=https://dev-maps.biip.lt
