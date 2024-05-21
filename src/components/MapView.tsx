@@ -37,7 +37,7 @@ const MapView = ({ error, filters, geom }: MapProps) => {
     if (Object.keys(message).length > 0) {
       iframe.contentWindow?.postMessage(message, '*');
     }
-  }, [geom, iframeRef, filters, isIframeLoaded]);
+  }, [JSON.stringify(geom), JSON.stringify(filters), iframeRef, isIframeLoaded]);
 
   return (
     <Container $showModal={showModal} $error={!!error}>
