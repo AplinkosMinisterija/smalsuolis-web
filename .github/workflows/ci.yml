@@ -46,14 +46,12 @@ jobs:
       contents: read
       deployments: write
     steps:
-      - uses: actions/checkout@v4
-
       - name: Publish preview to Cloudflare pages
         uses: AplinkosMinisterija/reusable-workflows/.github/actions/cloudflare-pages-publish@main
         with:
           cloudflare-api-token: ${{ secrets.BIIP_CLOUDFLARE_PAGES_API_TOKEN }}
           cloudflare-account-id: ${{ secrets.BIIP_CLOUDFLARE_ACCOUNT_ID }}
-          cloudflare-project-name: smalsuolis-wed
+          cloudflare-project-name: smalsuolis-web
           artifact-name: page
 
   validate-docker-build:
