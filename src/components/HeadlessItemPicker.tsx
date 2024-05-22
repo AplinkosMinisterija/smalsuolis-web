@@ -19,7 +19,7 @@ export interface HeadlessItemPickerProps<T extends HeadlessItemT> {
   allowMultipleSelection?: boolean;
 }
 
-// reusable headless component yra yra nera bus
+// reusable headless component
 const ItemPicker = <T extends HeadlessItemT>({
   data,
   renderItem,
@@ -42,7 +42,11 @@ const ItemPicker = <T extends HeadlessItemT>({
         setSelectedItems(newSelected);
       }
     } else {
-      setSelectedItems([item]);
+      if (selectedItems.length && getItemKey(selectedItems[0]) === getItemKey(item)) {
+        setSelectedItems([]);
+      } else {
+        setSelectedItems([item]);
+      }
     }
   };
 

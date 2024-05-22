@@ -4,7 +4,7 @@ export const manifestForPlugIn = {
   manifest: {
     name: 'Smalsuolis',
     short_name: 'Smalsuolis',
-    description: 'Smalsuolis',
+    description: 'Visi valstybės įvykiai realiu laiku tavo teritorijoje',
     icons: [
       {
         src: '/android-chrome-192x192.png',
