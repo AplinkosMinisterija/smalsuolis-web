@@ -15,7 +15,7 @@ jobs:
       environment: development
       docker-image: ghcr.io/AplinkosMinisterija/smalsuolis-web
       enable-sentry: true
-      runs-on: biip-workflows
+      runs-on: ubuntu-latest
       build-args: |
         VITE_NODE_ENV=development
         VITE_GA_ENV=development

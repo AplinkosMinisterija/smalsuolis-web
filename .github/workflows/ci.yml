@@ -10,11 +10,11 @@ jobs:
     name: Validate if docker image builds
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Build & tag docker image
         uses: AplinkosMinisterija/reusable-workflows/.github/actions/docker-build-tag-push@main
         with:
           environment: test
-          runs-on: biip-workflows
           push: false
