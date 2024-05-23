@@ -18,6 +18,7 @@ jobs:
       runs-on: ubuntu-latest
       build-args: |
         VITE_NODE_ENV=development
+        VITE_HOST=https://dev.smalsuolis.lt
         VITE_GA_ENV=development
         VITE_SENTRY_ENV=development
         VITE_SENTRY_DSN=https://868f3858116e484e838dc4f966bbd5f8@sentry.biip.lt/48
