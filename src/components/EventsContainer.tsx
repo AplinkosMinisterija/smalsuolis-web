@@ -68,7 +68,7 @@ const EventsContainer = ({
     };
   };
 
-  const { data: eventsCount, isLoading: eventIsLoading } = useQuery({
+  const { data: eventsCount, isLoading: eventsCountIsLoading } = useQuery({
     queryKey: [queryKey, 'count', getFilter()],
     queryFn: () => countEndpoint({ query: getFilter() }),
   });
@@ -143,8 +143,8 @@ const EventsContainer = ({
       <FilterRow>
         <CountText>
           {`${subtitle.foundRecords}: `}
-          {eventIsLoading ? (
-            <Loader size={'21px'} />
+          {eventsCountIsLoading ? (
+            <Loader size={'20px'} />
           ) : Number.isInteger(eventsCount) ? (
             eventsCount
           ) : (
