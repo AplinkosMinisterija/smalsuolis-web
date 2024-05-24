@@ -20,6 +20,7 @@ import EmptyState from './EmptyState';
 import EventCard from './EventCard';
 import EventFilterModal from './EventFilterModal';
 import Icon from './Icons';
+import Loader from './Loader';
 import LoaderComponent from './LoaderComponent';
 import MapView from './MapView';
 import { UserContext, UserContextType } from './UserProvider';
@@ -67,9 +68,9 @@ const EventsContainer = ({
     };
   };
 
-  const { data: eventsCount } = useQuery({
+  const { data: eventsCount, isLoading: eventIsLoading } = useQuery({
     queryKey: [queryKey, 'count', getFilter()],
-    queryFn: () => countEndpoint({ filter: getFilter() }),
+    queryFn: () => countEndpoint({ query: getFilter() }),
   });
 
   const getMapGeom = () => {
@@ -93,7 +94,7 @@ const EventsContainer = ({
     [queryKey, filters],
     apiEndpoint,
     observerRef,
-    { filter: getFilter() },
+    { query: getFilter() },
     isListView,
   );
 
@@ -139,24 +140,29 @@ const EventsContainer = ({
 
   return (
     <CopiedFromDSContentLayout currentRoute={currentRoute} limitWidth={isListView}>
-      {!isLoading && (
-        <FilterRow>
-          <CountText>
-            {`${subtitle.foundRecords} ${Number.isInteger(eventsCount) ? eventsCount : ''}`}
-          </CountText>
-          <FilterButton
-            onClick={() => {
-              setShowFilterModal(true);
-            }}
-          >
-            <FilterIconWrapper>
-              {!isEmpty(filters.value) && <FilterBadge />}
-              <Icon name={IconName.filter} size={22} color={'#1B4C28'} />
-            </FilterIconWrapper>
-            <FilterText>{buttonsTitles.filter}</FilterText>
-          </FilterButton>
-        </FilterRow>
-      )}
+      <FilterRow>
+        <CountText>
+          {`${subtitle.foundRecords}: `}
+          {eventIsLoading ? (
+            <Loader size={'21px'} />
+          ) : Number.isInteger(eventsCount) ? (
+            eventsCount
+          ) : (
+            ''
+          )}
+        </CountText>
+        <FilterButton
+          onClick={() => {
+            setShowFilterModal(true);
+          }}
+        >
+          <FilterIconWrapper>
+            {!isEmpty(filters.value) && <FilterBadge />}
+            <Icon name={IconName.filter} size={22} color={'#1B4C28'} />
+          </FilterIconWrapper>
+          <FilterText>{buttonsTitles.filter}</FilterText>
+        </FilterButton>
+      </FilterRow>
       <Container>{renderListOrMap()}</Container>
       <MapAndListButton
         variant={ButtonVariants.TERTIARY}
@@ -226,12 +232,13 @@ const FilterRow = styled.div`
 `;
 
 const CountText = styled.div`
-  font-family: Plus Jakarta Sans;
-  font-size: 14px;
+  font-size: 1.4rem;
   font-weight: 500;
   line-height: 17.64px;
-  text-align: left;
   color: #4b5768;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 `;
 
 const FilterButton = styled.div`
@@ -244,13 +251,12 @@ const FilterButton = styled.div`
 `;
 
 const FilterText = styled.div`
-  font-family: Plus Jakarta Sans;
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: 600;
   line-height: 20.16px;
   text-align: left;
   user-select: none;
-  color: #1b4c28;
+  color: ${({ theme }) => theme.colors.tertiary};
 `;
 
 const FilterIconWrapper = styled.div`

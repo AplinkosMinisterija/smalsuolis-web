@@ -205,24 +205,24 @@ class Api {
 
   getEvents = async ({
     page,
-    filter,
+    query,
   }: {
     page: number;
-    filter: any;
+    query: any;
   }): Promise<GetAllResponse<Event>> => {
     return this.get({
       resource: Resources.EVENTS,
-      filter,
+      query,
       populate: ['geom', 'app'],
       sort: ['-startAt'],
       page,
     });
   };
 
-  getEventsCount = async ({ filter }: { filter: any }): Promise<number> => {
-    return this.getOne({
+  getEventsCount = async ({ query }: { query: any }): Promise<number> => {
+    return this.get({
       resource: Resources.EVENTS + '/count',
-      filter,
+      query,
     });
   };
 
@@ -236,24 +236,24 @@ class Api {
 
   getNewsfeed = async ({
     page,
-    filter,
+    query,
   }: {
     page: number;
-    filter: any;
+    query: any;
   }): Promise<GetAllResponse<Event>> => {
     return this.get({
       resource: Resources.NEWSFEED,
-      filter,
+      query,
       populate: ['geom', 'app'],
       sort: ['-startAt'],
       page,
     });
   };
 
-  getNewsfeedCount = async ({ filter }: { filter: any }): Promise<number> => {
-    return this.getOne({
+  getNewsfeedCount = async ({ query }: { query: any }): Promise<number> => {
+    return this.get({
       resource: Resources.NEWSFEED + '/count',
-      filter,
+      query,
     });
   };
 
