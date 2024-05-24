@@ -143,13 +143,7 @@ const EventsContainer = ({
       <FilterRow>
         <CountText>
           {`${subtitle.foundRecords}: `}
-          {eventsCountIsLoading ? (
-            <Loader size={'20px'} />
-          ) : Number.isInteger(eventsCount) ? (
-            eventsCount
-          ) : (
-            ''
-          )}
+          {eventsCountIsLoading ? <Loader size={'20px'} /> : eventsCount || '0'}
         </CountText>
         <FilterButton
           onClick={() => {
