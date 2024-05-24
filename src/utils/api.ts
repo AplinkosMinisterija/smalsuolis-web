@@ -4,12 +4,7 @@ import Cookies from 'universal-cookie';
 import { App, Event, Subscription } from './types';
 const cookies = new Cookies();
 
-interface Delete {
-  resource: string;
-  id: string;
-}
-
-interface GetAll {
+interface Get {
   resource: string;
   page?: number;
   populate?: string[];
@@ -73,11 +68,10 @@ export enum Resources {
   SUBSCRIPTIONS = 'subscriptions',
   APPS = 'apps',
   USERS = 'users',
-  SUBSCRIPTIONS_COUNT = 'subscriptions/count',
 }
 class Api {
   private AuthApiAxios: AxiosInstance;
-  private readonly proxy: string = '/api';
+  private readonly proxy: string = import.meta.env.VITE_PROXY_BASE_URL ?? '/api';
 
   constructor() {
     this.AuthApiAxios = Axios.create();
@@ -104,7 +98,7 @@ class Api {
     return res.data;
   };
 
-  get = async ({ resource, id, ...rest }: GetAll) => {
+  get = async ({ resource, id, ...rest }: Get) => {
     const config = {
       params: { page: 1, pageSize: 10, ...rest },
     };
@@ -112,6 +106,22 @@ class Api {
     return this.errorWrapper(() =>
       this.AuthApiAxios.get(`/${resource}${id ? `/${id}` : ''}`, config),
     );
+  };
+
+  getCount = async ({ resource, ...rest }: Get) => {
+    const config = {
+      params: { ...rest },
+    };
+
+    return this.errorWrapper(() => this.AuthApiAxios.get(`/${resource}/count`, config));
+  };
+
+  getAll = async ({ resource, ...rest }: Get) => {
+    const config = {
+      params: { ...rest },
+    };
+
+    return this.errorWrapper(() => this.AuthApiAxios.get(`/${resource}/all`, config));
   };
 
   getOne = async ({ resource, id, populate, ...rest }: GetOne) => {
@@ -205,24 +215,24 @@ class Api {
 
   getEvents = async ({
     page,
-    filter,
+    query,
   }: {
     page: number;
-    filter: any;
+    query: any;
   }): Promise<GetAllResponse<Event>> => {
     return this.get({
       resource: Resources.EVENTS,
-      filter,
+      query,
       populate: ['geom', 'app'],
       sort: ['-startAt'],
       page,
     });
   };
 
-  getEventsCount = async ({ filter }: { filter: any }): Promise<number> => {
-    return this.getOne({
-      resource: Resources.EVENTS + '/count',
-      filter,
+  getEventsCount = async ({ query }: { query: any }): Promise<number> => {
+    return this.getCount({
+      resource: Resources.EVENTS,
+      query,
     });
   };
 
@@ -236,24 +246,24 @@ class Api {
 
   getNewsfeed = async ({
     page,
-    filter,
+    query,
   }: {
     page: number;
-    filter: any;
+    query: any;
   }): Promise<GetAllResponse<Event>> => {
     return this.get({
       resource: Resources.NEWSFEED,
-      filter,
+      query,
       populate: ['geom', 'app'],
       sort: ['-startAt'],
       page,
     });
   };
 
-  getNewsfeedCount = async ({ filter }: { filter: any }): Promise<number> => {
-    return this.getOne({
-      resource: Resources.NEWSFEED + '/count',
-      filter,
+  getNewsfeedCount = async ({ query }: { query: any }): Promise<number> => {
+    return this.getCount({
+      resource: Resources.NEWSFEED,
+      query,
     });
   };
 
@@ -266,8 +276,8 @@ class Api {
   };
 
   getAllSubscriptions = async (): Promise<Subscription[]> => {
-    return this.getOne({
-      resource: Resources.SUBSCRIPTIONS + '/all',
+    return this.getAll({
+      resource: Resources.SUBSCRIPTIONS,
       populate: ['geom'],
     });
   };
@@ -309,8 +319,8 @@ class Api {
   };
 
   getSubscriptionsCount = async (): Promise<number> => {
-    return this.get({
-      resource: Resources.SUBSCRIPTIONS_COUNT,
+    return this.getCount({
+      resource: Resources.SUBSCRIPTIONS,
     });
   };
 
@@ -331,8 +341,8 @@ class Api {
   };
 
   getAllApps = async (): Promise<App[]> => {
-    return this.getOne({
-      resource: Resources.APPS + '/all',
+    return this.getAll({
+      resource: Resources.APPS,
     });
   };
 }
