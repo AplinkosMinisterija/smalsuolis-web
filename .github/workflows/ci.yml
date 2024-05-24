@@ -28,6 +28,7 @@ jobs:
         run: yarn run build
         env:
           VITE_NODE_ENV: development
+          VITE_PROXY_BASE_URL: https://dev.smalsuolis.lt/api
           VITE_GA_ENV: development
           VITE_MAPS_HOST: https://dev-maps.biip.lt
 

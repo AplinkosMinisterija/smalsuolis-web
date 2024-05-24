@@ -71,7 +71,7 @@ export enum Resources {
 }
 class Api {
   private AuthApiAxios: AxiosInstance;
-  private readonly proxy: string = '/api';
+  private readonly proxy: string = import.meta.env.VITE_PROXY_BASE_URL ?? '/api';
 
   constructor() {
     this.AuthApiAxios = Axios.create();
