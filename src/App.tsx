@@ -1,12 +1,12 @@
-import { DefaultLayout, filterMenuRoutes, filterRoutes } from '@aplinkosministerija/design-system';
+import { filterMenuRoutes, filterRoutes } from '@aplinkosministerija/design-system';
 import { useContext } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import LoaderComponent from './components/LoaderComponent';
 import { UserContext, UserContextType } from './components/UserProvider';
-import { IconName, useGetCurrentRoute, useLogout } from './utils';
-import { routes, slugs } from './utils/routes';
+import { IconName, useGetCurrentRoute, useLogout, routes, slugs } from './utils';
 import Icon from './components/Icons';
+import DefaultLayout from './components/DefaultLayout';
 
 function App() {
   const navigate = useNavigate();
@@ -32,7 +32,9 @@ function App() {
       menuRoutes={menuRoutes || []}
       logo={<Icon name={IconName.sidebarLogo} />}
       loginSlug={slugs.login}
-      onGoHome={() => navigate('/')}
+      onGoHome={() => {
+        navigate('/');
+      }}
       onLogin={() => navigate(slugs.login)}
       onLogout={() => logout()}
       onRouteSelected={(slug) => navigate(slug)}

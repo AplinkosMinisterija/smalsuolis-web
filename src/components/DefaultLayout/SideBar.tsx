@@ -12,10 +12,11 @@ const SideBar = ({
   onLogout,
   onRouteSelected,
   currentRoute,
+  onGoHome,
 }: DefaultLayoutProps) => {
   return (
     <Container>
-      <LogoContainer>{logo}</LogoContainer>
+      <LogoContainer onClick={onGoHome}>{logo}</LogoContainer>
       {menuRoutes.map((route: any, index: any) => {
         return (
           <Item
