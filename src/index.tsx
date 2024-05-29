@@ -20,8 +20,6 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const handleGlobalError = async (queryClient: QueryClient, error: Error, query?: any) => {
   const code = (error as AxiosError)?.response?.status;
 
-  console.log('handleGlobalError', error);
-
   if (isEqual(code, ServerErrorCodes.NO_PERMISSION)) {
     // Try to refresh token if any query fails with 401
     const refreshToken = cookies.get('refreshToken');
