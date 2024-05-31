@@ -75,6 +75,7 @@ export const IconWrapper = styled.div`
     stroke: ${({ theme }) => theme.colors.primary};
   }
 `;
+
 const Label = styled.div`
   font-size: 1.6rem;
   font-weight: 500;
@@ -104,8 +105,6 @@ const Item = styled.div<{ $isActive: boolean }>`
   ${({ $isActive, theme }) =>
     $isActive &&
     `
-
-
  ${IconWrapper} {
   rect {
       stroke: black;

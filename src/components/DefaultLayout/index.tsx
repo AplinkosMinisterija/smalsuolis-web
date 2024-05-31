@@ -16,17 +16,16 @@ export interface DefaultLayoutProps {
   onGoHome: () => void;
   logo: JSX.Element;
   currentRoute?: AppRoute;
-  onScroll?: () => void;
 }
 
 const DefaultLayout = (props: DefaultLayoutProps) => {
-  const { children, onScroll = () => {} } = props;
+  const { children } = props;
   const isMobile = useWindowSize(device.mobileL);
 
   return (
     <Container>
       {!isMobile && <SideBar {...props} />}
-      <ScrollableContainer onScroll={onScroll}>
+      <ScrollableContainer>
         <InnerContainer>
           <LogoHeader {...props} />
           {children}
