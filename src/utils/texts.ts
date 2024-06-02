@@ -94,6 +94,7 @@ export const buttonsTitles = {
   showList: 'Rodyti sąrašą',
   visitWebsite: 'Aplankykite svetainę',
   register: 'Registruotis',
+  map: 'Smalsuolio žemėlapis',
 };
 
 export const subtitle = {
@@ -105,6 +106,8 @@ export const subtitle = {
   category: 'Kategorijos',
   date: 'Data',
   hasNotRegistered: 'Neturite paskyros?',
+  fewActions: 'Tik keli paspaudimai',
+  howItWorks: 'Kaip tai veikia?',
 };
 
 export const subscriptionFrequencyTitles = {
