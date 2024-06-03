@@ -4,13 +4,23 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext, UserContextType } from '../components/UserProvider';
 import { device } from '../styles';
-import { buttonsTitles, slugs, subtitle, titles, useGetCurrentRoute } from '../utils';
+import { buttonsTitles, slugs, subtitle, IconName } from '../utils';
+import Icon from '../components/Icons';
+
 const bannerUrl = '/about_banner.png';
 const mapUrl = '/about_map.png';
 
 const About = () => {
   const navigate = useNavigate();
   const { loggedIn } = useContext<UserContextType>(UserContext);
+
+  const openLinkInNewTab = (url) => {
+    window.open(url, '_blank', 'noreferrer');
+  };
+
+  const sendEmail = () => {
+    window.open('mailto:esu@smalsuolis.lt');
+  };
 
   return (
     <MainContainer>
@@ -49,7 +59,7 @@ const About = () => {
             <ActionDescription>
               <Action>
                 Tapk Smalsuolio {`\n`} prenumeratoriumi -{' '}
-                {<Link href={loggedIn ? slugs.events : slugs.login}>Užsiregistruok</Link>}
+                {<Link href={loggedIn ? slugs.subscriptions : slugs.login}>Užsiregistruok</Link>}
               </Action>
             </ActionDescription>
           </ActionContainer>
@@ -69,42 +79,42 @@ const About = () => {
           </ActionContainer>
         </ActionsRow>
       </ActionsContainer>
-
-      {/*
-      <DescriptionContainer>
-        <Description>
-          {
-            'Mūsų valstybėje vyksta daug įvykių, tačiau apie juos nežinome arba sužinome per vėlai. Nusprendėme tą pakeisti - suteikti galimybę visiems piliečiams sekti kas vyksta šalyje realiu laiku.'
-          }
-        </Description>
-        <Description>
-          {
-            'Užsiregistruok, pažymėk tave dominančias įvykių kategorijas ir gauk elektroniniu paštu naujausią informaciją apie tai, kas įvyko. Šiuo metu galima sekti statybos leidimų išdavimą bei įžuvinimą, neužilgo pridėsime ir miško kirtimo leidimus, taip pat planuojame turėti želdynų ir želdinių šalinimo leidimus, poveikio aplinkai vertinimą, žemės paskirties keitimą ir daugelį kitų.'
-          }
-        </Description>
-        <Description>
-          <Description>{'Darome tą, nes esame smalsūs. Kaip ir tu.'}</Description>
-          <Description>
-            {'Smalsuolis.lt komanda - '}
-            <Link href="https://startupgov.lt">https://startupgov.lt</Link>
-          </Description>
-        </Description>
-        <Description>
-          {'Jei turi komentarų ar pastabų - '}
-          <Link href="mailto:esu@smalsuolis.lt">esu@smalsuolis.lt</Link>
-        </Description>
-      </DescriptionContainer>
-
-      <ImagesContainer>
-        {imageUrls.map((url, index) => (
-          <Image key={`image-${index}`} src={url} />
-        ))}
-        <NavigateContainer
-          onClick={() => navigate(loggedIn ? slugs.newSubscription : slugs.registration)}
-        >
-          {buttonsTitles.subscribeNews}{' '}
-        </NavigateContainer>
-      </ImagesContainer> */}
+      <SecondBannerContainer>
+        <SecondBannerRow>
+          <SecondSubTitle>Darome tą, nes esame smalsūs.{`\n`}Kaip ir tu!</SecondSubTitle>
+          <SecondBannerActionContainer>
+            <GreenCircle />
+            <BannerButton onClick={() => navigate(loggedIn ? slugs.subscriptions : slugs.login)}>
+              <BannerButtonText>{buttonsTitles.beCurious}</BannerButtonText>
+            </BannerButton>
+          </SecondBannerActionContainer>
+        </SecondBannerRow>
+      </SecondBannerContainer>
+      <FooterContainer>
+        <FooterContent>
+          <FooterContentTitle>Smalsuolio komanda</FooterContentTitle>
+          <FooterContentSubTitle>
+            Valstybės tarnautojai, kurie daro daugiau, nei kad prašoma
+          </FooterContentSubTitle>
+          <ButtonContainer>
+            <Button
+              onClick={() => openLinkInNewTab('https://startupgov.lt')}
+              rightIcon={<StyledIcon name={IconName.arrowUpRight} />}
+            >
+              {buttonsTitles.ourTeam}
+            </Button>
+          </ButtonContainer>
+        </FooterContent>
+        <FooterContent>
+          <FooterContentTitle>Jei turi komentarų ar pastabų</FooterContentTitle>
+          <FooterContentSubTitle>Visuomet jų laukiame</FooterContentSubTitle>
+          <ButtonContainer>
+            <Button onClick={sendEmail} leftIcon={<StyledIcon name={IconName.email} />}>
+              esu@smalsuolis.lt
+            </Button>
+          </ButtonContainer>
+        </FooterContent>
+      </FooterContainer>
     </MainContainer>
   );
 };
@@ -133,16 +143,25 @@ const Description = styled.div`
   line-height: 32px;
   width: 100%;
   margin-bottom: 24px;
+  font-size: 1.89rem;
 `;
 
 const Action = styled.div`
   color: ${({ theme }) => theme.colors.text.primary};
   line-height: 32px;
   font-weight: 500;
-
   white-space: pre-line;
   align-self: center;
   text-align: center;
+  font-size: 1.89rem;
+`;
+
+const BannerButtonText = styled.div`
+  color: ${({ theme }) => theme.colors.text.primary};
+  line-height: 32px;
+  font-weight: 500;
+  font-size: 1.8rem;
+  font-weight: medium;
 `;
 
 const DescriptionContainer = styled.div`
@@ -156,67 +175,61 @@ const DescriptionContainer = styled.div`
 const QuestionContainer = styled.div`
   display: flex;
   background-color: #dff9e5;
-  border-radius: 10px;
-  padding: 0px 8px;
-  max-width: 110px;
+  border-radius: 16px;
+  padding: 8px 16px;
   justify-content: center;
   align-items: center;
+  margin-bottom: 16px;
 `;
 
 const Question = styled.div`
   color: #1b4c28;
-  font-size: 1rem;
-  font-weight: 400;
+  font-size: 1.6rem;
   line-height: 16px;
 `;
 
 const ContentContainer = styled.div`
   justify-content: center;
   align-items: center;
-  padding: 50px;
+  padding: 40px 80px;
   flex-direction: row;
   display: flex;
   @media ${device.mobileL} {
     flex-wrap: wrap;
     background-color: #f7f7f7;
     flex-direction: column;
+    margin-top: 0px;
+    padding: 40px 24px;
   }
 `;
 
 const SubTitle = styled.div`
   color: ${({ theme }) => theme.colors.text.primary};
-  font-size: 2.5rem;
+  font-size: 3.1rem;
   margin-bottom: 24px;
   font-weight: 700;
   line-height: 50.4px;
 `;
 
+const SecondSubTitle = styled.div`
+  color: ${({ theme }) => theme.colors.text.primary};
+  font-size: 4.1rem;
+  font-weight: bold;
+  line-height: 72px;
+  white-space: pre-line;
+`;
+
 const Image = styled.img`
   width: 100%;
   object-fit: cover;
-  @media ${device.mobileL} {
-    border-radius: 16px;
+  @media ${device.desktop} {
+    border-radius: 32px;
   }
 `;
 
 const ActionImage = styled.img`
   max-width: 112px;
   margin-bottom: 24px;
-`;
-
-const NavigateContainer = styled.div`
-  border-radius: 16px;
-  max-width: 100%;
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  background: #fafafa;
-  padding: 32px;
-  color: ${({ theme }) => theme.colors.text.primary};
-  display: flex;
-  align-items: end;
-  font-weight: 600;
-  cursor: pointer;
 `;
 
 const ImageContainer = styled.div`
@@ -233,16 +246,19 @@ const ImageContainer = styled.div`
 
 const BannerImageContainer = styled.div`
   width: 100%;
+  margin-bottom: -5px;
 `;
 
 const ActionsRow = styled.div`
   flex-direction: row;
   display: flex;
   width: 100%;
+  margin-top: 40px;
   justify-content: space-between;
   @media ${device.mobileL} {
     flex-wrap: wrap;
     flex-direction: column;
+    margin-top: 24px;
   }
 `;
 
@@ -261,28 +277,114 @@ const ActionContainer = styled.div`
 
 const ActionsContainer = styled.div`
   background-color: white;
-  border-radius: 16px;
   justify-content: center;
   align-items: center;
-  padding: 50px;
+  padding: 80px 80px;
   flex-direction: column;
   display: flex;
+  @media ${device.mobileL} {
+    padding: 60px 24px;
+  }
 `;
 
-const ActionDescription = styled.div` 
+const ActionDescription = styled.div`
   align-items: center;
   justify-content: center;
   align-self: center;
   margin: 0 40px;
-  display: flex:
+  display: flex;
+  @media ${device.mobileL} {
+    margin: 0 16px;
+  }
 `;
 
-const Description1 = styled.span`
+const SecondBannerContainer = styled.div`
+  background-image: url('/about_banner_background.png');
+  display: flex;
+  margin-top: 40px;
+  padding: 60px 80px;
+  align-items: center;
+  justify-content: center;
+  @media ${device.desktop} {
+    border-radius: 32px;
+  }
+  @media ${device.mobileL} {
+    padding: 40px 24px;
+    margin-top: 0px;
+  }
+`;
+
+const SecondBannerRow = styled.div`
+  flex-direction: row;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  @media ${device.mobileL} {
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+`;
+
+const SecondBannerActionContainer = styled.div`
+  flex-direction: column;
+  display: flex;
+  align-items: flex-end;
+  @media ${device.mobileL} {
+    margin-top: 40px;
+  }
+`;
+
+const GreenCircle = styled.div`
+  height: 130px;
+  width: 130px;
+  border-radius: 65px;
+  background-color: ${({ theme }) => theme.colors.tertiary};
+`;
+
+const BannerButton = styled.button`
+  margin-top: 24px;
+  padding: 20px 100px;
+  background-color: white;
+  border-radius: 60px;
+`;
+
+const FooterContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 40px 80px;
+  @media ${device.mobileL} {
+    flex-wrap: wrap;
+    background-color: #f7f7f7;
+    flex-direction: column;
+    margin-top: 0px;
+    padding: 24px 24px;
+  }
+`;
+
+const FooterContent = styled.div`
+  flex-direction: column;
+  flex: 1;
+  @media ${device.mobileL} {
+    margin-top: 40px;
+  }
+`;
+
+const FooterContentTitle = styled.div`
   color: ${({ theme }) => theme.colors.text.primary};
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 40px;
+`;
+
+const FooterContentSubTitle = styled.div`
+  color: ${({ theme }) => theme.colors.text.primary};
+  font-size: 1.6rem;
   line-height: 32px;
-  align-self: center;
   margin-bottom: 24px;
-  text-align: center;
+`;
+
+const StyledIcon = styled(Icon)`
+  font-size: 1.8rem;
 `;
 
 export default About;

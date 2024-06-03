@@ -61,6 +61,7 @@ export enum IconName {
   openInNew = 'openInNew',
   search = 'search',
   filter = 'filter',
+  arrowUpRight = 'arrowUpRight',
 }
 
 export enum ServerErrors {

@@ -95,6 +95,8 @@ export const buttonsTitles = {
   visitWebsite: 'Aplankykite svetainę',
   register: 'Registruotis',
   map: 'Smalsuolio žemėlapis',
+  beCurious: 'Tapk smalsiu',
+  ourTeam: 'Mūsų komanda',
 };
 
 export const subtitle = {
