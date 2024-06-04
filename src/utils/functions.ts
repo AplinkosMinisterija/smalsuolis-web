@@ -43,7 +43,7 @@ function getDateTranslate(date: Date) {
 }
 
 export const getTimeLabel = ({ startAt, endAt, isFullDay }: Event) => {
-  function getFormated(value?: string) {
+  function getFormatted(value?: string) {
     if (!value) return;
 
     const parsedValue = parseISO(value);
@@ -54,8 +54,8 @@ export const getTimeLabel = ({ startAt, endAt, isFullDay }: Event) => {
     return formatDateAndTime(parsedValue);
   }
 
-  const startAtFormatted = getFormated(startAt);
-  const endAtFormatted = getFormated(endAt);
+  const startAtFormatted = getFormatted(startAt);
+  const endAtFormatted = getFormatted(endAt);
 
   if (endAtFormatted) {
     return `${startAtFormatted} - ${endAtFormatted}`;
