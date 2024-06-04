@@ -1,4 +1,4 @@
-import { format, isToday, parseISO, endOfDay, startOfDay } from 'date-fns';
+import { format, isToday, parseISO, endOfDay, startOfDay, isTomorrow, isYesterday } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 import { toast } from 'react-toastify';
 import { routes } from './routes';
@@ -36,23 +36,32 @@ export const formatDateAndTime = (date?: Date | string) =>
 
 export const formatTime = (date?: Date | string) => (date ? format(new Date(date), 'HH:mm') : '');
 
-export const getTimeLabel = (event: Event) => {
-  const { startAt, endAt, isFullDay } = event;
+function getDateTranslate(date: Date) {
+  if (isToday(date)) return 'Šiandien';
+  else if (isTomorrow(date)) return 'Rytoj';
+  else if (isYesterday(date)) return 'Vakar';
+}
 
-  const startAtParsed = parseISO(startAt);
+export const getTimeLabel = ({ startAt, endAt, isFullDay }: Event) => {
+  function getFormated(value?: string) {
+    if (!value) return;
 
-  if (endAt) {
-    const endAtParsed = parseISO(endAt);
-    return `${formatDateAndTime(startAtParsed)} - ${formatDateAndTime(endAtParsed)}`;
+    const parsedValue = parseISO(value);
+
+    const prefix = getDateTranslate(parsedValue);
+    if (isFullDay) return prefix ? prefix : formatDate(parsedValue);
+    else if (prefix) return `${prefix} ${formatTime(parsedValue)}`;
+    return formatDateAndTime(parsedValue);
   }
 
-  const todayLabel = isToday(startAtParsed) ? `Šiandien` : '';
+  const startAtFormatted = getFormated(startAt);
+  const endAtFormatted = getFormated(endAt);
 
-  if (isFullDay) {
-    return todayLabel || formatDate(startAt);
+  if (endAtFormatted) {
+    return `${startAtFormatted} - ${endAtFormatted}`;
   }
 
-  return todayLabel ? `${todayLabel} ${formatTime(startAt)}` : formatDateAndTime(startAt);
+  return startAtFormatted;
 };
 
 export const isEmpty = (value: any) => {
