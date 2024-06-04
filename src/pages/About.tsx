@@ -80,15 +80,15 @@ const About = () => {
         </ActionsRow>
       </ActionsContainer>
       <SecondBannerContainer>
-        <SecondBannerRow>
+        <BannerRow>
           <SecondSubTitle>Darome tą, nes esame smalsūs.{`\n`}Kaip ir tu!</SecondSubTitle>
-          <SecondBannerActionContainer>
+          <BannerActionContainer>
             <GreenCircle />
             <BannerButton onClick={() => navigate(loggedIn ? slugs.subscriptions : slugs.login)}>
               <BannerButtonText>{buttonsTitles.beCurious}</BannerButtonText>
             </BannerButton>
-          </SecondBannerActionContainer>
-        </SecondBannerRow>
+          </BannerActionContainer>
+        </BannerRow>
       </SecondBannerContainer>
       <FooterContainer>
         <FooterContent>
@@ -129,13 +129,48 @@ const MainContainer = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div`
-  max-width: 255px;
+const BannerImageContainer = styled.div`
+  width: 100%;
+  margin-bottom: -5px;
 `;
 
-const Link = styled.a`
-  color: #1b4c28;
-  text-decoration: underline;
+const Image = styled.img`
+  width: 100%;
+  object-fit: cover;
+  @media ${device.desktop} {
+    border-radius: 32px;
+  }
+`;
+
+const ContentContainer = styled.div`
+  align-items: center;
+  padding: 40px 80px;
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  @media ${device.tablet} {
+    flex-wrap: wrap;
+    background-color: ${({ theme }) => theme.colors.background};
+    flex-direction: column;
+    margin-top: 0px;
+    padding: 40px 24px;
+  }
+`;
+
+const DescriptionContainer = styled.div`
+  flex-grow: 0;
+  flex-basis: 50%;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+`;
+
+const SubTitle = styled.div`
+  color: ${({ theme }) => theme.colors.text.primary};
+  font-size: 3.1rem;
+  margin-bottom: 24px;
+  font-weight: 700;
+  line-height: 50.4px;
 `;
 
 const Description = styled.div`
@@ -146,30 +181,33 @@ const Description = styled.div`
   font-size: 1.89rem;
 `;
 
-const Action = styled.div`
-  color: ${({ theme }) => theme.colors.text.primary};
-  line-height: 32px;
-  font-weight: 500;
-  white-space: pre-line;
-  align-self: center;
-  text-align: center;
-  font-size: 1.89rem;
+const ButtonContainer = styled.div`
+  max-width: 255px;
 `;
 
-const BannerButtonText = styled.div`
-  color: ${({ theme }) => theme.colors.text.primary};
-  line-height: 32px;
-  font-weight: 500;
-  font-size: 1.8rem;
-  font-weight: medium;
+const ImageContainer = styled.div`
+  flex: 0 50%;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-height: 443px;
+  max-width: 520px;
+  @media ${device.tablet} {
+    margin-top: 24px;
+  }
 `;
 
-const DescriptionContainer = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: space-between;
-  align-items: flex-start;
+const ActionsContainer = styled.div`
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 80px;
   flex-direction: column;
+  display: flex;
+  width: 100%;
+  @media ${device.tablet} {
+    padding: 60px 24px;
+  }
 `;
 
 const QuestionContainer = styled.div`
@@ -183,70 +221,9 @@ const QuestionContainer = styled.div`
 `;
 
 const Question = styled.div`
-  color: #1b4c28;
+  color: ${({ theme }) => theme.colors.text.tertiary};
   font-size: 1.6rem;
   line-height: 16px;
-`;
-
-const ContentContainer = styled.div`
-  justify-content: center;
-  align-items: center;
-  padding: 40px 80px;
-  flex-direction: row;
-  display: flex;
-  @media ${device.mobileL} {
-    flex-wrap: wrap;
-    background-color: #f7f7f7;
-    flex-direction: column;
-    margin-top: 0px;
-    padding: 40px 24px;
-  }
-`;
-
-const SubTitle = styled.div`
-  color: ${({ theme }) => theme.colors.text.primary};
-  font-size: 3.1rem;
-  margin-bottom: 24px;
-  font-weight: 700;
-  line-height: 50.4px;
-`;
-
-const SecondSubTitle = styled.div`
-  color: ${({ theme }) => theme.colors.text.primary};
-  font-size: 4.1rem;
-  font-weight: bold;
-  line-height: 72px;
-  white-space: pre-line;
-`;
-
-const Image = styled.img`
-  width: 100%;
-  object-fit: cover;
-  @media ${device.desktop} {
-    border-radius: 32px;
-  }
-`;
-
-const ActionImage = styled.img`
-  max-width: 112px;
-  margin-bottom: 24px;
-`;
-
-const ImageContainer = styled.div`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-height: 443px;
-  max-width: 520px;
-  @media ${device.mobileL} {
-    margin-top: 24px;
-  }
-`;
-
-const BannerImageContainer = styled.div`
-  width: 100%;
-  margin-bottom: -5px;
 `;
 
 const ActionsRow = styled.div`
@@ -255,7 +232,8 @@ const ActionsRow = styled.div`
   width: 100%;
   margin-top: 40px;
   justify-content: space-between;
-  @media ${device.mobileL} {
+  gap: 20px;
+  @media ${device.tablet} {
     flex-wrap: wrap;
     flex-direction: column;
     margin-top: 24px;
@@ -265,26 +243,19 @@ const ActionsRow = styled.div`
 const ActionContainer = styled.div`
   background-color: rgb(223, 249, 229, 0.21);
   border-radius: 32px;
-  padding: 40px;
+  padding: 24px;
   justify-content: center;
   align-items: center;
   display: flex;
   flex-direction: column;
-  @media ${device.mobileL} {
+  @media ${device.tablet} {
     margin-bottom: 12px;
   }
 `;
 
-const ActionsContainer = styled.div`
-  background-color: white;
-  justify-content: center;
-  align-items: center;
-  padding: 80px 80px;
-  flex-direction: column;
-  display: flex;
-  @media ${device.mobileL} {
-    padding: 60px 24px;
-  }
+const ActionImage = styled.img`
+  max-width: 112px;
+  margin-bottom: 24px;
 `;
 
 const ActionDescription = styled.div`
@@ -293,9 +264,24 @@ const ActionDescription = styled.div`
   align-self: center;
   margin: 0 40px;
   display: flex;
-  @media ${device.mobileL} {
+  @media ${device.tablet} {
     margin: 0 16px;
   }
+`;
+
+const Link = styled.a`
+  color: ${({ theme }) => theme.colors.text.tertiary};
+  text-decoration: underline;
+`;
+
+const Action = styled.div`
+  color: ${({ theme }) => theme.colors.text.primary};
+  line-height: 32px;
+  font-weight: 500;
+  white-space: pre-line;
+  align-self: center;
+  text-align: center;
+  font-size: 1.89rem;
 `;
 
 const SecondBannerContainer = styled.div`
@@ -308,30 +294,46 @@ const SecondBannerContainer = styled.div`
   @media ${device.desktop} {
     border-radius: 32px;
   }
-  @media ${device.mobileL} {
+  @media ${device.tablet} {
     padding: 40px 24px;
     margin-top: 0px;
   }
 `;
 
-const SecondBannerRow = styled.div`
+const BannerRow = styled.div`
   flex-direction: row;
   width: 100%;
   display: flex;
   justify-content: space-between;
-  @media ${device.mobileL} {
+  @media ${device.tablet} {
     flex-wrap: wrap;
     flex-direction: column;
   }
 `;
 
-const SecondBannerActionContainer = styled.div`
+const BannerActionContainer = styled.div`
   flex-direction: column;
   display: flex;
   align-items: flex-end;
-  @media ${device.mobileL} {
+  @media ${device.tablet} {
     margin-top: 40px;
   }
+`;
+
+const BannerButtonText = styled.div`
+  color: ${({ theme }) => theme.colors.text.primary};
+  line-height: 32px;
+  font-weight: 500;
+  font-size: 1.8rem;
+  font-weight: medium;
+`;
+
+const SecondSubTitle = styled.div`
+  color: ${({ theme }) => theme.colors.text.primary};
+  font-size: 4.1rem;
+  font-weight: bold;
+  line-height: 72px;
+  white-space: pre-line;
 `;
 
 const GreenCircle = styled.div`
@@ -346,15 +348,16 @@ const BannerButton = styled.button`
   padding: 20px 100px;
   background-color: white;
   border-radius: 60px;
+  cursor: pointer;
 `;
 
 const FooterContainer = styled.div`
   display: flex;
   flex-direction: row;
   padding: 40px 80px;
-  @media ${device.mobileL} {
+  @media ${device.tablet} {
     flex-wrap: wrap;
-    background-color: #f7f7f7;
+    background-color: ${({ theme }) => theme.colors.background};
     flex-direction: column;
     margin-top: 0px;
     padding: 24px 24px;
@@ -364,7 +367,7 @@ const FooterContainer = styled.div`
 const FooterContent = styled.div`
   flex-direction: column;
   flex: 1;
-  @media ${device.mobileL} {
+  @media ${device.tablet} {
     margin-top: 40px;
   }
 `;
