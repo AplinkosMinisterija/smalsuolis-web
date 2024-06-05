@@ -23,7 +23,7 @@ function App() {
     ? subscriptionsCount > 0
       ? slugs.myEvents
       : slugs.newSubscription
-    : slugs.events;
+    : slugs.about;
 
   return (
     <DefaultLayout

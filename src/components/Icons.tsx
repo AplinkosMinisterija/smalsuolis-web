@@ -1,7 +1,7 @@
 import { CgClose } from 'react-icons/cg';
 import { FaAnchor, FaCheck, FaRegTrashAlt } from 'react-icons/fa';
 import { FaChevronRight } from 'react-icons/fa6';
-import { FiArrowLeft, FiClock, FiDownload, FiMail, FiMenu } from 'react-icons/fi';
+import { FiArrowLeft, FiClock, FiDownload, FiMail, FiMenu, FiArrowUpRight } from 'react-icons/fi';
 import { HiOutlineUsers } from 'react-icons/hi';
 import { IoMdCalendar } from 'react-icons/io';
 import { IoLocationOutline, IoPersonOutline, IoSearch, IoFilter } from 'react-icons/io5';
@@ -318,6 +318,8 @@ const Icon = ({ name, className, ...rest }: IconProps) => {
       return <MdOutlineVisibility className={className} />;
     case IconName.visibleOff:
       return <MdOutlineVisibilityOff className={className} />;
+    case IconName.arrowUpRight:
+      return <FiArrowUpRight className={className} />;
     case IconName.eGate:
       return (
         <svg

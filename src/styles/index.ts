@@ -140,5 +140,6 @@ export const device = {
   mobileS: `(max-width: 320px)`,
   mobileM: `(max-width: 425px)`,
   mobileL: `(max-width: 868px)`,
+  tablet: `(max-width: 1280px)`,
   desktop: `(min-width: 869px)`,
 };

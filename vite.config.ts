@@ -11,10 +11,10 @@ export default () => {
     server: {
       proxy: {
         open: '/',
-        '/api': {
+        '/api/': {
           target: env.VITE_PROXY_URL,
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ''),
+          rewrite: (path) => path.replace(/^\/api\//, ''),
         },
       },
     },
