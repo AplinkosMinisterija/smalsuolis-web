@@ -5,9 +5,9 @@ import AppItem from './AppsItem';
 import Icon from './Icons';
 
 const frequencyLabels = {
-  [Frequency.DAY]: 'Naujienos kasdien',
-  [Frequency.WEEK]: 'Naujienos kas savaitę',
-  [Frequency.MONTH]: 'Naujienos kas mėnesį',
+  [Frequency.DAY]: 'Dienos įvykiai',
+  [Frequency.WEEK]: 'Savaitės įvykiai',
+  [Frequency.MONTH]: 'Mėnesio įvykiai',
 };
 
 const SubscriptionCard = ({
