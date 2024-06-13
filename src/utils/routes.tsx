@@ -82,7 +82,7 @@ export const routes: AppRoute[] = [
   },
   {
     title: titles.myEvents,
-    description: 'Visos atrinktos naujienos',
+    description: 'Visi atrinkti įvykiai',
     icon: <Icon name={IconName.list} />,
     loggedIn: true,
     component: <MyEvents />,
