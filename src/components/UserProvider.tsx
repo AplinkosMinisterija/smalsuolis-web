@@ -31,6 +31,7 @@ export const UserProvider = ({ children }: any) => {
       return api.getUserInfo();
     },
     gcTime: 2 * 60 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const error = userError;
