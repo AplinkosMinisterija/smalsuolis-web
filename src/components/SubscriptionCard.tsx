@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import { App, Frequency, IconName, Subscription } from '../utils';
 import AppItem from './AppsItem';
 import Icon from './Icons';
+import Loader from './Loader';
 
 const frequencyLabels = {
-  [Frequency.DAY]: 'Naujienos kasdien',
-  [Frequency.WEEK]: 'Naujienos kas savaitę',
-  [Frequency.MONTH]: 'Naujienos kas mėnesį',
+  [Frequency.DAY]: 'Dienos įvykiai',
+  [Frequency.WEEK]: 'Savaitės įvykiai',
+  [Frequency.MONTH]: 'Mėnesio įvykiai',
 };
 
 const SubscriptionCard = ({
@@ -54,8 +55,14 @@ const SubscriptionCard = ({
         </Content>
         <EventsCount>
           <EventsCountLabel>{'Įvykių skaičius'}</EventsCountLabel>
-          <EventsCountAllTime>{eventsCount?.allTime}</EventsCountAllTime>
-          {!!eventsCount?.new && <EventsCountNew>{`+ ${eventsCount.new}`}</EventsCountNew>}
+          {eventsCount === null ? (
+            <Loader size="30px" />
+          ) : (
+            <>
+              <EventsCountAllTime>{eventsCount?.allTime}</EventsCountAllTime>
+              {!!eventsCount?.new && <EventsCountNew>{`+ ${eventsCount.new}`}</EventsCountNew>}
+            </>
+          )}
         </EventsCount>
       </InnerContainer>
     </Container>
