@@ -76,7 +76,7 @@ const Subscriptions = () => {
       <Container>
         <ButtonsContainer>
           <NewSubscriptionButton onClick={() => navigate(slugs.subscription('nauja'))}>
-            Nauja prenumerata
+            Nauja teritorija
           </NewSubscriptionButton>
         </ButtonsContainer>
         {renderContent()}
