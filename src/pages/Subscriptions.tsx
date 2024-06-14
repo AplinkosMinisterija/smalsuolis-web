@@ -1,6 +1,6 @@
 import { ContentLayout } from '@aplinkosministerija/design-system';
 import { useQuery } from '@tanstack/react-query';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import EmptyState from '../components/EmptyState';
@@ -14,12 +14,17 @@ const Subscriptions = () => {
   const currentRoute = useGetCurrentRoute();
   const navigate = useNavigate();
   const observerRef = useRef<any>(null);
+  const [anyEventsCountNull, setAnyEventsCountNull] = useState(false);
 
   const {
     data: subscriptions,
     isFetching,
     isLoading,
-  } = useInfinityLoad(['subscriptions'], api.getSubscriptions, observerRef);
+  } = useInfinityLoad(['subscriptions'], api.getSubscriptions, observerRef, {}, true, (data) => {
+    const anyEventsCountNull = data?.some((event) => event.eventsCount === null) || false;
+    setAnyEventsCountNull(anyEventsCountNull);
+    return anyEventsCountNull ? 2000 : false;
+  });
 
   const { data: appsResponse } = useQuery({
     queryKey: ['apps'],
@@ -61,7 +66,7 @@ const Subscriptions = () => {
           );
         })}
         {observerRef && <Invisible ref={observerRef} />}
-        {isFetching && <LoaderComponent />}
+        {!anyEventsCountNull && isFetching && <LoaderComponent />}
       </SubscriptionsContainer>
     );
   };
@@ -71,7 +76,7 @@ const Subscriptions = () => {
       <Container>
         <ButtonsContainer>
           <NewSubscriptionButton onClick={() => navigate(slugs.subscription('nauja'))}>
-            Nauja prenumerata
+            Nauja teritorija
           </NewSubscriptionButton>
         </ButtonsContainer>
         {renderContent()}

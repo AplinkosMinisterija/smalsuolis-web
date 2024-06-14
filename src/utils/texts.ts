@@ -40,8 +40,8 @@ export const inputLabels = {
 
 export const titles = {
   about: 'Apie mus',
-  myEvents: 'Mano naujienos',
-  allEvents: 'Visos naujienos',
+  myEvents: 'Mano įvykiai',
+  allEvents: 'Visi įvykiai',
   login: 'Prisijungimas',
   profile: 'Profilis',
   subscriptions: 'Prenumeratos',
