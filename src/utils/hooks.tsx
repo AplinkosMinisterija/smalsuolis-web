@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 import { matchPath, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { LoginForm, SetPassword, routes, slugs } from '.';
+import { LoginForm, routes, SetPassword, slugs } from '.';
 import api from './api';
 import { intersectionObserverConfig } from './configs';
 import { clearCookies, updateTokens } from './loginFunctions';
@@ -110,6 +110,7 @@ export const useInfinityLoad = (
   observerRef: any,
   filters = {},
   enabled = true,
+  shouldRefetch?: (data: any[] | undefined) => number | false,
 ) => {
   const queryFn = async (page: number) => {
     const data = await fn({
@@ -126,14 +127,29 @@ export const useInfinityLoad = (
     enabled,
     queryKey: queryKeys,
     initialPageParam: 1,
+    refetchInterval: (result) => {
+      const pages = result?.state?.data?.pages;
+      if (shouldRefetch && pages) {
+        const data = pages
+          .flat()
+          .map((item) => item?.data)
+          .flat();
+
+        return shouldRefetch(data);
+      }
+
+      return false;
+    },
     queryFn: ({ pageParam }: any) => queryFn(pageParam),
     getNextPageParam: (lastPage: any) => {
       return lastPage?.page < lastPage?.totalPages ? lastPage.page + 1 : undefined;
     },
+
     gcTime: 60000,
   });
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = result;
+
   useEffect(() => {
     const currentObserver = observerRef.current;
     const observer = new IntersectionObserver(([entry]) => {
