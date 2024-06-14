@@ -6,9 +6,9 @@ import Icon from './Icons';
 import Loader from './Loader';
 
 const frequencyLabels = {
-  [Frequency.DAY]: 'Naujienos kasdien',
-  [Frequency.WEEK]: 'Naujienos kas savaitę',
-  [Frequency.MONTH]: 'Naujienos kas mėnesį',
+  [Frequency.DAY]: 'Dienos įvykiai',
+  [Frequency.WEEK]: 'Savaitės įvykiai',
+  [Frequency.MONTH]: 'Mėnesio įvykiai',
 };
 
 const SubscriptionCard = ({
