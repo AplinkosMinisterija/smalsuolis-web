@@ -52,6 +52,7 @@ const EventsContainer = ({
     queryKey: ['allSubscriptions'],
     queryFn: () => api.getAllSubscriptions(),
     enabled: loggedIn && isMyEvents,
+    refetchOnWindowFocus: false,
   });
   const allSubscriptions = subsResponse ?? [];
 
