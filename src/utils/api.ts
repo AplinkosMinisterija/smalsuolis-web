@@ -271,6 +271,7 @@ class Api {
     return this.get({
       resource: Resources.SUBSCRIPTIONS,
       populate: ['apps', 'eventsCount'],
+      sort: ['name'],
       page,
     });
   };
