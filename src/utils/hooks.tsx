@@ -128,8 +128,9 @@ export const useInfinityLoad = (
     queryKey: queryKeys,
     initialPageParam: 1,
     refetchInterval: (result) => {
-      if (shouldRefetch && result?.state.data?.pages) {
-        const data = result?.state.data.pages
+      const pages = result?.state?.data?.pages;
+      if (shouldRefetch && pages) {
+        const data = pages
           .flat()
           .map((item) => item?.data)
           .flat();
