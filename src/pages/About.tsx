@@ -37,7 +37,7 @@ const About = () => {
           </Description>
           <Description>
             {
-              'Šiuo metu galima sekti statybos leidimų išdavimą bei įžuvinimą, neužilgo pridėsime ir miško kirtimo leidimus, taip pat planuojame turėti želdynų ir želdinių šalinimo leidimus, poveikio aplinkai vertinimą, žemės paskirties keitimą ir daugelį kitų.'
+              'Šiuo metu galima sekti statybos leidimų išdavimą, statinio rekonstrukciją, griovimą, patalpų paskirties keitimą, miško kirtimų leidimus bei įžuvinimą, taip pat planuojame turėti želdynų ir želdinių šalinimo leidimus, poveikio aplinkai vertinimą, žemės paskirties keitimą ir daugelį kitų.'
             }
           </Description>
           <ButtonContainer>
@@ -113,6 +113,30 @@ const About = () => {
               esu@smalsuolis.lt
             </Button>
           </ButtonContainer>
+        </FooterContent>
+        <FooterContent>
+          <FooterContentTitle>Duomenų šaltiniai</FooterContentTitle>
+          <FooterLinkContainer>
+            <FooterStyledIcon name={IconName.arrowUpRight} />
+            <FooterLink
+              href="https://get.data.gov.lt/datasets/gov/vtpsi/infostatyba/Statinys"
+              target="_blank"
+            >
+              Infostatyba
+            </FooterLink>
+          </FooterLinkContainer>
+          <FooterLinkContainer>
+            <FooterStyledIcon name={IconName.arrowUpRight} />
+            <FooterLink href="https://lkmp.alisas.lt/static/lkmp-data.geojson.zip" target="_blank">
+              Miško kirtimų leidimai
+            </FooterLink>
+          </FooterLinkContainer>
+          <FooterLinkContainer>
+            <FooterStyledIcon name={IconName.arrowUpRight} />
+            <FooterLink href="https://zuvinimas.biip.lt/api/public/fishStockings" target="_blank">
+              Įžuvinimai
+            </FooterLink>
+          </FooterLinkContainer>
         </FooterContent>
       </FooterContainer>
     </MainContainer>
@@ -354,7 +378,8 @@ const BannerButton = styled.button`
 const FooterContainer = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 40px 80px;
+  padding: 40px;
+  gap: 12px;
   @media ${device.tablet} {
     flex-wrap: wrap;
     background-color: ${({ theme }) => theme.colors.background};
@@ -374,20 +399,38 @@ const FooterContent = styled.div`
 
 const FooterContentTitle = styled.div`
   color: ${({ theme }) => theme.colors.text.primary};
-  font-size: 2.6rem;
+  font-size: 2rem;
   font-weight: 800;
   line-height: 40px;
 `;
 
 const FooterContentSubTitle = styled.div`
   color: ${({ theme }) => theme.colors.text.primary};
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   line-height: 32px;
   margin-bottom: 24px;
 `;
 
 const StyledIcon = styled(Icon)`
   font-size: 1.8rem;
+`;
+
+const FooterLinkContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0px;
+`;
+
+const FooterLink = styled.a`
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const FooterStyledIcon = styled(Icon)`
+  font-size: 1.8rem;
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 export default About;
