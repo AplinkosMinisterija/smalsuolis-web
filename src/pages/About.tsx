@@ -2,10 +2,10 @@ import { Button } from '@aplinkosministerija/design-system';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Icon from '../components/Icons';
 import { UserContext, UserContextType } from '../components/UserProvider';
 import { device } from '../styles';
-import { buttonsTitles, slugs, subtitle, IconName } from '../utils';
-import Icon from '../components/Icons';
+import { buttonsTitles, IconName, slugs, subtitle } from '../utils';
 
 const bannerUrl = '/about_banner.png';
 const mapUrl = '/about_map.png';
@@ -139,9 +139,52 @@ const About = () => {
           </FooterLinkContainer>
         </FooterContent>
       </FooterContainer>
+      <Line />
+
+      <FooterImgContainer>
+        <FooterImgLine>
+          <a href="https://lrv.lt" target="_blank">
+            <FooterImg src="/lrv.svg" alt="lrv" />
+          </a>
+          <a href="https://am.lrv.lt" target="_blank">
+            <FooterImg src="/am.svg" alt="am" />
+          </a>
+        </FooterImgLine>
+        <FooterText>© Lietuvos Respublikos Vyriausybė</FooterText>
+      </FooterImgContainer>
     </MainContainer>
   );
 };
+
+const Line = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: #d4d5de;
+`;
+
+const FooterImgContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  padding: 40px 40px 0px 40px;
+  background-color: ${({ theme }) => theme.colors.background};
+`;
+
+const FooterImgLine = styled.div`
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+`;
+
+const FooterImg = styled.img`
+  height: 40px;
+`;
+
+const FooterText = styled.div`
+  font-size: 1.4rem;
+  line-height: 20px;
+  color: #002025;
+`;
 
 const MainContainer = styled.div`
   width: 100%;
@@ -378,12 +421,12 @@ const BannerButton = styled.button`
 const FooterContainer = styled.div`
   display: flex;
   flex-direction: row;
+
   padding: 40px;
   gap: 12px;
   @media ${device.tablet} {
     flex-wrap: wrap;
     background-color: ${({ theme }) => theme.colors.background};
-    flex-direction: column;
     margin-top: 0px;
     padding: 24px 24px;
   }
