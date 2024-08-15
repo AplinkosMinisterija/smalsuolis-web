@@ -44,10 +44,13 @@ const Stats = () => {
 
   const constructionsStatsArray =
     constructionsStatsByTag &&
-    Object.keys(constructionsStatsByTag).reduce((acc, key) => {
-      acc.push({ label: key, count: constructionsStatsByTag[key].count });
-      return acc;
-    }, []);
+    Object.keys(constructionsStatsByTag).reduce(
+      (acc: Array<{ label: string; count: number }>, key) => {
+        acc.push({ label: key, count: constructionsStatsByTag[key].count });
+        return acc;
+      },
+      [],
+    );
 
   const highestConstructionsStatsNumber = constructionsStatsByTag
     ? Object.keys(constructionsStatsByTag).reduce((acc, key) => {
@@ -57,14 +60,17 @@ const Stats = () => {
 
   const deforestationStatsArray =
     deforestationStatsByTag &&
-    Object.keys(deforestationStatsByTag).reduce((acc, key) => {
-      acc.push({
-        label: key,
-        count: deforestationStatsByTag[key].count,
-        area: deforestationStatsByTag[key].area,
-      });
-      return acc;
-    }, []);
+    Object.keys(deforestationStatsByTag).reduce(
+      (acc: Array<{ label: string; count: number; area: number }>, key) => {
+        acc.push({
+          label: key,
+          count: deforestationStatsByTag[key].count,
+          area: deforestationStatsByTag[key].area,
+        });
+        return acc;
+      },
+      [],
+    );
 
   const highestDeforestationStatsNumber = deforestationStatsByTag
     ? Object.keys(deforestationStatsByTag).reduce((acc, key) => {
@@ -73,88 +79,96 @@ const Stats = () => {
       }, 0)
     : 1;
 
-  return data || !isLoading ? (
+  return (
     <MainContainer>
       <BannerImageContainer>
         <Image src={bannerUrl} />
       </BannerImageContainer>
-      <Content>
-        <Datepicker onChange={(time) => setStartDate(time)} value={startDate} />
-        <Row>
-          <MainStatsWrapper>
-            {mainStatsData.map((item) => (
-              <MainStatsItem>
-                <IconWrapper>
-                  <StyledIcon name={item.icon} />
-                </IconWrapper>
-                <StatsInfoContainer>
-                  <StatsNumber>{item.count || '-'}</StatsNumber>
-                  <StatsLabel>{item.label}</StatsLabel>
-                </StatsInfoContainer>
-              </MainStatsItem>
-            ))}
-          </MainStatsWrapper>
-          <DetailedStatsWrapper>
-            <StatsHeader>Statybų leidimai</StatsHeader>
+      {isLoading ? (
+        <LoaderContainer>
+          <Loader />
+        </LoaderContainer>
+      ) : (
+        <Content>
+          <Datepicker onChange={(time: Date) => setStartDate(time)} value={startDate} />
+          <Row>
+            <MainStatsWrapper>
+              {mainStatsData.map((item) => (
+                <MainStatsItem>
+                  <IconWrapper>
+                    <StyledIcon name={item.icon} />
+                  </IconWrapper>
+                  <StatsInfoContainer>
+                    <StatsNumber>{item.count || '0'}</StatsNumber>
+                    <StatsLabel>{item.label}</StatsLabel>
+                  </StatsInfoContainer>
+                </MainStatsItem>
+              ))}
+            </MainStatsWrapper>
+            <DetailedStatsWrapper>
+              <StatsHeader>Statybų leidimai</StatsHeader>
 
-            {constructionsStatsArray?.map(({ label, count }) => {
-              const statsPercentage = (count * 100) / highestConstructionsStatsNumber;
-              return (
-                <>
-                  <DetailedStatsRow key={label}>
-                    <InfoLabel>{label}</InfoLabel>
-                    <AmountLabel>{count}</AmountLabel>
-                  </DetailedStatsRow>
-                  <InfoBarWrapper>
-                    <InfoBar $percentage={statsPercentage} />
-                  </InfoBarWrapper>
-                </>
-              );
-            })}
-          </DetailedStatsWrapper>
+              {constructionsStatsByTag ? (
+                constructionsStatsArray?.map(({ label, count }) => {
+                  const statsPercentage = (count * 100) / highestConstructionsStatsNumber;
+                  return (
+                    <>
+                      <DetailedStatsRow key={label}>
+                        <InfoLabel>{label}</InfoLabel>
+                        <AmountLabel>{count}</AmountLabel>
+                      </DetailedStatsRow>
+                      <InfoBarWrapper>
+                        <InfoBar $percentage={statsPercentage} />
+                      </InfoBarWrapper>
+                    </>
+                  );
+                })
+              ) : (
+                <InfoLabel>Nėra duomenų</InfoLabel>
+              )}
+            </DetailedStatsWrapper>
 
-          <DetailedStatsWrapper>
-            <RowContainer>
-              <StatsHeader>Kirtimų leidimai</StatsHeader>
-              <SliderWrapper>
-                <SliderButton
-                  onClick={() => setDeforestationStatsFilter('count')}
-                  $isActive={deforestationStatsFilter === 'count'}
-                >
-                  <SwitchLabel>Leidimų skaičius</SwitchLabel>
-                </SliderButton>
-                <SliderButton
-                  onClick={() => setDeforestationStatsFilter('area')}
-                  $isActive={deforestationStatsFilter === 'area'}
-                >
-                  <SwitchLabel>Kertamas plotas</SwitchLabel>
-                </SliderButton>
-              </SliderWrapper>
-            </RowContainer>
-            {deforestationStatsArray?.map(({ label, count, area }) => {
-              const statsPercentage =
-                ((deforestationStatsFilter === 'count' ? count : area) * 100) /
-                highestDeforestationStatsNumber;
-              return (
-                <>
-                  <DetailedStatsRow key={label}>
-                    <InfoLabel>{label}</InfoLabel>
-                    <AmountLabel>
-                      {deforestationStatsFilter === 'count' ? count : `${area} ha`}
-                    </AmountLabel>
-                  </DetailedStatsRow>
-                  <InfoBarWrapper>
-                    <InfoBar $percentage={statsPercentage} />
-                  </InfoBarWrapper>
-                </>
-              );
-            })}
-          </DetailedStatsWrapper>
-        </Row>
-      </Content>
+            <DetailedStatsWrapper>
+              <RowContainer>
+                <StatsHeader>Kirtimų leidimai</StatsHeader>
+                <SliderWrapper>
+                  <SliderButton
+                    onClick={() => setDeforestationStatsFilter('count')}
+                    $isActive={deforestationStatsFilter === 'count'}
+                  >
+                    <SwitchLabel>Leidimų skaičius</SwitchLabel>
+                  </SliderButton>
+                  <SliderButton
+                    onClick={() => setDeforestationStatsFilter('area')}
+                    $isActive={deforestationStatsFilter === 'area'}
+                  >
+                    <SwitchLabel>Kertamas plotas</SwitchLabel>
+                  </SliderButton>
+                </SliderWrapper>
+              </RowContainer>
+              {deforestationStatsArray?.map(({ label, count, area }) => {
+                const statsPercentage =
+                  ((deforestationStatsFilter === 'count' ? count : area) * 100) /
+                  highestDeforestationStatsNumber;
+                return (
+                  <>
+                    <DetailedStatsRow key={label}>
+                      <InfoLabel>{label}</InfoLabel>
+                      <AmountLabel>
+                        {deforestationStatsFilter === 'count' ? count : `${area} ha`}
+                      </AmountLabel>
+                    </DetailedStatsRow>
+                    <InfoBarWrapper>
+                      <InfoBar $percentage={statsPercentage} />
+                    </InfoBarWrapper>
+                  </>
+                );
+              })}
+            </DetailedStatsWrapper>
+          </Row>
+        </Content>
+      )}
     </MainContainer>
-  ) : (
-    <Loader />
   );
 };
 
@@ -351,6 +365,14 @@ const RowContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
+`;
+
+const LoaderContainer = styled.div`
+  display: flex;
+  width: 100%;
+  margin-top: 40px;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default Stats;

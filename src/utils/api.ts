@@ -351,7 +351,7 @@ class Api {
   getStats = async (date: string): Promise<Stats> => {
     return this.get({
       resource: Resources.STATS,
-      createdAt: { $gte: date },
+      query: JSON.stringify({ createdAt: { $gte: date } }),
     });
   };
 }

@@ -154,7 +154,7 @@ export interface Stats {
     };
     miskoKirtimai: {
       count: number;
-      byTag: Record<string, { count: number; area: string }>;
+      byTag: Record<string, { count: number; area: number }>;
     };
   };
   count: number;

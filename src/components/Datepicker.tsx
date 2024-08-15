@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import lt from 'date-fns/locale/lt';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
@@ -12,29 +12,13 @@ import { IconName } from '../utils';
 registerLocale('lt', lt);
 
 export interface DatepickerProps {
-  startDate?: Date;
-  setStartDate?: React.Dispatch<React.SetStateAction<Date>>;
-  disabled?: boolean;
   value?: Date | string;
-  padding?: string;
-  error?: string;
-  onChange: (date?: Date) => void;
-  label?: string;
-  name?: string;
-  className?: string;
+  onChange: (date: Date) => void;
   maxDate?: Date | string;
   minDate?: Date | string;
-  bottom?: boolean;
 }
 
-const Datepicker = ({
-  value,
-  onChange,
-  disabled = false,
-  maxDate,
-  minDate,
-  bottom = false,
-}: DatepickerProps) => {
+const Datepicker = ({ value, onChange, maxDate, minDate }: DatepickerProps) => {
   const daterRegex = /^\d{4}-\d{2}-\d{2}$/;
   const isMobile = useWindowSize(device.mobileL);
   const [open, setOpen] = useState(false);
@@ -46,12 +30,10 @@ const Datepicker = ({
   };
 
   const handleBlurInput = (event: any) => {
-    if (disabled) return;
-
     if (!event.currentTarget.contains(event.relatedTarget)) {
       if (!validDate(inputValue)) {
-        setInputValue('');
-        onChange(undefined);
+        setInputValue(format(new Date(), 'yyyy-MM-dd'));
+        onChange(new Date());
       }
     }
   };
@@ -84,13 +66,6 @@ const Datepicker = ({
     isMoreThanMinDate(date) &&
     isLessThanMaxDate(date);
 
-  const handleChange = (date: any) => {
-    setInputValue(date);
-    if (validDate(date)) {
-      onChange(new Date(date));
-    }
-  };
-
   const textValue = validDate(inputValue) ? format(new Date(inputValue), 'yyyy-MM') : inputValue;
 
   return (
@@ -102,7 +77,7 @@ const Datepicker = ({
         </FilterButton>
       </div>
 
-      {open && !disabled ? (
+      {open ? (
         <DateContainer>
           {isMobile && (
             <div onClick={() => setOpen(false)}>
@@ -176,19 +151,20 @@ const Container = styled.div`
     text-align: center;
     font-size: 1.6rem;
     text-align: center;
-    .react-datepicker__month-text,
-    .react-datepicker__quarter-text {
-      display: inline-block;
-      width: 5rem;
-      margin: 15px;
-    }
   }
 
-  .react-datepicker__input-time-container {
-    margin: 0;
+  .react-datepicker__month-text {
+    display: inline-block;
+    width: 7rem;
+    margin: 15px;
+    padding: 6px 2px;
+  }
+  .react-datepicker__month-text--selected {
+    background-color: ${({ theme }) => theme.colors.primary};
+    border-radius: 25px;
   }
   .react-datepicker {
-    width: 350px;
+    width: 390px;
     position: absolute;
     top: 0;
     z-index: 8;
