@@ -3,7 +3,7 @@ import { FaAnchor, FaCheck, FaRegTrashAlt } from 'react-icons/fa';
 import { FaChevronRight } from 'react-icons/fa6';
 import { FiArrowLeft, FiClock, FiDownload, FiMail, FiMenu, FiArrowUpRight } from 'react-icons/fi';
 import { HiOutlineUsers } from 'react-icons/hi';
-import { IoMdCalendar } from 'react-icons/io';
+import { IoMdCalendar, IoMdHeartEmpty } from 'react-icons/io';
 import { IoLocationOutline, IoPersonOutline, IoSearch, IoFilter } from 'react-icons/io5';
 import { LiaBalanceScaleSolid } from 'react-icons/lia';
 import { PiMapTrifoldBold } from 'react-icons/pi';
@@ -20,7 +20,7 @@ import {
   MdOutlineVisibilityOff,
   MdUnfoldMore,
 } from 'react-icons/md';
-import { PiArrowBendDownLeftBold } from 'react-icons/pi';
+import { PiArrowBendDownLeftBold, PiHouseLineLight } from 'react-icons/pi';
 import { IconName } from '../utils';
 import { IconBaseProps } from 'react-icons/lib';
 
@@ -254,7 +254,49 @@ const Icon = ({ name, className, ...rest }: IconProps) => {
 
     case IconName.active:
       return <MdDone className={className} />;
-
+    case IconName.house:
+      return <PiHouseLineLight className={className} />;
+    case IconName.heart:
+      return <IoMdHeartEmpty className={className} />;
+    case IconName.forest:
+      return (
+        <svg
+          width="32"
+          height="33"
+          viewBox="0 0 32 33"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M13.3333 14V14.2667C14.2077 14.6029 14.9364 15.2355 15.3922 16.054C15.848 16.8725 16.0021 17.825 15.8275 18.7455C15.6529 19.6659 15.1608 20.4959 14.437 21.0907C13.7131 21.6854 12.8035 22.0072 11.8666 22H6.66663C5.74099 21.977 4.852 21.6335 4.15131 21.0282C3.45061 20.423 2.9816 19.5933 2.82428 18.6809C2.66696 17.7684 2.83107 16.8296 3.28862 16.0246C3.74616 15.2197 4.46881 14.5983 5.3333 14.2667V14C5.3333 12.9391 5.75473 11.9217 6.50487 11.1716C7.25502 10.4214 8.27243 10 9.3333 10C10.3942 10 11.4116 10.4214 12.1617 11.1716C12.9119 11.9217 13.3333 12.9391 13.3333 14Z"
+            stroke="#1B4C28"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M9.3335 22V30"
+            stroke="#1B4C28"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M17.3335 26V30"
+            stroke="#1B4C28"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M16.0001 25.9998H27.0668C27.3278 25.9962 27.5819 25.916 27.7978 25.7693C28.0136 25.6225 28.1816 25.4156 28.281 25.1743C28.3803 24.933 28.4067 24.6678 28.3568 24.4116C28.3069 24.1554 28.1829 23.9195 28.0001 23.7332L24.0001 19.3332H24.4001C24.6611 19.3295 24.9153 19.2493 25.1311 19.1026C25.3469 18.9558 25.5149 18.749 25.6143 18.5076C25.7137 18.2663 25.74 18.0011 25.6901 17.7449C25.6402 17.4888 25.5162 17.2529 25.3335 17.0665L21.3335 12.6665H21.6001C21.8725 12.6911 22.1458 12.6313 22.383 12.4953C22.6202 12.3593 22.8099 12.1537 22.9263 11.9063C23.0428 11.6589 23.0803 11.3816 23.0339 11.1122C22.9875 10.8427 22.8593 10.594 22.6668 10.3998L17.3335 4.6665L15.4668 6.6665"
+            stroke="#1B4C28"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      );
     case IconName.back:
       return <FiArrowLeft className={className} />;
     case IconName.burger:
@@ -263,6 +305,24 @@ const Icon = ({ name, className, ...rest }: IconProps) => {
       return <MdUnfoldMore className={className} />;
     case IconName.edit:
       return <MdOutlineEdit className={className} />;
+    case IconName.fishThin:
+      return (
+        <svg
+          width="32"
+          height="33"
+          viewBox="0 0 32 33"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M2.6665 21.6669C2.6665 21.6669 14.6665 1.6669 29.3332 16.3336C14.6665 31.0002 2.6665 11.0002 2.6665 11.0002"
+            stroke="#1B4C28"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      );
     case IconName.deleteItem:
       return (
         <svg
@@ -300,6 +360,31 @@ const Icon = ({ name, className, ...rest }: IconProps) => {
       return <FiMail className={className} />;
     case IconName.dropdownArrow:
       return <MdKeyboardArrowDown className={className} />;
+    case IconName.arrowTrending:
+      return (
+        <svg
+          width="24"
+          height="25"
+          viewBox="0 0 24 25"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M22 7.98242L13.5 16.4824L8.5 11.4824L2 17.9824"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M16 7.98242H22V13.9824"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      );
     case IconName.close:
       return <CgClose className={className} {...rest} />;
     case IconName.person:
@@ -319,7 +404,7 @@ const Icon = ({ name, className, ...rest }: IconProps) => {
     case IconName.visibleOff:
       return <MdOutlineVisibilityOff className={className} />;
     case IconName.arrowUpRight:
-      return <FiArrowUpRight className={className} />;
+      return <FiArrowUpRight className={className} {...rest} />;
     case IconName.eGate:
       return (
         <svg

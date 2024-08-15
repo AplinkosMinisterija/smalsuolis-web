@@ -142,3 +142,20 @@ export interface Filters {
   subscriptions?: Subscription[];
   timeRange?: TimeRangeItem;
 }
+
+export interface Stats {
+  byApp: {
+    infostatyba: {
+      count: number;
+      byTag: Record<string, { count: number }>;
+    };
+    izuvinimas: {
+      count: number;
+    };
+    miskoKirtimai: {
+      count: number;
+      byTag: Record<string, { count: number; area: string }>;
+    };
+  };
+  count: number;
+}

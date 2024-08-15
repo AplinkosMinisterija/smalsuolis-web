@@ -1,7 +1,7 @@
 import Axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 import Cookies from 'universal-cookie';
-import { App, Event, Subscription } from './types';
+import { App, Event, Stats, Subscription } from './types';
 const cookies = new Cookies();
 
 interface Get {
@@ -68,6 +68,7 @@ export enum Resources {
   SUBSCRIPTIONS = 'subscriptions',
   APPS = 'apps',
   USERS = 'users',
+  STATS = 'stats',
 }
 class Api {
   private AuthApiAxios: AxiosInstance;
@@ -344,6 +345,13 @@ class Api {
   getAllApps = async (): Promise<App[]> => {
     return this.getAll({
       resource: Resources.APPS,
+    });
+  };
+
+  getStats = async (date: string): Promise<Stats> => {
+    return this.get({
+      resource: Resources.STATS,
+      createdAt: { $gte: date },
     });
   };
 }

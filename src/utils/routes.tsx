@@ -14,6 +14,7 @@ import Subscription from '../pages/Subscription';
 import Subscriptions from '../pages/Subscriptions';
 import { IconName } from './constants';
 import { titles } from './texts';
+import Stats from '../pages/Stats';
 
 export const slugs = {
   login: '/prisijungimas',
@@ -29,6 +30,7 @@ export const slugs = {
   subscription: (id?: string) => `/prenumeratos/${id}`,
   newSubscription: `/prenumeratos/nauja`,
   about: '/apie-mus',
+  stats: '/statistika',
 };
 
 export const routes: AppRoute[] = [
@@ -100,6 +102,12 @@ export const routes: AppRoute[] = [
     title: titles.about,
     icon: <Icon name={IconName.book} />,
     slug: slugs.about,
+  },
+  {
+    component: <Stats />,
+    title: titles.stats,
+    icon: <Icon name={IconName.arrowTrending} />,
+    slug: slugs.stats,
   },
   {
     component: <Profile />,
