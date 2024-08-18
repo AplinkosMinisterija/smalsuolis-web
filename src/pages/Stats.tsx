@@ -2,38 +2,41 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Icon from '../components/Icons';
 import { device } from '../styles';
-import { IconName } from '../utils';
+import { Frequency, IconName, timeRangeQuery } from '../utils';
 import { useQuery } from '@tanstack/react-query';
 import api from '../utils/api';
 import Loader from '../components/Loader';
 import Datepicker from '../components/Datepicker';
-import { format, startOfDay } from 'date-fns';
+import { orderBy } from 'lodash';
 
 const bannerUrl = '/stats_banner.png';
 
 const Stats = () => {
   const [deforestationStatsFilter, setDeforestationStatsFilter] = useState('count');
-  const [startDate, setStartDate] = useState(new Date());
+  const [query, setQuery] = useState<{ $gte: string; $lt: string }>(
+    timeRangeQuery[Frequency.MONTH],
+  );
+  const [dateFilter, setDateFilter] = useState<string>(Frequency.MONTH);
 
   const { data, isLoading } = useQuery({
-    queryKey: ['stats', startDate],
-    queryFn: () => api.getStats(format(startOfDay(new Date(startDate)), 'yyyy-MM-dd')),
+    queryKey: ['stats', query],
+    queryFn: () => api.getStats(query),
   });
 
   const mainStatsData = [
-    { label: 'Naujų įvykių', count: data?.count, icon: IconName.heart },
+    { label: 'Įvykių', count: data?.count, icon: IconName.heart },
     {
-      label: 'Naujų kirtimų leidimų',
+      label: 'Kirtimų leidimų',
       count: data?.byApp?.miskoKirtimai?.count,
       icon: IconName.forest,
     },
     {
-      label: 'Naujų žuvinimų',
+      label: 'Žuvinimų',
       count: data?.byApp?.izuvinimas?.count,
       icon: IconName.fishThin,
     },
     {
-      label: 'Naujų statybos leidimų',
+      label: 'Statybos leidimų',
       count: data?.byApp?.infostatyba?.count,
       icon: IconName.house,
     },
@@ -51,6 +54,12 @@ const Stats = () => {
       },
       [],
     );
+
+  const sortedConstructionsStatsArray = orderBy(
+    constructionsStatsArray,
+    (item) => Number(item.count),
+    'desc',
+  );
 
   const highestConstructionsStatsNumber = constructionsStatsByTag
     ? Object.keys(constructionsStatsByTag).reduce((acc, key) => {
@@ -72,6 +81,12 @@ const Stats = () => {
       [],
     );
 
+  const sortedDeforestationStatsArray = orderBy(
+    deforestationStatsArray,
+    (item) => Number(item[deforestationStatsFilter]),
+    'desc',
+  );
+
   const highestDeforestationStatsNumber = deforestationStatsByTag
     ? Object.keys(deforestationStatsByTag).reduce((acc, key) => {
         const amount = deforestationStatsByTag[key][deforestationStatsFilter];
@@ -90,11 +105,17 @@ const Stats = () => {
         </LoaderContainer>
       ) : (
         <Content>
-          <Datepicker onChange={(time: Date) => setStartDate(time)} value={startDate} />
+          <Datepicker
+            onChange={(filterValue, date) => {
+              setDateFilter(filterValue);
+              setQuery(date);
+            }}
+            value={dateFilter}
+          />
           <Row>
             <MainStatsWrapper>
               {mainStatsData.map((item) => (
-                <MainStatsItem>
+                <MainStatsItem key={item.label}>
                   <IconWrapper>
                     <StyledIcon name={item.icon} />
                   </IconWrapper>
@@ -109,7 +130,7 @@ const Stats = () => {
               <StatsHeader>Statybų leidimai</StatsHeader>
 
               {constructionsStatsByTag ? (
-                constructionsStatsArray?.map(({ label, count }) => {
+                sortedConstructionsStatsArray?.map(({ label, count }) => {
                   const statsPercentage = (count * 100) / highestConstructionsStatsNumber;
                   return (
                     <>
@@ -131,39 +152,45 @@ const Stats = () => {
             <DetailedStatsWrapper>
               <RowContainer>
                 <StatsHeader>Kirtimų leidimai</StatsHeader>
-                <SliderWrapper>
-                  <SliderButton
-                    onClick={() => setDeforestationStatsFilter('count')}
-                    $isActive={deforestationStatsFilter === 'count'}
-                  >
-                    <SwitchLabel>Leidimų skaičius</SwitchLabel>
-                  </SliderButton>
-                  <SliderButton
-                    onClick={() => setDeforestationStatsFilter('area')}
-                    $isActive={deforestationStatsFilter === 'area'}
-                  >
-                    <SwitchLabel>Kertamas plotas</SwitchLabel>
-                  </SliderButton>
-                </SliderWrapper>
+                {deforestationStatsByTag && (
+                  <SliderWrapper>
+                    <SliderButton
+                      onClick={() => setDeforestationStatsFilter('count')}
+                      $isActive={deforestationStatsFilter === 'count'}
+                    >
+                      <SwitchLabel>Leidimų skaičius</SwitchLabel>
+                    </SliderButton>
+                    <SliderButton
+                      onClick={() => setDeforestationStatsFilter('area')}
+                      $isActive={deforestationStatsFilter === 'area'}
+                    >
+                      <SwitchLabel>Kertamas plotas</SwitchLabel>
+                    </SliderButton>
+                  </SliderWrapper>
+                )}
               </RowContainer>
-              {deforestationStatsArray?.map(({ label, count, area }) => {
-                const statsPercentage =
-                  ((deforestationStatsFilter === 'count' ? count : area) * 100) /
-                  highestDeforestationStatsNumber;
-                return (
-                  <>
-                    <DetailedStatsRow key={label}>
-                      <InfoLabel>{label}</InfoLabel>
-                      <AmountLabel>
-                        {deforestationStatsFilter === 'count' ? count : `${area} ha`}
-                      </AmountLabel>
-                    </DetailedStatsRow>
-                    <InfoBarWrapper>
-                      <InfoBar $percentage={statsPercentage} />
-                    </InfoBarWrapper>
-                  </>
-                );
-              })}
+              {deforestationStatsByTag ? (
+                sortedDeforestationStatsArray?.map(({ label, count, area }) => {
+                  const statsPercentage =
+                    ((deforestationStatsFilter === 'count' ? count : area) * 100) /
+                    highestDeforestationStatsNumber;
+                  return (
+                    <div key={label}>
+                      <DetailedStatsRow>
+                        <InfoLabel>{label}</InfoLabel>
+                        <AmountLabel>
+                          {deforestationStatsFilter === 'count' ? count : `${area} ha`}
+                        </AmountLabel>
+                      </DetailedStatsRow>
+                      <InfoBarWrapper>
+                        <InfoBar $percentage={statsPercentage} />
+                      </InfoBarWrapper>
+                    </div>
+                  );
+                })
+              ) : (
+                <InfoLabel>Nėra duomenų</InfoLabel>
+              )}
             </DetailedStatsWrapper>
           </Row>
         </Content>

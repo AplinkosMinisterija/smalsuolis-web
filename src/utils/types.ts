@@ -137,6 +137,8 @@ export const timeRangeItems: TimeRangeItem[] = [
   },
 ];
 
+export const statsTimeRangeItems = timeRangeItems.slice(0, timeRangeItems.length - 1);
+
 export interface Filters {
   apps?: App[];
   subscriptions?: Subscription[];

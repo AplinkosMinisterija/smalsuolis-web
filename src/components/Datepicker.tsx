@@ -1,105 +1,52 @@
-import { format } from 'date-fns';
-import lt from 'date-fns/locale/lt';
-import { useEffect, useState } from 'react';
-import DatePicker, { registerLocale } from 'react-datepicker';
+import { useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
-import { useWindowSize } from '@aplinkosministerija/design-system';
-import { device } from '../styles';
 import Icon from './Icons';
-import { IconName } from '../utils';
+import { Frequency, IconName, statsTimeRangeItems } from '../utils';
 
-registerLocale('lt', lt);
+const frequencyLabels = {
+  [Frequency.DAY]: 'Šiandienos',
+  [Frequency.WEEK]: 'Savaitės',
+  [Frequency.MONTH]: 'Mėnesio',
+};
 
 export interface DatepickerProps {
-  value?: Date | string;
-  onChange: (date: Date) => void;
+  value: string;
+  onChange: (val1: string, val2: { $gte: string; $lt: string }) => void;
   maxDate?: Date | string;
   minDate?: Date | string;
 }
 
-const Datepicker = ({ value, onChange, maxDate, minDate }: DatepickerProps) => {
-  const daterRegex = /^\d{4}-\d{2}-\d{2}$/;
-  const isMobile = useWindowSize(device.mobileL);
+const Datepicker = ({ value, onChange }: DatepickerProps) => {
   const [open, setOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
   const handleBlur = (event: any) => {
     if (!event.currentTarget.contains(event.relatedTarget)) {
       setOpen(false);
     }
   };
 
-  const handleBlurInput = (event: any) => {
-    if (!event.currentTarget.contains(event.relatedTarget)) {
-      if (!validDate(inputValue)) {
-        setInputValue(format(new Date(), 'yyyy-MM-dd'));
-        onChange(new Date());
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (!value) {
-      setInputValue('');
-    } else {
-      setInputValue(format(new Date(value), 'yyyy-MM-dd'));
-    }
-  }, [value]);
-
-  const isLessThanMaxDate = (value: string) => {
-    if (maxDate) {
-      return new Date(value) <= new Date(maxDate);
-    }
-    return true;
-  };
-
-  const isMoreThanMinDate = (value: string) => {
-    if (minDate) {
-      return new Date(value) >= new Date(minDate);
-    }
-    return true;
-  };
-
-  const validDate = (date: string) =>
-    daterRegex.test(date) &&
-    new Date(date).toString() !== 'Invalid Date' &&
-    isMoreThanMinDate(date) &&
-    isLessThanMaxDate(date);
-
-  const textValue = validDate(inputValue) ? format(new Date(inputValue), 'yyyy-MM') : inputValue;
-
   return (
     <Container tabIndex={1} onBlur={handleBlur}>
-      <div tabIndex={2} onBlur={handleBlurInput}>
-        <FilterButton onClick={() => setOpen(!open)}>
-          <SelectedDateLabel>{textValue}</SelectedDateLabel>
-          <Icon name={IconName.dropdownArrow} />
-        </FilterButton>
-      </div>
+      <FilterButton onClick={() => setOpen(!open)}>
+        <SelectedDateLabel>{frequencyLabels[value]}</SelectedDateLabel>
+        <Icon name={IconName.dropdownArrow} />
+      </FilterButton>
 
       {open ? (
         <DateContainer>
-          {isMobile && (
-            <div onClick={() => setOpen(false)}>
-              <CloseIcon name="close" />
-            </div>
-          )}
-          <DatePicker
-            locale="lt"
-            open={open}
-            maxDate={new Date(new Date().setDate(new Date().getDate()))}
-            selected={value ? new Date(value as any) : null}
-            onClickOutside={() => setOpen(false)}
-            onSelect={() => setOpen(false)}
-            onChange={(date: Date) => {
-              onChange(date);
-              setOpen(false);
-            }}
-            inline
-            dateFormat="MM/yyyy"
-            showMonthYearPicker
-            showFullMonthYearPicker
-          ></DatePicker>
+          <FilterContainer>
+            {statsTimeRangeItems?.map((item) => (
+              <SelectedDateLabel
+                key={item.key}
+                onClick={() => {
+                  onChange(item.key, item.query);
+                  setOpen(false);
+                }}
+              >
+                {frequencyLabels[item.key]}
+              </SelectedDateLabel>
+            ))}
+          </FilterContainer>
         </DateContainer>
       ) : null}
     </Container>
@@ -111,76 +58,25 @@ const DateContainer = styled.div`
   &:focus {
     outline: none;
   }
-  @media ${device.mobileL} {
-    position: fixed;
-    z-index: 9;
-    left: 0px;
-    top: 0px;
-    width: 100vw;
-    height: 100vh;
-    overflow: auto;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.4);
-  }
 `;
 
-const CloseIcon = styled(Icon)`
-  color: white;
-  font-size: 2.8rem;
-  align-self: center;
+const FilterContainer = styled.div`
   position: absolute;
-  right: 10px;
+  z-index: 8;
+  padding: 32px;
+  gap: 24px;
+  background-color: white;
   top: 10px;
-  cursor: pointer;
+  border-radius: 16px;
+  box-shadow: 0px 18px 41px #121a5529;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Container = styled.div`
   position: relative;
   &:focus {
     outline: none;
-  }
-  .react-datepicker__header {
-    color: black;
-    background-color: #ffffff !important;
-    border: none;
-    font-size: 1.6rem;
-  }
-  .react-datepicker__month {
-    margin: 20px;
-    text-align: center;
-    font-size: 1.6rem;
-    text-align: center;
-  }
-
-  .react-datepicker__month-text {
-    display: inline-block;
-    width: 7rem;
-    margin: 15px;
-    padding: 6px 2px;
-  }
-  .react-datepicker__month-text--selected {
-    background-color: ${({ theme }) => theme.colors.primary};
-    border-radius: 25px;
-  }
-  .react-datepicker {
-    width: 390px;
-    position: absolute;
-    top: 0;
-    z-index: 8;
-    background-color: #ffffff;
-    box-shadow: 0px 2px 16px #121a5529;
-    border-radius: 10px;
-    padding: 0px 16px 16px 16px;
-    border: none;
-    @media ${device.mobileL} {
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-    }
-    @media ${device.mobileS} {
-      width: 95%;
-    }
   }
 `;
 
@@ -189,7 +85,7 @@ const FilterButton = styled.div`
   flex-direction: row;
   background-color: white;
   border-radius: 16px;
-  width: 150px;
+  width: 170px;
   max-width: 160px;
   align-items: center;
   justify-content: center;
