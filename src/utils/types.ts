@@ -137,8 +137,27 @@ export const timeRangeItems: TimeRangeItem[] = [
   },
 ];
 
+export const statsTimeRangeItems = timeRangeItems.slice(0, timeRangeItems.length - 1);
+
 export interface Filters {
   apps?: App[];
   subscriptions?: Subscription[];
   timeRange?: TimeRangeItem;
+}
+
+export interface Stats {
+  byApp: {
+    infostatyba: {
+      count: number;
+      byTag: Record<string, { count: number }>;
+    };
+    izuvinimas: {
+      count: number;
+    };
+    miskoKirtimai: {
+      count: number;
+      byTag: Record<string, { count: number; area: number }>;
+    };
+  };
+  count: number;
 }

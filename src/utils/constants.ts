@@ -62,6 +62,11 @@ export enum IconName {
   search = 'search',
   filter = 'filter',
   arrowUpRight = 'arrowUpRight',
+  arrowTrending = 'arrowTrending',
+  heart = 'heart',
+  forest = 'forest',
+  house = 'house',
+  fishThin = 'fishThin',
 }
 
 export enum ServerErrors {
