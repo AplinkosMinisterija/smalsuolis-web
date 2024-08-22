@@ -91,6 +91,10 @@ const FilterButton = styled.div`
   justify-content: center;
   padding: 16px;
   gap: 16px;
+  &:hover,
+  &:focus {
+    cursor: pointer;
+  }
 `;
 
 const SelectedDateLabel = styled.div`
@@ -98,6 +102,10 @@ const SelectedDateLabel = styled.div`
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 22px;
+  &:hover,
+  &:focus {
+    cursor: pointer;
+  }
 `;
 
 export default Datepicker;
