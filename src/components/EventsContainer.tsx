@@ -1,8 +1,8 @@
-import { Button, ButtonVariants, useStorage } from '@aplinkosministerija/design-system';
+import { Button, useStorage } from '@aplinkosministerija/design-system';
 import { useQuery } from '@tanstack/react-query';
 import React, { useContext, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { device } from '../styles';
+import { ButtonVariants, device } from '../styles';
 import {
   buttonsTitles,
   Event,

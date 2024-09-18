@@ -1,6 +1,14 @@
 import { createGlobalStyle } from 'styled-components';
 import { Theme } from '@aplinkosministerija/design-system';
 
+export enum ButtonVariants {
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
+  TERTIARY = 'tertiary',
+  DANGER = 'danger',
+  TRANSPARENT = 'transparent',
+}
+
 export const theme: Theme = {
   colors: {
     primary: '#73DC8C',
@@ -18,36 +26,30 @@ export const theme: Theme = {
     greyDarker: '#d4d5de',
     lightSteelBlue: '#cdd5df',
     buttons: {
-      primary: {
+      [ButtonVariants.PRIMARY]: {
         background: '#73DC8C',
         text: '#101010',
         border: '#73DC8C',
       },
-      secondary: {
+      [ButtonVariants.SECONDARY]: {
         background: 'white',
         text: '#101010',
         border: 'white',
         hover: '#121A55',
       },
-      tertiary: {
+      [ButtonVariants.TERTIARY]: {
         background: '#14532D',
         text: 'white',
         border: '#14532D',
         hover: '#14532D',
       },
-      success: {
-        background: '#258800',
-        text: 'white',
-        border: '#258800',
-        hover: '#4FB922B3',
-      },
-      danger: {
+      [ButtonVariants.DANGER]: {
         background: '#FE5B78',
         text: 'white',
         border: '#FE5B78',
         hover: '#FE5B78E6',
       },
-      transparent: {
+      [ButtonVariants.TRANSPARENT]: {
         background: 'transparent',
         text: '#101010',
         border: 'transparent',

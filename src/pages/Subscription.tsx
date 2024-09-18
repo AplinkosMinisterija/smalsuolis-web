@@ -1,6 +1,5 @@
 import {
   Button,
-  ButtonVariants,
   ContentLayout,
   MapField,
   Switch,
@@ -16,7 +15,7 @@ import LoaderComponent from '../components/LoaderComponent';
 import PageActions from '../components/PageActions';
 import Popup from '../components/Popup';
 import RadioFrequency from '../components/RadioFrequency';
-import { device } from '../styles';
+import { ButtonVariants, device } from '../styles';
 import {
   App,
   Frequency,
