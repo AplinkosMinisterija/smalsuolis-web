@@ -1,7 +1,15 @@
-import { format, isToday, parseISO, endOfDay, startOfDay, isTomorrow, isYesterday } from 'date-fns';
+import {
+  format,
+  isToday,
+  parseISO,
+  endOfDay,
+  startOfDay,
+  isTomorrow,
+  isYesterday,
+  isSameDay,
+} from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 import { toast } from 'react-toastify';
-import { routes } from './routes';
 import { validationTexts } from './texts';
 import { Event } from './types';
 
@@ -83,4 +91,17 @@ export const formatDateFrom = (date: Date) => {
 
 export const formatToZonedDate = (date: Date) => {
   return toZonedTime(new Date(date), 'Europe/Vilnius');
+};
+
+export const displayCustomDateFilterLabel = (date: { start?: Date; end?: Date } | undefined) => {
+  if (!date?.start) {
+    return '-';
+  }
+  const start = new Date(date.start);
+  const end = date.end && new Date(date.end);
+  if (isSameDay(start, end || new Date()) || !end) {
+    return `${format(start, 'yyyy-MM-dd')}`;
+  } else {
+    return `${format(start, 'yyyy-MM-dd')}  --  ${format(end, 'yyyy-MM-dd')}`;
+  }
 };

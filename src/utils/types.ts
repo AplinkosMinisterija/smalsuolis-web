@@ -140,6 +140,11 @@ export const timeRangeItems: TimeRangeItem[] = [
     query: timeRangeQuery[TimeRanges.FUTURE],
     name: 'Būsimi',
   },
+  {
+    key: TimeRanges.CUSTOM,
+    query: timeRangeQuery[TimeRanges.CUSTOM],
+    name: 'Pasirinkite datą',
+  },
 ];
 
 export const statsTimeRangeItems: TimeRangeItem[] = [

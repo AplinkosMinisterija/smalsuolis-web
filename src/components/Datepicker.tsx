@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { format, isSameDay } from 'date-fns';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 import Icon from './Icons';
@@ -7,12 +6,13 @@ import {
   Frequency,
   IconName,
   TimeRanges,
+  displayCustomDateFilterLabel,
   formatDateAndTime,
   formatDateFrom,
   formatDateTo,
   statsTimeRangeItems,
 } from '../utils';
-import DateRangePicker from './DateRangePicker';
+import DateRangePickerModal from './DateRangePickerModal';
 
 const frequencyLabels = {
   [Frequency.DAY]: 'Šiandienos',
@@ -32,7 +32,7 @@ export interface DatepickerProps {
 
 const Datepicker = ({ value, onChange, selectedDates }: DatepickerProps) => {
   const [open, setOpen] = useState(false);
-  const [openDatePicker, setOpenDatePicker] = useState(false);
+  const [openDatePickerModal, setOpenDatePickerModal] = useState(false);
   const [date, setDate] = useState({ start: new Date(), end: new Date() });
 
   const handleBlur = (event: any) => {
@@ -41,24 +41,16 @@ const Datepicker = ({ value, onChange, selectedDates }: DatepickerProps) => {
     }
   };
 
-  const displayCustomDate = () => {
-    if (selectedDates.$gte || !selectedDates.$lt) {
-      return;
-    }
-    const start = new Date(selectedDates.$gte);
-    const end = new Date(selectedDates.$lt);
-    if (isSameDay(start, end)) {
-      return `${format(start, 'yyyy-MM-dd')}`;
-    } else {
-      return `${format(start, 'yyyy-MM-dd')}  --  ${format(end, 'yyyy-MM-dd')}`;
-    }
-  };
-
   return (
     <Container tabIndex={1} onBlur={handleBlur}>
       <FilterButton onClick={() => setOpen(!open)}>
         <SelectedDateLabel>
-          {value === TimeRanges.CUSTOM ? displayCustomDate() : frequencyLabels[value]}
+          {value === TimeRanges.CUSTOM
+            ? displayCustomDateFilterLabel({
+                start: new Date(selectedDates.$gte),
+                end: new Date(selectedDates.$lt),
+              })
+            : frequencyLabels[value]}
         </SelectedDateLabel>
         <Icon name={IconName.dropdownArrow} />
       </FilterButton>
@@ -72,7 +64,7 @@ const Datepicker = ({ value, onChange, selectedDates }: DatepickerProps) => {
                   key={item.key}
                   onClick={() => {
                     if (item.key === TimeRanges.CUSTOM) {
-                      setOpenDatePicker(true);
+                      setOpenDatePickerModal(true);
                       setOpen(false);
                     } else {
                       onChange(item.key, item.query);
@@ -87,8 +79,8 @@ const Datepicker = ({ value, onChange, selectedDates }: DatepickerProps) => {
           </FilterContainer>
         </DateContainer>
       ) : null}
-      {openDatePicker && (
-        <DateRangePicker
+      {openDatePickerModal && (
+        <DateRangePickerModal
           onDateChange={(val) => {
             val && setDate({ start: val.start, end: val.end });
           }}
@@ -99,7 +91,7 @@ const Datepicker = ({ value, onChange, selectedDates }: DatepickerProps) => {
               $gte: formatDateAndTime(formatDateFrom(date.start)),
               $lt: formatDateAndTime(formatDateTo(date.end || date.start)),
             });
-            setOpenDatePicker(val);
+            setOpenDatePickerModal(val);
           }}
         />
       )}
