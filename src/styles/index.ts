@@ -102,7 +102,7 @@ export const GlobalStyle = createGlobalStyle`
   html {
     font-size: 62.5%;
     width: 100vw;
-    color: ${theme.colors.text.primary};
+    color: ${theme.colors.text?.primary};
   }
   body {
     margin: 0;
@@ -115,7 +115,7 @@ export const GlobalStyle = createGlobalStyle`
   }
   h1 {
     font-size: 3.2rem;
-    color: ${theme.colors.text.primary};
+    color: ${theme.colors.text?.primary};
   }
   a {
     text-decoration: none;
