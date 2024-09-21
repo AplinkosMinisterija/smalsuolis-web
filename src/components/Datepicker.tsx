@@ -128,7 +128,6 @@ const Container = styled.div`
 
 const FilterButton = styled.div`
   display: flex;
-  align-items: baseline;
   flex-direction: row;
   background-color: white;
   border-radius: 16px;
