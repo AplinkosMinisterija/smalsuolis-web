@@ -86,16 +86,6 @@ export enum EventStatusTypes {
   FINISHED = 'FINISHED',
 }
 
-export enum ButtonColors {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
-  TERTIARY = 'tertiary',
-  DANGER = 'danger',
-  SUCCESS = 'success',
-  TRANSPARENT = 'transparent',
-  POWDER = 'powder',
-}
-
 export enum AppType {
   INFO_CONSTRUCTION = 'infostatyba',
   FISH_STOCKING = 'zuvinimas',
@@ -105,4 +95,5 @@ export enum Frequency {
   DAY = 'DAY',
   WEEK = 'WEEK',
   MONTH = 'MONTH',
+  CUSTOM = 'CUSTOM',
 }

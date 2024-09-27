@@ -16,7 +16,7 @@ const Stats = () => {
   const [query, setQuery] = useState<{ $gte: string; $lt: string }>(
     timeRangeQuery[Frequency.MONTH],
   );
-  const [dateFilter, setDateFilter] = useState<string>(Frequency.MONTH);
+  const [dateFilter, setDateFilter] = useState<string>(Frequency.WEEK);
 
   const { data, isLoading } = useQuery({
     queryKey: ['stats', query],
@@ -111,6 +111,7 @@ const Stats = () => {
               setQuery(date);
             }}
             value={dateFilter}
+            selectedDates={query}
           />
           <Row>
             <MainStatsWrapper>

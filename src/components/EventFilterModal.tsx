@@ -10,7 +10,12 @@ import {
   IconName,
   Subscription,
   TimeRangeItem,
+  TimeRanges,
   buttonsTitles,
+  displayCustomDateFilterLabel,
+  formatDateAndTime,
+  formatDateFrom,
+  formatDateTo,
   subtitle,
   timeRangeItems,
 } from '../utils';
@@ -18,6 +23,12 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../utils/api';
 import { UserContext, UserContextType } from './UserProvider';
 import Loader from './Loader';
+import InlineDateRangePicker from './InlineDateRangePicker';
+
+interface DateProps {
+  start?: Date;
+  end?: Date;
+}
 
 const EventFilterModal = ({ isMyEvents = false, onClose, visible = false }: any) => {
   const {
@@ -29,6 +40,7 @@ const EventFilterModal = ({ isMyEvents = false, onClose, visible = false }: any)
   const [selectedApps, setSelectedApps] = useState<App[]>([]);
   const [selectedSubs, setSelectedSubs] = useState<Subscription[]>([]);
   const [selectedTimeRange, setSelectedTimeRange] = useState<TimeRangeItem[]>([]);
+  const [date, setDate] = useState<DateProps | undefined>(undefined);
   const { loggedIn } = useContext<UserContextType>(UserContext);
 
   const { data: appsResponse, isLoading: loadingApps } = useQuery({
@@ -46,7 +58,7 @@ const EventFilterModal = ({ isMyEvents = false, onClose, visible = false }: any)
 
   const clearFilter = () => {
     resetFilters();
-    onClose();
+    onModalClose();
   };
 
   useEffect(() => {
@@ -54,8 +66,19 @@ const EventFilterModal = ({ isMyEvents = false, onClose, visible = false }: any)
       setSelectedApps(filters.apps || []);
       setSelectedSubs(filters.subscriptions || []);
       setSelectedTimeRange(filters.timeRange ? [filters.timeRange] : []);
+      if (filters?.timeRange?.key === TimeRanges.CUSTOM) {
+        setDate({
+          start: new Date(filters?.timeRange?.query?.$gte),
+          end: new Date(filters?.timeRange?.query?.$lt),
+        });
+      }
     }
   }, [visible]);
+
+  const onModalClose = () => {
+    setDate(undefined);
+    onClose();
+  };
 
   const onFilterClick = () => {
     setFilters({
@@ -63,7 +86,7 @@ const EventFilterModal = ({ isMyEvents = false, onClose, visible = false }: any)
       ...(selectedSubs.length > 0 ? { subscriptions: selectedSubs } : null),
       ...(selectedTimeRange ? { timeRange: selectedTimeRange[0] } : null),
     });
-    onClose();
+    onModalClose();
   };
 
   const renderSubs = () => {
@@ -106,12 +129,20 @@ const EventFilterModal = ({ isMyEvents = false, onClose, visible = false }: any)
     }
   };
 
+  const timeRanges: TimeRangeItem[] = timeRangeItems.map((item) => {
+    if (item.key === TimeRanges.CUSTOM && selectedTimeRange[0]?.key === TimeRanges.CUSTOM) {
+      return { ...item, name: displayCustomDateFilterLabel(date) };
+    } else {
+      return item;
+    }
+  });
+
   return (
-    <Modal visible={visible} onClose={onClose}>
+    <Modal visible={visible} onClose={onModalClose}>
       <Container>
         <HeaderWrapper>
           <ClearFilterText onClick={clearFilter}>{buttonsTitles.clearFilter}</ClearFilterText>
-          <IconContainer onClick={onClose}>
+          <IconContainer onClick={onModalClose}>
             <StyledIcon name={IconName.close} />
             <CloseText>{buttonsTitles.close}</CloseText>
           </IconContainer>
@@ -125,10 +156,39 @@ const EventFilterModal = ({ isMyEvents = false, onClose, visible = false }: any)
           <Subtitle>{subtitle.date}</Subtitle>
           <FilterPicker
             getItemKey={(item) => item.key}
-            data={timeRangeItems}
+            data={timeRanges}
             selectedItems={selectedTimeRange}
-            setSelectedItems={(items) => setSelectedTimeRange(items)}
+            setSelectedItems={(items) => {
+              if (items[0]?.key === TimeRanges.CUSTOM) {
+                setDate({
+                  start: new Date(items[0]?.query.$gte),
+                  end: new Date(items[0]?.query.$lt),
+                });
+              } else {
+                setDate(undefined);
+              }
+              setSelectedTimeRange(items);
+            }}
           />
+          {!!date && selectedTimeRange[0]?.key === TimeRanges.CUSTOM && (
+            <InlineDateRangePicker
+              onDateChange={(val) => {
+                setDate({ start: val.start, end: val.end });
+                setSelectedTimeRange([
+                  {
+                    key: TimeRanges.CUSTOM,
+                    name: 'Pasirinkite datą',
+                    query: {
+                      $gte: formatDateAndTime(formatDateFrom(val.start)),
+                      $lt: formatDateAndTime(formatDateTo(val.end || val.start)),
+                    },
+                  },
+                ]);
+              }}
+              startDate={date?.start}
+              endDate={date?.end}
+            />
+          )}
         </FilterGroup>
         <FilterButton onClick={onFilterClick}>{buttonsTitles.filter}</FilterButton>
       </Container>
@@ -173,7 +233,7 @@ const Container = styled.div<{ width?: string; $backgroundImg?: boolean }>`
       : ''}
 
   @media ${device.desktop} {
-    max-width: 700px;
+    max-width: 750px;
     height: auto;
     overflow: initial;
     min-height: auto;

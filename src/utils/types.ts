@@ -88,6 +88,7 @@ export enum TimeRanges {
   WEEK = 'WEEK',
   MONTH = 'MONTH',
   FUTURE = 'FUTURE',
+  CUSTOM = 'CUSTOM',
 }
 
 export interface TimeRangeItem {
@@ -110,6 +111,10 @@ export const timeRangeQuery = {
   },
   [TimeRanges.MONTH]: {
     $gte: flow(formatDateFrom, subMonths(1), formatDateAndTime)(new Date()),
+    $lt: flow(formatDateTo, formatDateAndTime)(new Date()),
+  },
+  [TimeRanges.CUSTOM]: {
+    $gte: flow(formatDateFrom, formatDateAndTime)(new Date()),
     $lt: flow(formatDateTo, formatDateAndTime)(new Date()),
   },
 };
@@ -135,9 +140,35 @@ export const timeRangeItems: TimeRangeItem[] = [
     query: timeRangeQuery[TimeRanges.FUTURE],
     name: 'Būsimi',
   },
+  {
+    key: TimeRanges.CUSTOM,
+    query: timeRangeQuery[TimeRanges.CUSTOM],
+    name: 'Pasirinkite datą',
+  },
 ];
 
-export const statsTimeRangeItems = timeRangeItems.slice(0, timeRangeItems.length - 1);
+export const statsTimeRangeItems: TimeRangeItem[] = [
+  {
+    key: TimeRanges.DAY,
+    query: timeRangeQuery[TimeRanges.DAY],
+    name: 'Šiandienos',
+  },
+  {
+    key: TimeRanges.WEEK,
+    query: timeRangeQuery[TimeRanges.WEEK],
+    name: 'Savaitės',
+  },
+  {
+    key: TimeRanges.MONTH,
+    query: timeRangeQuery[TimeRanges.MONTH],
+    name: 'Mėnesio',
+  },
+  {
+    key: TimeRanges.CUSTOM,
+    query: timeRangeQuery[TimeRanges.FUTURE],
+    name: 'Pasirinkite datą',
+  },
+];
 
 export interface Filters {
   apps?: App[];

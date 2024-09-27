@@ -99,7 +99,7 @@ const About = () => {
           <ButtonContainer>
             <Button
               onClick={() => openLinkInNewTab('https://startupgov.lt')}
-              rightIcon={<StyledIcon name={IconName.arrowUpRight} />}
+              right={<StyledIcon name={IconName.arrowUpRight} />}
             >
               {buttonsTitles.ourTeam}
             </Button>
@@ -109,7 +109,7 @@ const About = () => {
           <FooterContentTitle>Jei turi komentarų ar pastabų</FooterContentTitle>
           <FooterContentSubTitle>Visuomet jų laukiame</FooterContentSubTitle>
           <ButtonContainer>
-            <Button onClick={sendEmail} leftIcon={<StyledIcon name={IconName.email} />}>
+            <Button onClick={sendEmail} left={<StyledIcon name={IconName.email} />}>
               esu@smalsuolis.lt
             </Button>
           </ButtonContainer>

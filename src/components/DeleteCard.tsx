@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { device } from '../styles';
-import { Button, ButtonVariants, Modal } from '@aplinkosministerija/design-system';
+import { ButtonVariants, device } from '../styles';
+import { Button, Modal } from '@aplinkosministerija/design-system';
 import Icon from './Icons';
 export interface DeleteCardProps {
   title: string;
