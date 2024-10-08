@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 import Icon from './Icons';
@@ -41,6 +41,15 @@ const Datepicker = ({ value, onChange, selectedDates }: DatepickerProps) => {
     }
   };
 
+  useEffect(() => {
+    if (value === TimeRanges.CUSTOM && selectedDates) {
+      setDate({
+        start: new Date(selectedDates.$gte),
+        end: new Date(selectedDates.$lt),
+      });
+    }
+  }, []);
+
   return (
     <Container tabIndex={1} onBlur={handleBlur}>
       <FilterButton onClick={() => setOpen(!open)}>
@@ -68,6 +77,7 @@ const Datepicker = ({ value, onChange, selectedDates }: DatepickerProps) => {
                       setOpen(false);
                     } else {
                       onChange(item.key, item.query);
+                      setDate({ start: new Date(), end: new Date() });
                       setOpen(false);
                     }
                   }}
@@ -79,7 +89,7 @@ const Datepicker = ({ value, onChange, selectedDates }: DatepickerProps) => {
           </FilterContainer>
         </DateContainer>
       ) : null}
-      {openDatePickerModal && (
+      {!openDatePickerModal && (
         <DateRangePickerModal
           onDateChange={(val) => {
             val && setDate({ start: val.start, end: val.end });
@@ -148,6 +158,7 @@ const SelectedDateLabel = styled.div`
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 22px;
+  white-space: pre;
   &:hover,
   &:focus {
     cursor: pointer;
