@@ -89,7 +89,7 @@ const Datepicker = ({ value, onChange, selectedDates }: DatepickerProps) => {
           </FilterContainer>
         </DateContainer>
       ) : null}
-      {!openDatePickerModal && (
+      {openDatePickerModal && (
         <DateRangePickerModal
           onDateChange={(val) => {
             val && setDate({ start: val.start, end: val.end });
