@@ -59,7 +59,11 @@ const About = () => {
             <ActionDescription>
               <Action>
                 Tapk Smalsuolio {`\n`} prenumeratoriumi -{' '}
-                {<Link href={loggedIn ? slugs.subscriptions : slugs.login}>Užsiregistruok</Link>}
+                {
+                  <Link href={loggedIn ? slugs.subscriptions : slugs.registration}>
+                    Užsiregistruok
+                  </Link>
+                }
               </Action>
             </ActionDescription>
           </ActionContainer>
@@ -410,12 +414,14 @@ const GreenCircle = styled.div`
   background-color: ${({ theme }) => theme.colors.tertiary};
 `;
 
+//gt btn teksto wrapo fix
 const BannerButton = styled.button`
   margin-top: 24px;
   padding: 20px 100px;
   background-color: white;
   border-radius: 60px;
   cursor: pointer;
+  white-space: nowrap;
 `;
 
 const FooterContainer = styled.div`
