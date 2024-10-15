@@ -28,18 +28,6 @@ const DateRangePickerModal = ({
     }
   };
 
-  const getDayClass = (date) => {
-    if (startDate && endDate) {
-      if (date.getTime() === startDate.getTime()) {
-        return 'start-day';
-      }
-      if (date.getTime() === endDate.getTime()) {
-        return 'end-day';
-      }
-    }
-    return '';
-  };
-
   return (
     <Container tabIndex={1} onBlur={handleBlur}>
       <DateContainer>
@@ -64,7 +52,6 @@ const DateRangePickerModal = ({
           selectsRange
           onClickOutside={() => setOpen(false)}
           inline
-          dayClassName={(date) => getDayClass(date)}
         />
       </DateContainer>
     </Container>
