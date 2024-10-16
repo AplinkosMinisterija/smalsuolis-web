@@ -28,6 +28,7 @@ export interface DatepickerProps {
     $gte: string;
     $lt: string;
   };
+  
 }
 
 const Datepicker = ({ value, onChange, selectedDates }: DatepickerProps) => {
@@ -80,21 +81,31 @@ const Datepicker = ({ value, onChange, selectedDates }: DatepickerProps) => {
         </DateContainer>
       ) : null}
       {openDatePickerModal && (
-        <DateRangePickerModal
-          onDateChange={(val) => {
-            val && setDate({ start: val.start, end: val.end });
-          }}
-          startDate={date.start}
-          endDate={date.end}
-          setOpen={(val) => {
+      <DateRangePickerModal
+        onDateChange={(val) => {
+          val && setDate({ start: val.start, end: val.end });
+        }}
+        startDate={date.start}
+        endDate={date.end}
+        setOpen={(val) => {
+          onChange(TimeRanges.CUSTOM, {
+            $gte: formatDateAndTime(formatDateFrom(date.start)),
+            $lt: formatDateAndTime(formatDateTo(date.end || date.start)),
+          });
+          setOpenDatePickerModal(val);
+        }}
+        
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
             onChange(TimeRanges.CUSTOM, {
               $gte: formatDateAndTime(formatDateFrom(date.start)),
-              $lt: formatDateAndTime(formatDateTo(date.end || date.start)),
+              $lt: formatDateAndTime(formatDateTo(date.end || date.start)), 
             });
-            setOpenDatePickerModal(val);
-          }}
-        />
-      )}
+            setOpenDatePickerModal(false); 
+          }
+        }}
+      />
+    )}
     </Container>
   );
 };

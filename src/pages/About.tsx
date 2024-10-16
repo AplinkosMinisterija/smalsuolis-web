@@ -57,10 +57,20 @@ const About = () => {
           <ActionContainer>
             <ActionImage src={'/binoculars.png'} />
             <ActionDescription>
-              <Action>
+              {
+                loggedIn ?
+                <Action>
+                  Tapk Smalsuolis - {`\n`} 
+                  {<Link href={slugs.newSubscription}>Užsiprenumeruok </Link>} 
+                   įvykius!
+                </Action>
+                :
+                <Action>
                 Tapk Smalsuolio {`\n`} prenumeratoriumi -{' '}
-                {<Link href={loggedIn ? slugs.subscriptions : slugs.login}>Užsiregistruok</Link>}
+                {<Link href={loggedIn ? slugs.subscriptions : slugs.registration}>Užsiregistruok</Link>}  
               </Action>
+              }
+              
             </ActionDescription>
           </ActionContainer>
           <ActionContainer>
@@ -416,7 +426,8 @@ const BannerButton = styled.button`
   background-color: white;
   border-radius: 60px;
   cursor: pointer;
-`;
+  white-space: nowrap; 
+`; 
 
 const FooterContainer = styled.div`
   display: flex;

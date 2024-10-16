@@ -1,4 +1,5 @@
 import { ContentLayout } from '@aplinkosministerija/design-system';
+import { Button } from '@aplinkosministerija/design-system';
 import { useQuery } from '@tanstack/react-query';
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -74,12 +75,12 @@ const Subscriptions = () => {
   return (
     <ContentLayout currentRoute={currentRoute}>
       <Container>
-        <ButtonsContainer>
-          <NewSubscriptionButton onClick={() => navigate(slugs.subscription('nauja'))}>
-            Nauja teritorija
-          </NewSubscriptionButton>
-        </ButtonsContainer>
         {renderContent()}
+        <ButtonsContainer>
+          <Button onClick={() => navigate(slugs.subscription('nauja'))}>  
+            Nauja prenumerata                                              
+          </Button>
+        </ButtonsContainer>
       </Container>
     </ContentLayout>
   );
@@ -110,10 +111,11 @@ const SubscriptionsContainer = styled.div`
 
 const ButtonsContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  width: 100%;
-  margin-bottom: 16px;
-  margin-left: auto;
+  flex-direction: row; 
+  justify-content: center; 
+  align-items: center; 
+  width: 100%; 
+  margin: 32px 0; 
 `;
 
 const Invisible = styled.div`
@@ -121,11 +123,11 @@ const Invisible = styled.div`
   height: 16px;
 `;
 
-const NewSubscriptionButton = styled.a`
-  color: #1f5c2e;
-  text-decoration: underline;
-  float: right;
-  width: fit-content;
-  margin-left: auto;
-  cursor: pointer;
-`;
+// const NewSubscriptionButton = styled.a`
+//   color: #1f5c2e;
+//   text-decoration: underline;
+//   float: right;
+//   width: fit-content;
+//   margin-left: auto;
+//   cursor: pointer;
+// `;

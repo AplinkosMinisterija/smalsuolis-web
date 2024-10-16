@@ -13,6 +13,7 @@ export interface DateRangePickerProps {
   endDate: Date;
   startDate: Date;
   setOpen: (val: boolean) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLDivElement>) => void;
 }
 
 const DateRangePickerModal = ({
@@ -20,6 +21,7 @@ const DateRangePickerModal = ({
   endDate,
   startDate,
   setOpen,
+  onKeyDown,
 }: DateRangePickerProps) => {
   const isMobile = useWindowSize(device.mobileL);
   const handleBlur = (event: any) => {
@@ -29,7 +31,7 @@ const DateRangePickerModal = ({
   };
 
   return (
-    <Container tabIndex={1} onBlur={handleBlur}>
+    <Container tabIndex={1} onBlur={handleBlur} onKeyDown={onKeyDown}>
       <DateContainer>
         {isMobile && (
           <div
