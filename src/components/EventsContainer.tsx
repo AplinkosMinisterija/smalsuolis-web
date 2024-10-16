@@ -269,12 +269,17 @@ const FilterBadge = styled.div`
   background-color: ${({ theme }) => theme.colors.primary};
 `;
 
-const MapAndListButton = styled(Button)`
-  position: absolute;
+const MapAndListButton = styled(Button)`         
+  position: fixed; 
   z-index: 10;
-  bottom: 30px;
-  width: auto;
+  left: 50% + 320px; 
+  bottom: 30px; 
+  transform: translateX(-50%); 
+  width: auto;             
+
   @media ${device.mobileL} {
-    bottom: 15px;
+    bottom: 15px; 
+    left: 50%;
   }
 `;
+                                                //sucentruotas MapAndListButton mygtukas kontento viduryje

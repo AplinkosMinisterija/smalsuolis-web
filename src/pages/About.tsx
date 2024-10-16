@@ -57,14 +57,20 @@ const About = () => {
           <ActionContainer>
             <ActionImage src={'/binoculars.png'} />
             <ActionDescription>
-              <Action>
+              {
+                loggedIn ?
+                <Action>
+                  Tapk Smalsuolis - {`\n`} 
+                  {<Link href={slugs.newSubscription}>Užsiprenumeruok</Link>} 
+                  įvykius
+                </Action>
+                :
+                <Action>
                 Tapk Smalsuolio {`\n`} prenumeratoriumi -{' '}
-                {
-                  <Link href={loggedIn ? slugs.subscriptions : slugs.registration}>
-                    Užsiregistruok
-                  </Link>
-                }
+                {<Link href={loggedIn ? slugs.subscriptions : slugs.registration}>Užsiregistruok</Link>}  
               </Action>
+              }
+              
             </ActionDescription>
           </ActionContainer>
           <ActionContainer>
@@ -414,15 +420,14 @@ const GreenCircle = styled.div`
   background-color: ${({ theme }) => theme.colors.tertiary};
 `;
 
-//gt btn teksto wrapo fix
 const BannerButton = styled.button`
   margin-top: 24px;
   padding: 20px 100px;
   background-color: white;
   border-radius: 60px;
   cursor: pointer;
-  white-space: nowrap;
-`;
+  white-space: nowrap; 
+`; 
 
 const FooterContainer = styled.div`
   display: flex;
