@@ -61,8 +61,8 @@ const About = () => {
                 loggedIn ?
                 <Action>
                   Tapk Smalsuolis - {`\n`} 
-                  {<Link href={slugs.newSubscription}>Užsiprenumeruok</Link>} 
-                  įvykius
+                  {<Link href={slugs.newSubscription}>Užsiprenumeruok </Link>} 
+                   įvykius!
                 </Action>
                 :
                 <Action>
