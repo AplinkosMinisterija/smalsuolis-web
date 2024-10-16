@@ -102,6 +102,6 @@ export const displayCustomDateFilterLabel = (date: { start?: Date; end?: Date } 
   if (!end || isSameDay(start, end)) {
     return `${format(start, 'yyyy-MM-dd')}`;
   } else {
-    return `${format(start, 'yyyy-MM-dd')}  --  ${format(end, 'yyyy-MM-dd')}`;
+    return `${format(start, 'yyyy-MM-dd')}  -  ${format(end, 'yyyy-MM-dd')}`;
   }
 };

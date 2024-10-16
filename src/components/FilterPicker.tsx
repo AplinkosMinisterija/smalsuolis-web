@@ -64,6 +64,7 @@ const FilterPickerItem = styled.div<{ $isActive: boolean }>`
 
 const FilterPickerItemText = styled.div`
   font-size: 1.4rem;
+  white-space: pre;
 `;
 
 export default FilterPicker;
