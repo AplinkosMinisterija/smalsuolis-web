@@ -282,4 +282,4 @@ const MapAndListButton = styled(Button)`
     left: 50%;
   }
 `;
-                                                //sucentruotas MapAndListButton mygtukas kontento viduryje
+                                               
