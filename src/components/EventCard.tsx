@@ -1,19 +1,18 @@
 import { Button, svgToUrl } from '@aplinkosministerija/design-system';
+import { isFuture } from 'date-fns';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import styled, { useTheme } from 'styled-components';
-import { buttonsTitles, Event, getTimeLabel, IconName, subtitle } from '../utils';
-import { isFuture } from 'date-fns';
+import styled from 'styled-components';
 import { device } from '../styles';
+import { buttonsTitles, Event, getTimeLabel, IconName, subtitle } from '../utils';
 import Icon from './Icons';
 import PreviewMap from './PreviewMap';
 import Tag from './Tag';
 
 const EventCard = ({ event, isOpen = false }: { event: Event; isOpen?: boolean }) => {
-  const theme = useTheme();
   const [open, setOpen] = useState(isOpen);
   const { app } = event;
-  const appIcon = svgToUrl(app.icon.replace(/stroke=\S+/gm, `stroke="${theme.colors.primary}"`));
+  const appIcon = svgToUrl(app.icon);
   return (
     <Container>
       <PressableView onClick={() => setOpen(!open)}>
@@ -86,6 +85,7 @@ const Body = styled.div`
 
 const AppIcon = styled.img`
   height: 16px;
+  filter: invert(20%) sepia(37%) saturate(900%) hue-rotate(83deg) brightness(94%) contrast(86%);
 `;
 
 const Container = styled.a`
