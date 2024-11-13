@@ -12,7 +12,7 @@ import Tag from './Tag';
 const EventCard = ({ event, isOpen = false }: { event: Event; isOpen?: boolean }) => {
   const [open, setOpen] = useState(isOpen);
   const { app } = event;
-  const appIcon = svgToUrl(app.icon);
+  const appIcon = app?.icon ? svgToUrl(app?.icon) : '';
   return (
     <Container>
       <PressableView onClick={() => setOpen(!open)}>
@@ -26,7 +26,7 @@ const EventCard = ({ event, isOpen = false }: { event: Event; isOpen?: boolean }
             </InnerRow>
             <Name>{event.name}</Name>
             <InnerRow>
-              <Tag text={app.name} icon={<AppIcon src={appIcon} />} />
+              <Tag text={app?.name || '-'} icon={<AppIcon src={appIcon} />} />
             </InnerRow>
           </Column>
           <div>
