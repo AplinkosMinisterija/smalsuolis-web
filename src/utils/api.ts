@@ -225,7 +225,7 @@ class Api {
       resource: Resources.EVENTS,
       query,
       populate: ['geom', 'app'],
-      sort: ['-startAt'],
+      sort: ['-startAt', 'id'],
       page,
     });
   };
@@ -256,7 +256,7 @@ class Api {
       resource: Resources.NEWSFEED,
       query,
       populate: ['geom', 'app'],
-      sort: ['-startAt'],
+      sort: ['-startAt', 'id'],
       page,
     });
   };
