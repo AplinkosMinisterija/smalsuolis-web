@@ -139,19 +139,21 @@ const About = () => {
           </FooterLinkContainer>
         </FooterContent>
       </FooterContainer>
-      <Line />
+      {/* <Line /> */}
 
-      <FooterImgContainer>
-        <FooterImgLine>
-          <a href="https://lrv.lt" target="_blank">
-            <FooterImg src="/lrv.svg" alt="lrv" />
-          </a>
-          <a href="https://am.lrv.lt" target="_blank">
-            <FooterImg src="/am.svg" alt="am" />
-          </a>
-        </FooterImgLine>
-        <FooterText>© Lietuvos Respublikos Vyriausybė</FooterText>
-      </FooterImgContainer>
+      {false && (
+        <FooterImgContainer>
+          <FooterImgLine>
+            <a href="https://lrv.lt" target="_blank">
+              <FooterImg src="/lrv.svg" alt="lrv" />
+            </a>
+            <a href="https://am.lrv.lt" target="_blank">
+              <FooterImg src="/am.svg" alt="am" />
+            </a>
+          </FooterImgLine>
+          <FooterText>© Lietuvos Respublikos Vyriausybė</FooterText>
+        </FooterImgContainer>
+      )}
     </MainContainer>
   );
 };
